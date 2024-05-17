@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Menu,
   MenuItem,
+  MenuList,
+  Paper,
   Stack,
   Typography,
   useMediaQuery,
@@ -14,8 +17,9 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Dashboard from "../Admin/Dashboard/Dashboard";
 import { useTheme } from "@emotion/react";
-import dashboardBackGround from '../assets/dasboard_background.png'
-import logo from '../assets/logo.png'
+import dashboardBackGround from "../assets/dasboard_background.png";
+import logo from "../assets/logo.png";
+import DoctorsPage from "../Admin/Doctors/DoctorsPage";
 
 export const MainLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -60,7 +64,6 @@ export const MainLayout = () => {
       maxWidth="xl"
       disableGutters
       sx={{
-        backgroundImage: `url(${dashboardBackGround})`,
         height: "100vh",
         display: "flex",
         alignItems: "center",
@@ -79,7 +82,7 @@ export const MainLayout = () => {
           justifyContent: "space-between",
           padding: "2px 12px",
           zIndex: 100,
-          position: "fixed",
+          position: "sticky",
           top: 0,
         }}
       >
@@ -90,8 +93,18 @@ export const MainLayout = () => {
           alt="Logo"
         />
         <Stack direction="row" spacing={1} alignItems={"center"}>
-          <NotificationsIcon fontSize={isMobile ? "small" : "medium"} />
-          <ChatBubbleIcon fontSize={isMobile ? "small" : "medium"} />
+          <NotificationsIcon
+            sx={{
+              height: isMobile ? "18px" : "16px",
+              width: isMobile ? "18px" : "16px",
+            }}
+          />
+          <ChatBubbleIcon
+            sx={{
+              height: isMobile ? "18px" : "16px",
+              width: isMobile ? "18px" : "16px",
+            }}
+          />
           <Avatar
             {...stringAvatar("Kent Dodds")}
             sx={{
@@ -124,7 +137,24 @@ export const MainLayout = () => {
           </Menu>
         </Stack>
       </Box>
-      <Dashboard />
+      <Container
+        maxWidth="xl"
+        sx={{ display: "flex", border: "1px solid black", width: "100%" }}
+        disableGutters
+      >
+        <Paper>
+          <Button variant="contained">Back to menu</Button>
+          <MenuList>
+            <MenuItem>Dashboard</MenuItem>
+            <MenuItem>Hospitals</MenuItem>
+            <MenuItem>Doctors</MenuItem>
+            <MenuItem>Settings</MenuItem>
+          </MenuList>
+        </Paper>
+        <Box sx={{ background: "#F4F5F9" }}>
+          <DoctorsPage />
+        </Box>
+      </Container>
     </Container>
   );
 };

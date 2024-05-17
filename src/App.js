@@ -1,5 +1,3 @@
-import Dashboard from "./Admin/Dashboard/Dashboard";
-import Login from "./Admin/Login/Login";
 import "./App.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,9 +14,6 @@ function App() {
       <Provider store={store}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          {/* <Login />
-          <Dashboard/> */}
-
           <RouterProvider router={baseRoutes} />
         </ThemeProvider>
       </Provider>
