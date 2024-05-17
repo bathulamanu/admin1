@@ -8,11 +8,12 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
+  Stack,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import loginBackground from "../assets/login_background.png";
-import logo from "../assets/logo.png";
+import loginBackground from "../../assets/login_background.png";
+import logo from "../../assets/logo.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -64,31 +65,29 @@ const Login = () => {
           sx={{
             height: "80%",
             background: "#fff",
-            padding:'24px'
+            padding: "24px",
           }}
           display={"flex"}
           alignItems={"center"}
           flexDirection={"column"}
           gap={"5%"}
-        
         >
           <img src={logo} height={"auto"} width={"60%"} />
           <form
             onSubmit={handleSubmit}
-            style={{ display: "flex", flexDirection: "column",gap:'18px' }}
+            style={{ display: "flex", flexDirection: "column", gap: "18px" }}
           >
             <InputLabel htmlFor="email">Email</InputLabel>
 
             <FormControl variant="outlined" size="small">
               <OutlinedInput
-              fullWidth
+                fullWidth
                 id="outlined-adornment-password"
                 placeholder="username@gmail.com"
                 size="small"
                 onChange={handleEmailChange}
               />
             </FormControl>
-
             <InputLabel htmlFor="password">Password</InputLabel>
             <FormControl variant="outlined" size="small">
               <OutlinedInput
@@ -112,13 +111,19 @@ const Login = () => {
               />
             </FormControl>
 
-            <Typography sx={{ fontSize: "12px", color: "#219EB9" }}>
-              Forgot password ?
-            </Typography>
-            <Box display={"flex"} alignItems={"center"}>
-              <Checkbox {...label} size="small" />
-              <Typography sx={{ fontSize: "12px" }}> Remember me</Typography>
-            </Box>
+            <Stack direction={"row"} alignContent={"center"} spacing={1}>
+              <Stack direction={"row"} alignItems={"center"}>
+                <Checkbox {...label} size="small" />
+                <Typography sx={{ fontSize: "12px" }}> Remember me</Typography>
+              </Stack>
+              <Stack justifyContent={"center"}>
+                <Typography
+                  sx={{ fontSize: "12px", color: "#219EB9", cursor: "pointer" }}
+                >
+                  Forgot password
+                </Typography>
+              </Stack>
+            </Stack>
             <Button type="submit" fullWidth variant="contained" color="primary">
               Log in
             </Button>
