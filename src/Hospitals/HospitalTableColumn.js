@@ -5,17 +5,16 @@ function capitalizeFirstLetter(word) {
   return word?.charAt(0)?.toUpperCase() + word?.slice(1);
 }
 
-console.log("bjxghjknlm", capitalizeFirstLetter("chandana"));
 
-export const columns = [
+export const hospitalColumns = [
   {
-    field: "doctorName",
-    headerName: "DOCTOR NAME",
-    width: 170,
+    field: "hospitalName",
+    headerName: "HOSPITAL NAME",
+    width: 200,
     sortable: false,
     disableColumnFilter: true,
     disableColumnMenu: true,
-    valueGetter: (_, row) => capitalizeFirstLetter(row.doctorFirstName),
+    valueGetter: (_, row) => capitalizeFirstLetter(row?.hospitalName),
   },
   {
     field: "specialist",
@@ -24,17 +23,7 @@ export const columns = [
     disableColumnMenu: true,
     sortable: false,
     disableColumnFilter: true,
-    valueGetter: (_, row) => capitalizeFirstLetter("gyno"),
-  },
-  {
-    field: "experience",
-    headerName: "EXPERIENCE",
-    type: "number",
-    width: 150,
-    sortable: false,
-    disableColumnMenu: true,
-    disableColumnFilter: true,
-    valueGetter: (_, row) => capitalizeFirstLetter(row?.experienceInfo?.value)
+    valueGetter: (_, row) => capitalizeFirstLetter(row?.specialist?.[0]?.value),
   },
   {
     field: "contact",
@@ -43,7 +32,7 @@ export const columns = [
     width: 160,
     disableColumnMenu: true,
     disableColumnFilter: true,
-    valueGetter: (_, row) => row?.phoneNumber,
+    valueGetter: (_, row) => row?.contact?.phoneNumber,
   },
   {
     field: "location",
@@ -52,7 +41,7 @@ export const columns = [
     width: 160,
     disableColumnMenu: true,
     disableColumnFilter: true,
-    valueGetter: (_, row) => capitalizeFirstLetter(row?.cityInfo?.name),
+    valueGetter: (_, row) => capitalizeFirstLetter(row?.LocationInfo?.cityName),
   },
   {
     field: "status",
@@ -94,7 +83,7 @@ export const columns = [
         width={"100%"}
       >
         <Button variant="contained" size="small">
-          View Doctor
+          View Hospital
         </Button>
       </Stack>
     ),

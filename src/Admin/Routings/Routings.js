@@ -3,6 +3,9 @@ import Dashboard from "../Dashboard/Dashboard";
 import Login from "../Login/Login";
 import { MainLayout } from "../../Layouts/MainLayout";
 import DoctorsPage from "../Doctors/DoctorsPage";
+import DoctorAddForm from "../Doctors/DoctorAddForm";
+import HospitalPage from "../../Hospitals/HospitalPage";
+import HospitalAddForm from "../../Hospitals/HospitalAddForm";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -16,18 +19,23 @@ export const baseRoutes = createBrowserRouter([
   {
     path: "/mainPage",
     element: <MainLayout />,
-  },
-]);
-
-
-export const siderRoutes=createBrowserRouter([
-    {
-        path: "/dashboard",
-        element: <Dashboard />,
-      },
+    children: [
       {
-        path: "/doctors",
+        path: "doctors",
         element: <DoctorsPage />,
       },
-
-])
+      {
+        path: "doctorForm",
+        element: <DoctorAddForm />,
+      },
+      {
+        path:'hospitals',
+        element:<HospitalPage/>
+      },
+      {
+        path:'hospitalFrom',
+        element:<HospitalAddForm/>
+      }
+    ],
+  },
+]);

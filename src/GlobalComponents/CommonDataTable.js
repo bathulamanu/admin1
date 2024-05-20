@@ -1,8 +1,6 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
-
-
 // const rows = [
 //   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
 //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
@@ -15,7 +13,7 @@ import { DataGrid } from "@mui/x-data-grid";
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
-const CommonDataTable = ({rows,columns}) => {
+const CommonDataTable = ({ rows, columns }) => {
   return (
     <DataGrid
       rows={rows}

@@ -16,17 +16,18 @@ import loginBackground from "../../assets/login_background.png";
 import logo from "../../assets/logo.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserLogin } from "../Slices/adminSlice";
+import { useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate=useNavigate()
+  const loginDetail=useSelector((state)=>state.admin.adminLogin)
+  const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -34,15 +35,29 @@ const Login = () => {
     event.preventDefault();
   };
 
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (event) => {
+  console.log("cdjhsbnkm", loginData);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // You can add your form submission logic here
-    // console.log('Email:', email);
-    // console.log('Password:', password);
+
+    try {
+      const response = await dispatch(getUserLogin(loginData));
+      setLoginData({ email: "", password: "" });
+
+      if (Object.keys(response).length !== 0) {
+        navigate('/mainPage');
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
 
   return (
@@ -81,11 +96,13 @@ const Login = () => {
 
             <FormControl variant="outlined" size="small">
               <OutlinedInput
+                name="email"
                 fullWidth
                 id="outlined-adornment-password"
                 placeholder="username@gmail.com"
                 size="small"
-                onChange={handleEmailChange}
+                value={loginData?.email}
+                onChange={handleOnChange}
               />
             </FormControl>
             <InputLabel htmlFor="password">Password</InputLabel>
@@ -95,7 +112,9 @@ const Login = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="password"
                 size="small"
-                onChange={handlePasswordChange}
+                name="password"
+                value={loginData?.password}
+                onChange={handleOnChange}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CommonDataTable from "../../GlobalComponents/CommonDataTable";
 import { useDispatch, useSelector } from "react-redux";
-import { getDoctorList } from "../Slices/doctorSlice";
-import { columns } from "./DoctorsTableColumn";
 import {
   Box,
   Container,
@@ -11,18 +8,23 @@ import {
   OutlinedInput,
   Stack,
 } from "@mui/material";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
+import CommonDataTable from "../GlobalComponents/CommonDataTable";
+import { hospitalColumns } from "./HospitalTableColumn";
+import CommonSelect from "../GlobalComponents/CommonSelect";
+import { getHospitalsList } from "../Admin/Slices/hospitalSlice";
+import { getCountryList } from "../Admin/Slices/globalSlice";
 
-const DoctorsPage = () => {
+const HospitalPage = () => {
   const dispatch = useDispatch();
-  const doctorsList = useSelector((state) => state.doctor.doctorsList);
+  const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
 
-  console.log("listData", doctorsList);
+  console.log("listData", hospitalsList);
 
   useEffect(() => {
-    dispatch(getDoctorList());
+    dispatch(getHospitalsList());
+    dispatch(getCountryList())
   }, []);
   const names = [
     "Oliver Hansen",
@@ -64,9 +66,9 @@ const DoctorsPage = () => {
         </Stack>
       </Box>
 
-      <CommonDataTable rows={doctorsList || []} columns={columns} />
+      <CommonDataTable rows={hospitalsList || []} columns={hospitalColumns} />
     </Container>
   );
 };
 
-export default DoctorsPage;
+export default HospitalPage;
