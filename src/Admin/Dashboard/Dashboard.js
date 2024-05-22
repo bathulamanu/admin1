@@ -26,10 +26,12 @@ import customerManagement from "../../assets/customer_management.png";
 import dashboardIcon from "../../assets/dashboard.png";
 import products from "../../assets/products.png";
 import { useTheme } from "@emotion/react";
-import dashboardBackGround from '../../assets/dasboard_background.png'
-import logo from '../../assets/logo.png'
+import dashboardBackGround from "../../assets/dasboard_background.png";
+import logo from "../../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const iconArray = [
     {
@@ -95,7 +97,6 @@ const Dashboard = () => {
     {
       title_text1: "Marketing",
       title_text2: "",
-
       value: "marketing",
       icon: marketing,
     },
@@ -217,77 +218,83 @@ const Dashboard = () => {
         </Stack>
       </Box>
 
-    <Box
-      width={{ xs: "100%", md: "40%" }}
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"center"}
-      padding={2}
+      <Box
+        width={{ xs: "100%", md: "40%" }}
+        display={"flex"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        padding={2}
         marginTop={"60px"} // Add margin to push down content below the fixed header
-      sx={{
-        overflow: "auto",
+        sx={{
+          overflow: "auto",
           height: "calc(100vh - 60px)", // Adjust height to account for header height
-      }}
-    >
-      <Grid container spacing={3} justifyContent="center">
-        {iconArray.map((item, index) => (
-          <Grid
-            item
+        }}
+      >
+        <Grid container spacing={3} justifyContent="center">
+          {iconArray.map((item, index) => (
+            <Grid
+              item
               xs={4} // 3 columns on extra-small screens
               sm={4} // 3 columns on small screens
               md={4} // 3 columns on medium screens
               lg={3} // 4 columns on large screens and above
-            key={index}
-            display="flex"
-            justifyContent="center"
-          >
-            <Stack
-              display={"flex"}
-              justifyContent={"flex-start"}
-              alignItems={"center"}
-              sx={{
-                width: isMobile ? "60px" : "80px",
-                height: isMobile ? "70px" : "90px",
-              }}
-              spacing={1}
+              key={index}
+              display="flex"
+              justifyContent="center"
             >
               <Stack
-                sx={{
-                  height: isMobile ? "40px" : "50px",
-                  width: isMobile ? "40px" : "50px",
-                  borderRadius: "50%",
-                  background: "#fff",
-                }}
                 display={"flex"}
-                justifyContent={"center"}
+                justifyContent={"flex-start"}
                 alignItems={"center"}
+                sx={{
+                  width: isMobile ? "60px" : "80px",
+                  height: isMobile ? "70px" : "90px",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  if (item.value == "hospital_management") {
+                    navigate("/mainPage/hospitals");
+                  }
+                }}
+                spacing={1}
               >
-                <img
-                  src={item.icon}
-                  height={"auto"}
-                  width={isMobile ? "24px" : "32px"}
-                  alt={item.title_text1}
-                />
-              </Stack>
-              <Stack direction={"column"} spacing={0} alignItems={"center"}>
-                <Typography
-                  variant="subtitle1"
-                  fontSize={isMobile ? "8px" : "10px"}
+                <Stack
+                  sx={{
+                    height: isMobile ? "40px" : "50px",
+                    width: isMobile ? "40px" : "50px",
+                    borderRadius: "50%",
+                    background: "#fff",
+                  }}
+                  display={"flex"}
+                  justifyContent={"center"}
+                  alignItems={"center"}
                 >
-                  {item.title_text1}
-                </Typography>
-                <Typography
-                  variant="subtitle1"
-                  fontSize={isMobile ? "8px" : "10px"}
-                >
-                  {item.title_text2}
-                </Typography>
+                  <img
+                    src={item.icon}
+                    height={"auto"}
+                    width={isMobile ? "24px" : "32px"}
+                    alt={item.title_text1}
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={0} alignItems={"center"}>
+                  <Typography
+                    variant="subtitle1"
+                    fontSize={isMobile ? "8px" : "10px"}
+                  >
+                    {item.title_text1}
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    fontSize={isMobile ? "8px" : "10px"}
+                  >
+                    {item.title_text2}
+                  </Typography>
+                </Stack>
               </Stack>
-            </Stack>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Container>
     // <Container
     //   maxWidth="xl"

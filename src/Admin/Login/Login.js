@@ -53,7 +53,7 @@ const Login = () => {
       setLoginData({ email: "", password: "" });
 
       if (Object.keys(response).length !== 0) {
-        navigate('/mainPage');
+        navigate('/dashboard');
       }
     } catch (error) {
       console.error("Login failed", error);

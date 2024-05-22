@@ -87,12 +87,12 @@ const DoctorAddForm = ({ open, setOpen }) => {
     >
       <Box
         display={"flex"}
-        justifyContent={"space-between"}
         alignItems={"center"}
         height={"40px"}
         pt={5}
         pb={5}
         pl={1}
+        gap={6}
       >
         <Stack>
           <Typography>Add doctor</Typography>

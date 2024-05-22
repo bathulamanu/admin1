@@ -34,6 +34,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CommonSelect from "../GlobalComponents/CommonSelect";
 import { useSelector } from "react-redux";
+import { getNamesIdList } from "../globalFunctions";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -51,9 +52,10 @@ const socialMediaLogoSize = 24;
 
 const HospitalAddForm = ({ open, setOpen }) => {
   const theme = useTheme();
-  const countryList=useSelector((state)=>state.global.countryList)
+  const countryList = useSelector((state) => state.global.countryList);
+  const upDatedCountryList = getNamesIdList(countryList);
 
-  console.log('jdhcgjsadgljk',countryList)
+  console.log("jdhcgjsadgljk", upDatedCountryList);
 
   const [formValues, setFormValues] = useState({
     field1: "",
@@ -77,10 +79,6 @@ const HospitalAddForm = ({ open, setOpen }) => {
       [name]: value,
     });
   };
-
-
-
-
 
   return (
     <Container
@@ -109,10 +107,10 @@ const HospitalAddForm = ({ open, setOpen }) => {
           <MoreVertIcon />
         </Stack>
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"}>
+      <Box display={"flex"} justifyContent={"space-between"} gap={2}>
         <Box
           sx={{
-            width: "55%",
+            width: "60%",
             display: "flex",
             flexDirection: "column",
             gap: 4,
@@ -249,7 +247,11 @@ const HospitalAddForm = ({ open, setOpen }) => {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel>Country</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <CommonSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={upDatedCountryList}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>State</InputLabel>
@@ -470,146 +472,6 @@ const HospitalAddForm = ({ open, setOpen }) => {
                   </Button>
                 </Stack>
                 <Stack height={"170px"}></Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <Stack pt={2} pb={2}>
-                <Typography>SOCIAL LINKS</Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={facebook}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                    style={{ borderRadius: "4px" }}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.facebook.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={instagram}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.instagram.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={linkedin}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.linkedin.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={youtube}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.youtube.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={twitter}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.twitter.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={pinterest}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                    style={{ borderRadius: "4px" }}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="www.pinterest.com"
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-              </Stack>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent>
-              <Stack pt={2} pb={2}>
-                <Typography>WEBSITES LINKS</Typography>
-              </Stack>
-              <Stack spacing={2}>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={link}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder=""
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={link}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder=""
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack>
               </Stack>
             </CardContent>
           </Card>

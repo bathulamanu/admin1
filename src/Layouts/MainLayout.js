@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -25,6 +25,10 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddIcon from "@mui/icons-material/Add";
 import DoctorAddForm from "../Admin/Doctors/DoctorAddForm";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { stringAvatar } from "../globalFunctions";
+import { getCountryList } from "../Admin/Slices/globalSlice";
+import { useDispatch } from "react-redux";
+import DoctorView from "../Admin/Doctors/DoctorView";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -35,50 +39,26 @@ const StyledLink = styled(Link)`
 `;
 
 export const MainLayout = () => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [doctorFormOpen, setDoctorFormOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState("Hospitals");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    return color;
-  }
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        width: "24px",
-        height: "24px",
-        fontSize: "8px",
-      },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-    };
-  }
-
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
 
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    dispatch(getCountryList());
+  }, []);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <Container
       maxWidth="xl"
@@ -166,61 +146,74 @@ export const MainLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", }}>
-          <Stack spacing={0} sx={{width:'100%'}}>
+        <Box sx={{ height: "100%" }}>
+          <Stack spacing={0} sx={{ width: "200px" }}>
             <Button
               variant="contained"
               size="small"
               sx={{ borderRadius: 0, background: "black" }}
               startIcon={<ArrowBackIosIcon />}
+              onClick={() => navigate("/dashboard")}
             >
               Back to menu
             </Button>
-            <Button variant="contained" fullWidth size="small" sx={{ borderRadius: 0 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              size="small"
+              sx={{ borderRadius: 0 }}
+            >
               Hospital Management
             </Button>
           </Stack>
-          <MenuList variant='selectedMenu'   >
-            <StyledLink to="/dashboard">
-              <MenuItem
-              
-                sx={{
-                  backgroundColor: isActive("/dashboard")
-                    ? "#f0f0f0"
-                    : "inherit",
-                }}
-              >
-                Dashboard
-              </MenuItem>
-            </StyledLink>
-            <StyledLink to="/mainPage/hospitals">
-              <MenuItem
-                sx={{
-                  backgroundColor: isActive("/mainPage/hospitals")
-                    ? "#f0f0f0"
-                    : "inherit",
-                }}
-              >
-                Hospitals
-              </MenuItem>
-            </StyledLink>
-            <StyledLink to="/mainPage/doctors">
-              <MenuItem
-                sx={{
-                  backgroundColor: isActive("/mainPage/doctors")
-                    ? "#f0f0f0"
-                    : "inherit",
-                }}
-              >
-                Doctors
-              </MenuItem>
-            </StyledLink>
+          <MenuList variant="selectedMenu">
+            <MenuItem
+              onClick={() => {
+                setActiveItem("Dashboard");
+                navigate("/dashboard");
+              }}
+              sx={{
+                backgroundColor:
+                  activeItem === "Dashboard" ? "#f0f0f0" : "inherit",
+              }}
+            >
+              Dashboard
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                setActiveItem("Hospitals");
+                navigate("/mainPage/hospitals");
+              }}
+              sx={{
+                backgroundColor:
+                  activeItem === "Hospitals" ? "#f0f0f0" : "inherit",
+              }}
+            >
+              Hospitals
+            </MenuItem>
+
+            <MenuItem
+              onClick={() => {
+                setActiveItem("Doctors");
+                navigate("/mainPage/doctors");
+              }}
+              sx={{
+                backgroundColor:
+                  activeItem === "Doctors" ? "#f0f0f0" : "inherit",
+              }}
+            >
+              Doctors
+            </MenuItem>
             <StyledLink to="/mainPage/settings">
               <MenuItem
+                onClick={() => {
+                  setActiveItem("Settings");
+                  navigate("/mainPage/settings");
+                }}
                 sx={{
-                  backgroundColor: isActive("/mainPage/settings")
-                    ? "#f0f0f0"
-                    : "inherit",
+                  backgroundColor:
+                    activeItem === "Settings" ? "#f0f0f0" : "inherit",
                 }}
               >
                 Settings
@@ -228,7 +221,13 @@ export const MainLayout = () => {
             </StyledLink>
           </MenuList>
         </Box>
-        <Box sx={{ background: "#F4F5F9", padding: "8px" }}>
+        <Box
+          sx={{
+            background: "#F4F5F9",
+            padding: "8px",
+            width: activeItem == "Hospitals" ? "85%" : "90%",
+          }}
+        >
           <Box
             height={"80px"}
             width={"100%"}
@@ -249,20 +248,27 @@ export const MainLayout = () => {
                 size="small"
                 variant="contained"
                 startIcon={<AddIcon />}
-                onClick={() => navigate("hospitalFrom")}
+                onClick={() => {
+                  if (activeItem === "Hospitals") {
+                    navigate("hospitalFrom");
+                  } else if (activeItem === "Doctors") {
+                    navigate("doctorForm");
+                  }
+                }}
               >
-                Add Doctors
+                Add {activeItem}
               </Button>
             </Stack>
           </Box>
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <Typography variant="h5">Hospital Management</Typography>{" "}
             <Typography variant="h4">/</Typography>
-            <Typography variant="subtitle1">Doctors</Typography>
+            <Typography variant="subtitle1">{activeItem}</Typography>
           </Stack>
 
           {/* {doctorFormOpen ? <DoctorAddForm /> : <DoctorsPage />} */}
           <Outlet />
+          {/* <DoctorView/> */}
         </Box>
       </Container>
     </Container>

@@ -38,22 +38,28 @@ function getStyles(name, personName, theme) {
   };
 }
 
-export default function CommonSelect({ data, onChange, value, Placeholder,width }) {
+export default function CommonSelect({
+  data,
+  onChange,
+  value,
+  Placeholder,
+  width,
+}) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
+
+  console.log("cjkdbkbvjkj", data);
 
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     onChange(typeof value === "string" ? value?.split(",") : value);
-    setPersonName(
-      typeof value === "string" ? value?.split(",") : value
-    );
+    setPersonName(typeof value === "string" ? value?.split(",") : value);
   };
 
   return (
-    <FormControl sx={{  width: width || 200 , }}>
+    <FormControl sx={{ width: width || 200 }}>
       <Select
         size="small"
         displayEmpty
@@ -73,16 +79,18 @@ export default function CommonSelect({ data, onChange, value, Placeholder,width 
         <MenuItem disabled value="">
           <em>{Placeholder}</em>
         </MenuItem>
-        {(data?.length > 0 && data) ||
-          []?.map((name) => (
-            <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, personName, theme)}
-            >
-              {name}
-            </MenuItem>
-          ))}
+        {data?.map((item) => {
+            console.log('dgssdiItemsss',item)
+            return (
+              <MenuItem
+                key={item?.id}
+                value={item?.id}
+                style={getStyles(item?.name, personName, theme)}
+              >
+                {item?.name}
+              </MenuItem>
+            );
+          })}
       </Select>
     </FormControl>
   );

@@ -25,6 +25,7 @@ const CommonDataTable = ({ rows, columns }) => {
       }}
       pageSizeOptions={[5, 10]}
       checkboxSelection
+      disableColumnSelector
     />
   );
 };

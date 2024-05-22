@@ -11,11 +11,11 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import CommonDataTable from "../GlobalComponents/CommonDataTable";
-import { hospitalColumns } from "./HospitalTableColumn";
+// import { hospitalColumns } from "./HospitalTableColumn";
 import CommonSelect from "../GlobalComponents/CommonSelect";
 import { getHospitalsList } from "../Admin/Slices/hospitalSlice";
 import { getCountryList } from "../Admin/Slices/globalSlice";
-
+import hospitalColumns from "../Hospitals/HospitalTableColumn";
 const HospitalPage = () => {
   const dispatch = useDispatch();
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
@@ -24,7 +24,6 @@ const HospitalPage = () => {
 
   useEffect(() => {
     dispatch(getHospitalsList());
-    dispatch(getCountryList())
   }, []);
   const names = [
     "Oliver Hansen",
@@ -66,7 +65,7 @@ const HospitalPage = () => {
         </Stack>
       </Box>
 
-      <CommonDataTable rows={hospitalsList || []} columns={hospitalColumns} />
+      <CommonDataTable rows={hospitalsList || []} columns={hospitalColumns()} />
     </Container>
   );
 };

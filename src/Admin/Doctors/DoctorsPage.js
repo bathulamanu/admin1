@@ -14,6 +14,7 @@ import {
 import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
+import column from "../Doctors/DoctorsTableColumn";
 
 const DoctorsPage = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const DoctorsPage = () => {
         </Stack>
       </Box>
 
-      <CommonDataTable rows={doctorsList || []} columns={columns} />
+      <CommonDataTable rows={doctorsList || []} columns={column()} />
     </Container>
   );
 };
