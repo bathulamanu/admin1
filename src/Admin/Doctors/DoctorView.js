@@ -57,7 +57,7 @@ const DoctorView = () => {
             <Box>
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
-                  <Typography>
+                  <Typography variant="h5" sx={{color:'#327CF3'}}>
                     Dr.{joinStringsWithSpace(doctorFirstName, doctorLastName)}
                   </Typography>
                 </Stack>
@@ -70,41 +70,44 @@ const DoctorView = () => {
                   <CardContent sx={{ display: "flex", gap: 4 }}>
                     <Box display={"flex"} flexDirection={"column"} gap={3}>
                       <Stack>
-                        <Typography>
+                        <Typography variant="h5" sx={{color:'#327CF3'}}>
                           {joinStringsWithSpace(
                             doctorFirstName,
                             doctorLastName
                           )}
                         </Typography>
-                        <Typography>({doctorID})</Typography>
+                        <Typography variant="h5" sx={{color:'#327CF3'}}>({doctorID})</Typography>
                       </Stack>
                       <Stack spacing={1}>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">
+                        <Stack direction={"row"} spacing={1}>
+                          <Typography variant="subtitle2" sx={{minWidth:'70px'}}>
                             Specialist
                           </Typography>{" "}
-                          :{" "}
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
                             {specilizationInfo?.[0]?.value} ,{" "}
                             {specilizationInfo?.[1]?.value}{" "}
                           </Typography>
                         </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">Degree</Typography> :{" "}
+                        <Stack direction={"row"} spacing={1}>
+                          <Typography variant="subtitle2" sx={{minWidth:'70px'}}>Degree</Typography>
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
                             {qualificationInfo?.[0]?.value}
                             {", "}
                             {qualificationInfo?.[1]?.value}{" "}
                           </Typography>
                         </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">
+                        <Stack direction={"row"} spacing={1}>
+                          <Typography variant="subtitle2" sx={{minWidth:'70px'}}>
                             Date of Birth
-                          </Typography>{" "}
-                          : <Typography variant="subtitle2">{DOB}</Typography>
+                          </Typography>
+                          <Typography variant="subtitle2">:</Typography>
+                          <Typography variant="subtitle2">{formatToMMMYYYY(DOB)}</Typography>
                         </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">IMR ID</Typography> :{" "}
+                        <Stack direction={"row"} spacing={1}>
+                          <Typography variant="subtitle2" sx={{minWidth:'70px'}}>IMR ID</Typography>
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
                             {IMRregisterID}
                           </Typography>
@@ -151,8 +154,8 @@ const DoctorView = () => {
               </Box>
             </Box>
             <Box>
-              <Typography>Description :</Typography>
-              <Typography>{doctorBio}</Typography>
+              <Typography variant="h5">Description :</Typography>
+              <Typography variant='subtitle2'>{doctorBio}</Typography>
             </Box>
           </CardContent>
         </Card>
@@ -164,24 +167,51 @@ const DoctorView = () => {
               <Typography>Experience</Typography>
               <Typography>View all</Typography>
             </Box>
-            <Divider sx={{ pt: 2, pb: 2 }} />
+            <Divider sx={{ mt: 2, mb: 2 }} />
             <Box>
               {previousExperience?.map((item) => {
+                console.log("doctorsNamehgdfjsg", item);
                 return (
                   <Box display={"flex"} justifyContent={"space-between"}>
-                    <Box>
+                    <Box display={"flex"} gap={2}>
                       <Box>
                         <Avatar
-                          {...stringAvatar("Kent Dodds")}
+                          {...stringAvatar(item?.hospitalDetails?.hospitalName)}
                           sx={{
-                            width: 24,
-                            height: 24,
+                            width: 28,
+                            height: 28,
                             fontSize: "12px",
+                            background: "blue",
                           }}
                         />
                       </Box>
                       <Box>
-                        <Typography>{}</Typography>
+                        <Typography variant="h6">
+                          {item?.hospitalDetails?.hospitalName}
+                        </Typography>
+                        <Stack direction={"row"}>
+                          <Typography variant="subtitle2">
+                            {" "}
+                            {
+                              item?.hospitalDetails?.HospitalAddress
+                                ?.nearLandMark
+                            }
+                            ,{" "}
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            {
+                              item?.hospitalDetails?.HospitalAddress
+                                ?.addressLine1
+                            }
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            {
+                              item?.hospitalDetails?.HospitalAddress
+                                ?.addressLine2
+                            }
+                          </Typography>
+                        </Stack>
+
                         {item?.specilizationInfo?.map((ele) => {
                           return (
                             <Typography variant="subtitle2">
@@ -193,15 +223,31 @@ const DoctorView = () => {
                         })}
                         <Stack direction={"row"}>
                           <Typography variant="subtitle2">
-                            {item?.LocationInfo?.cityName}
+                            {item?.LocationInfo?.cityName} -{" "}
+                            {item?.hospitalDetails?.HospitalAddress?.pincode},
                           </Typography>
-                          ,
+
                           <Typography variant="subtitle2">
-                            {item?.LocationInfo?.stateName}
+                            {item?.LocationInfo?.stateName} ,
                           </Typography>
-                          ,
+
                           <Typography variant="subtitle2">
                             {item?.LocationInfo?.countryName}
+                          </Typography>
+                        </Stack>
+                        <Stack direction={"row"} spacing={1}>
+                          <Typography variant="subtitle2">
+                            {" "}
+                            Phone No.{" "}
+                            {item?.hospitalDetails?.contact?.phoneNumber}
+                          </Typography>
+                          <Typography variant="subtitle2">
+                            Landline {item?.hospitalDetails?.contact?.landLine}
+                          </Typography>
+                        </Stack>
+                        <Stack>
+                          <Typography variant="subtitle2">
+                            Fax No. {item?.hospitalDetails?.faxNumber}
                           </Typography>
                         </Stack>
                       </Box>
@@ -211,11 +257,11 @@ const DoctorView = () => {
                         <Typography variant="subtitle2">
                           {formatToMMMYYYY(item?.startDate)}
                         </Typography>
-                        <Typography>-</Typography>
+                        <Typography variant="subtitle2">-</Typography>
                         <Typography variant="subtitle2">
-                          {formatToMMMYYYY(item?.endDate)}
+                          {formatToMMMYYYY(item?.endDate)},
                         </Typography>
-                        ,
+
                         <Typography variant="subtitle2">
                           {item?.experienceInfo?.value}
                         </Typography>

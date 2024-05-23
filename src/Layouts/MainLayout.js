@@ -23,12 +23,23 @@ import logo from "../assets/logo.png";
 import DoctorsPage from "../Admin/Doctors/DoctorsPage";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddIcon from "@mui/icons-material/Add";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import CloseIcon from "@mui/icons-material/Close";
 import DoctorAddForm from "../Admin/Doctors/DoctorAddForm";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { stringAvatar } from "../globalFunctions";
-import { getCountryList } from "../Admin/Slices/globalSlice";
-import { useDispatch } from "react-redux";
+import { capitalizeFirstLetter, stringAvatar } from "../globalFunctions";
+import {
+  getCityList,
+  getCountryList,
+  getEmploymentType,
+  getExperienceList,
+  getGenderList,
+  getSpecialization,
+  getStateList,
+} from "../Admin/Slices/globalSlice";
+import { useDispatch, useSelector } from "react-redux";
 import DoctorView from "../Admin/Doctors/DoctorView";
+import { addHospitals } from "../Admin/Slices/hospitalSlice";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -41,22 +52,47 @@ const StyledLink = styled(Link)`
 export const MainLayout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [activeItem, setActiveItem] = useState("Hospitals");
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const addHospitalData = useSelector(
+    (state) => state.hospitals.hospitalPostData
+  );
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [activeItem, setActiveItem] = useState("Hospitals");
+  const [formOpen, setFormOpen] = useState(null);
+  const loginUserDetails = localStorage.getItem("loginUser");
+  const data = JSON.parse(loginUserDetails);
+  const { firstName, lastName } = data;
+
+  console.log("jhsdgjhsl", addHospitalData);
 
   const open = Boolean(anchorEl);
 
   useEffect(() => {
     dispatch(getCountryList());
+    dispatch(getGenderList());
+    dispatch(getSpecialization());
+    dispatch(getExperienceList());
+    dispatch(getEmploymentType());
+    dispatch(getStateList(352));
   }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    navigate("/");
+    localStorage.clear();
     setAnchorEl(null);
+  };
+
+  const handleMenuSideBar = (value) => {
+    setActiveItem(value);
+    setFormOpen(null);
+  };
+
+  const handleSubmit = () => {
+    dispatch(addHospitals(addHospitalData));
   };
 
   return (
@@ -106,7 +142,7 @@ export const MainLayout = () => {
             }}
           />
           <Avatar
-            {...stringAvatar("Kent Dodds")}
+            {...stringAvatar(`${firstName} ${lastName}`)}
             sx={{
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
@@ -114,8 +150,7 @@ export const MainLayout = () => {
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
-            {" "}
-            sarah{" "}
+            {capitalizeFirstLetter(firstName, lastName)}
           </Typography>
           <KeyboardArrowDownIcon
             onClick={handleClick}
@@ -146,8 +181,8 @@ export const MainLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%" }}>
-          <Stack spacing={0} sx={{ width: "200px" }}>
+        <Box sx={{ height: "100%", width: "15%" }}>
+          <Stack spacing={0}>
             <Button
               variant="contained"
               size="small"
@@ -169,7 +204,7 @@ export const MainLayout = () => {
           <MenuList variant="selectedMenu">
             <MenuItem
               onClick={() => {
-                setActiveItem("Dashboard");
+                handleMenuSideBar("Dashboard");
                 navigate("/dashboard");
               }}
               sx={{
@@ -182,7 +217,7 @@ export const MainLayout = () => {
 
             <MenuItem
               onClick={() => {
-                setActiveItem("Hospitals");
+                handleMenuSideBar("Hospitals");
                 navigate("/mainPage/hospitals");
               }}
               sx={{
@@ -195,7 +230,7 @@ export const MainLayout = () => {
 
             <MenuItem
               onClick={() => {
-                setActiveItem("Doctors");
+                handleMenuSideBar("Doctors");
                 navigate("/mainPage/doctors");
               }}
               sx={{
@@ -208,7 +243,7 @@ export const MainLayout = () => {
             <StyledLink to="/mainPage/settings">
               <MenuItem
                 onClick={() => {
-                  setActiveItem("Settings");
+                  handleMenuSideBar("Settings");
                   navigate("/mainPage/settings");
                 }}
                 sx={{
@@ -225,40 +260,66 @@ export const MainLayout = () => {
           sx={{
             background: "#F4F5F9",
             padding: "8px",
-            width: activeItem == "Hospitals" ? "85%" : "90%",
+            width: "85%",
           }}
         >
           <Box
-            height={"80px"}
+            height={"60px"}
             width={"100%"}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <Stack
-              direction={"row"}
-              alignItems={"center"}
-              sx={{ cursor: "pointer" }}
-            >
-              <ArrowBackIosIcon sx={{ height: 18, width: 18 }} />
-              <Typography>Back</Typography>
-            </Stack>
-            <Stack>
-              <Button
-                size="small"
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => {
-                  if (activeItem === "Hospitals") {
-                    navigate("hospitalFrom");
-                  } else if (activeItem === "Doctors") {
-                    navigate("doctorForm");
-                  }
-                }}
+            {formOpen != null ? (
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                sx={{ cursor: "pointer" }}
               >
-                Add {activeItem}
-              </Button>
-            </Stack>
+                <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
+                <Typography variant="subtitle2">Back</Typography>
+              </Stack>
+            ) : (
+              <Stack></Stack>
+            )}
+            {formOpen == null ? (
+              <Stack>
+                <Button
+                  size="small"
+                  variant="contained"
+                  startIcon={<AddIcon />}
+                  onClick={() => {
+                    if (activeItem === "Hospitals") {
+                      setFormOpen("Hospitals");
+                      navigate("hospitalFrom");
+                    } else if (activeItem === "Doctors") {
+                      navigate("doctorForm");
+                      setFormOpen("Doctors");
+                    }
+                  }}
+                >
+                  Add {activeItem}
+                </Button>
+              </Stack>
+            ) : (
+              <Stack direction={"row"} spacing={2}>
+                <Button
+                  size="small"
+                  variant="contained"
+                  startIcon={<SaveAltIcon />}
+                  onClick={handleSubmit}
+                >
+                  Save
+                </Button>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  startIcon={<CloseIcon />}
+                >
+                  Cancel
+                </Button>
+              </Stack>
+            )}
           </Box>
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <Typography variant="h5">Hospital Management</Typography>{" "}

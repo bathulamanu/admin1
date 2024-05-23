@@ -16,23 +16,10 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
-];
-
 function getStyles(name, personName, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      personName?.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -46,32 +33,46 @@ export default function CommonSelect({
   width,
 }) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
-
-  console.log("cjkdbkbvjkj", data);
+  const [selectedIds, setSelectedIds] = React.useState([]);
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    onChange(typeof value === "string" ? value?.split(",") : value);
-    setPersonName(typeof value === "string" ? value?.split(",") : value);
+    const selectedValue = event.target.value;
+    setSelectedIds(
+      typeof selectedValue === "string"
+        ? selectedValue.split(",")
+        : selectedValue
+    );
+    onChange(
+      typeof selectedValue === "string"
+        ? selectedValue.split(",")
+        : selectedValue
+    );
   };
+
+  const getSelectedNames = () => {
+    return selectedIds?.map((id) => {
+      const selectedItem = data?.find((item) => item.id === id);
+      return selectedItem ? selectedItem.name : "";
+    });
+  };
+
+  console.log("sdkjgjahs", selectedIds);
 
   return (
     <FormControl sx={{ width: width || 200 }}>
       <Select
         size="small"
         displayEmpty
-        value={value || []}
+        multiple
+        value={selectedIds}
         onChange={handleChange}
         input={<OutlinedInput />}
         renderValue={(selected) => {
-          if (selected?.length === 0) {
+          if (selected.length === 0) {
             return <em>{Placeholder}</em>;
           }
 
-          return selected?.join(", ");
+          return getSelectedNames()?.join(", ");
         }}
         MenuProps={MenuProps}
         inputProps={{ "aria-label": "Without label" }}
@@ -79,18 +80,15 @@ export default function CommonSelect({
         <MenuItem disabled value="">
           <em>{Placeholder}</em>
         </MenuItem>
-        {data?.map((item) => {
-            console.log('dgssdiItemsss',item)
-            return (
-              <MenuItem
-                key={item?.id}
-                value={item?.id}
-                style={getStyles(item?.name, personName, theme)}
-              >
-                {item?.name}
-              </MenuItem>
-            );
-          })}
+        {data?.map((item) => (
+          <MenuItem
+            key={item.id}
+            value={item.id}
+            style={getStyles(item.name, selectedIds, theme)}
+          >
+            {item.name}
+          </MenuItem>
+        ))}
       </Select>
     </FormControl>
   );

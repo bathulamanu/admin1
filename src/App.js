@@ -6,7 +6,54 @@ import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { baseRoutes } from "./Admin/Routings/Routings";
 
-const theme = createTheme();
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiDatePicker: {
+      styleOverrides: {
+        root: {
+          "& .MuiPickersStaticWrapper-root .MuiPaper-root": {
+            padding: "8px", // Adjust the padding to decrease height
+          },
+        },
+      },
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: "2rem",
+      margin: 0,
+    },
+    h2: {
+      fontSize: "1.5rem",
+      margin: 0,
+    },
+    body1: {
+      fontSize: "1rem",
+      margin: 0,
+    },
+    subtitle2: {
+      fontSize: "12px",
+      margin: 0,
+    },
+    h6: {
+      fontSize: "14px",
+      margin: 0,
+      fontWeight: "bold",
+    },
+    h5:{
+      fontSize:'17px',
+      margin:0,
+      fontWeight:500
+    }
+  },
+});
 
 function App() {
   return (

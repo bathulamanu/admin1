@@ -3,8 +3,9 @@ import api from "../../httpRequest";
 
 const initialState = {
   hospitalsList: [],
-  hospitalDetail:{},
+  hospitalDetail: {},
   loading: "",
+  hospitalPostData: {},
 };
 
 export const getHospitalsList = createAsyncThunk(
@@ -34,10 +35,28 @@ export const getHospitalDetails = createAsyncThunk(
   }
 );
 
+export const addHospitals = createAsyncThunk(
+  "addHospitals",
+  async (data, thunkAPI) => {
+    try {
+      const response = await api.post("/addHospitalDetails", data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const hospitalSlice = createSlice({
   name: "hospitals",
   initialState,
-  reducers: {},
+  reducers: {
+    handlePostHospital: (state, action) => {
+      state.hospitalPostData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getHospitalsList.pending, (state) => {
       state.loading = "pending";
@@ -55,7 +74,7 @@ const hospitalSlice = createSlice({
     });
     builder.addCase(getHospitalDetails.fulfilled, (state, action) => {
       state.loading = "complete_success";
-      console.log('jksakgujcfjdhbk',action.payload)
+      console.log("jksakgujcfjdhbk", action.payload);
       state.hospitalDetail = action?.payload?.data;
     });
     builder.addCase(getHospitalDetails.rejected, (state) => {
@@ -64,5 +83,5 @@ const hospitalSlice = createSlice({
   },
 });
 
-export const {} = hospitalSlice.actions;
+export const { handlePostHospital } = hospitalSlice.actions;
 export default hospitalSlice.reducer;

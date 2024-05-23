@@ -51,8 +51,9 @@ const Login = () => {
     try {
       const response = await dispatch(getUserLogin(loginData));
       setLoginData({ email: "", password: "" });
-
       if (Object.keys(response).length !== 0) {
+        console.log('sdkcsjhdgljha',response?.payload?.data)
+        localStorage.setItem("loginUser", JSON.stringify(response?.payload?.data));
         navigate('/dashboard');
       }
     } catch (error) {

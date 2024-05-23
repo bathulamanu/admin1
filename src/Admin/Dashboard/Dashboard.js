@@ -29,6 +29,8 @@ import { useTheme } from "@emotion/react";
 import dashboardBackGround from "../../assets/dasboard_background.png";
 import logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
+import { capitalizeFirstLetter, stringAvatar } from "../../globalFunctions";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -110,41 +112,19 @@ const Dashboard = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const loginUserDetails = localStorage.getItem("loginUser");
+  const data = JSON.parse(loginUserDetails);
+  const { firstName, lastName } = data;
 
-  function stringToColor(string) {
-    let hash = 0;
-    let i;
-
-    /* eslint-disable no-bitwise */
-    for (i = 0; i < string.length; i += 1) {
-      hash = string.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    let color = "#";
-
-    for (i = 0; i < 3; i += 1) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += `00${value.toString(16)}`.slice(-2);
-    }
-    return color;
-  }
-  function stringAvatar(name) {
-    return {
-      sx: {
-        bgcolor: stringToColor(name),
-        width: "24px",
-        height: "24px",
-        fontSize: "8px",
-      },
-      children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-    };
-  }
+  console.log("dkjhcksdghljh  slice", data);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
+    navigate("/");
+    localStorage.clear();
     setAnchorEl(null);
   };
 
@@ -183,10 +163,20 @@ const Dashboard = () => {
           alt="Logo"
         />
         <Stack direction="row" spacing={1} alignItems={"center"}>
-          <NotificationsIcon fontSize={isMobile ? "small" : "medium"} />
-          <ChatBubbleIcon fontSize={isMobile ? "small" : "medium"} />
+          <NotificationsIcon
+            sx={{
+              height: isMobile ? "18px" : "16px",
+              width: isMobile ? "18px" : "16px",
+            }}
+          />
+          <ChatBubbleIcon
+            sx={{
+              height: isMobile ? "18px" : "16px",
+              width: isMobile ? "18px" : "16px",
+            }}
+          />
           <Avatar
-            {...stringAvatar("Kent Dodds")}
+            {...stringAvatar(`${firstName} ${lastName}`)}
             sx={{
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
@@ -194,8 +184,7 @@ const Dashboard = () => {
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
-            {" "}
-            sarah{" "}
+            {capitalizeFirstLetter(firstName, lastName)}
           </Typography>
           <KeyboardArrowDownIcon
             onClick={handleClick}

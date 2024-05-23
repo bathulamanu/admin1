@@ -3,12 +3,8 @@ import React from "react";
 import { getDoctorDetail } from "../Slices/doctorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { capitalizeFirstLetter } from "../../globalFunctions";
 
-function capitalizeFirstLetter(word) {
-  return word?.charAt(0)?.toUpperCase() + word?.slice(1);
-}
-
-console.log("bjxghjknlm", capitalizeFirstLetter("chandana"));
 
 const DoctorsTableColumn = () => {
   const dispatch = useDispatch();

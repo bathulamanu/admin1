@@ -30,9 +30,10 @@ const adminSlice = createSlice({
     });
     builder.addCase(getUserLogin.fulfilled, (state, action) => {
       state.loading = "complete_success";
-      state.adminLogin = action.payload.data;
-      const token = action.payload.data.token;
-      localStorage.setItem("accessToken", token);
+      state.adminLogin = action?.payload?.data;
+      const user = action?.payload?.data;
+      console.log("dkjhcksdghljh  ", user);
+      // localStorage.setItem("user", user);
     });
     builder.addCase(getUserLogin.rejected, (state) => {
       state.authLoading = "complete_failure";

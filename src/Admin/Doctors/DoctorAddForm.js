@@ -15,13 +15,10 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Paper,
   Stack,
   Typography,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CommonSelect from "../../GlobalComponents/CommonSelect";
-import ReactQuill from "react-quill";
 import facebook from "../../assets/facebook.png";
 import instagram from "../../assets/instagram.png";
 import youtube from "../../assets/youtube.png";
@@ -29,10 +26,15 @@ import twitter from "../../assets/twitter.png";
 import linkedin from "../../assets/linkedin.png";
 import pinterest from "../../assets/pinterest.png";
 import link from "../../assets/link.png";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { useSelector } from "react-redux";
+import { getByIdList, getNamesIdList } from "../../globalFunctions";
+import SingleSelect from "../../GlobalComponents/SingleSelect";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -46,33 +48,135 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
+// {
+//   "doctorFirstName": "Amrutha",
+//   "doctorLastName": "",
+//   "doctorID": "doc-02",
+//   "doctorProfile": "DoctorProfile/PomKpPCUkG-doctorFlyingbyes.jpg",
+//   "IMRregisterID": "74fghj7ghh",
+//   "countryCode": "+91",
+//   "phoneNumber": "9512368745",
+//   "status": true,
+//   "doctorDetailsID": 1,
+//   "specilizationInfo": [
+//       {
+//           "specilizationID": 58,
+//           "value": "Rheumatology"
+//       },
+//       {
+//           "specilizationID": 60,
+//           "value": "Gynecologist"
+//       }
+//   ],
+//   "id": 1,
+//   "cityInfo": {
+//       "cityID": 52385,
+//       "name": "Hyderabad"
+//   },
+//   "experienceInfo": {
+//       "experienceID": 5,
+//       "value": "3 Years"
+//   }
+// },
+
 const socialMediaLogoSize = 24;
 
-const DoctorAddForm = ({ open, setOpen }) => {
+const DoctorAddForm = () => {
   const theme = useTheme();
+  const getSpecializationList = useSelector(
+    (state) => state.global.specializationList
+  );
+  const getExperienceList = useSelector((state) => state.global.experienceList);
+  const getGenderList = useSelector((state) => state.global.genderList);
+  const getEmployementList = useSelector((state) => state.global.genderList);
+  const countryList = useSelector((state) => state.global.countryList);
+  const upDatedCountryList = getNamesIdList(countryList);
+  const specializationList = getByIdList(getSpecializationList);
+  const experienceList = getByIdList(getExperienceList);
+  const genderList = getByIdList(getGenderList);
+  const employementTypeList = getByIdList(getEmployementList);
+  console.log("kjdgjkhdsgh", specializationList);
 
-  const [formValues, setFormValues] = useState({
-    field1: "",
-    field2: "",
-    field3: "",
-    field4: "",
-    field5: "",
-    field6: "",
-    field7: "",
-    field8: "",
-    field9: "",
-    field10: "",
-    field11: "",
-    field12: "",
+  const [experienceData, setExperienceData] = useState({
+    countryName: "",
+    stateName: "",
+    cityName: "",
+    startDate: "",
+    endDate: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+  const [formValues, setFormValues] = useState({
+    doctorFirstName: "",
+    doctorLastName: "",
+    doctorProfile: "",
+    qualification: [{ qualificationId: 1 }, { qualificationId: 2 }],
+    specialist: [
+      {
+        specilizationID: 1,
+      },
+      {
+        specilizationID: 5,
+      },
+    ],
+    location: "", // any city id
+    DOB: "",
+    IMRregisterID: "",
+    experience: "",
+    doctorID: "",
+    gender: "",
+    email: "",
+    status:"",
+    countryCode: "",
+    phoneNumber: "",
+    websiteLinks: [{ link: String }],
+    sociallink: {
+      facebook: "",
+      instagram: "",
+      twitter: "",
+      LinkedIn: "",
+      youtube: "",
+      pinterest: "",
+    },
+    doctorBio: "",
+    previousExperience: [
+      {
+        country: "",
+        state: "",
+        city: "",
+        specialist: [
+          {
+            specilizationID: "",
+          },
+        ],
+        hospitalAddress: "",
+        experience: "",
+        employmentType: "",
+        startDate: "",
+        endDate: "",
+        currentlyWorking: {
+          type: "",
+          default: false,
+        },
+        description: "",
+      },
+    ],
+    doctorAddress: {
+      addressLine1: "",
+      addressLine2: "",
+      nearLandMark: "",
+      country: "",
+      state: "",
+      city: "",
+      pincode: "",
+    },
+  });
+
+  const handleOnChange = (e, name) => {
+    console.log("jkdhvkjgsdg", e);
+    setFormValues((prev) => ({ ...prev, [name]: e }));
   };
+
+  console.log("dhkjshdgjshcjs", formValues);
 
   return (
     <Container
@@ -88,6 +192,7 @@ const DoctorAddForm = ({ open, setOpen }) => {
       <Box
         display={"flex"}
         alignItems={"center"}
+        justifyContent={"space-between"}
         height={"40px"}
         pt={5}
         pb={5}
@@ -114,94 +219,166 @@ const DoctorAddForm = ({ open, setOpen }) => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel>Doctor Name</InputLabel>
+                  <InputLabel id="demo-select-small-label">
+                    Doctor Name
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
+                      name="doctorFirstName"
                       id="outlined-adornment-password"
                       placeholder="Dr.Sal"
                       size="small"
+                      value={formValues?.doctorFirstName}
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "doctorFirstName")
+                      }
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Doctor ID</InputLabel>
+                  <InputLabel id="demo-select-small-label">
+                    Doctor ID
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
+                      name="doctorID"
                       id="outlined-adornment-password"
                       placeholder="#D-00012"
                       size="small"
+                      value={formValues?.doctorID}
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "doctorID")
+                      }
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Doctor Name</InputLabel>
+                  <InputLabel id="demo-select-small-label">
+                    Doctor Name
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
+                      name="doctorLastName"
                       id="outlined-adornment-password"
                       placeholder="#D-00012"
                       size="small"
+                      value={formValues?.doctorLastName}
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "doctorLastName")
+                      }
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Specialist</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <InputLabel id="demo-select-small-label">
+                    Specialist
+                  </InputLabel>
+                  <CommonSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.specialist?.map(
+                      (item) => item?.specilizationID
+                    )}
+                    data={specializationList}
+                    onChange={(e) => handleOnChange(e, "specilizationInfo")}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Experience</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <InputLabel id="demo-select-small-label">
+                    Experience
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    value={formValues?.experience}
+                    data={experienceList}
+                    width={"100%"}
+                    onChange={(e) => handleOnChange(e, "experienceInfo")}
+                  />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Status</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.status}
+                    data={[
+                      { id: "1", name: "Active" },
+                      { id: "2", name: "InActive" },
+                    ]}
+                    onChange={(e) => handleOnChange(e, "status")}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Location</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.location}
+                    onChange={(e) => handleOnChange(e)}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>IMr Registration ID</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
+                      name="IMRregisterID"
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "IMRregisterID")
+                      }
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>DOB</InputLabel>
-
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
-                      <DatePicker />
+                      <DatePicker
+                        onChange={(e) => {
+                          handleOnChange(e, "dob");
+                        }}
+                      />
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Gender</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={genderList}
+                    value={formValues?.gender}
+                    onChange={(e) => {
+                      handleOnChange(e, "gender");
+                    }}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Phone number</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
+                      name="phoneNumber"
                       fullWidth
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
+                      onChange={(e) => handleOnChange(e, "phoneNumber")}
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Email</InputLabel>
+                  <InputLabel>Email Address</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
+                      name="email"
+                      onChange={(e) => handleOnChange(e, "email")}
                       id="outlined-adornment-password"
                       placeholder="email"
                       size="small"
@@ -226,34 +403,71 @@ const DoctorAddForm = ({ open, setOpen }) => {
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel>Country</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    data={upDatedCountryList}
+                    width={"100%"}
+                    onChange={(e) => handleOnChange(e, "countryName")}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>State</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    onChange={(e) => handleOnChange(e, "stateName")}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>City</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    onChange={(e) => handleOnChange(e, "cityName")}
+                  />
                 </Grid>
-
                 <Grid item xs={6}>
                   <InputLabel>Specialist</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  <CommonSelect
+                    Placeholder={"Select"}
+                    data={specializationList}
+                    width={"100%"}
+                  />
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mt: 2, mb: 2 }}>
                 <InputLabel>Hospital and Address</InputLabel>
-                <CommonSelect Placeholder={"Select"} width={"100%"} />
+                {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
+                <SingleSelect Placeholder={"Select"} width={"100%"} />
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel>Experience</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  {/* <CommonSelect
+                    Placeholder={"Select"}
+                    data={experienceList}
+                    width={"100%"}
+                  /> */}
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    data={experienceList}
+                    width={"100%"}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Employment type</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
+                  {/* <CommonSelect
+                    Placeholder={"Select"}
+                    data={employementTypeList}
+                    width={"100%"}
+                  /> */}
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    data={employementTypeList}
+                    width={"100%"}
+                  />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Start date </InputLabel>
@@ -267,35 +481,36 @@ const DoctorAddForm = ({ open, setOpen }) => {
                   <InputLabel>End Date</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
-                      <DatePicker  />
+                      <DatePicker />
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={6}>
-                  <InputLabel>Gender</InputLabel>
-                  <CommonSelect Placeholder={"Select"} width={"100%"} />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel>Phone number</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="input text"
-                      size="small"
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Stack sx={{ pt: 3 }}>
+                    <Typography variant="subtitle2">
+                      Description (optional)
+                    </Typography>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      disableWatchdog
+                      data=""
+                      onReady={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log("Editor is ready to use!", editor);
+                      }}
+                      onChange={(event) => {
+                        console.log(event);
+                      }}
+                      onBlur={(event, editor) => {
+                        console.log("Blur.", editor);
+                      }}
+                      onFocus={(event, editor) => {
+                        console.log("Focus.", editor);
+                      }}
                     />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel>Email</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="email"
-                      size="small"
-                    />
-                  </FormControl>
+                  </Stack>
                 </Grid>
               </Grid>
             </CardContent>
@@ -341,7 +556,27 @@ const DoctorAddForm = ({ open, setOpen }) => {
                     <VisuallyHiddenInput type="file" />
                   </Button>
                 </Stack>
-                <Stack height={"170px"}></Stack>
+                <Stack height={"170px"} sx={{ pt: 3 }}>
+                  <Typography>Bio</Typography>
+                  <CKEditor
+                    editor={ClassicEditor}
+                    disableWatchdog
+                    data=""
+                    onReady={(editor) => {
+                      // You can store the "editor" and use when it is needed.
+                      console.log("Editor is ready to use!", editor);
+                    }}
+                    onChange={(event) => {
+                      console.log(event);
+                    }}
+                    onBlur={(event, editor) => {
+                      console.log("Blur.", editor);
+                    }}
+                    onFocus={(event, editor) => {
+                      console.log("Focus.", editor);
+                    }}
+                  />
+                </Stack>
               </Stack>
             </CardContent>
           </Card>

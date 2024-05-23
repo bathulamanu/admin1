@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import hospitamImg from "../assets/hospitalImg.png";
 import {
   formatToMMMYYYY,
@@ -27,9 +27,13 @@ import linkedinLogo from "../assets/linkedin.png";
 import twitterLogo from "../assets/twitter.png";
 import facebookLogo from "../assets/facebook.png";
 import youtubeLogo from "../assets/youtube.png";
+import { getDoctorDetail } from "../Admin/Slices/doctorSlice";
+import { useNavigate } from "react-router-dom";
 const socialMediaSize = 24;
 
 const HospitalView = () => {
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
@@ -71,7 +75,9 @@ const HospitalView = () => {
             <Box>
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
-                  <Typography>{joinStringsWithSpace(hospitalName," ")}</Typography>
+                  <Typography variant="h5" sx={{ color: "#327CF3" }}>
+                    {joinStringsWithSpace(hospitalName, " ")}
+                  </Typography>
                 </Stack>
                 <MoreVertIcon />
               </Box>
@@ -82,36 +88,55 @@ const HospitalView = () => {
                   <CardContent sx={{ display: "flex", gap: 4 }}>
                     <Box display={"flex"} flexDirection={"column"} gap={3}>
                       <Stack>
-                        <Typography>
+                        <Typography variant="h5" sx={{ color: "#327CF3" }}>
                           {joinStringsWithSpace(hospitalName, " ")}
                         </Typography>
                         {/* <Typography>({doctorID})</Typography> */}
                       </Stack>
                       <Stack spacing={1}>
                         <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ minWidth: "80px" }}
+                          >
                             Specialist
                           </Typography>{" "}
-                          :{" "}
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
                             {specialist?.[0]?.value} , {specialist?.[1]?.value},{" "}
                             {specialist?.[2]?.value},{" "}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">Status</Typography> :{" "}
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ minWidth: "80px" }}
+                          >
+                            Status
+                          </Typography>
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
                             {status ? "Active" : "Inactive"}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ minWidth: "80px" }}
+                          >
                             Email Address
-                          </Typography>{" "}
-                          : <Typography variant="subtitle2">{email}</Typography>
+                          </Typography>
+                          <Typography variant="subtitle2">:</Typography>
+                          <Typography variant="subtitle2">{email}</Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
-                          <Typography variant="subtitle2">Website</Typography> :{" "}
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ minWidth: "80px" }}
+                          >
+                            Website
+                          </Typography>
+                          <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">{website}</Typography>
                         </Stack>
                       </Stack>
@@ -233,13 +258,13 @@ const HospitalView = () => {
           <CardContent>
             <Box display={"flex"} justifyContent={"space-between"}>
               <Typography>Doctors</Typography>
-              {/* <Typography>View all</Typography> */}
             </Box>
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box display={"flex"} flexWrap={"wrap"} gap={2}>
-              {doctorAssignmentsDetails?.map((item) => {
+              {doctorAssignmentsDetails?.map((item, idx) => {
+                console.log("dbjksdjhj", item);
                 return (
-                  <Card>
+                  <Card key={`doc${idx}`}>
                     <Stack
                       // justifyContent={"center"}
                       alignItems={"center"}
@@ -254,13 +279,13 @@ const HospitalView = () => {
                     </Stack>
                     <Stack sx={{ p: 1 }} direction={"row"} spacing={4}>
                       <Stack>
-                        <Typography variant="subtitle1">
+                        <Typography variant="h6">
                           {joinStringsWithSpace(
                             item?.doctorFirstName,
                             item?.doctorLastName
                           )}
                         </Typography>
-                        <Typography variant="subtitle2">
+                        <Typography variant="h6">
                           {`(${item?.experienceInfo?.value})`}
                         </Typography>
                       </Stack>
@@ -276,7 +301,7 @@ const HospitalView = () => {
                         />
                       </Stack>
                     </Stack>
-                    <Stack sx={{ p: 1 }}>
+                    <Stack sx={{ p: 1 }} spacing={1}>
                       <Typography variant="caption">
                         {item?.specilizationInfo?.[0]?.value},
                         {item?.specilizationInfo?.[1]?.value}
@@ -285,6 +310,18 @@ const HospitalView = () => {
                         {item?.qualificationInfo?.[0]?.value},
                         {item?.qualificationInfo?.[1]?.value}
                       </Typography>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        fullWidth
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(getDoctorDetail(item?.doctorDetailsID));
+                          navigate("/mainPage/doctors/view");
+                        }}
+                      >
+                        View Doctor
+                      </Button>
                     </Stack>
                   </Card>
                 );
