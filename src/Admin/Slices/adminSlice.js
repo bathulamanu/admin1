@@ -1,45 +1,46 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../httpRequest";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import api from '../../httpRequest'
 
 const initialState = {
   adminLogin: {},
-  loading: "",
-};
+  loading: '',
+}
 
 export const getUserLogin = createAsyncThunk(
-  "getDoctorsList",
+  'getDoctorsList',
   async (data, thunkAPI) => {
     try {
-      const response = await api.post("/employeeOrAdminLogin", data);
-      return response.data;
+      const response = await api.post('/employeeOrAdminLogin', data)
+      console.log('The data after login', response)
+      return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message
-      );
+        error.response ? error.response.data : error.message,
+      )
     }
-  }
-);
+  },
+)
 
 const adminSlice = createSlice({
-  name: "admin",
+  name: 'admin',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUserLogin.pending, (state) => {
-      state.loading = "pending";
-    });
+      state.loading = 'pending'
+    })
     builder.addCase(getUserLogin.fulfilled, (state, action) => {
-      state.loading = "complete_success";
-      state.adminLogin = action?.payload?.data;
-      const user = action?.payload?.data;
-      console.log("dkjhcksdghljh  ", user);
+      state.loading = 'complete_success'
+      state.adminLogin = action?.payload?.data
+      const user = action?.payload?.data
+      // console.log("dkjhcksdghljh  ", user);
       // localStorage.setItem("user", user);
-    });
+    })
     builder.addCase(getUserLogin.rejected, (state) => {
-      state.authLoading = "complete_failure";
-    });
+      state.authLoading = 'complete_failure'
+    })
   },
-});
+})
 
-export const {} = adminSlice.actions;
-export default adminSlice.reducer;
+export const {} = adminSlice.actions
+export default adminSlice.reducer

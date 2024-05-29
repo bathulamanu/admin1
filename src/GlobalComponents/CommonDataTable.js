@@ -1,5 +1,5 @@
-import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import React from 'react'
+import { DataGrid } from '@mui/x-data-grid'
 
 // const rows = [
 //   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
@@ -27,7 +27,7 @@ const CommonDataTable = ({ rows, columns }) => {
       checkboxSelection
       disableColumnSelector
     />
-  );
-};
+  )
+}
 
-export default CommonDataTable;
+export default CommonDataTable

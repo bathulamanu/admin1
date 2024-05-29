@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import CommonDataTable from "../../GlobalComponents/CommonDataTable";
-import { useDispatch, useSelector } from "react-redux";
-import { getDoctorList } from "../Slices/doctorSlice";
-import { columns } from "./DoctorsTableColumn";
+import React, { useEffect, useState } from 'react'
+import CommonDataTable from '../../GlobalComponents/CommonDataTable'
+import { useDispatch, useSelector } from 'react-redux'
+import { getDoctorList } from '../Slices/doctorSlice'
+import { columns } from './DoctorsTableColumn'
 import {
   Box,
   Container,
@@ -10,46 +10,46 @@ import {
   InputAdornment,
   OutlinedInput,
   Stack,
-} from "@mui/material";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import SearchIcon from "@mui/icons-material/Search";
-import column from "../Doctors/DoctorsTableColumn";
+} from '@mui/material'
+import CommonSelect from '../../GlobalComponents/CommonSelect'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SearchIcon from '@mui/icons-material/Search'
+import column from '../Doctors/DoctorsTableColumn'
 
 const DoctorsPage = () => {
-  const dispatch = useDispatch();
-  const doctorsList = useSelector((state) => state.doctor.doctorsList);
+  const dispatch = useDispatch()
+  const doctorsList = useSelector((state) => state.doctor.doctorsList)
 
-  console.log("listData", doctorsList);
+  console.log('doctorsList', doctorsList)
 
   useEffect(() => {
-    dispatch(getDoctorList());
-  }, []);
+    dispatch(getDoctorList())
+  }, [])
   const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
+    'Oliver Hansen',
+    'Van Henry',
+    'April Tucker',
+    'Ralph Hubbard',
+    'Omar Alexander',
+    'Carlos Abbott',
+    'Miriam Wagner',
+    'Bradley Wilkerson',
+    'Virginia Andrews',
+    'Kelly Snyder',
+  ]
 
   return (
-    <Container sx={{ background: "#fff" }}>
+    <Container sx={{ background: '#fff' }}>
       <Box
-        display={"flex"}
-        justifyContent={"space-between"}
-        padding={"12px 8px"}
+        display={'flex'}
+        justifyContent={'space-between'}
+        padding={'12px 8px'}
       >
-        <Stack justifyContent={"center"}></Stack>
-        <Stack direction={"row"} alignItems={"center"} spacing={1}>
+        <Stack justifyContent={'center'}></Stack>
+        <Stack direction={'row'} alignItems={'center'} spacing={1}>
           <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
             <OutlinedInput
-              type={"text"}
+              type={'text'}
               placeholder="Search"
               size="small"
               startAdornment={
@@ -59,15 +59,15 @@ const DoctorsPage = () => {
               }
             />
           </FormControl>
-          <CommonSelect data={names} Placeholder={"Spacialist"} />
-          <CommonSelect data={names} Placeholder={"Status"} />
+          <CommonSelect data={names} Placeholder={'Spacialist'} />
+          <CommonSelect data={names} Placeholder={'Status'} />
           <MoreVertIcon />
         </Stack>
       </Box>
 
       <CommonDataTable rows={doctorsList || []} columns={column()} />
     </Container>
-  );
-};
+  )
+}
 
-export default DoctorsPage;
+export default DoctorsPage

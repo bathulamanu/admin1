@@ -1,51 +1,61 @@
-import { createBrowserRouter } from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard";
-import Login from "../Login/Login";
-import { MainLayout } from "../../Layouts/MainLayout";
-import DoctorsPage from "../Doctors/DoctorsPage";
-import DoctorAddForm from "../Doctors/DoctorAddForm";
-import HospitalPage from "../../Hospitals/HospitalPage";
-import HospitalAddForm from "../../Hospitals/HospitalAddForm";
-import DoctorView from "../Doctors/DoctorView";
-import HospitalView from "../../Hospitals/HospitalView";
+import { createBrowserRouter } from 'react-router-dom'
+import Dashboard from '../Dashboard/Dashboard'
+import Login from '../Login/Login'
+import { MainLayout } from '../../Layouts/MainLayout'
+import DoctorsPage from '../Doctors/DoctorsPage'
+import DoctorAddForm from '../Doctors/DoctorAddForm'
+import HospitalPage from '../../Hospitals/HospitalPage'
+import HospitalAddForm from '../../Hospitals/HospitalAddForm'
+import DoctorView from '../Doctors/DoctorView'
+import HospitalView from '../../Hospitals/HospitalView'
+import SettingsPage from '../Settings/SettingsPage'
+import SettingsAddForm from '../Settings/SettingsAddForm'
 
 export const baseRoutes = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Login />,
   },
   {
-    path: "/dashboard",
+    path: '/dashboard',
     element: <Dashboard />,
   },
   {
-    path: "/mainPage",
+    path: '/mainPage',
     element: <MainLayout />,
     children: [
       {
-        path: "doctors",
+        path: 'doctors',
         element: <DoctorsPage />,
       },
       {
-        path: "doctors/view",
+        path: 'doctors/view',
         element: <DoctorView />,
       },
       {
-        path: "doctorForm",
+        path: 'doctorForm',
         element: <DoctorAddForm />,
       },
       {
-        path: "hospitals",
+        path: 'hospitals',
         element: <HospitalPage />,
       },
       {
-        path: "hospitalFrom",
+        path: 'hospitalFrom',
         element: <HospitalAddForm />,
       },
       {
-         path: "hospitals/view",
+        path: 'hospitals/view',
         element: <HospitalView />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
+      },
+      {
+        path: 'settingForm',
+        element: <SettingsAddForm />,
       },
     ],
   },
-]);
+])
