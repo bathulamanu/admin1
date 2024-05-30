@@ -35,7 +35,6 @@ const HospitalView = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetail)
-  // console.log("hospitalDetails", hospitalDetails);
   const {
     hospitalName,
     hospitalLogo,

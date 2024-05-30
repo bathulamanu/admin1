@@ -25,6 +25,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import AddIcon from '@mui/icons-material/Add'
 import SaveAltIcon from '@mui/icons-material/SaveAlt'
 import CloseIcon from '@mui/icons-material/Close'
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
 import DoctorAddForm from '../Admin/Doctors/DoctorAddForm'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { capitalizeFirstLetter, stringAvatar } from '../globalFunctions'
@@ -52,10 +54,12 @@ const StyledLink = styled(Link)`
 export const MainLayout = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
   const [anchorEl, setAnchorEl] = useState(null)
   const [activeItem, setActiveItem] = useState('Hospitals')
+  const [pathname, setPathname] = useState(location.pathname)
   const [formOpen, setFormOpen] = useState(null)
   const loginUserDetails = localStorage.getItem('loginUser')
   const data = JSON.parse(loginUserDetails)
@@ -64,8 +68,8 @@ export const MainLayout = () => {
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData,
   )
-  // console.log('Add hospital form data', addHospitalData)
-
+  const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail)
+  console.log('hospitalDetail', hospitalDetail)
   const open = Boolean(anchorEl)
 
   useEffect(() => {
@@ -92,13 +96,13 @@ export const MainLayout = () => {
   }
 
   const handleAddHospitalFormSubmit = () => {
-    console.log(
-      'We are inside handle Add hospital form submission with data',
-      addHospitalData,
-    )
-
     dispatch(addHospitals(addHospitalData))
   }
+
+  useEffect(() => {
+    setPathname(location.pathname)
+  }, [location])
+  console.log('pathname', pathname)
 
   return (
     <Container
@@ -288,22 +292,46 @@ export const MainLayout = () => {
             )}
             {formOpen == null ? (
               <Stack>
-                <Button
-                  size="small"
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  onClick={() => {
-                    if (activeItem === 'Hospitals') {
-                      setFormOpen('Hospitals')
-                      navigate('hospitalFrom')
-                    } else if (activeItem === 'Doctors') {
-                      navigate('doctorForm')
-                      setFormOpen('Doctors')
-                    }
-                  }}
-                >
-                  Add {activeItem}
-                </Button>
+                {pathname && pathname === '/mainPage/hospitals/view' ? (
+                  <Stack
+                    gap={2}
+                    marginRight={'60px'}
+                    display={'flex'}
+                    flexDirection={'row'}
+                    alignItems={'start'}
+                    justifyContent={'start'}
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      //  onClick={
+                      //    dispatch()
+                      // }
+                    >
+                      <EditIcon fontSize="small" /> Edit
+                    </Button>
+                    <Button variant="outlined" size="small" disabled>
+                      <DeleteIcon fontSize="small" /> Delete
+                    </Button>
+                  </Stack>
+                ) : (
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => {
+                      if (activeItem === 'Hospitals') {
+                        setFormOpen('Hospitals')
+                        navigate('hospitalFrom')
+                      } else if (activeItem === 'Doctors') {
+                        navigate('doctorForm')
+                        setFormOpen('Doctors')
+                      }
+                    }}
+                  >
+                    Add {activeItem}
+                  </Button>
+                )}
               </Stack>
             ) : (
               <Stack direction={'row'} spacing={2}>

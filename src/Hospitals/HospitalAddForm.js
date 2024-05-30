@@ -89,6 +89,7 @@ const HospitalAddForm = () => {
     },
     email: '',
     website: '',
+    about: '',
     sociallink: {
       facebook: '',
       instagram: '',
@@ -120,8 +121,7 @@ const HospitalAddForm = () => {
   })
 
   const handleChange = (e, name) => {
-    // debugger
-    const value = e.target ? e.target.value : e // Extract value from event
+    const value = e.target ? e.target.value : e
     console.log('value', e.target)
     setFormValues((prev) => {
       let temp = { ...prev }
@@ -239,20 +239,35 @@ const HospitalAddForm = () => {
 
   console.log('formvalues', formValues)
 
-  // const fetchingLocation = (formValues, getCitiesList) => {
-  //   const cityId = formValues.HospitalAddress.city
+  const fetchingLocation = (formValues, getCitiesList) => {
+    const cityId = formValues.HospitalAddress.city
 
-  //   const latandlang = getCitiesList.filter((item) => {
-  //     const res = []
-  //     if (cityId === item.cityID) {
-  //       res.push(item.langitude)
-  //       res.push(item.latitude)
-  //     }
-  //   })
-  // }
-  // useEffect(() => {
-  //   fetchingLocation()
-  // }, [formValues.HospitalAddress.city])
+    const city = getCitiesList.find((item) => item.cityID === cityId)
+
+    if (city) {
+      const latitude = city.latitude.toString()
+      const longitude = city.longitude.toString()
+
+      return { latitude, longitude }
+    } else {
+      return null
+    }
+  }
+
+  useEffect(() => {
+    const location = fetchingLocation(formValues, getCitiesList)
+    if (location) {
+      setFormValues({
+        ...formValues,
+        HospitalAddress: {
+          ...formValues.HospitalAddress,
+          longitude: location.longitude,
+          latitude: location.latitude,
+        },
+      })
+      console.log('Location:', location.latitude, location.longitude)
+    }
+  }, [formValues.HospitalAddress.city])
 
   return (
     <Container
@@ -759,11 +774,13 @@ const HospitalAddForm = () => {
                     <Stack height={'175px'}>
                       <Typography>Description</Typography>
                       <TextField
-                        id="description"
+                        id="about"
                         multiline
                         rows={4}
                         variant="outlined"
                         placeholder="Add description here"
+                        value={formValues?.about}
+                        onChange={(e) => handleChange(e.target.value, 'about')}
                       />
                     </Stack>
                   </CardContent>
@@ -786,10 +803,10 @@ const HospitalAddForm = () => {
                       placeholder="logitude"
                       size="small"
                       value={formValues?.HospitalAddress?.longitude}
-                      data={cityList}
-                      onChange={(e) => {
-                        handleChange(e, 'longitude')
-                      }}
+                      // data={cityList}
+                      // onChange={(e) => {
+                      //   handleChange(e, 'longitude')
+                      // }}
                     />
                   </FormControl>
                 </Grid>
@@ -803,7 +820,7 @@ const HospitalAddForm = () => {
                       placeholder="latitude"
                       size="small"
                       value={formValues?.HospitalAddress?.latitude}
-                      data={cityList}
+                      data={getCityList}
                       onChange={(e) => {
                         handleChange(e, 'latitude')
                       }}
