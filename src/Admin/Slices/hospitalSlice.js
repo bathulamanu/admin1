@@ -38,8 +38,10 @@ export const getHospitalDetails = createAsyncThunk(
 export const addHospitals = createAsyncThunk(
   'addHospitals',
   async (data, thunkAPI) => {
+    console.log('data when we are posting', data)
     try {
       const response = await api.post('/addHospitalDetails', data)
+      console.log('Posted successfully', response.data)
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(

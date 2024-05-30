@@ -54,9 +54,6 @@ export const MainLayout = () => {
   const dispatch = useDispatch()
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
-  const addHospitalData = useSelector(
-    (state) => state.hospitals.hospitalPostData,
-  )
   const [anchorEl, setAnchorEl] = useState(null)
   const [activeItem, setActiveItem] = useState('Hospitals')
   const [formOpen, setFormOpen] = useState(null)
@@ -64,7 +61,10 @@ export const MainLayout = () => {
   const data = JSON.parse(loginUserDetails)
   const { firstName, lastName } = data
 
-  // console.log('jhsdgjhsl', addHospitalData)
+  const addHospitalData = useSelector(
+    (state) => state.hospitals.hospitalPostData,
+  )
+  // console.log('Add hospital form data', addHospitalData)
 
   const open = Boolean(anchorEl)
 
@@ -91,7 +91,12 @@ export const MainLayout = () => {
     setFormOpen(null)
   }
 
-  const handleSubmit = () => {
+  const handleAddHospitalFormSubmit = () => {
+    console.log(
+      'We are inside handle Add hospital form submission with data',
+      addHospitalData,
+    )
+
     dispatch(addHospitals(addHospitalData))
   }
 
@@ -306,7 +311,7 @@ export const MainLayout = () => {
                   size="small"
                   variant="contained"
                   startIcon={<SaveAltIcon />}
-                  onClick={handleSubmit}
+                  onClick={handleAddHospitalFormSubmit}
                 >
                   Save
                 </Button>
