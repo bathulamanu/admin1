@@ -35,22 +35,38 @@ const HospitalView = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetail)
-  const {
-    hospitalName,
-    hospitalLogo,
-    about,
-    HospitalAddress,
-    faxNumber,
-    LocationInfo,
-    contact,
-    validity,
-    specialist,
-    status,
-    email,
-    website,
-    doctorAssignmentsDetails,
-    sociallink,
-  } = hospitalDetails
+
+  const hospitalName = hospitalDetails?.hospitalName
+  const hospitalLogo = hospitalDetails?.hospitalLogo
+  const about = hospitalDetails?.about
+  const HospitalAddress = hospitalDetails?.HospitalAddress
+  const faxNumber = hospitalDetails?.faxNumber
+  const LocationInfo = hospitalDetails?.LocationInfo
+  const contact = hospitalDetails?.contact
+  const validity = hospitalDetails?.validity
+  const specialist = hospitalDetails?.specialist
+  const status = hospitalDetails?.status
+  const email = hospitalDetails?.email
+  const website = hospitalDetails?.website
+  const doctorAssignmentsDetails = hospitalDetails?.doctorAssignmentsDetails
+  const sociallink = hospitalDetails?.sociallink
+
+  // const {
+  //   hospitalName
+  //   hospitalLogo,
+  //   about,
+  //   HospitalAddress,
+  //   faxNumber,
+  //   LocationInfo,
+  //   contact,
+  //   validity,
+  //   specialist,
+  //   status,
+  //   email,
+  //   website,
+  //   doctorAssignmentsDetails,
+  //   sociallink,
+  // } = hospitalDetails
   return (
     <Container
       disableGutters
@@ -73,7 +89,9 @@ const HospitalView = () => {
               <Box display={'flex'} justifyContent={'space-between'}>
                 <Stack>
                   <Typography variant="h5" sx={{ color: '#327CF3' }}>
-                    {joinStringsWithSpace(hospitalName, ' ')}
+                    {hospitalDetails
+                      ? joinStringsWithSpace(hospitalName, ' ')
+                      : ''}
                   </Typography>
                 </Stack>
                 <MoreVertIcon />
@@ -86,7 +104,9 @@ const HospitalView = () => {
                     <Box display={'flex'} flexDirection={'column'} gap={3}>
                       <Stack>
                         <Typography variant="h5" sx={{ color: '#327CF3' }}>
-                          {joinStringsWithSpace(hospitalName, ' ')}
+                          {hospitalDetails
+                            ? joinStringsWithSpace(hospitalName, ' ')
+                            : ''}
                         </Typography>
                         {/* <Typography>({doctorID})</Typography> */}
                       </Stack>

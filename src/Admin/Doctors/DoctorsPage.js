@@ -18,12 +18,13 @@ import column from '../Doctors/DoctorsTableColumn'
 
 const DoctorsPage = () => {
   const dispatch = useDispatch()
+  const [searchQuery, setSearchQuery] = useState(null)
   const doctorsList = useSelector((state) => state.doctor.doctorsList)
 
   console.log('doctorsList', doctorsList)
 
   useEffect(() => {
-    dispatch(getDoctorList())
+    dispatch(getDoctorList(searchQuery))
   }, [])
   const names = [
     'Oliver Hansen',

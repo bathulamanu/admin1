@@ -41,7 +41,11 @@ import {
 } from '../Admin/Slices/globalSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import DoctorView from '../Admin/Doctors/DoctorView'
-import { addHospitals } from '../Admin/Slices/hospitalSlice'
+import {
+  addHospitals,
+  getHospitalDetails,
+  getHospitalsList,
+} from '../Admin/Slices/hospitalSlice'
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -61,6 +65,7 @@ export const MainLayout = () => {
   const [activeItem, setActiveItem] = useState('Hospitals')
   const [pathname, setPathname] = useState(location.pathname)
   const [formOpen, setFormOpen] = useState(null)
+  const [searchQuery, setSearchQuery] = useState(null)
   const loginUserDetails = localStorage.getItem('loginUser')
   const data = JSON.parse(loginUserDetails)
   const { firstName, lastName } = data
@@ -68,16 +73,18 @@ export const MainLayout = () => {
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData,
   )
+
   const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail)
-  console.log('hospitalDetail', hospitalDetail)
+  // console.log('hospitalDetail', hospitalDetail)
+
   const open = Boolean(anchorEl)
 
   useEffect(() => {
     dispatch(getCountryList())
-    dispatch(getGenderList())
-    dispatch(getSpecialization())
-    dispatch(getExperienceList())
-    dispatch(getEmploymentType())
+    dispatch(getGenderList(searchQuery))
+    dispatch(getSpecialization(searchQuery))
+    dispatch(getExperienceList(searchQuery))
+    dispatch(getEmploymentType(searchQuery))
     dispatch(getStateList(352))
   }, [])
 
@@ -102,7 +109,7 @@ export const MainLayout = () => {
   useEffect(() => {
     setPathname(location.pathname)
   }, [location])
-  console.log('pathname', pathname)
+  // console.log('pathname', pathname)
 
   return (
     <Container
@@ -304,9 +311,12 @@ export const MainLayout = () => {
                     <Button
                       variant="contained"
                       size="small"
-                      //  onClick={
-                      //    dispatch()
-                      // }
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setFormOpen('Hospitals')
+                        dispatch(getHospitalDetails(searchQuery))
+                        navigate('hospitalFrom')
+                      }}
                     >
                       <EditIcon fontSize="small" /> Edit
                     </Button>
@@ -339,7 +349,14 @@ export const MainLayout = () => {
                   size="small"
                   variant="contained"
                   startIcon={<SaveAltIcon />}
-                  onClick={handleAddHospitalFormSubmit}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleAddHospitalFormSubmit()
+                    setFormOpen(null)
+                    setActiveItem('Hospitals')
+                    dispatch(getHospitalsList(searchQuery))
+                    navigate('/mainPage/hospitals')
+                  }}
                 >
                   Save
                 </Button>
@@ -347,6 +364,13 @@ export const MainLayout = () => {
                   size="small"
                   variant="outlined"
                   startIcon={<CloseIcon />}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setFormOpen(null)
+                    dispatch(getHospitalsList(searchQuery))
+                    setActiveItem('Hospitals')
+                    navigate('/mainPage/hospitals')
+                  }}
                 >
                   Cancel
                 </Button>

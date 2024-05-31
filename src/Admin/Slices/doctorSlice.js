@@ -7,11 +7,14 @@ const initialState = {
   doctorDetail: {},
 }
 
+// /flyingbyts/api/user/getMasterConfiguration/:title/:search
+// /flyingbyts/api/user/getHospitalDetails/:search
+// /flyingbyts/api/user/getDoctorDetails/:search
 export const getDoctorList = createAsyncThunk(
   'getDoctorsList',
-  async (_, thunkAPI) => {
+  async (search, thunkAPI) => {
     try {
-      const response = await api.get('/getDoctorDetails')
+      const response = await api.get(`getDoctorDetails/${search}`)
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(

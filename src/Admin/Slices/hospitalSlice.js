@@ -8,11 +8,14 @@ const initialState = {
   hospitalPostData: {},
 }
 
+// /flyingbyts/api/user/getMasterConfiguration/:title/:search
+// /flyingbyts/api/user/getHospitalDetails/:search
+// /flyingbyts/api/user/getDoctorDetails/:search
 export const getHospitalsList = createAsyncThunk(
   'getHospitalsList',
-  async (_, thunkAPI) => {
+  async (search, thunkAPI) => {
     try {
-      const response = await api.get('/getHospitalDetails')
+      const response = await api.get(`getHospitalDetails/${search}`)
       return response.data
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -21,6 +24,7 @@ export const getHospitalsList = createAsyncThunk(
     }
   },
 )
+
 export const getHospitalDetails = createAsyncThunk(
   'getHospitalDetails',
   async (id, thunkAPI) => {

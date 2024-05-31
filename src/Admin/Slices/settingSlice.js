@@ -6,13 +6,17 @@ const initialState = {
   loading: '',
   settingsDetail: {},
 }
-
+// /flyingbyts/api/user/getMasterConfiguration/:title/:search
+// /flyingbyts/api/user/getHospitalDetails/:search
+// /flyingbyts/api/user/getDoctorDetails/:search
 export const getSettingList = createAsyncThunk(
   'getSettingList',
-  async (title, thunkAPI) => {
+  async (title, search, thunkAPI) => {
     try {
       console.log('The title is ', title)
-      const response = await api.get(`/getMasterConfiguration/${title}`)
+      const response = await api.get(
+        `getMasterConfiguration/${title}/${search}`,
+      )
       console.log('API response', response)
 
       return response.data

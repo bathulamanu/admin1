@@ -9,11 +9,17 @@ const initialState = {
 export const getUserLogin = createAsyncThunk(
   'getDoctorsList',
   async (data, thunkAPI) => {
+    // console.log('We are inside getUserLogin API')
+
     try {
       const response = await api.post('/employeeOrAdminLogin', data)
-      console.log('The data after login', response)
+      // console.log('The data after click on login button', response.data)
       return response.data
     } catch (error) {
+      // console.log(
+      //   'We are not able to call the Login API due to this error',
+      //   error,
+      // )
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message,
       )

@@ -16,14 +16,17 @@ import CommonSelect from '../GlobalComponents/CommonSelect'
 import { getHospitalsList } from '../Admin/Slices/hospitalSlice'
 import { getCountryList } from '../Admin/Slices/globalSlice'
 import hospitalColumns from '../Hospitals/HospitalTableColumn'
+
 const HospitalPage = () => {
+  const [searchQuery, setSearchQuery] = useState(null)
+
   const dispatch = useDispatch()
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList)
 
   // console.log('listData', hospitalsList)
 
   useEffect(() => {
-    dispatch(getHospitalsList())
+    dispatch(getHospitalsList(searchQuery))
   }, [])
   const names = [
     'Oliver Hansen',

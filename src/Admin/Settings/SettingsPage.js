@@ -23,6 +23,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 const SettingsPage = () => {
   const [title, setTitle] = useState('Specialization')
+  const [searchQuery, setSearchQuery] = useState(null)
+  const [activeTag, setActiveTag] = useState('Specialist')
   const dispatch = useDispatch()
 
   const specializationList = useSelector((state) => state.settings.settingsList)
@@ -32,16 +34,21 @@ const SettingsPage = () => {
 
   useEffect(() => {
     if (title === 'Brands') {
-      dispatch(getHospitalsList())
+      dispatch(getHospitalsList(searchQuery))
     } else if (title === 'Specialization') {
-      dispatch(getSettingList(title))
+      dispatch(getSettingList(title, searchQuery))
     } else {
-      dispatch(getSettingList(`Doctor ${title}`))
+      dispatch(getSettingList(`Doctor ${title}`, searchQuery))
     }
   }, [dispatch, title])
 
   const handleButtonClick = (newTitle) => {
     setTitle(newTitle)
+    if (newTitle === 'Specialization') {
+      setActiveTag('Specialist')
+    } else {
+      setActiveTag(newTitle)
+    }
   }
 
   const getRows = () => {
@@ -62,7 +69,7 @@ const SettingsPage = () => {
         padding={'12px 8px'}
       >
         <Stack justifyContent={'center'}>
-          <Typography variant="h6">Specialist</Typography>
+          <Typography variant="h6">{activeTag}</Typography>
         </Stack>
         <Stack direction={'row'} alignItems={'center'} spacing={1}>
           <FormControl variant="outlined" size="small" sx={{ width: 200 }}>

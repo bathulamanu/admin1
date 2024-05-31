@@ -61,6 +61,43 @@ const VisuallyHiddenInput = styled('input')({
 
 const socialMediaLogoSize = 24
 
+const headingStyle = {
+  fontSize: '14px',
+  fontWeight: 'bold',
+}
+const inputLableStyle = {
+  fontSize: '14px',
+  fontWeight: 'bold',
+  display: 'flex',
+  alignItems: 'center',
+}
+
+const redStarStyle = {
+  color: 'red',
+  marginLeft: '4px',
+}
+
+function deepCopyFormValues(hospitalDetails, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === 'object') {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]]
+        } else {
+          if (!target[key]) target[key] = {}
+          deepCopy(target[key], source[key])
+        }
+      } else {
+        target[key] = source[key]
+      }
+    }
+  }
+
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues))
+  deepCopy(copiedFormValue, hospitalDetails)
+  return copiedFormValue
+}
+
 const HospitalAddForm = () => {
   const theme = useTheme()
   const dispatch = useDispatch()
@@ -77,10 +114,13 @@ const HospitalAddForm = () => {
   const stateList = getStateIdList(getStateList)
   const specializationList = getByIdList(getSpecializationList)
 
+  const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetail)
+
+  // console.log('hospitalDetail', hospitalDetails)
+
   const [formValues, setFormValues] = useState({
     hospitalName: '',
     hospitalLogo: '',
-    about: '',
     specialist: [],
     LicenseNumber: '',
     validity: {
@@ -122,7 +162,6 @@ const HospitalAddForm = () => {
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e
-    console.log('value', e.target)
     setFormValues((prev) => {
       let temp = { ...prev }
       switch (name) {
@@ -235,9 +274,7 @@ const HospitalAddForm = () => {
     dispatch(handlePostHospital(formValues))
   }, [formValues])
 
-  console.log('All cities for a state', getCitiesList)
-
-  console.log('formvalues', formValues)
+  // console.log('formvalues', formValues)
 
   const fetchingLocation = (formValues, getCitiesList) => {
     const cityId = formValues.HospitalAddress.city
@@ -265,9 +302,20 @@ const HospitalAddForm = () => {
           latitude: location.latitude,
         },
       })
-      console.log('Location:', location.latitude, location.longitude)
     }
   }, [formValues.HospitalAddress.city])
+
+  const updatedFormValues = deepCopyFormValues(hospitalDetails, formValues)
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }))
+  }, [hospitalDetails])
+
+  console.log('hospitalDetails', hospitalDetails)
+  console.log('formvalues', formValues)
 
   return (
     <Container
@@ -307,10 +355,14 @@ const HospitalAddForm = () => {
         >
           <Card variant="outlined">
             <CardContent>
-              <Typography variant="h5">GENERAL INFORMATION</Typography>
+              <Typography variant="h5" sx={headingStyle}>
+                GENERAL INFORMATION
+              </Typography>
               <Grid container spacing={2} pt={3} pb={3}>
                 <Grid item style={{ width: '100%' }}>
-                  <InputLabel>Hospital Name</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Hospital Name <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -327,7 +379,9 @@ const HospitalAddForm = () => {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel>Specialist</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Specialist <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <CommonSelect
                     Placeholder={'Select'}
                     data={specializationList}
@@ -339,7 +393,9 @@ const HospitalAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Licence number</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Licence number <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -354,7 +410,10 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Recongnition Validity from</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Recongnition Validity from{' '}
+                    <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
                       <DatePicker
@@ -371,7 +430,9 @@ const HospitalAddForm = () => {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Recongnition Validity to</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Recongnition Validity to<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={['DatePicker']}>
                       <DatePicker
@@ -390,7 +451,9 @@ const HospitalAddForm = () => {
               </Grid>
               <Grid container spacing={2} pt={3}>
                 <Grid item style={{ width: '100%' }}>
-                  <InputLabel>Email Address</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Email Address<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -405,7 +468,9 @@ const HospitalAddForm = () => {
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
                 <Grid item style={{ width: '100%' }}>
-                  <InputLabel>Website URL</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Website URL<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -427,12 +492,14 @@ const HospitalAddForm = () => {
                 justifyContent={'space-between'}
                 sx={{ mt: 1 }}
               >
-                <Typography>HOSPITAL ADDRESS</Typography>
+                <Typography sx={headingStyle}>HOSPITAL ADDRESS</Typography>
               </Box>
 
               <Grid container spacing={2} pt={3}>
                 <Grid item style={{ width: '100%' }}>
-                  <InputLabel>Address 1</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Address 1<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -449,7 +516,9 @@ const HospitalAddForm = () => {
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
                 <Grid item style={{ width: '100%' }}>
-                  <InputLabel>Address 2</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Address 2<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
@@ -467,7 +536,9 @@ const HospitalAddForm = () => {
 
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel>Country</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Country <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <SingleSelect
                     Placeholder={'Select'}
                     width={'100%'}
@@ -480,7 +551,9 @@ const HospitalAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>State</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    State <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <SingleSelect
                     Placeholder={'Select'}
                     width={'100%'}
@@ -493,12 +566,14 @@ const HospitalAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>City</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    City <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <SingleSelect
                     Placeholder={'Select'}
                     width={'100%'}
-                    value={formValues?.HospitalAddress?.city}
                     data={cityList}
+                    value={formValues?.HospitalAddress?.city}
                     onChange={(e) => {
                       handleChange(e, 'city')
                     }}
@@ -506,7 +581,9 @@ const HospitalAddForm = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <InputLabel>Near LandMark</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Near LandMark <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -521,7 +598,9 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Pincode</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Pincode <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -536,7 +615,9 @@ const HospitalAddForm = () => {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <InputLabel>Phone number</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Phone number <span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -552,7 +633,9 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Landline</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Landline<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -567,7 +650,9 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Fax Number</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    Fax Number<span style={redStarStyle}>*</span>
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -587,7 +672,7 @@ const HospitalAddForm = () => {
           <Card>
             <CardContent>
               <Stack pt={2} pb={2}>
-                <Typography>SOCIAL LINKS</Typography>
+                <Typography sx={headingStyle}>SOCIAL LINKS</Typography>
               </Stack>
               <Stack spacing={2}>
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
@@ -741,7 +826,7 @@ const HospitalAddForm = () => {
             <CardContent>
               <Stack spacing={1}>
                 <Stack>
-                  <Typography>ABOUT HOSPITAL </Typography>
+                  <Typography sx={headingStyle}>ABOUT HOSPITAL </Typography>
                 </Stack>
                 <Stack>
                   <Typography variant="subtitle2">Upload Image</Typography>
@@ -772,7 +857,7 @@ const HospitalAddForm = () => {
                 <Card variant="outlined">
                   <CardContent>
                     <Stack height={'175px'}>
-                      <Typography>Description</Typography>
+                      <InputLabel sx={inputLableStyle}>Description</InputLabel>
                       <TextField
                         id="about"
                         multiline
@@ -791,10 +876,12 @@ const HospitalAddForm = () => {
 
           <Card variant="outlined">
             <CardContent>
-              <Typography sx={{ marginTop: '5px' }}>LOCATION</Typography>
+              <Typography sx={({ marginTop: '5px' }, headingStyle)}>
+                LOCATION
+              </Typography>
               <Grid container spacing={2} sx={{ marginTop: '10px' }}>
                 <Grid item xs={6}>
-                  <InputLabel>Longitude</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Longitude</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -811,7 +898,7 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Latitude</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Latitude</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth

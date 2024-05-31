@@ -25,11 +25,14 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } }
 const Login = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const loginDetail = useSelector((state) => state.admin.adminLogin)
+
   const [loginData, setLoginData] = useState({ email: '', password: '' })
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => setShowPassword((show) => !show)
+
+  const loginDetail = useSelector((state) => state.admin.adminLogin)
+  // console.log('loginDetail is', loginDetail)
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault()
@@ -37,6 +40,7 @@ const Login = () => {
 
   const handleOnChange = (e) => {
     const { name, value } = e.target
+    // console.log('name and value', name, value)
     setLoginData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -51,8 +55,7 @@ const Login = () => {
     try {
       const response = await dispatch(getUserLogin(loginData))
       setLoginData({ email: '', password: '' })
-      if (Object.keys(response).length !== 0) {
-        // console.log('sdkcsjhdgljha',response?.payload?.data)
+      if (response && Object.keys(response).length !== 0) {
         localStorage.setItem(
           'loginUser',
           JSON.stringify(response?.payload?.data),
@@ -102,7 +105,7 @@ const Login = () => {
               <OutlinedInput
                 name="email"
                 fullWidth
-                id="outlined-adornment-password"
+                id="outlined-adornment-email"
                 placeholder="username@gmail.com"
                 size="small"
                 value={loginData?.email}
