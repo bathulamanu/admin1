@@ -495,13 +495,13 @@ const CustomerDetails = () => {
                     rows={dummyData || []}
                     columns={InvoiceColumns()}
                   />
-                  <Box>
+                  <Box sx={{ display: "flex", flexDirection: "end" }}>
                     <Button
                       component="label"
                       role={undefined}
                       variant="contained"
                       tabIndex={-1}
-                      sx={{ marginTop: "10px" }}
+                      sx={{ marginTop: "10px", marginLeft: "1030px" }}
                     >
                       Download Invoice
                     </Button>
