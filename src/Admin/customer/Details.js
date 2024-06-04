@@ -124,8 +124,8 @@ const Details = () => {
                   sx={{
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "200px",
-                    marginBottom: "200px",
+                    marginTop: "250px",
+                    marginBottom: "250px",
                   }}
                 >
                   <Typography>ADD USER DETAILS</Typography>
