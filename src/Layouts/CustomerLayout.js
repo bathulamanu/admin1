@@ -335,30 +335,47 @@ export const CustomerLayout = () => {
             {formOpen == null ? (
               <Stack>
                 {pathname && pathname === "/customerPage/customers/details" ? (
-                  <Stack
-                    gap={2}
-                    marginRight={"60px"}
-                    display={"flex"}
-                    flexDirection={"row"}
-                    alignItems={"start"}
-                    justifyContent={"start"}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setFormOpen("Customers");
-                        // dispatch(getHospitalDetails(searchQuery))
-                        navigate("customerForm");
-                      }}
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      marginRight={"900px"}
+                      sx={{ cursor: "pointer" }}
                     >
-                      <EditIcon fontSize="small" /> Edit Customer
-                    </Button>
-                    <Button variant="outlined" size="small" disabled>
-                      <AddIcon fontSize="small" /> Add Customer
-                    </Button>
-                  </Stack>
+                      <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
+                      <Typography variant="subtitle2">Back</Typography>
+                    </Stack>
+                    <Stack
+                      gap={2}
+                      marginRight={"60px"}
+                      display={"flex"}
+                      flexDirection={"row"}
+                      alignItems={"start"}
+                      justifyContent={"start"}
+                    >
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFormOpen("Customers");
+                          // dispatch(getHospitalDetails(searchQuery))
+                          navigate("customerForm");
+                        }}
+                      >
+                        <EditIcon fontSize="small" /> Edit Customer
+                      </Button>
+                      <Button variant="outlined" size="small" disabled>
+                        <AddIcon fontSize="small" /> Add Customer
+                      </Button>
+                    </Stack>
+                  </Box>
                 ) : (
                   <Button
                     size="small"
