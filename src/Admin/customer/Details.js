@@ -17,6 +17,8 @@ import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
+import CustomerForm from "./CustomerForm";
+import { useNavigate } from "react-router-dom";
 
 const headingStyle = {
   fontSize: "20px",
@@ -24,10 +26,15 @@ const headingStyle = {
 };
 
 const Details = () => {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
+  };
+
+  const formDetails = () => {
+    return <CustomerForm />;
   };
   return (
     <Container
@@ -61,12 +68,11 @@ const Details = () => {
                   <AddIcon fontSize="small" /> Add Details
                 </Button>
               </Box>
-              <Box
+              <Stack
                 sx={{
-                  //   width: "100%",
                   display: "flex",
-                  alignItems: "center",
                   justifyContent: "space-between",
+                  gap: 10,
                 }}
               >
                 <Tabs
@@ -75,11 +81,7 @@ const Details = () => {
                   centered
                   textColor="primary"
                   indicatorColor="primary"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  sx={{}}
                 >
                   <Tab
                     label="USER"
@@ -98,7 +100,7 @@ const Details = () => {
                     sx={{ fontWeight: selectedTab === 3 ? "bold" : "normal" }}
                   />
                 </Tabs>
-              </Box>
+              </Stack>
               <Divider sx={{ mb: 3 }} />
               {selectedTab === 0 && (
                 <Box
@@ -113,7 +115,11 @@ const Details = () => {
                 >
                   <Typography>ADD USER DETAILS</Typography>
                   <Box>
-                    <Button variant="contained" size="small">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => navigate("/customerPage/customerForm")}
+                    >
                       <AddIcon fontSize="small" /> Add Details
                     </Button>
                   </Box>

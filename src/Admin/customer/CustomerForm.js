@@ -20,6 +20,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import CloseIcon from "@mui/icons-material/Close";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ReactQuill from "react-quill";
 import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
@@ -200,7 +202,37 @@ const CustomerForm = () => {
           </Typography>
         </Stack>
         <Stack>
-          <MoreVertIcon />
+          <Stack direction={"row"} spacing={2}>
+            <Button
+              size="small"
+              variant="contained"
+              startIcon={<SaveAltIcon />}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   handleAddHospitalFormSubmit();
+              //   setFormOpen(null);
+              //   setActiveItem("Customers");
+              //   // dispatch(getHospitalsList(searchQuery))
+              //   navigate("/customerPage/customers");
+              // }}
+            >
+              Save
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<CloseIcon />}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   setFormOpen(null);
+              //   // dispatch(getHospitalsList(searchQuery))
+              //   setActiveItem("Customers");
+              //   navigate("/customerPage/customers");
+              // }}
+            >
+              Cancel
+            </Button>
+          </Stack>
         </Stack>
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} gap={2}>
