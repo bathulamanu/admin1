@@ -243,6 +243,8 @@ const Dashboard = () => {
                 onClick={() => {
                   if (item.value == 'hospital_management') {
                     navigate('/mainPage/hospitals')
+                  }else if (item.value == 'customer_management'){
+                    navigate('/customerPage/customers')
                   }
                 }}
                 spacing={1}
