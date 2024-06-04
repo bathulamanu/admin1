@@ -330,8 +330,20 @@ export const CustomerLayout = () => {
                 <Typography variant="subtitle2">Back</Typography>
               </Stack>
             ) : (
-              <Stack></Stack>
+              <Stack>
+                {/* {pathname && pathname === "/customerPage/customers/allDetails" && (
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
+                    <Typography variant="subtitle2">Back</Typography>
+                  </Stack>
+                )} */}
+              </Stack>
             )}
+
             {formOpen == null ? (
               <Stack>
                 {pathname && pathname === "/customerPage/customers/details" ? (

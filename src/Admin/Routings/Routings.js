@@ -16,6 +16,7 @@ import BabyDetails from "../customer/BabyDetails";
 import Finance from "../customer/Finance";
 import CustomerForm from "../customer/CustomerForm";
 import CustomerDetails from "../customer/CustomerDetails";
+import Details from "../customer/Details";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -87,6 +88,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "customers/details",
         element: <CustomerDetails />,
+      },
+      {
+        path: "customers/allDetails",
+        element: <Details />,
       },
     ],
   },
