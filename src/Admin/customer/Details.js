@@ -74,6 +74,7 @@ const Details = () => {
                   justifyContent: "space-between",
                   gap: 10,
                 }}
+                spacing={5}
               >
                 <Tabs
                   value={selectedTab}
@@ -85,19 +86,33 @@ const Details = () => {
                 >
                   <Tab
                     label="USER"
-                    sx={{ fontWeight: selectedTab === 0 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 0 ? "bold" : "normal",
+                      marginRight: "100px",
+                    }}
                   />
                   <Tab
                     label="DETAILS"
-                    sx={{ fontWeight: selectedTab === 1 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 1 ? "bold" : "normal",
+                      marginRight: "100px",
+                      marginLeft: "100px",
+                    }}
                   />
                   <Tab
                     label="BABY DETAILS"
-                    sx={{ fontWeight: selectedTab === 2 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 2 ? "bold" : "normal",
+                      marginRight: "100px",
+                      marginLeft: "100px",
+                    }}
                   />
                   <Tab
                     label="REPORT"
-                    sx={{ fontWeight: selectedTab === 3 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 3 ? "bold" : "normal",
+                      marginLeft: "200px",
+                    }}
                   />
                 </Tabs>
               </Stack>
