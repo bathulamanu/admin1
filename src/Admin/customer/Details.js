@@ -100,6 +100,44 @@ const Details = () => {
                 </Tabs>
               </Box>
               <Divider sx={{ mb: 3 }} />
+              {selectedTab === 0 && (
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "200px",
+                    marginBottom: "200px",
+                  }}
+                >
+                  <Typography>ADD USER DETAILS</Typography>
+                  <Box>
+                    <Button variant="contained" size="small">
+                      <AddIcon fontSize="small" /> Add Details
+                    </Button>
+                  </Box>
+                </Box>
+              )}
+              {selectedTab === 1 && (
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "200px",
+                    marginBottom: "200px",
+                  }}
+                >
+                  <Typography>ADD DETAILS</Typography>
+                  <Box>
+                    <Button variant="contained" size="small">
+                      <AddIcon fontSize="small" /> Add Details
+                    </Button>
+                  </Box>
+                </Box>
+              )}
             </Box>
           </CardContent>
         </Card>
