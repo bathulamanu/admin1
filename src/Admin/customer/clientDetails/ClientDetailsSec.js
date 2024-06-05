@@ -49,7 +49,7 @@ const VisuallyHiddenInput = styled("input")({
 
 const ClientDetailsSec = () => {
   const [formValues, setFormValues] = useState({
-    fatherName: "",
+    motherName: "",
     dob: "",
     email: "",
     phoneNumber: "",
@@ -116,9 +116,9 @@ const ClientDetailsSec = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.fatherName}
+                      value={formValues?.motherName}
                       onChange={(e) =>
-                        handleChange(e.target.value, "fatherName")
+                        handleChange(e.target.value, "motherName")
                       }
                     />
                   </FormControl>
