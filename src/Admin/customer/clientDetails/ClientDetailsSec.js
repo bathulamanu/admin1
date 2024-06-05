@@ -245,18 +245,27 @@ const ClientDetailsSec = () => {
                   <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
                   <Stack sx={{ display: "flex", flexDirection: "column" }}>
                     <Typography variant="h5" sx={{ marginBottom: "10px" }}>
-                      Choose your new profile image here
+                      Drop your new profile Image here
                     </Typography>
-                    <Button
-                      component="label"
-                      role={undefined}
-                      variant="contained"
-                      tabIndex={-1}
-                      startIcon={<CloudUploadIcon />}
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: "10px", marginLeft: "50px" }}
                     >
-                      Upload Image
-                      <VisuallyHiddenInput type="file" />
-                    </Button>
+                      Maximum (2MB)
+                    </Typography>
+                    <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                      Support Formats: JPG, PNG, SVG
+                    </Typography>
+                    <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                      <Button
+                        component="label"
+                        variant="contained"
+                        disabled
+                        sx={{ fontSize: "24px" }}
+                      >
+                        Choose File
+                      </Button>
+                    </Box>
                   </Stack>
                 </Stack>
               </CardContent>

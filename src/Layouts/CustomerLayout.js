@@ -346,7 +346,7 @@ export const CustomerLayout = () => {
 
             {formOpen == null ? (
               <Stack>
-                {pathname && pathname === "/customerPage/customers/details" ? (
+                {pathname && pathname === "/customerPage/customers" && (
                   <Box
                     sx={{
                       display: "flex",
@@ -354,63 +354,22 @@ export const CustomerLayout = () => {
                       justifyContent: "space-between",
                     }}
                   >
-                    <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      marginRight={"900px"}
-                      sx={{ cursor: "pointer" }}
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customerForm");
+                      }}
                     >
-                      <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
-                      <Typography variant="subtitle2">Back</Typography>
-                    </Stack>
-                    <Stack
-                      gap={2}
-                      marginRight={"60px"}
-                      display={"flex"}
-                      flexDirection={"row"}
-                      alignItems={"start"}
-                      justifyContent={"start"}
-                    >
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setFormOpen("Customers");
-                          // dispatch(getHospitalDetails(searchQuery))
-                          navigate("customerForm");
-                        }}
-                      >
-                        <EditIcon fontSize="small" /> Edit Customer
-                      </Button>
-                      <Button variant="outlined" size="small" disabled>
-                        <AddIcon fontSize="small" /> Add Customer
-                      </Button>
-                    </Stack>
+                      <AddIcon fontSize="small" /> Add Customer
+                    </Button>
                   </Box>
-                ) : (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => {
-                      if (activeItem === "Customers") {
-                        setFormOpen("Customers");
-                        navigate("customerForm");
-                      }
-                      //    else if (activeItem === 'Doctors') {
-                      //     navigate('doctorForm')
-                      //     setFormOpen('Doctors')
-                      //   }
-                    }}
-                  >
-                    Add {activeItem}
-                  </Button>
                 )}
               </Stack>
             ) : (
               <Stack direction={"row"} spacing={2}>
-                <Button
+                {/* <Button
                   size="small"
                   variant="contained"
                   startIcon={<SaveAltIcon />}
@@ -438,7 +397,7 @@ export const CustomerLayout = () => {
                   }}
                 >
                   Cancel
-                </Button>
+                </Button> */}
               </Stack>
             )}
           </Box>

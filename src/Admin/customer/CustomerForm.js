@@ -578,11 +578,30 @@ const CustomerForm = () => {
                 <CardContent>
                   <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
                     <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
-                    <div>
-                      <Typography variant="h5" sx={{ marginRight: "4px" }}>
-                        Choose your new profile image here
+                    <Stack sx={{ display: "flex", flexDirection: "column" }}>
+                      <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        Drop your new profile Image here
                       </Typography>
-                    </div>
+                      <Typography
+                        variant="h5"
+                        sx={{ marginBottom: "10px", marginLeft: "50px" }}
+                      >
+                        Maximum (2MB)
+                      </Typography>
+                      <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        Support Formats: JPG, PNG, SVG
+                      </Typography>
+                      <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                        <Button
+                          component="label"
+                          variant="contained"
+                          disabled
+                          sx={{ fontSize: "24px" }}
+                        >
+                          Choose File
+                        </Button>
+                      </Box>
+                    </Stack>
                   </Stack>
                 </CardContent>
               </Card>
