@@ -62,9 +62,15 @@ const ClientDetailsSec = () => {
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => {
-      let temp = { ...prev };
-    });
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    console.log(formValues);
   };
   return (
     <Stack>
@@ -74,7 +80,12 @@ const ClientDetailsSec = () => {
         justifyContent={"end"}
         marginBottom={"10px"}
       >
-        <Button size="small" variant="contained" startIcon={<SaveAltIcon />}>
+        <Button
+          size="small"
+          variant="contained"
+          startIcon={<SaveAltIcon />}
+          onClick={(e) => handleSave(e)}
+        >
           Save
         </Button>
         <Button size="small" variant="outlined" startIcon={<CloseIcon />}>

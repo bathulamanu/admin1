@@ -46,6 +46,7 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
 const ClientDetailsFirst = () => {
   const [formValues, setFormValues] = useState({
     fatherName: "",
@@ -59,12 +60,20 @@ const ClientDetailsFirst = () => {
     idProofNo: "",
     otherId: "",
   });
+
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => {
-      let temp = { ...prev };
-    });
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    console.log(formValues);
+  };
+
   return (
     <Stack>
       <Stack
@@ -73,7 +82,12 @@ const ClientDetailsFirst = () => {
         justifyContent={"end"}
         marginBottom={"10px"}
       >
-        <Button size="small" variant="contained" startIcon={<SaveAltIcon />}>
+        <Button
+          size="small"
+          variant="contained"
+          startIcon={<SaveAltIcon />}
+          onClick={(e) => handleSave(e)} // pass event here
+        >
           Save
         </Button>
         <Button size="small" variant="outlined" startIcon={<CloseIcon />}>
@@ -105,9 +119,7 @@ const ClientDetailsFirst = () => {
                       placeholder="Input Text"
                       size="small"
                       value={formValues?.fatherName}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "fatherName")
-                      }
+                      onChange={(e) => handleChange(e, "fatherName")}
                     />
                   </FormControl>
                 </Grid>
@@ -121,7 +133,7 @@ const ClientDetailsFirst = () => {
                     placeholder="Input Text"
                     size="small"
                     value={formValues?.dob}
-                    onChange={(e) => handleChange(e.target.value, "dob")}
+                    onChange={(e) => handleChange(e, "dob")}
                   />
                 </Grid>
               </Grid>
@@ -137,7 +149,7 @@ const ClientDetailsFirst = () => {
                       placeholder="Input Email"
                       size="small"
                       value={formValues?.email}
-                      onChange={(e) => handleChange(e.target.value, "email")}
+                      onChange={(e) => handleChange(e, "email")}
                     />
                   </FormControl>
                 </Grid>
@@ -151,9 +163,7 @@ const ClientDetailsFirst = () => {
                     placeholder="Input Phone Number"
                     size="small"
                     value={formValues?.phoneNumber}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "phoneNumber")
-                    }
+                    onChange={(e) => handleChange(e, "phoneNumber")}
                   />
                 </Grid>
               </Grid>
@@ -169,9 +179,7 @@ const ClientDetailsFirst = () => {
                       placeholder="Input Text"
                       size="small"
                       value={formValues?.occupation}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "occupation")
-                      }
+                      onChange={(e) => handleChange(e, "occupation")}
                     />
                   </FormControl>
                 </Grid>
@@ -185,9 +193,7 @@ const ClientDetailsFirst = () => {
                     placeholder="Input Text"
                     size="small"
                     value={formValues?.designation}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "designation")
-                    }
+                    onChange={(e) => handleChange(e, "designation")}
                   />
                 </Grid>
               </Grid>
@@ -203,7 +209,7 @@ const ClientDetailsFirst = () => {
                       placeholder="Input Text"
                       size="small"
                       value={formValues?.orgName}
-                      onChange={(e) => handleChange(e.target.value, "orgName")}
+                      onChange={(e) => handleChange(e, "orgName")}
                     />
                   </FormControl>
                 </Grid>
@@ -217,10 +223,7 @@ const ClientDetailsFirst = () => {
                     Placeholder={"Select"}
                     width={"100%"}
                     value={formValues?.idProof}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "idProof");
-                    }}
+                    onChange={(e) => handleChange(e, "idProof")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -233,7 +236,7 @@ const ClientDetailsFirst = () => {
                     placeholder="Input Text"
                     size="small"
                     value={formValues?.idProofNo}
-                    onChange={(e) => handleChange(e.target.value, "idProofNo")}
+                    onChange={(e) => handleChange(e, "idProofNo")}
                   />
                 </Grid>
               </Grid>
@@ -250,7 +253,7 @@ const ClientDetailsFirst = () => {
                       placeholder="Input text"
                       size="small"
                       value={formValues?.otherId}
-                      onChange={(e) => handleChange(e.target.value, "otherId")}
+                      onChange={(e) => handleChange(e, "otherId")}
                     />
                   </FormControl>
                 </Grid>
