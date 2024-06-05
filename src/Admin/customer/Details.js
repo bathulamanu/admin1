@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import CustomerForm from "./CustomerForm";
 import { useNavigate } from "react-router-dom";
+import ClientDetails from "./clientDetails/ClientDetails";
 
 const headingStyle = {
   fontSize: "20px",
@@ -28,14 +29,13 @@ const headingStyle = {
 const Details = () => {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showClientDetails, setShowClientDetails] = useState(false);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
 
-  const formDetails = () => {
-    return <CustomerForm />;
-  };
   return (
     <Container
       disableGutters
@@ -117,7 +117,59 @@ const Details = () => {
                 </Tabs>
               </Stack>
               <Divider sx={{ mb: 3 }} />
-              {selectedTab === 0 && (
+              {selectedTab === 0 &&
+                (showUserDetails ? (
+                  <CustomerForm />
+                ) : (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "250px",
+                      marginBottom: "250px",
+                    }}
+                  >
+                    <Typography>ADD USER DETAILS</Typography>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => setShowUserDetails(!showUserDetails)}
+                      >
+                        <AddIcon fontSize="small" /> Add Details
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+              {selectedTab === 1 &&
+                (showClientDetails ? (
+                  <ClientDetails />
+                ) : (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "250px",
+                      marginBottom: "250px",
+                    }}
+                  >
+                    <Typography>ADD CLIENT DETAILS</Typography>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => setShowClientDetails(!showClientDetails)}
+                      >
+                        <AddIcon fontSize="small" /> Add Details
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+              {selectedTab === 2 && (
                 <Box
                   display={"flex"}
                   flexDirection={"column"}
@@ -128,35 +180,26 @@ const Details = () => {
                     marginBottom: "250px",
                   }}
                 >
-                  <Typography>ADD USER DETAILS</Typography>
+                  <Typography>ADD BABY DETAILS</Typography>
                   <Box>
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={() => navigate("/customerPage/customerForm")}
-                    >
+                    <Button variant="contained" size="small">
                       <AddIcon fontSize="small" /> Add Details
                     </Button>
                   </Box>
                 </Box>
               )}
-              {selectedTab === 1 && (
+              {selectedTab === 3 && (
                 <Box
                   display={"flex"}
                   flexDirection={"column"}
                   sx={{
                     justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "200px",
-                    marginBottom: "200px",
+                    marginTop: "250px",
+                    marginBottom: "250px",
                   }}
                 >
-                  <Typography>ADD DETAILS</Typography>
-                  <Box>
-                    <Button variant="contained" size="small">
-                      <AddIcon fontSize="small" /> Add Details
-                    </Button>
-                  </Box>
+                  <Typography>Report</Typography>
                 </Box>
               )}
             </Box>
