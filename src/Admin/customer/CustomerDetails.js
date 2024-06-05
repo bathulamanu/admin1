@@ -79,10 +79,11 @@ const CustomerDetails = () => {
                   size="small"
                   onClick={(e) => {
                     e.preventDefault();
-                    navigate("/");
+                    //   dispatch(getHospitalDetails(params?.row?.id));
+                    navigate("/customerPage/customers/customerEdit");
                   }}
                 >
-                  <EditIcon fontSize="small" /> Edit Customer
+                  <EditIcon fontSize="small" /> Edit
                 </Button>
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
