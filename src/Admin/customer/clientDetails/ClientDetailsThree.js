@@ -27,7 +27,7 @@ import {
 } from "../../../globalFunctions";
 
 const headingStyle = {
-  fontSize: "14px",
+  fontSize: "20px",
   fontWeight: "bold",
   marginTop: "10px",
   marginLeft: "5px",
@@ -66,7 +66,6 @@ const ClientDetailsThree = () => {
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
   const [formValues, setFormValues] = useState({
-    address: "",
     CurrentAddress: {
       addressLine1: "",
       country: 352,
