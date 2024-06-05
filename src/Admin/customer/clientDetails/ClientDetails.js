@@ -9,6 +9,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import ClientDetailsSec from "./ClientDetailsSec";
 import ClientDetailsFirst from "./ClientDetailsFirst";
 import ClientDetailsThree from "./ClientDetailsThree";
+import ClientDetailsForth from "./ClientDetailsForth";
 
 const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -58,6 +59,7 @@ const ClientDetails = () => {
       {currentStep === 1 && <ClientDetailsFirst />}
       {currentStep === 2 && <ClientDetailsSec />}
       {currentStep === 3 && <ClientDetailsThree />}
+      {currentStep === 4 && <ClientDetailsForth />}
       <Stack
         direction="row"
         justifyContent="space-between"

@@ -311,7 +311,7 @@ const ClientDetailsSec = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "400px" }}
+                sx={{ marginTop: "10px", marginLeft: "350px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />
@@ -359,7 +359,7 @@ const ClientDetailsSec = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "400px" }}
+                sx={{ marginTop: "10px", marginLeft: "350px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />
