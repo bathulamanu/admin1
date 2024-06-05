@@ -22,17 +22,9 @@ import {
 } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ReactQuill from "react-quill";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
 import { useDispatch, useSelector } from "react-redux";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-import { getCityList } from "../Slices/globalSlice";
+
 import {
   getCityIdList,
   getNamesIdList,
