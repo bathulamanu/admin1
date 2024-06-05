@@ -101,7 +101,7 @@ const ClientDetailsSec = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent>
+            <CardContent sx={{ width: "550px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 MOTHER'S INFORMATION
               </Typography>
@@ -270,7 +270,7 @@ const ClientDetailsSec = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent>
+            <CardContent sx={{ width: "550px" }}>
               <Typography variant="h5" sx={{ marginTop: "20px" }}>
                 Upload Mother's Picture
               </Typography>
