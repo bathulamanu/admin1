@@ -12,10 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useDispatch, useSelector } from "react-redux";
 import InvoiceColumns from "./InvoiceTableColumn";
 import CommonDataTable from "../../GlobalComponents/CommonDataTable";
+import { useNavigate } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
 
 const headingStyle = {
   fontSize: "20px",
@@ -23,6 +23,8 @@ const headingStyle = {
 };
 
 const CustomerDetails = () => {
+  const navigate = useNavigate();
+
   const dummyData = [
     {
       id: 1,
@@ -72,7 +74,16 @@ const CustomerDetails = () => {
                     001 Customer
                   </Typography>
                 </Stack>
-                <MoreVertIcon />
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/");
+                  }}
+                >
+                  <EditIcon fontSize="small" /> Edit Customer
+                </Button>
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
               <Card variant="outlined" sx={{ marginTop: "30px" }}>
