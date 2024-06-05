@@ -17,6 +17,9 @@ import React, { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
+import CustomerForm from "./CustomerForm";
+import { useNavigate } from "react-router-dom";
+import ClientDetails from "./clientDetails/ClientDetails";
 
 const headingStyle = {
   fontSize: "20px",
@@ -24,11 +27,15 @@ const headingStyle = {
 };
 
 const Details = () => {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showClientDetails, setShowClientDetails] = useState(false);
 
   const handleChange = (event, newValue) => {
     setSelectedTab(newValue);
   };
+
   return (
     <Container
       disableGutters
@@ -61,13 +68,13 @@ const Details = () => {
                   <AddIcon fontSize="small" /> Add Details
                 </Button>
               </Box>
-              <Box
+              <Stack
                 sx={{
-                  //   width: "100%",
                   display: "flex",
-                  alignItems: "center",
                   justifyContent: "space-between",
+                  gap: 10,
                 }}
+                spacing={5}
               >
                 <Tabs
                   value={selectedTab}
@@ -75,31 +82,126 @@ const Details = () => {
                   centered
                   textColor="primary"
                   indicatorColor="primary"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                  sx={{}}
                 >
                   <Tab
                     label="USER"
-                    sx={{ fontWeight: selectedTab === 0 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 0 ? "bold" : "normal",
+                      marginRight: "100px",
+                    }}
                   />
                   <Tab
                     label="DETAILS"
-                    sx={{ fontWeight: selectedTab === 1 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 1 ? "bold" : "normal",
+                      marginRight: "100px",
+                      marginLeft: "100px",
+                    }}
                   />
                   <Tab
                     label="BABY DETAILS"
-                    sx={{ fontWeight: selectedTab === 2 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 2 ? "bold" : "normal",
+                      marginRight: "100px",
+                      marginLeft: "100px",
+                    }}
                   />
                   <Tab
                     label="REPORT"
-                    sx={{ fontWeight: selectedTab === 3 ? "bold" : "normal" }}
+                    sx={{
+                      fontWeight: selectedTab === 3 ? "bold" : "normal",
+                      marginLeft: "200px",
+                    }}
                   />
                 </Tabs>
-              </Box>
+              </Stack>
               <Divider sx={{ mb: 3 }} />
+              {selectedTab === 0 &&
+                (showUserDetails ? (
+                  <CustomerForm />
+                ) : (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "250px",
+                      marginBottom: "250px",
+                    }}
+                  >
+                    <Typography>ADD USER DETAILS</Typography>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => setShowUserDetails(!showUserDetails)}
+                      >
+                        <AddIcon fontSize="small" /> Add Details
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+              {selectedTab === 1 &&
+                (showClientDetails ? (
+                  <ClientDetails />
+                ) : (
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "250px",
+                      marginBottom: "250px",
+                    }}
+                  >
+                    <Typography>ADD CLIENT DETAILS</Typography>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => setShowClientDetails(!showClientDetails)}
+                      >
+                        <AddIcon fontSize="small" /> Add Details
+                      </Button>
+                    </Box>
+                  </Box>
+                ))}
+              {selectedTab === 2 && (
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "250px",
+                    marginBottom: "250px",
+                  }}
+                >
+                  <Typography>ADD BABY DETAILS</Typography>
+                  <Box>
+                    <Button variant="contained" size="small">
+                      <AddIcon fontSize="small" /> Add Details
+                    </Button>
+                  </Box>
+                </Box>
+              )}
+              {selectedTab === 3 && (
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  sx={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: "250px",
+                    marginBottom: "250px",
+                  }}
+                >
+                  <Typography>Report</Typography>
+                </Box>
+              )}
             </Box>
           </CardContent>
         </Card>

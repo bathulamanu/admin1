@@ -20,17 +20,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ReactQuill from "react-quill";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-import { getCityList } from "../Slices/globalSlice";
+
 import {
   getCityIdList,
   getNamesIdList,
@@ -200,7 +194,37 @@ const CustomerForm = () => {
           </Typography>
         </Stack>
         <Stack>
-          <MoreVertIcon />
+          <Stack direction={"row"} spacing={2}>
+            <Button
+              size="small"
+              variant="contained"
+              startIcon={<SaveAltIcon />}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   handleAddHospitalFormSubmit();
+              //   setFormOpen(null);
+              //   setActiveItem("Customers");
+              //   // dispatch(getHospitalsList(searchQuery))
+              //   navigate("/customerPage/customers");
+              // }}
+            >
+              Save
+            </Button>
+            <Button
+              size="small"
+              variant="outlined"
+              startIcon={<CloseIcon />}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   setFormOpen(null);
+              //   // dispatch(getHospitalsList(searchQuery))
+              //   setActiveItem("Customers");
+              //   navigate("/customerPage/customers");
+              // }}
+            >
+              Cancel
+            </Button>
+          </Stack>
         </Stack>
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} gap={2}>
