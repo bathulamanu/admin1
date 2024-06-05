@@ -49,7 +49,7 @@ const VisuallyHiddenInput = styled("input")({
 
 const ClientDetailsSec = () => {
   const [formValues, setFormValues] = useState({
-    fatherName: "",
+    motherName: "",
     dob: "",
     email: "",
     phoneNumber: "",
@@ -62,9 +62,15 @@ const ClientDetailsSec = () => {
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => {
-      let temp = { ...prev };
-    });
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    console.log(formValues);
   };
   return (
     <Stack>
@@ -74,7 +80,12 @@ const ClientDetailsSec = () => {
         justifyContent={"end"}
         marginBottom={"10px"}
       >
-        <Button size="small" variant="contained" startIcon={<SaveAltIcon />}>
+        <Button
+          size="small"
+          variant="contained"
+          startIcon={<SaveAltIcon />}
+          onClick={(e) => handleSave(e)}
+        >
           Save
         </Button>
         <Button size="small" variant="outlined" startIcon={<CloseIcon />}>
@@ -90,7 +101,7 @@ const ClientDetailsSec = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent>
+            <CardContent sx={{ width: "550px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 MOTHER'S INFORMATION
               </Typography>
@@ -105,9 +116,9 @@ const ClientDetailsSec = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.fatherName}
+                      value={formValues?.motherName}
                       onChange={(e) =>
-                        handleChange(e.target.value, "fatherName")
+                        handleChange(e.target.value, "motherName")
                       }
                     />
                   </FormControl>
@@ -259,7 +270,7 @@ const ClientDetailsSec = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent>
+            <CardContent sx={{ width: "550px" }}>
               <Typography variant="h5" sx={{ marginTop: "20px" }}>
                 Upload Mother's Picture
               </Typography>
