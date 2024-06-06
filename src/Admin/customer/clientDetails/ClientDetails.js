@@ -10,6 +10,7 @@ import ClientDetailsSec from "./ClientDetailsSec";
 import ClientDetailsFirst from "./ClientDetailsFirst";
 import ClientDetailsThree from "./ClientDetailsThree";
 import ClientDetailsForth from "./ClientDetailsForth";
+import ClientDetailsFive from "./ClientDetailsFive";
 
 const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -60,6 +61,7 @@ const ClientDetails = () => {
       {currentStep === 2 && <ClientDetailsSec />}
       {currentStep === 3 && <ClientDetailsThree />}
       {currentStep === 4 && <ClientDetailsForth />}
+      {currentStep === 5 && <ClientDetailsFive />}
       <Stack
         direction="row"
         justifyContent="space-between"

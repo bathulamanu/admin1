@@ -77,7 +77,7 @@ const CustomerTableColumn = () => {
             onClick={(e) => {
               e.preventDefault();
               //   dispatch(getHospitalDetails(params?.row?.id));
-              navigate("/customerPage/customers/customerDetails");
+              navigate("/customerPage/customers/allDetails");
             }}
           >
             View Details
