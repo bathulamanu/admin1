@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -38,18 +35,6 @@ const redStarStyle = {
   color: "red",
   marginLeft: "4px",
 };
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 const ClientDetailsFive = () => {
   const [formValues, setFormValues] = useState({
