@@ -74,7 +74,6 @@ const ClientDetailsSeven = () => {
           Cancel
         </Button>
       </Stack>
-
       <Card variant="outlined">
         <CardContent>
           <Typography variant="h5" sx={headingStyle}>
