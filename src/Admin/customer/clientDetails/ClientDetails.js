@@ -13,6 +13,7 @@ import ClientDetailsForth from "./ClientDetailsForth";
 import ClientDetailsFive from "./ClientDetailsFive";
 import ClientDetailsSix from "./ClientDetailsSix";
 import ClientDetailsSeven from "./ClientDetailsSeven";
+import ClientDetailsEight from "./ClientDetailsEight";
 
 const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -55,7 +56,9 @@ const ClientDetails = () => {
             sx={{ fontWeight: "bold", paddingTop: "4px" }}
             variant="h5"
           >
-            CLIENT INFORMATION
+            {currentStep === 8
+              ? "HEALTH HISTORY QUESTIONNAIRE"
+              : "CLIENT INFORMATION"}
           </Typography>
         </Stack>
       </Box>
@@ -66,6 +69,7 @@ const ClientDetails = () => {
       {currentStep === 5 && <ClientDetailsFive />}
       {currentStep === 6 && <ClientDetailsSix />}
       {currentStep === 7 && <ClientDetailsSeven />}
+      {currentStep === 8 && <ClientDetailsEight />}
 
       <Stack
         direction="row"
