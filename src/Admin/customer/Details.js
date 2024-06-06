@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import CustomerForm from "./CustomerForm";
 import { useNavigate } from "react-router-dom";
 import ClientDetails from "./clientDetails/ClientDetails";
+import CustomerDetails from "./CustomerDetails";
 
 const headingStyle = {
   fontSize: "20px",
@@ -64,9 +65,9 @@ const Details = () => {
                     Details
                   </Typography>
                 </Stack>
-                <Button variant="contained" size="small">
+                {/* <Button variant="contained" size="small">
                   <AddIcon fontSize="small" /> Add Details
-                </Button>
+                </Button> */}
               </Box>
               <Stack
                 sx={{
@@ -121,27 +122,28 @@ const Details = () => {
                 (showUserDetails ? (
                   <CustomerForm />
                 ) : (
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    sx={{
-                      justifyContent: "center",
-                      alignItems: "center",
-                      marginTop: "250px",
-                      marginBottom: "250px",
-                    }}
-                  >
-                    <Typography>ADD USER DETAILS</Typography>
-                    <Box>
-                      <Button
-                        variant="contained"
-                        size="small"
-                        onClick={() => setShowUserDetails(!showUserDetails)}
-                      >
-                        <AddIcon fontSize="small" /> Add Details
-                      </Button>
-                    </Box>
-                  </Box>
+                  // <Box
+                  //   display="flex"
+                  //   flexDirection="column"
+                  //   sx={{
+                  //     justifyContent: "center",
+                  //     alignItems: "center",
+                  //     marginTop: "250px",
+                  //     marginBottom: "250px",
+                  //   }}
+                  // >
+                  //   <Typography>ADD USER DETAILS</Typography>
+                  //   <Box>
+                  //     <Button
+                  //       variant="contained"
+                  //       size="small"
+                  //       onClick={() => setShowUserDetails(!showUserDetails)}
+                  //     >
+                  //       <AddIcon fontSize="small" /> Add Details
+                  //     </Button>
+                  //   </Box>
+                  // </Box>
+                  <CustomerDetails />
                 ))}
               {selectedTab === 1 &&
                 (showClientDetails ? (
