@@ -21,6 +21,7 @@ import CustomerForm from "./CustomerForm";
 import { useNavigate } from "react-router-dom";
 import ClientDetails from "./clientDetails/ClientDetails";
 import CustomerDetails from "./CustomerDetails";
+import { setSelectedTab } from "../Slices/tabSlice";
 
 const headingStyle = {
   fontSize: "20px",
@@ -29,12 +30,14 @@ const headingStyle = {
 
 const Details = () => {
   const navigate = useNavigate();
-  const [selectedTab, setSelectedTab] = useState(0);
+  const dispatch = useDispatch();
+  const selectedTab = useSelector((state) => state.tab.selectedTab);
+  // const [selectedTab, setSelectedTab] = useState(0);
   const [showUserDetails, setShowUserDetails] = useState(false);
   const [showClientDetails, setShowClientDetails] = useState(false);
 
   const handleChange = (event, newValue) => {
-    setSelectedTab(newValue);
+    dispatch(setSelectedTab(newValue));
   };
 
   return (

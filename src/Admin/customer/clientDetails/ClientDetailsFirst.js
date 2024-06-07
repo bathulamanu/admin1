@@ -75,291 +75,271 @@ const ClientDetailsFirst = () => {
   };
 
   return (
-    <Stack>
-      <Stack
-        direction={"row"}
-        spacing={2}
-        justifyContent={"end"}
-        marginBottom={"10px"}
+    <Card variant="outlined">
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
       >
-        <Button
-          size="small"
-          variant="contained"
-          startIcon={<SaveAltIcon />}
-          onClick={(e) => handleSave(e)} // pass event here
-        >
-          Save
-        </Button>
-        <Button size="small" variant="outlined" startIcon={<CloseIcon />}>
-          Cancel
-        </Button>
-      </Stack>
-      <Card variant="outlined">
-        <CardContent
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
-              <Typography variant="h5" sx={headingStyle}>
-                FATHER'S INFORMATION
-              </Typography>
-              <Grid container spacing={2} pt={3}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Expectant Father Name <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.fatherName}
-                      onChange={(e) => handleChange(e, "fatherName")}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Date of Birth <span style={redStarStyle}>*</span>
-                  </InputLabel>
+        <Card variant="outlined">
+          <CardContent sx={{ width: "550px" }}>
+            <Typography variant="h5" sx={headingStyle}>
+              FATHER'S INFORMATION
+            </Typography>
+            <Grid container spacing={2} pt={3}>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Expectant Father Name <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
                   <OutlinedInput
                     fullWidth
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.dob}
-                    onChange={(e) => handleChange(e, "dob")}
+                    value={formValues?.fatherName}
+                    onChange={(e) => handleChange(e, "fatherName")}
                   />
-                </Grid>
+                </FormControl>
               </Grid>
-              <Grid container spacing={2} pt={3}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Email Address <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Email"
-                      size="small"
-                      value={formValues?.email}
-                      onChange={(e) => handleChange(e, "email")}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Phone Number <span style={redStarStyle}>*</span>
-                  </InputLabel>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Date of Birth <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-password"
+                  placeholder="Input Text"
+                  size="small"
+                  value={formValues?.dob}
+                  onChange={(e) => handleChange(e, "dob")}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} pt={3}>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Email Address <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
                   <OutlinedInput
                     fullWidth
                     id="outlined-adornment-password"
-                    placeholder="Input Phone Number"
+                    placeholder="Input Email"
                     size="small"
-                    value={formValues?.phoneNumber}
-                    onChange={(e) => handleChange(e, "phoneNumber")}
+                    value={formValues?.email}
+                    onChange={(e) => handleChange(e, "email")}
                   />
-                </Grid>
+                </FormControl>
               </Grid>
-              <Grid container spacing={2} pt={3}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Occupation <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.occupation}
-                      onChange={(e) => handleChange(e, "occupation")}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Designation <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <OutlinedInput
-                    fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
-                    size="small"
-                    value={formValues?.designation}
-                    onChange={(e) => handleChange(e, "designation")}
-                  />
-                </Grid>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Phone Number <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-password"
+                  placeholder="Input Phone Number"
+                  size="small"
+                  value={formValues?.phoneNumber}
+                  onChange={(e) => handleChange(e, "phoneNumber")}
+                />
               </Grid>
-              <Grid container spacing={2} pt={3} pb={2}>
-                <Grid item style={{ width: "100%" }}>
-                  <InputLabel sx={inputLableStyle}>
-                    Organization Name<span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} pt={3}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    ID Proof <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    ID Proof Number <span style={redStarStyle}>*</span>
-                  </InputLabel>
+            </Grid>
+            <Grid container spacing={2} pt={3}>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Occupation <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
                   <OutlinedInput
                     fullWidth
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.idProofNo}
-                    onChange={(e) => handleChange(e, "idProofNo")}
+                    value={formValues?.occupation}
+                    onChange={(e) => handleChange(e, "occupation")}
                   />
-                </Grid>
+                </FormControl>
               </Grid>
-              <Grid container spacing={2} pt={3} pb={2}>
-                <Grid item style={{ width: "100%" }}>
-                  <InputLabel sx={inputLableStyle}>
-                    If Other, please Specify
-                    <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input text"
-                      size="small"
-                      value={formValues?.otherId}
-                      onChange={(e) => handleChange(e, "otherId")}
-                    />
-                  </FormControl>
-                </Grid>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  Designation <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-password"
+                  placeholder="Input Text"
+                  size="small"
+                  value={formValues?.designation}
+                  onChange={(e) => handleChange(e, "designation")}
+                />
               </Grid>
-            </CardContent>
-          </Card>
-          <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
-              <Typography variant="h5" sx={{ marginTop: "20px" }}>
-                Upload Father's Picture
-              </Typography>
-              <Card variant="outlined">
-                <CardContent>
-                  <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                    <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
-                    <Stack sx={{ display: "flex", flexDirection: "column" }}>
-                      <Typography variant="h5" sx={{ marginBottom: "10px" }}>
-                        Drop your new profile Image here
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{ marginBottom: "10px", marginLeft: "50px" }}
+            </Grid>
+            <Grid container spacing={2} pt={3} pb={2}>
+              <Grid item style={{ width: "100%" }}>
+                <InputLabel sx={inputLableStyle}>
+                  Organization Name<span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    placeholder="Input Text"
+                    size="small"
+                    value={formValues?.orgName}
+                    onChange={(e) => handleChange(e, "orgName")}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} pt={3}>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  ID Proof <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <SingleSelect
+                  Placeholder={"Select"}
+                  width={"100%"}
+                  value={formValues?.idProof}
+                  onChange={(e) => handleChange(e, "idProof")}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  ID Proof Number <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <OutlinedInput
+                  fullWidth
+                  id="outlined-adornment-password"
+                  placeholder="Input Text"
+                  size="small"
+                  value={formValues?.idProofNo}
+                  onChange={(e) => handleChange(e, "idProofNo")}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={2} pt={3} pb={2}>
+              <Grid item style={{ width: "100%" }}>
+                <InputLabel sx={inputLableStyle}>
+                  If Other, please Specify
+                  <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    placeholder="Input text"
+                    size="small"
+                    value={formValues?.otherId}
+                    onChange={(e) => handleChange(e, "otherId")}
+                  />
+                </FormControl>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+        <Card variant="outlined">
+          <CardContent sx={{ width: "550px" }}>
+            <Typography variant="h5" sx={{ marginTop: "20px" }}>
+              Upload Father's Picture
+            </Typography>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+                  <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
+                  <Stack sx={{ display: "flex", flexDirection: "column" }}>
+                    <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                      Drop your new profile Image here
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: "10px", marginLeft: "50px" }}
+                    >
+                      Maximum (2MB)
+                    </Typography>
+                    <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                      Support Formats: JPG, PNG, SVG
+                    </Typography>
+                    <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                      <Button
+                        component="label"
+                        variant="contained"
+                        disabled
+                        sx={{ fontSize: "24px" }}
                       >
-                        Maximum (2MB)
-                      </Typography>
-                      <Typography variant="h5" sx={{ marginBottom: "10px" }}>
-                        Support Formats: JPG, PNG, SVG
-                      </Typography>
-                      <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
-                        <Button
-                          component="label"
-                          variant="contained"
-                          disabled
-                          sx={{ fontSize: "24px" }}
-                        >
-                          Choose File
-                        </Button>
-                      </Box>
-                    </Stack>
+                        Choose File
+                      </Button>
+                    </Box>
                   </Stack>
-                </CardContent>
-              </Card>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "350px" }}
-              >
-                Upload Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
-              <Typography variant="h5" sx={{ marginTop: "40px" }}>
-                Upload ID Proof
-              </Typography>
-              <Card variant="outlined">
-                <CardContent>
-                  <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
-                    <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
-                    <Stack sx={{ display: "flex", flexDirection: "column" }}>
-                      <Typography
-                        variant="h5"
-                        sx={{ marginBottom: "10px", marginLeft: "30px" }}
+                </Stack>
+              </CardContent>
+            </Card>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+              sx={{ marginTop: "10px", marginLeft: "350px" }}
+            >
+              Upload Image
+              <VisuallyHiddenInput type="file" />
+            </Button>
+            <Typography variant="h5" sx={{ marginTop: "40px" }}>
+              Upload ID Proof
+            </Typography>
+            <Card variant="outlined">
+              <CardContent>
+                <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+                  <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
+                  <Stack sx={{ display: "flex", flexDirection: "column" }}>
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: "10px", marginLeft: "30px" }}
+                    >
+                      Drop your ID Proof here
+                    </Typography>
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: "10px", marginLeft: "50px" }}
+                    >
+                      Maximum (2MB)
+                    </Typography>
+                    <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                      Support Formats: JPG, PNG, SVG
+                    </Typography>
+                    <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                      <Button
+                        component="label"
+                        variant="contained"
+                        disabled
+                        sx={{ fontSize: "24px" }}
                       >
-                        Drop your ID Proof here
-                      </Typography>
-                      <Typography
-                        variant="h5"
-                        sx={{ marginBottom: "10px", marginLeft: "50px" }}
-                      >
-                        Maximum (2MB)
-                      </Typography>
-                      <Typography variant="h5" sx={{ marginBottom: "10px" }}>
-                        Support Formats: JPG, PNG, SVG
-                      </Typography>
-                      <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
-                        <Button
-                          component="label"
-                          variant="contained"
-                          disabled
-                          sx={{ fontSize: "24px" }}
-                        >
-                          Choose File
-                        </Button>
-                      </Box>
-                    </Stack>
+                        Choose File
+                      </Button>
+                    </Box>
                   </Stack>
-                </CardContent>
-              </Card>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "350px" }}
-              >
-                Upload Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
-            </CardContent>
-          </Card>
-        </CardContent>
-      </Card>
-    </Stack>
+                </Stack>
+              </CardContent>
+            </Card>
+            <Button
+              component="label"
+              role={undefined}
+              variant="contained"
+              tabIndex={-1}
+              startIcon={<CloudUploadIcon />}
+              sx={{ marginTop: "10px", marginLeft: "350px" }}
+            >
+              Upload Image
+              <VisuallyHiddenInput type="file" />
+            </Button>
+          </CardContent>
+        </Card>
+      </CardContent>
+    </Card>
   );
 };
 
