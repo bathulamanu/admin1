@@ -16,16 +16,21 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
+import CustomerForm from "./CustomerForm";
+import { useNavigate } from "react-router-dom";
 import ClientDetails from "./clientDetails/ClientDetails";
 import CustomerDetails from "./CustomerDetails";
 import { setSelectedTab } from "../Slices/tabSlice";
 
 const Details = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedTab = useSelector((state) => state.tab.selectedTab);
+  // const [selectedTab, setSelectedTab] = useState(0);
+  // const [showUserDetails, setShowUserDetails] = useState(false);
   const [showClientDetails, setShowClientDetails] = useState(false);
 
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     dispatch(setSelectedTab(newValue));
   };
 
