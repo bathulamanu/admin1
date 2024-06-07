@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import BabyDetailsFormData from "./BabyDetailsFormData";
 
 const headingStyle = {
   fontSize: "14px",
@@ -46,6 +47,7 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const BabyDetailsForm = () => {
+  const [showDetails, setShowDetails] = useState(false);
   const [formValues, setFormValues] = useState({
     motherName: "",
     dob: "",
@@ -64,11 +66,6 @@ const BabyDetailsForm = () => {
       ...prev,
       [name]: value,
     }));
-  };
-
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
   };
 
   return (
@@ -418,6 +415,13 @@ const BabyDetailsForm = () => {
             <Button
               variant="contained"
               size="small"
+              onClick={() => setShowDetails(!showDetails)}
+            >
+              Preview
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
               //   onClick={(e) => {
               //     e.preventDefault();
               //     navigate("/customerPage/customerForm");
@@ -427,6 +431,7 @@ const BabyDetailsForm = () => {
             </Button>
           </CardContent>
         </Card>
+        {showDetails && <BabyDetailsFormData />}
       </CardContent>
     </Card>
   );
