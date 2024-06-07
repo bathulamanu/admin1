@@ -378,6 +378,30 @@ export const CustomerLayout = () => {
                               Cancel
                             </Button>
                           </Stack>
+                        ) : selectedTab === 2 ? (
+                          <Stack
+                            direction={"row"}
+                            spacing={2}
+                            justifyContent={"end"}
+                            marginBottom={"10px"}
+                            sx={{ marginLeft: "1100px" }}
+                          >
+                            <Button
+                              size="small"
+                              variant="contained"
+                              startIcon={<SaveAltIcon />}
+                              //  onClick={(e) => handleSave(e)}  // Define handleSave function
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              startIcon={<CloseIcon />}
+                            >
+                              Cancel
+                            </Button>
+                          </Stack>
                         ) : null}
                       </Box>
                     )}

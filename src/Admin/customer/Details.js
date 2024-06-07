@@ -21,14 +21,16 @@ import { useNavigate } from "react-router-dom";
 import ClientDetails from "./clientDetails/ClientDetails";
 import CustomerDetails from "./CustomerDetails";
 import { setSelectedTab } from "../Slices/tabSlice";
+import BabyDetailsForm from "./babyDetails/BabyDetailsForm";
 
 const Details = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedTab = useSelector((state) => state.tab.selectedTab);
   // const [selectedTab, setSelectedTab] = useState(0);
-  // const [showUserDetails, setShowUserDetails] = useState(false);
+  const [showUserDetails, setShowUserDetails] = useState(false);
   const [showClientDetails, setShowClientDetails] = useState(false);
+  const [showBabyDetailsForm, setShowBabyDetailsForm] = useState(false);
 
   const handleChange = (event, newValue) => {
     dispatch(setSelectedTab(newValue));
@@ -112,6 +114,8 @@ const Details = () => {
                 </Tabs>
               </Stack>
               <Divider sx={{ mb: 3 }} />
+              {/* {selectedTab === 0 &&
+                (showUserDetails ? <CustomerForm /> : <CustomerDetails />)} */}
               {selectedTab === 0 && <CustomerDetails />}
               {selectedTab === 1 &&
                 (showClientDetails ? (
@@ -139,25 +143,34 @@ const Details = () => {
                     </Box>
                   </Box>
                 ))}
-              {selectedTab === 2 && (
-                <Box
-                  display={"flex"}
-                  flexDirection={"column"}
-                  sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "250px",
-                    marginBottom: "250px",
-                  }}
-                >
-                  <Typography>ADD BABY DETAILS</Typography>
-                  <Box>
-                    <Button variant="contained" size="small">
-                      <AddIcon fontSize="small" /> Add Details
-                    </Button>
+              {selectedTab === 2 &&
+                (showBabyDetailsForm ? (
+                  <BabyDetailsForm />
+                ) : (
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    sx={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginTop: "250px",
+                      marginBottom: "250px",
+                    }}
+                  >
+                    <Typography>ADD BABY DETAILS</Typography>
+                    <Box>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() =>
+                          setShowBabyDetailsForm(!showBabyDetailsForm)
+                        }
+                      >
+                        <AddIcon fontSize="small" /> Add Details
+                      </Button>
+                    </Box>
                   </Box>
-                </Box>
-              )}
+                ))}
               {selectedTab === 3 && (
                 <Box
                   display={"flex"}
