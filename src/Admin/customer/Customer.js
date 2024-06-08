@@ -75,7 +75,7 @@ const Customers = () => {
           <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
             <OutlinedInput
               type={"text"}
-              placeholder="Search"
+              placeholder="Search Customer"
               size="small"
               startAdornment={
                 <InputAdornment position="start">
