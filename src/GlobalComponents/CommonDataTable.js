@@ -1,6 +1,3 @@
-import React from 'react'
-import { DataGrid } from '@mui/x-data-grid'
-
 // const rows = [
 //   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
 //   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
@@ -13,21 +10,34 @@ import { DataGrid } from '@mui/x-data-grid'
 //   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 // ];
 
+import { DataGrid } from "@mui/x-data-grid";
+import { Grid } from "@mui/material";
+import React from "react";
+
 const CommonDataTable = ({ rows, columns }) => {
   return (
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 5 },
-        },
-      }}
-      pageSizeOptions={[5, 10]}
-      checkboxSelection
-      disableColumnSelector
-    />
-  )
-}
+    <Grid
+      container
+      justifyContent="center"
+      style={{ height: "100vh", padding: 20 }}
+    >
+      <Grid item xs={12} style={{ maxWidth: 1200 }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          disableColumnSelector
+          autoHeight
+        />
+      </Grid>
+    </Grid>
+  );
+};
 
-export default CommonDataTable
+export default CommonDataTable;

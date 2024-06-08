@@ -1,8 +1,15 @@
-import { Button, Chip, Stack, Typography } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { styled } from "@mui/material/styles";
+import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 
+const StyledHeader = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  fontWeight: "bold",
+});
 function capitalizeFirstLetter(word) {
   return word?.charAt(0)?.toUpperCase() + word?.slice(1);
 }
@@ -13,45 +20,70 @@ const CustomerTableColumn = () => {
   const customerColumns = [
     {
       field: "customerName",
-      headerName: "CUSTOMER NAME",
-      width: 200,
-      sortable: false,
+      headerName: (
+        <StyledHeader>
+          CUSTOMER NAME
+          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+        </StyledHeader>
+      ),
+      flex: 1,
+      sortable: true,
       disableColumnFilter: true,
       disableColumnMenu: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
     },
     {
       field: "RegDate",
-      headerName: "REGISTER DATE",
-      width: 150,
+      headerName: (
+        <StyledHeader>
+          REGISTER DATE
+          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+        </StyledHeader>
+      ),
+      flex: 1,
       disableColumnMenu: true,
-      sortable: false,
+      sortable: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.RegDate),
     },
     {
       field: "crnNo",
-      headerName: "CRN NUMBER",
-      width: 150,
+      headerName: (
+        <StyledHeader>
+          CRN NUMBER
+          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+        </StyledHeader>
+      ),
+      flex: 1,
       disableColumnMenu: true,
-      sortable: false,
+      sortable: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
     },
     {
       field: "contact",
-      headerName: "CONTACT",
-      sortable: false,
-      width: 160,
+      headerName: (
+        <StyledHeader>
+          CONTACT
+          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+        </StyledHeader>
+      ),
+      sortable: true,
+      flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => row?.contact?.phoneNumber,
     },
     {
       field: "location",
-      headerName: "LOCATION",
-      sortable: false,
-      width: 160,
+      headerName: (
+        <StyledHeader>
+          LOCATION
+          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+        </StyledHeader>
+      ),
+      sortable: true,
+      flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) =>
@@ -59,9 +91,9 @@ const CustomerTableColumn = () => {
     },
     {
       field: "action",
-      headerName: "ACTION",
+      headerName: <StyledHeader>ACTION</StyledHeader>,
       sortable: false,
-      width: 160,
+      flex: 1,
       disableColumnFilter: true,
       disableColumnMenu: true,
       renderCell: (params) => (
