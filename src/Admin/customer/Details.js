@@ -36,6 +36,20 @@ const Details = () => {
     dispatch(setSelectedTab(newValue));
   };
 
+  const getHeaderText = () => {
+    switch (selectedTab) {
+      case 0:
+      case 2:
+        return "Details";
+      case 1:
+        return "View/Edit Customer";
+      case 3:
+        return "001 - Customer Name";
+      default:
+        return "Details";
+    }
+  };
+
   return (
     <Container
       disableGutters
@@ -61,7 +75,7 @@ const Details = () => {
                     sx={{ fontWeight: "bold", paddingTop: "8px" }}
                     variant="h5"
                   >
-                    Details
+                    {getHeaderText()}
                   </Typography>
                 </Stack>
               </Box>
