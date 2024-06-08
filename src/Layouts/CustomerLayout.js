@@ -60,6 +60,7 @@ export const CustomerLayout = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const theme = useTheme();
+  const selectedTab = useSelector((state) => state.tab.selectedTab);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeItem, setActiveItem] = useState("Customers");
@@ -331,16 +332,107 @@ export const CustomerLayout = () => {
               </Stack>
             ) : (
               <Stack>
-                {/* {pathname && pathname === "/customerPage/customers/allDetails" && (
-                  <Stack
-                    direction={"row"}
-                    alignItems={"center"}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
-                    <Typography variant="subtitle2">Back</Typography>
-                  </Stack>
-                )} */}
+                <Stack>
+                  {pathname &&
+                    pathname === "/customerPage/customers/allDetails" && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        {selectedTab === 0 ? (
+                          <Button
+                            variant="contained"
+                            size="small"
+                            sx={{ marginLeft: "1200px" }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate("/customerPage/customers/customerEdit");
+                            }}
+                          >
+                            <EditIcon fontSize="small" /> Edit
+                          </Button>
+                        ) : selectedTab === 1 ? (
+                          <Stack
+                            direction={"row"}
+                            spacing={2}
+                            justifyContent={"end"}
+                            marginBottom={"10px"}
+                            sx={{ marginLeft: "1100px" }}
+                          >
+                            <Button
+                              size="small"
+                              variant="contained"
+                              startIcon={<SaveAltIcon />}
+                              //  onClick={(e) => handleSave(e)}  // Define handleSave function
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              startIcon={<CloseIcon />}
+                            >
+                              Cancel
+                            </Button>
+                          </Stack>
+                        ) : selectedTab === 2 ? (
+                          <Stack
+                            direction={"row"}
+                            spacing={2}
+                            justifyContent={"end"}
+                            marginBottom={"10px"}
+                            sx={{ marginLeft: "1100px" }}
+                          >
+                            <Button
+                              size="small"
+                              variant="contained"
+                              startIcon={<SaveAltIcon />}
+                              //  onClick={(e) => handleSave(e)}  // Define handleSave function
+                            >
+                              Save
+                            </Button>
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              startIcon={<CloseIcon />}
+                            >
+                              Cancel
+                            </Button>
+                          </Stack>
+                        ) : null}
+                      </Box>
+                    )}
+                </Stack>
+                <Stack>
+                  {pathname && pathname === "/customerPage/customerForm" && (
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      justifyContent={"end"}
+                      marginBottom={"10px"}
+                      sx={{ marginLeft: "1100px" }}
+                    >
+                      <Button
+                        size="small"
+                        variant="contained"
+                        startIcon={<SaveAltIcon />}
+                        //  onClick={(e) => handleSave(e)}  // Define handleSave function
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={<CloseIcon />}
+                      >
+                        Cancel
+                      </Button>
+                    </Stack>
+                  )}
+                </Stack>
               </Stack>
             )}
 
@@ -368,48 +460,16 @@ export const CustomerLayout = () => {
                 )}
               </Stack>
             ) : (
-              <Stack direction={"row"} spacing={2}>
-                {/* <Button
-                  size="small"
-                  variant="contained"
-                  startIcon={<SaveAltIcon />}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddHospitalFormSubmit();
-                    setFormOpen(null);
-                    setActiveItem("Customers");
-                    // dispatch(getHospitalsList(searchQuery))
-                    navigate("/customerPage/customers");
-                  }}
-                >
-                  Save
-                </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  startIcon={<CloseIcon />}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormOpen(null);
-                    // dispatch(getHospitalsList(searchQuery))
-                    setActiveItem("Customers");
-                    navigate("/customerPage/customers");
-                  }}
-                >
-                  Cancel
-                </Button> */}
-              </Stack>
+              <Stack direction={"row"} spacing={2}></Stack>
             )}
           </Box>
+
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <Typography variant="h5">Customer Management</Typography>{" "}
             <Typography variant="h4">/</Typography>
             <Typography variant="subtitle1">{activeItem}</Typography>
           </Stack>
-
-          {/* {doctorFormOpen ? <DoctorAddForm /> : <DoctorsPage />} */}
           <Outlet />
-          {/* <DoctorView/> */}
         </Box>
       </Container>
     </Container>

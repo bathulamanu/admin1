@@ -74,17 +74,6 @@ const CustomerDetails = () => {
                     001 Customer
                   </Typography>
                 </Stack>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    //   dispatch(getHospitalDetails(params?.row?.id));
-                    navigate("/customerPage/customers/customerEdit");
-                  }}
-                >
-                  <EditIcon fontSize="small" /> Edit
-                </Button>
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
               <Card variant="outlined" sx={{ marginTop: "30px" }}>

@@ -193,39 +193,6 @@ const CustomerForm = () => {
             001 Customer
           </Typography>
         </Stack>
-        <Stack>
-          <Stack direction={"row"} spacing={2}>
-            <Button
-              size="small"
-              variant="contained"
-              startIcon={<SaveAltIcon />}
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   handleAddHospitalFormSubmit();
-              //   setFormOpen(null);
-              //   setActiveItem("Customers");
-              //   // dispatch(getHospitalsList(searchQuery))
-              //   navigate("/customerPage/customers");
-              // }}
-            >
-              Save
-            </Button>
-            <Button
-              size="small"
-              variant="outlined"
-              startIcon={<CloseIcon />}
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   setFormOpen(null);
-              //   // dispatch(getHospitalsList(searchQuery))
-              //   setActiveItem("Customers");
-              //   navigate("/customerPage/customers");
-              // }}
-            >
-              Cancel
-            </Button>
-          </Stack>
-        </Stack>
       </Box>
       <Box display={"flex"} justifyContent={"space-between"} gap={2}>
         <Box

@@ -64,24 +64,6 @@ const ClientDetailsFive = () => {
   return (
     <Stack sx={{ gap: 4 }}>
       <Stack
-        direction={"row"}
-        spacing={2}
-        justifyContent={"end"}
-        marginBottom={"10px"}
-      >
-        <Button
-          size="small"
-          variant="contained"
-          startIcon={<SaveAltIcon />}
-          onClick={(e) => handleSave(e)}
-        >
-          Save
-        </Button>
-        <Button size="small" variant="outlined" startIcon={<CloseIcon />}>
-          Cancel
-        </Button>
-      </Stack>
-      <Stack
         sx={{
           display: "flex",
           flexDirection: "row",
