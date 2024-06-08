@@ -22,6 +22,7 @@ import ClientDetails from "./clientDetails/ClientDetails";
 import CustomerDetails from "./CustomerDetails";
 import { setSelectedTab } from "../Slices/tabSlice";
 import BabyDetailsForm from "./babyDetails/BabyDetailsForm";
+import Lists from "./report/lists";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -195,18 +196,18 @@ const Details = () => {
                   </Box>
                 ))}
               {selectedTab === 3 && (
-                <Box
-                  display={"flex"}
-                  flexDirection={"column"}
-                  sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: "250px",
-                    marginBottom: "250px",
-                  }}
-                >
-                  <Typography>Report</Typography>
-                </Box>
+                // <Box
+                //   display={"flex"}
+                //   flexDirection={"column"}
+                //   sx={{
+                //     justifyContent: "center",
+                //     alignItems: "center",
+                //     marginTop: "250px",
+                //     marginBottom: "250px",
+                //   }}
+                // >
+                <Lists />
+                // </Box>
               )}
             </Box>
           </CardContent>
