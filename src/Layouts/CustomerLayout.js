@@ -7,7 +7,6 @@ import {
   Menu,
   MenuItem,
   MenuList,
-  Paper,
   Stack,
   Typography,
   styled,
@@ -16,18 +15,15 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import Dashboard from "../Admin/Dashboard/Dashboard";
 import { useTheme } from "@emotion/react";
-import dashboardBackGround from "../assets/dasboard_background.png";
 import logo from "../assets/logo.png";
-import DoctorsPage from "../Admin/Doctors/DoctorsPage";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+
 import AddIcon from "@mui/icons-material/Add";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import DoctorAddForm from "../Admin/Doctors/DoctorAddForm";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, stringAvatar } from "../globalFunctions";
 import {
@@ -40,12 +36,7 @@ import {
   getStateList,
 } from "../Admin/Slices/globalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import DoctorView from "../Admin/Doctors/DoctorView";
-import {
-  addHospitals,
-  getHospitalDetails,
-  getHospitalsList,
-} from "../Admin/Slices/hospitalSlice";
+
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -71,13 +62,6 @@ export const CustomerLayout = () => {
   const data = JSON.parse(loginUserDetails);
   const { firstName, lastName } = data;
 
-  const addHospitalData = useSelector(
-    (state) => state.hospitals.hospitalPostData
-  );
-
-  const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail);
-  // console.log('hospitalDetail', hospitalDetail)
-
   const open = Boolean(anchorEl);
 
   useEffect(() => {
@@ -101,10 +85,6 @@ export const CustomerLayout = () => {
   const handleMenuSideBar = (value) => {
     setActiveItem(value);
     setFormOpen(null);
-  };
-
-  const handleAddHospitalFormSubmit = () => {
-    dispatch(addHospitals(addHospitalData));
   };
 
   useEffect(() => {
@@ -164,6 +144,7 @@ export const CustomerLayout = () => {
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
               fontSize: isMobile ? "10px" : "12px",
+              background: isMobile ? "#3333ff" : "#3333ff",
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
@@ -203,8 +184,15 @@ export const CustomerLayout = () => {
             <Button
               variant="contained"
               size="small"
-              sx={{ borderRadius: 0, background: "black" }}
-              startIcon={<ArrowBackIosIcon />}
+              sx={{
+                borderRadius: 0,
+                background: "#cce0ff",
+                padding: 1,
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "18px",
+              }}
+              startIcon={<KeyboardBackspaceIcon />}
               onClick={() => navigate("/dashboard")}
             >
               Back to menu
@@ -213,12 +201,12 @@ export const CustomerLayout = () => {
               variant="contained"
               fullWidth
               size="small"
-              sx={{ borderRadius: 0 }}
+              sx={{ borderRadius: 0, padding: 1 }}
             >
-              Customer Management
+              CUSTOMER MANAGEMENT
             </Button>
           </Stack>
-          <MenuList variant="selectedMenu">
+          <MenuList variant="selectedMenu" sx={{ marginLeft: "15px" }}>
             <MenuItem
               onClick={() => {
                 handleMenuSideBar("Dashboard");
@@ -239,7 +227,16 @@ export const CustomerLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Customers" ? "#f0f0f0" : "inherit",
+                  activeItem === "Customers" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Customers"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Customers"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Customers" ? "bold" : "normal",
               }}
             >
               Customers
@@ -247,12 +244,21 @@ export const CustomerLayout = () => {
 
             <MenuItem
               onClick={() => {
-                handleMenuSideBar("Baby Details ");
+                handleMenuSideBar("Baby Details");
                 navigate("/customerPage/baby_details");
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Baby Details" ? "#f0f0f0" : "inherit",
+                  activeItem === "Baby Details" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Baby Details"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Baby Details"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Baby Details" ? "bold" : "normal",
               }}
             >
               Baby Details
@@ -264,7 +270,16 @@ export const CustomerLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Finance" ? "#f0f0f0" : "inherit",
+                  activeItem === "Finance" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Finance"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Finance"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Finance" ? "bold" : "normal",
               }}
             >
               Finance
@@ -276,7 +291,16 @@ export const CustomerLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Invoices" ? "#f0f0f0" : "inherit",
+                  activeItem === "Invoices" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Invoices"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Invoices"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Invoices" ? "bold" : "normal",
               }}
             >
               Invoices
@@ -287,7 +311,16 @@ export const CustomerLayout = () => {
                 navigate("/customerPage/plans");
               }}
               sx={{
-                backgroundColor: activeItem === "Plans" ? "#f0f0f0" : "inherit",
+                backgroundColor: activeItem === "Plans" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Plans"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Plans"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Plans" ? "bold" : "normal",
               }}
             >
               Plans
@@ -300,7 +333,16 @@ export const CustomerLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Settings" ? "#f0f0f0" : "inherit",
+                  activeItem === "Settings" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Settings"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Settings"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Settings" ? "bold" : "normal",
               }}
             >
               Settings
@@ -390,7 +432,6 @@ export const CustomerLayout = () => {
                               size="small"
                               variant="contained"
                               startIcon={<SaveAltIcon />}
-                              //  onClick={(e) => handleSave(e)}  // Define handleSave function
                             >
                               Save
                             </Button>
@@ -419,7 +460,6 @@ export const CustomerLayout = () => {
                         size="small"
                         variant="contained"
                         startIcon={<SaveAltIcon />}
-                        //  onClick={(e) => handleSave(e)}  // Define handleSave function
                       >
                         Save
                       </Button>
@@ -444,11 +484,34 @@ export const CustomerLayout = () => {
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      // padding: 10,
+                      marginTop: "20px",
                     }}
                   >
                     <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                        marginRight: "990px",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/dashboard");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+
+                    <Button
                       variant="contained"
                       size="small"
+                      sx={{ padding: 1, marginRight: "100px" }}
                       onClick={(e) => {
                         e.preventDefault();
                         navigate("/customerPage/customerForm");
@@ -464,9 +527,15 @@ export const CustomerLayout = () => {
             )}
           </Box>
 
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Typography variant="h5">Customer Management</Typography>{" "}
-            <Typography variant="h4">/</Typography>
+          <Stack
+            direction={"row"}
+            alignItems={"center"}
+            spacing={1}
+            marginLeft={2}
+            marginBottom={3}
+          >
+            <Typography variant="h2">Customer Management</Typography>{" "}
+            <Typography variant="subtitle1">/</Typography>
             <Typography variant="subtitle1">{activeItem}</Typography>
           </Stack>
           <Outlet />
