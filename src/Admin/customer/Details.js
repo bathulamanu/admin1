@@ -68,10 +68,10 @@ const Details = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  gap: 10,
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "100%",
                 }}
-                spacing={5}
               >
                 <Tabs
                   value={selectedTab}
@@ -79,41 +79,50 @@ const Details = () => {
                   centered
                   textColor="primary"
                   indicatorColor="primary"
-                  sx={{}}
+                  sx={{
+                    width: "100%",
+                    "& .MuiTabs-flexContainer": {
+                      justifyContent: "space-between",
+                    },
+                  }}
                 >
                   <Tab
                     label="USER"
                     sx={{
                       fontWeight: selectedTab === 0 ? "bold" : "normal",
-                      marginRight: "100px",
+                      flex: 1,
+                      borderRight: 1,
+                      borderColor: "divider",
                     }}
                   />
                   <Tab
                     label="DETAILS"
                     sx={{
                       fontWeight: selectedTab === 1 ? "bold" : "normal",
-                      marginRight: "100px",
-                      marginLeft: "100px",
+                      flex: 1,
+                      borderRight: 1,
+                      borderColor: "divider",
                     }}
                   />
                   <Tab
                     label="BABY DETAILS"
                     sx={{
                       fontWeight: selectedTab === 2 ? "bold" : "normal",
-                      marginRight: "100px",
-                      marginLeft: "100px",
+                      flex: 1,
+                      borderRight: 1,
+                      borderColor: "divider",
                     }}
                   />
                   <Tab
                     label="REPORT"
                     sx={{
                       fontWeight: selectedTab === 3 ? "bold" : "normal",
-                      marginLeft: "200px",
+                      flex: 1,
                     }}
                   />
                 </Tabs>
+                <Divider sx={{ mb: 3, width: "100%" }} />
               </Stack>
-              <Divider sx={{ mb: 3 }} />
               {/* {selectedTab === 0 &&
                 (showUserDetails ? <CustomerForm /> : <CustomerDetails />)} */}
               {selectedTab === 0 && <CustomerDetails />}
