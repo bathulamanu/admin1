@@ -105,7 +105,7 @@ export const CustomerLayout = () => {
       }}
     >
       <Box
-        width={"100%"}
+        width={"90%"}
         height={"40px"}
         sx={{
           background: "#fff",
@@ -206,7 +206,7 @@ export const CustomerLayout = () => {
               CUSTOMER MANAGEMENT
             </Button>
           </Stack>
-          <MenuList variant="selectedMenu" sx={{ marginLeft: "15px" }}>
+          <MenuList variant="selectedMenu" sx={{ marginLeft: "12px" }}>
             <MenuItem
               onClick={() => {
                 handleMenuSideBar("Dashboard");
@@ -352,8 +352,8 @@ export const CustomerLayout = () => {
         <Box
           sx={{
             background: "#F4F5F9",
-            padding: "8px",
-            width: "85%",
+            padding: "3px",
+            width: "80%",
           }}
         >
           <Box
@@ -388,7 +388,11 @@ export const CustomerLayout = () => {
                           <Button
                             variant="contained"
                             size="small"
-                            sx={{ marginLeft: "1200px" }}
+                            sx={{
+                              marginLeft: "1050px",
+                              marginTop: "30px",
+                              padding: 1,
+                            }}
                             onClick={(e) => {
                               e.preventDefault();
                               navigate("/customerPage/customers/customerEdit");
@@ -402,7 +406,7 @@ export const CustomerLayout = () => {
                             spacing={2}
                             justifyContent={"end"}
                             marginBottom={"10px"}
-                            sx={{ marginLeft: "1100px" }}
+                            sx={{ marginLeft: "950px", marginTop: "30px" }}
                           >
                             <Button
                               size="small"
@@ -426,7 +430,7 @@ export const CustomerLayout = () => {
                             spacing={2}
                             justifyContent={"end"}
                             marginBottom={"10px"}
-                            sx={{ marginLeft: "1100px" }}
+                            sx={{ marginLeft: "950px", marginTop: "30px" }}
                           >
                             <Button
                               size="small"
@@ -454,7 +458,7 @@ export const CustomerLayout = () => {
                       spacing={2}
                       justifyContent={"end"}
                       marginBottom={"10px"}
-                      sx={{ marginLeft: "1100px" }}
+                      sx={{ marginLeft: "1000px", marginTop: "30px" }}
                     >
                       <Button
                         size="small"
@@ -494,7 +498,7 @@ export const CustomerLayout = () => {
                       sx={{
                         background: "inherit",
                         color: "black",
-                        marginRight: "990px",
+                        marginRight: "920px",
                       }}
                       onClick={(e) => {
                         e.preventDefault();
