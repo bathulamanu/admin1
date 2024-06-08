@@ -105,7 +105,7 @@ export const CustomerLayout = () => {
       }}
     >
       <Box
-        width={"90%"}
+        width={"100%"}
         height={"40px"}
         sx={{
           background: "#fff",
@@ -179,34 +179,42 @@ export const CustomerLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", width: "15%" }}>
+        <Box sx={{ height: "100%", width: "20%" }}>
           <Stack spacing={0}>
-            <Button
-              variant="contained"
-              size="small"
+            <Typography
               sx={{
+                display: "flex",
+                flexDirection: "row",
                 borderRadius: 0,
                 background: "#cce0ff",
                 padding: 1,
                 color: "black",
                 fontWeight: "bold",
                 fontSize: "18px",
+                cursor: "pointer",
               }}
-              startIcon={<KeyboardBackspaceIcon />}
               onClick={() => navigate("/dashboard")}
             >
-              Back to menu
-            </Button>
+              <Box>
+                <KeyboardBackspaceIcon sx={{}} />
+              </Box>
+              <Box sx={{ marginLeft: "6px" }}>Back to menu</Box>
+            </Typography>
             <Button
               variant="contained"
               fullWidth
               size="small"
-              sx={{ borderRadius: 0, padding: 1 }}
+              sx={{
+                borderRadius: 0,
+                padding: 1,
+                fontWeight: "bold",
+                fontSize: "18px",
+              }}
             >
               CUSTOMER MANAGEMENT
             </Button>
           </Stack>
-          <MenuList variant="selectedMenu" sx={{ marginLeft: "12px" }}>
+          <MenuList variant="selectedMenu" sx={{ marginLeft: "20px" }}>
             <MenuItem
               onClick={() => {
                 handleMenuSideBar("Dashboard");
