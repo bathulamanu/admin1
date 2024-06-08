@@ -245,6 +245,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Customers" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Customers
@@ -267,6 +270,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Baby Details" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Baby Details
@@ -288,6 +294,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Finance" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Finance
@@ -309,6 +318,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Invoices" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Invoices
@@ -329,6 +341,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Plans" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Plans
@@ -351,6 +366,9 @@ export const CustomerLayout = () => {
                     ? `4px solid ${theme.palette.primary.main}`
                     : "none",
                 fontWeight: activeItem === "Settings" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Settings
