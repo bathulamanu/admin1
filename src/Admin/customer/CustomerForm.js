@@ -156,7 +156,7 @@ const CustomerForm = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      // maxWidth="xl"
       disableGutters
       sx={{
         maxHeight: "75%",
@@ -578,7 +578,7 @@ const CustomerForm = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "400px" }}
+                sx={{ marginTop: "10px", marginLeft: "350px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />
