@@ -27,7 +27,7 @@ const CustomerTableColumn = () => {
         </StyledHeader>
       ),
       flex: 1,
-      sortable: true,
+      sortable: false,
       disableColumnFilter: true,
       disableColumnMenu: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
@@ -42,7 +42,7 @@ const CustomerTableColumn = () => {
       ),
       flex: 1,
       disableColumnMenu: true,
-      sortable: true,
+      sortable: false,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.RegDate),
     },
@@ -56,7 +56,7 @@ const CustomerTableColumn = () => {
       ),
       flex: 1,
       disableColumnMenu: true,
-      sortable: true,
+      sortable: false,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
     },
@@ -68,7 +68,7 @@ const CustomerTableColumn = () => {
           <UnfoldMoreIcon style={{ marginLeft: 4 }} />
         </StyledHeader>
       ),
-      sortable: true,
+      sortable: false,
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
@@ -82,7 +82,7 @@ const CustomerTableColumn = () => {
           <UnfoldMoreIcon style={{ marginLeft: 4 }} />
         </StyledHeader>
       ),
-      sortable: true,
+      sortable: false,
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
