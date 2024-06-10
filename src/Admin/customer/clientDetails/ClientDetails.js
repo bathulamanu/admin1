@@ -56,7 +56,11 @@ const ClientDetails = () => {
         <Stack direction={"row"} justifyContent={"center"} spacing={2}>
           {!showPreview && (
             <Typography
-              sx={{ fontWeight: "bold", paddingTop: "4px" }}
+              sx={{
+                fontWeight: "bold",
+                paddingTop: "4px",
+                paddingBottom: "20px",
+              }}
               variant="h5"
             >
               {currentStep === 8

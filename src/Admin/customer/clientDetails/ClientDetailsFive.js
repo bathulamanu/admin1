@@ -14,8 +14,6 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
 
 const headingStyle = {
   fontSize: "16px",
@@ -25,6 +23,7 @@ const headingStyle = {
 };
 
 const inputLableStyle = {
+  color: "black",
   fontSize: "14px",
   fontWeight: "bold",
   display: "flex",

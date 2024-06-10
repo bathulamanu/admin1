@@ -189,7 +189,6 @@ export const CustomerLayout = () => {
                 background: "#cce0ff",
                 padding: 1,
                 color: "black",
-                fontWeight: "bold",
                 fontSize: "18px",
                 cursor: "pointer",
               }}
@@ -198,7 +197,7 @@ export const CustomerLayout = () => {
               <Box>
                 <KeyboardBackspaceIcon sx={{}} />
               </Box>
-              <Box sx={{ marginLeft: "6px" }}>Back to menu</Box>
+              <Box sx={{ marginLeft: "6px" }}>Back to Menu</Box>
             </Typography>
             <Button
               variant="contained"
@@ -207,7 +206,6 @@ export const CustomerLayout = () => {
               sx={{
                 borderRadius: 0,
                 padding: 1,
-                fontWeight: "bold",
                 fontSize: "18px",
               }}
             >
@@ -411,107 +409,221 @@ export const CustomerLayout = () => {
                         }}
                       >
                         {selectedTab === 0 ? (
-                          <Button
-                            variant="contained"
-                            size="small"
+                          <Box
                             sx={{
-                              marginLeft: "1050px",
-                              marginTop: "30px",
-                              padding: 1,
-                            }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate("/customerPage/customers/customerEdit");
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              // padding: 10,
+                              marginTop: "20px",
                             }}
                           >
-                            <EditIcon fontSize="small" /> Edit
-                          </Button>
+                            <Button
+                              // variant="contained"
+                              size="small"
+                              sx={{
+                                background: "inherit",
+                                color: "black",
+                                marginRight: "920px",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/customerPage/customers");
+                              }}
+                            >
+                              <ArrowBackIosIcon
+                                sx={{ height: 16, width: 16 }}
+                                fontSize="small"
+                              />{" "}
+                              Back
+                            </Button>
+                            <Button
+                              variant="contained"
+                              size="small"
+                              sx={{
+                                padding: 1,
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate(
+                                  "/customerPage/customers/customerEdit"
+                                );
+                              }}
+                            >
+                              <EditIcon fontSize="small" /> Edit
+                            </Button>
+                          </Box>
                         ) : selectedTab === 1 ? (
-                          <Stack
-                            direction={"row"}
-                            spacing={2}
-                            justifyContent={"end"}
-                            marginBottom={"10px"}
-                            sx={{ marginLeft: "950px", marginTop: "30px" }}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              // padding: 10,
+                              marginTop: "20px",
+                            }}
                           >
                             <Button
+                              // variant="contained"
                               size="small"
-                              variant="contained"
-                              startIcon={<SaveAltIcon />}
-                              //  onClick={(e) => handleSave(e)}  // Define handleSave function
+                              sx={{
+                                background: "inherit",
+                                color: "black",
+                                marginRight: "920px",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/customerPage/customers/allDetails");
+                              }}
                             >
-                              Save
+                              <ArrowBackIosIcon
+                                sx={{ height: 16, width: 16 }}
+                                fontSize="small"
+                              />{" "}
+                              Back
                             </Button>
-                            <Button
-                              size="small"
-                              variant="outlined"
-                              startIcon={<CloseIcon />}
+                            <Stack
+                              direction={"row"}
+                              spacing={2}
+                              justifyContent={"end"}
+                              marginBottom={"10px"}
                             >
-                              Cancel
-                            </Button>
-                          </Stack>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                startIcon={<SaveAltIcon />}
+                              >
+                                Save
+                              </Button>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                startIcon={<CloseIcon />}
+                              >
+                                Cancel
+                              </Button>
+                            </Stack>
+                          </Box>
                         ) : selectedTab === 2 ? (
-                          <Stack
-                            direction={"row"}
-                            spacing={2}
-                            justifyContent={"end"}
-                            marginBottom={"10px"}
-                            sx={{ marginLeft: "950px", marginTop: "30px" }}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              // padding: 10,
+                              marginTop: "20px",
+                            }}
                           >
                             <Button
+                              // variant="contained"
                               size="small"
-                              variant="contained"
-                              startIcon={<SaveAltIcon />}
+                              sx={{
+                                background: "inherit",
+                                color: "black",
+                                marginRight: "920px",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/customerPage/customers");
+                              }}
                             >
-                              Save
+                              <ArrowBackIosIcon
+                                sx={{ height: 16, width: 16 }}
+                                fontSize="small"
+                              />{" "}
+                              Back
                             </Button>
+                            <Stack
+                              direction={"row"}
+                              spacing={2}
+                              justifyContent={"end"}
+                              marginBottom={"10px"}
+                            >
+                              <Button
+                                size="small"
+                                variant="contained"
+                                startIcon={<SaveAltIcon />}
+                              >
+                                Save
+                              </Button>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                startIcon={<CloseIcon />}
+                              >
+                                Cancel
+                              </Button>
+                            </Stack>
+                          </Box>
+                        ) : selectedTab === 3 ? (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              justifyContent: "space-between",
+                              // padding: 10,
+                              marginTop: "20px",
+                            }}
+                          >
                             <Button
+                              // variant="contained"
                               size="small"
-                              variant="outlined"
-                              startIcon={<CloseIcon />}
+                              sx={{
+                                background: "inherit",
+                                color: "black",
+                                marginRight: "920px",
+                              }}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                navigate("/customerPage/customers");
+                              }}
                             >
-                              Cancel
+                              <ArrowBackIosIcon
+                                sx={{ height: 16, width: 16 }}
+                                fontSize="small"
+                              />{" "}
+                              Back
                             </Button>
-                          </Stack>
+                          </Box>
                         ) : null}
                       </Box>
                     )}
                 </Stack>
                 <Stack>
                   {pathname && pathname === "/customerPage/customerForm" && (
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      justifyContent={"end"}
-                      marginBottom={"10px"}
-                      sx={{ marginLeft: "1000px", marginTop: "30px" }}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        // padding: 10,
+                        marginTop: "20px",
+                      }}
                     >
                       <Button
+                        // variant="contained"
                         size="small"
-                        variant="contained"
-                        startIcon={<SaveAltIcon />}
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                          marginRight: "920px",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customers");
+                        }}
                       >
-                        Save
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
                       </Button>
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        startIcon={<CloseIcon />}
-                      >
-                        Cancel
-                      </Button>
-                    </Stack>
-                  )}
-                </Stack>
-                <Stack>
-                  {pathname &&
-                    pathname === "/customerPage/customers/customerEdit" && (
                       <Stack
                         direction={"row"}
                         spacing={2}
                         justifyContent={"end"}
                         marginBottom={"10px"}
-                        sx={{ marginLeft: "1000px", marginTop: "30px" }}
                       >
                         <Button
                           size="small"
@@ -528,6 +640,62 @@ export const CustomerLayout = () => {
                           Cancel
                         </Button>
                       </Stack>
+                    </Box>
+                  )}
+                </Stack>
+                <Stack>
+                  {pathname &&
+                    pathname === "/customerPage/customers/customerEdit" && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          // padding: 10,
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Button
+                          // variant="contained"
+                          size="small"
+                          sx={{
+                            background: "inherit",
+                            color: "black",
+                            marginRight: "920px",
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/customerPage/customers/allDetails");
+                          }}
+                        >
+                          <ArrowBackIosIcon
+                            sx={{ height: 16, width: 16 }}
+                            fontSize="small"
+                          />{" "}
+                          Back
+                        </Button>
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          justifyContent={"end"}
+                          marginBottom={"10px"}
+                        >
+                          <Button
+                            size="small"
+                            variant="contained"
+                            startIcon={<SaveAltIcon />}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<CloseIcon />}
+                          >
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </Box>
                     )}
                 </Stack>
               </Stack>

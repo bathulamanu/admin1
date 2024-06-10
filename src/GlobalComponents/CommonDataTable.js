@@ -16,11 +16,7 @@ import React from "react";
 
 const CommonDataTable = ({ rows, columns }) => {
   return (
-    <Grid
-      container
-      justifyContent="center"
-      style={{ height: "100vh", padding: 20 }}
-    >
+    <Grid container justifyContent="center" style={{ padding: 20 }}>
       <Grid item xs={12} style={{ maxWidth: 1200 }}>
         <DataGrid
           rows={rows}
