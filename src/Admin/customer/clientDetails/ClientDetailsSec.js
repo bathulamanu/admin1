@@ -17,14 +17,14 @@ import {
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 
 const headingStyle = {
-  fontSize: "16px",
-  fontWeight: "bold",
+  fontSize: "24px",
+  fontWeight: 500,
 };
 
 const inputLableStyle = {
   color: "black",
   fontSize: "14px",
-  fontWeight: "bold",
+  fontWeight: 500,
   display: "flex",
   alignItems: "center",
 };

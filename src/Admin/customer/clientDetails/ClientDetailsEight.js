@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 
 const headingStyle = {
-  fontSize: "18px",
-  fontWeight: "bold",
+  fontSize: "24px",
+  fontWeight: 500,
   marginTop: "10px",
   marginLeft: "5px",
 };

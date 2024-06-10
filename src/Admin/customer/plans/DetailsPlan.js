@@ -16,9 +16,8 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
-  top: "10px",
   right: "-10px",
-  padding: "5px 10px",
+  padding: "15px 15px",
   backgroundColor:
     type === "bestValue"
       ? "#F71E93"
@@ -29,6 +28,7 @@ const HighlightLabel = styled("div")(({ type }) => ({
   fontWeight: "bold",
   borderRadius: "0 5px 5px 0",
   textTransform: "uppercase",
+  transform: "rotate(45deg)",
 }));
 
 const CardHeader = styled("div")({
@@ -192,6 +192,22 @@ const DetailsPlan = () => {
         padding: "8px",
       }}
     >
+      <Stack
+        sx={{
+          marginTop: "15px",
+          marginBottom: "15px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5" sx={{ fontSize: "24px", fontWeight: 500 }}>
+          Choose Your Plans
+        </Typography>
+        <Typography variant="h5" sx={{ fontSize: "14px", fontWeight: 500 }}>
+          Stem cell banking pricing plans
+        </Typography>
+      </Stack>
       <Box
         sx={{
           display: "flex",

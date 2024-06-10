@@ -57,7 +57,8 @@ const ClientDetails = () => {
           {!showPreview && (
             <Typography
               sx={{
-                fontWeight: "500",
+                fontSize: "24px",
+                fontWeight: 500,
                 paddingTop: "4px",
                 paddingBottom: "20px",
               }}

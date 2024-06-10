@@ -13,8 +13,8 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
 
 const headingStyle = {
-  // fontSize: "18px",
-  fontWeight: "bold",
+  fontSize: "24px",
+  fontWeight: 500,
   marginTop: "10px",
   marginLeft: "5px",
   textAlign: "center",
