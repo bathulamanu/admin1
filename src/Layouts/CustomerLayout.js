@@ -503,6 +503,33 @@ export const CustomerLayout = () => {
                     </Stack>
                   )}
                 </Stack>
+                <Stack>
+                  {pathname &&
+                    pathname === "/customerPage/customers/customerEdit" && (
+                      <Stack
+                        direction={"row"}
+                        spacing={2}
+                        justifyContent={"end"}
+                        marginBottom={"10px"}
+                        sx={{ marginLeft: "1000px", marginTop: "30px" }}
+                      >
+                        <Button
+                          size="small"
+                          variant="contained"
+                          startIcon={<SaveAltIcon />}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          startIcon={<CloseIcon />}
+                        >
+                          Cancel
+                        </Button>
+                      </Stack>
+                    )}
+                </Stack>
               </Stack>
             )}
 
