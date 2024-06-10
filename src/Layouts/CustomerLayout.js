@@ -703,49 +703,70 @@ export const CustomerLayout = () => {
 
             {formOpen == null ? (
               <Stack>
-                {pathname && pathname === "/customerPage/customers" && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      // padding: 10,
-                      marginTop: "20px",
-                    }}
-                  >
-                    <Button
-                      // variant="contained"
-                      size="small"
+                <Stack>
+                  {pathname && pathname === "/customerPage/customers" && (
+                    <Box
                       sx={{
-                        background: "inherit",
-                        color: "black",
-                        marginRight: "920px",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/dashboard");
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        // padding: 10,
+                        marginTop: "20px",
                       }}
                     >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
+                      <Button
+                        // variant="contained"
+                        size="small"
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                          marginRight: "920px",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/dashboard");
+                        }}
+                      >
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
+                      </Button>
 
+                      <Button
+                        variant="contained"
+                        size="small"
+                        sx={{ padding: 1, marginRight: "100px" }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customerForm");
+                        }}
+                      >
+                        <AddIcon fontSize="small" /> Add Customer
+                      </Button>
+                    </Box>
+                  )}
+                </Stack>
+                <Stack>
+                  {pathname && pathname === "/customerPage/plans" && (
                     <Button
                       variant="contained"
                       size="small"
-                      sx={{ padding: 1, marginRight: "100px" }}
+                      sx={{
+                        padding: 1,
+                        marginTop: "20px",
+                        marginRight: "100px",
+                      }}
                       onClick={(e) => {
                         e.preventDefault();
-                        navigate("/customerPage/customerForm");
+                        navigate("/customerPage/plans/plansForm");
                       }}
                     >
-                      <AddIcon fontSize="small" /> Add Customer
+                      <AddIcon fontSize="small" /> Create Plan
                     </Button>
-                  </Box>
-                )}
+                  )}
+                </Stack>
               </Stack>
             ) : (
               <Stack direction={"row"} spacing={2}></Stack>
