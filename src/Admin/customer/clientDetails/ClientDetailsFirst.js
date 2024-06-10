@@ -15,15 +15,14 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
 
 const headingStyle = {
-  fontSize: "14px",
+  fontSize: "16px",
   fontWeight: "bold",
 };
 
 const inputLableStyle = {
+  color: "black",
   fontSize: "14px",
   fontWeight: "bold",
   display: "flex",
@@ -69,11 +68,6 @@ const ClientDetailsFirst = () => {
     }));
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
-  };
-
   return (
     <Card variant="outlined">
       <CardContent
@@ -81,6 +75,7 @@ const ClientDetailsFirst = () => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          gap: 2,
         }}
       >
         <Card variant="outlined">
@@ -243,10 +238,10 @@ const ClientDetailsFirst = () => {
         </Card>
         <Card variant="outlined">
           <CardContent sx={{ width: "550px" }}>
-            <Typography variant="h5" sx={{ marginTop: "20px" }}>
+            <Typography variant="h5" sx={headingStyle}>
               Upload Father's Picture
             </Typography>
-            <Card variant="outlined">
+            <Card variant="outlined" sx={{ marginTop: "10px" }}>
               <CardContent>
                 <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
                   <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
@@ -288,10 +283,10 @@ const ClientDetailsFirst = () => {
               Upload Image
               <VisuallyHiddenInput type="file" />
             </Button>
-            <Typography variant="h5" sx={{ marginTop: "40px" }}>
-              Upload ID Proof
+            <Typography variant="h5" sx={headingStyle}>
+              Upload ID Proofs
             </Typography>
-            <Card variant="outlined">
+            <Card variant="outlined" sx={{ marginTop: "10px" }}>
               <CardContent>
                 <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
                   <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />

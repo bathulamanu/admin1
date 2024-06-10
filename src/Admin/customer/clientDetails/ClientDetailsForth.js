@@ -17,8 +17,6 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCityIdList,
@@ -27,13 +25,14 @@ import {
 } from "../../../globalFunctions";
 
 const headingStyle = {
-  fontSize: "20px",
+  fontSize: "16px",
   fontWeight: "bold",
   marginTop: "10px",
-  marginLeft: "5px",
+  marginLeft: "15px",
 };
 
 const inputLableStyle = {
+  color: "black",
   fontSize: "14px",
   fontWeight: "bold",
   display: "flex",
@@ -44,18 +43,6 @@ const redStarStyle = {
   color: "red",
   marginLeft: "4px",
 };
-
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
 
 const ClientDetailsForth = () => {
   const getStateList = useSelector((state) => state.global.stateList);
@@ -94,10 +81,6 @@ const ClientDetailsForth = () => {
     }));
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
-  };
   return (
     <Card variant="outlined">
       <Typography variant="h5" sx={headingStyle}>
@@ -201,6 +184,7 @@ const ClientDetailsForth = () => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            gap: 2,
           }}
         >
           <Card variant="outlined">
@@ -287,7 +271,7 @@ const ClientDetailsForth = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item style={{ width: "100%" }}>
+                <Grid item style={{ width: "100%", color: "black" }}>
                   <FormControlLabel
                     control={
                       <Checkbox
