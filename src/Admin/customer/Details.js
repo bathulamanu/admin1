@@ -104,7 +104,8 @@ const Details = () => {
                   <Tab
                     label="USER"
                     sx={{
-                      fontWeight: selectedTab === 0 ? "bold" : "normal",
+                      fontWeight: "bold",
+                      // fontWeight: selectedTab === 0 ? "bold" : "normal",
                       flex: 1,
                       borderRight: 1,
                       borderColor: "divider",
@@ -113,7 +114,8 @@ const Details = () => {
                   <Tab
                     label="DETAILS"
                     sx={{
-                      fontWeight: selectedTab === 1 ? "bold" : "normal",
+                      fontWeight: "bold",
+                      // fontWeight: selectedTab === 1 ? "bold" : "normal",
                       flex: 1,
                       borderRight: 1,
                       borderColor: "divider",
@@ -122,7 +124,8 @@ const Details = () => {
                   <Tab
                     label="BABY DETAILS"
                     sx={{
-                      fontWeight: selectedTab === 2 ? "bold" : "normal",
+                      fontWeight: "bold",
+                      // fontWeight: selectedTab === 2 ? "bold" : "normal",
                       flex: 1,
                       borderRight: 1,
                       borderColor: "divider",
@@ -131,7 +134,8 @@ const Details = () => {
                   <Tab
                     label="REPORT"
                     sx={{
-                      fontWeight: selectedTab === 3 ? "bold" : "normal",
+                      fontWeight: "bold",
+                      // fontWeight: selectedTab === 3 ? "bold" : "normal",
                       flex: 1,
                     }}
                   />
