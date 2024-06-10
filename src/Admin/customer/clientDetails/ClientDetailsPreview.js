@@ -200,11 +200,11 @@ const ClientDetailsPreview = () => {
                     <Typography variant="subtitle2"></Typography>
                   </Stack>
                 </Stack>
-                <Stack direction="column" sx={{ marginRight: "10px", gap: 4 }}>
-                  <Avatar sx={{ width: 150, height: 150, marginLeft: 4 }} />
+                <Stack direction="column" sx={{ marginRight: "30px", gap: 4 }}>
+                  <Avatar sx={{ width: 100, height: 100, marginLeft: 4 }} />
                   <Box
                     sx={{
-                      width: 200,
+                      width: 150,
                       height: 100,
                       backgroundColor: "lightgray",
                       display: "flex",
@@ -350,11 +350,11 @@ const ClientDetailsPreview = () => {
                     <Typography variant="subtitle2"></Typography>
                   </Stack>
                 </Stack>
-                <Stack direction="column" sx={{ marginRight: "10px", gap: 4 }}>
-                  <Avatar sx={{ width: 150, height: 150, marginLeft: 4 }} />
+                <Stack direction="column" sx={{ marginRight: "30px", gap: 4 }}>
+                  <Avatar sx={{ width: 100, height: 100, marginLeft: 4 }} />
                   <Box
                     sx={{
-                      width: 200,
+                      width: 150,
                       height: 100,
                       backgroundColor: "lightgray",
                       display: "flex",
