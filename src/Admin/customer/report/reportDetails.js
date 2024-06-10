@@ -101,11 +101,27 @@ const ReportDetails = () => {
                     }}
                     onClick={() => setOpenView(!openView)}
                   />
-                  <div style={{ textAlign: "center" }}>
-                    <h5>0012 - Customer name</h5>
-                    <h2>View File</h2>
-                    <h2>Maternity sample report</h2>
-                    <div
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "bold",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      0012 - Customer name
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      View File
+                    </Typography>
+                    <Typography>Maternity sample report</Typography>
+                    <Box
                       style={{
                         border: "1px solid #000",
                         width: "300px",
@@ -114,9 +130,10 @@ const ReportDetails = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        marginTop: "10px",
                       }}
                     >
-                      <div
+                      <Box
                         style={{
                           border: "1px solid #000",
                           width: "270px",
@@ -128,8 +145,8 @@ const ReportDetails = () => {
                         }}
                       >
                         {/* Image content will go here */}
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     <Button
                       variant="contained"
                       color="primary"
@@ -140,7 +157,7 @@ const ReportDetails = () => {
                     >
                       Done
                     </Button>
-                  </div>
+                  </Box>
                 </DialogContent>
               </Dialog>
               <Button
@@ -168,10 +185,26 @@ const ReportDetails = () => {
                     }}
                     onClick={() => setOpenEdit(!openEdit)}
                   />
-                  <div style={{ textAlign: "center" }}>
-                    <h5>0012 - Customer name</h5>
-                    <h2>Edit/Upload File</h2>
-                    <h2>Maternity sample report</h2>
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "bold",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      0012 - Customer name
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      Edit/Upload File
+                    </Typography>
+                    <Typography>Maternity sample report</Typography>
                     <Box sx={{ marginBottom: "10px" }}>
                       <Button
                         component="label"
@@ -185,7 +218,7 @@ const ReportDetails = () => {
                         <VisuallyHiddenInput type="file" />
                       </Button>
                     </Box>
-                    <div
+                    <Box
                       style={{
                         border: "1px solid #000",
                         width: "300px",
@@ -194,9 +227,10 @@ const ReportDetails = () => {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        marginTop: "10px",
                       }}
                     >
-                      <div
+                      <Box
                         style={{
                           border: "1px solid #000",
                           width: "270px",
@@ -208,8 +242,8 @@ const ReportDetails = () => {
                         }}
                       >
                         {/* Image content will go here */}
-                      </div>
-                    </div>
+                      </Box>
+                    </Box>
                     <Button
                       variant="contained"
                       color="primary"
@@ -220,7 +254,7 @@ const ReportDetails = () => {
                     >
                       Upload
                     </Button>
-                  </div>
+                  </Box>
                 </DialogContent>
               </Dialog>
               <Button
@@ -248,46 +282,64 @@ const ReportDetails = () => {
                     }}
                     onClick={() => setOpenDelete(!openDelete)}
                   />
-                  <div style={{ textAlign: "center" }}>
-                    <h5>0012 - Customer name</h5>
-                    <h2>View File</h2>
-                    <h2>Maternity sample report</h2>
-                    <div
-                      style={{
-                        border: "1px solid #000",
-                        width: "80%",
-                        height: "400px",
-                        margin: "0 auto",
+                  <Box sx={{ textAlign: "center" }}>
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: "bold",
+                        marginBottom: "20px",
+                      }}
+                    >
+                      0012 - Customer name
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "24px",
+                        fontWeight: "bold",
+                        marginBottom: "6px",
+                      }}
+                    >
+                      Delete File
+                    </Typography>
+                    <Typography>
+                      Are you sure you want to delete the file?
+                    </Typography>
+                    <Stack
+                      sx={{
                         display: "flex",
+                        flexDirection: "row",
+                        gap: 2,
                         justifyContent: "center",
                         alignItems: "center",
+                        marginTop: "10px",
                       }}
                     >
-                      <div
-                        style={{
-                          border: "1px solid #000",
-                          width: "79%",
-                          height: "370px",
-                          margin: "0 auto",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
+                      {" "}
+                      <Button
+                        variant="contained"
+                        // color="primary"
+                        sx={{
+                          borderRadius: "30px",
+                          background: "#f0f0f0",
+                          color: "black",
+                          "&:hover": {
+                            background: "#f0f0f0",
+                          },
                         }}
                       >
-                        {/* Image content will go here */}
-                      </div>
-                    </div>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      sx={{
-                        marginTop: "20px",
-                        borderRadius: "30px",
-                      }}
-                    >
-                      Done
-                    </Button>
-                  </div>
+                        Cancel
+                      </Button>{" "}
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{
+                          borderRadius: "30px",
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </Stack>
+                  </Box>
                 </DialogContent>
               </Dialog>
             </Stack>
