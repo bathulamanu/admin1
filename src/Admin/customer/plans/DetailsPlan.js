@@ -16,8 +16,9 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
-  right: "-10px",
-  padding: "15px 15px",
+  top: "20px",
+  right: "-70px",
+  padding: "22px 60px",
   backgroundColor:
     type === "bestValue"
       ? "#F71E93"
@@ -26,9 +27,10 @@ const HighlightLabel = styled("div")(({ type }) => ({
       : "inherit",
   color: "white",
   fontWeight: "bold",
-  borderRadius: "0 5px 5px 0",
+  borderRadius: "5px",
   textTransform: "uppercase",
-  transform: "rotate(45deg)",
+  transform: "rotate(49deg)",
+  zIndex: 1,
 }));
 
 const CardHeader = styled("div")({
