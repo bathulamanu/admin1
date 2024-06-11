@@ -14,13 +14,11 @@ import {
   OutlinedInput,
   InputLabel,
   FormControl,
+  Tooltip,
 } from "@mui/material";
-import { styled } from "@mui/system";
-
-const headingStyle = {
-  fontSize: "24px",
-  fontWeight: 500,
-};
+import SingleSelect from "../../../GlobalComponents/SingleSelect";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 
 const inputLableStyle = {
   color: "black",
@@ -47,6 +45,8 @@ const PlansForm = () => {
     idProof: "",
     idProofNo: "",
     otherId: "",
+    desc: "",
+    additionalInfo: "",
   });
 
   const handleChange = (e, name) => {
@@ -55,6 +55,34 @@ const PlansForm = () => {
       ...prev,
       [name]: value,
     }));
+  };
+
+  // const modules = {
+  //   toolbar: [
+  //     [{ header: "1" }, { header: "2" }, { font: [] }],
+  //     [{ size: [] }],
+  //     ["bold", "italic", "underline", "strike", "blockquote"],
+  //     [
+  //       { list: "ordered" },
+  //       { list: "bullet" },
+  //       { indent: "-1" },
+  //       { indent: "+1" },
+  //     ],
+  //     ["link", "image", "video"],
+  //     ["clean"],
+  //   ],
+  // };
+  const modules = {
+    toolbar: [
+      ["bold", "italic", "underline"],
+      [{ color: [] }],
+      [{ align: [] }],
+      [{ align: "center" }],
+      [{ align: "right" }],
+      [{ align: "justify" }],
+      [{ list: "bullet" }],
+      // ["clean"],
+    ],
   };
   return (
     <Container
@@ -95,14 +123,15 @@ const PlansForm = () => {
             flexDirection: "column",
             width: "600px",
             gap: 2,
+            marginBottom: "60px",
           }}
         >
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardContent>
-              <Grid container spacing={2} pt={3}>
-                <Grid item xs={6}>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
-                    Expectant Father Name <span style={redStarStyle}>*</span>
+                    Title<span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
@@ -110,16 +139,168 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.fatherName}
-                      onChange={(e) => handleChange(e, "fatherName")}
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Sub - Title<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Organization Name<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Icon<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Currency Symbol<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
                     />
                   </FormControl>
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
-          <Card variant="outlined">
-            <CardContent></CardContent>
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    EMI Amount<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    EMI Text<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent> */}
+          <Grid container spacing={2} pt={1} pb={1}>
+            <Grid item style={{ width: "100%" }}>
+              <ReactQuill
+                value={formValues?.desc}
+                onChange={(e) => handleChange(e, "desc")}
+                modules={modules}
+                placeholder="Description"
+                theme="snow"
+              />
+            </Grid>
+          </Grid>
+          {/* </CardContent>
+          </Card> */}
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Button Text<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.idProof}
+                    onChange={(e) => handleChange(e, "idProof")}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Status<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.idProof}
+                    onChange={(e) => handleChange(e, "idProof")}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
           </Card>
         </Stack>
         <Stack
@@ -130,11 +311,183 @@ const PlansForm = () => {
             gap: 2,
           }}
         >
-          <Card variant="outlined">
-            <CardContent></CardContent>
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Price<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Offer Price<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Event Offer Price<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </CardContent>
           </Card>
-          <Card variant="outlined">
-            <CardContent></CardContent>
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Ribbon<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Ribbon Status<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.idProof}
+                    onChange={(e) => handleChange(e, "idProof")}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          {/* Additional info */}
+          {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent> */}
+          <Grid container spacing={2} pt={1} pb={1}>
+            <Grid item style={{ width: "100%" }}>
+              <ReactQuill
+                theme="snow"
+                value={formValues?.additionalInfo}
+                onChange={(e) => handleChange(e, "additionalInfo")}
+                modules={modules}
+                placeholder="Additional Info"
+              />
+            </Grid>
+          </Grid>
+          {/* </CardContent>
+          </Card> */}
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Duration Year<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Duration Year Text<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Custom Text<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.orgName}
+                      onChange={(e) => handleChange(e, "orgName")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
+            <CardContent>
+              <Grid container spacing={2} pt={1} pb={1}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Offer Timing (Date & Time)
+                    <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.idProof}
+                    onChange={(e) => handleChange(e, "idProof")}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
           </Card>
         </Stack>
       </Stack>
