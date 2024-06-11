@@ -23,11 +23,11 @@ const CustomerTableColumn = () => {
       headerName: (
         <StyledHeader>
           CUSTOMER NAME
-          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+          {/* <UnfoldMoreIcon style={{ marginLeft: 4 }} /> */}
         </StyledHeader>
       ),
       flex: 1,
-      sortable: false,
+      sortable: true,
       disableColumnFilter: true,
       disableColumnMenu: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
@@ -37,12 +37,12 @@ const CustomerTableColumn = () => {
       headerName: (
         <StyledHeader>
           REGISTER DATE
-          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+          {/* <UnfoldMoreIcon style={{ marginLeft: 4 }} /> */}
         </StyledHeader>
       ),
       flex: 1,
       disableColumnMenu: true,
-      sortable: false,
+      sortable: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.RegDate),
     },
@@ -51,12 +51,12 @@ const CustomerTableColumn = () => {
       headerName: (
         <StyledHeader>
           CRN NUMBER
-          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+          {/* <UnfoldMoreIcon style={{ marginLeft: 4 }} /> */}
         </StyledHeader>
       ),
       flex: 1,
       disableColumnMenu: true,
-      sortable: false,
+      sortable: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
     },
@@ -65,10 +65,10 @@ const CustomerTableColumn = () => {
       headerName: (
         <StyledHeader>
           CONTACT
-          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+          {/* <UnfoldMoreIcon style={{ marginLeft: 4 }} /> */}
         </StyledHeader>
       ),
-      sortable: false,
+      sortable: true,
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
@@ -79,10 +79,10 @@ const CustomerTableColumn = () => {
       headerName: (
         <StyledHeader>
           LOCATION
-          <UnfoldMoreIcon style={{ marginLeft: 4 }} />
+          {/* <UnfoldMoreIcon style={{ marginLeft: 4 }} /> */}
         </StyledHeader>
       ),
-      sortable: false,
+      sortable: true,
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
