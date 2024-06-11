@@ -201,8 +201,11 @@ const DetailsPlan = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h5" sx={{ fontSize: "24px", fontWeight: 500 }}>
-          Choose Your Plans
+        <Typography
+          variant="h5"
+          sx={{ fontSize: "24px", fontWeight: 500, marginBottom: "10px" }}
+        >
+          CHOOSE YOUR PLANS
         </Typography>
         <Typography variant="h5" sx={{ fontSize: "14px", fontWeight: 500 }}>
           Stem cell banking pricing plans
