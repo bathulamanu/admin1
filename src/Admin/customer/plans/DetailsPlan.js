@@ -105,7 +105,7 @@ const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
       )}
       <CardHeader>
         <SubHeaderTitle variant="body2">
-          <Typography sx={{ marginRight: "140px", fontWeight: "bold" }}>
+          <Typography sx={{ marginRight: "130px", fontWeight: "bold" }}>
             {subheader}
           </Typography>
         </SubHeaderTitle>
@@ -201,8 +201,11 @@ const DetailsPlan = () => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h5" sx={{ fontSize: "24px", fontWeight: 500 }}>
-          Choose Your Plans
+        <Typography
+          variant="h5"
+          sx={{ fontSize: "24px", fontWeight: 500, marginBottom: "10px" }}
+        >
+          CHOOSE YOUR PLANS
         </Typography>
         <Typography variant="h5" sx={{ fontSize: "14px", fontWeight: 500 }}>
           Stem cell banking pricing plans
@@ -273,7 +276,7 @@ const DetailsPlan = () => {
           justifyContent: "center",
           alignContent: "center",
           marginTop: "20px",
-          marginBottom: "20px",
+          marginBottom: "60px",
         }}
       >
         <Card variant="outlined">

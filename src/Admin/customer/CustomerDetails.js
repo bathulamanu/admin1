@@ -18,8 +18,8 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 
 const headingStyle = {
-  fontSize: "20px",
-  fontWeight: "bold",
+  fontSize: "24px",
+  fontWeight: 500,
 };
 
 const CustomerDetails = () => {
@@ -91,14 +91,14 @@ const CustomerDetails = () => {
                     direction={"row"}
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Stack spacing={2}>
+                    <Stack spacing={2} marginLeft={"10px"}>
                       <Stack direction={"row"} spacing={2}>
                         <Typography
                           variant="subtitle2"
                           sx={{
                             minWidth: "80px",
-                            fontSize: "18px",
-                            fontWeight: "bold",
+                            fontSize: "14px",
+                            fontWeight: 500,
                           }}
                         >
                           First Name :
@@ -110,8 +110,8 @@ const CustomerDetails = () => {
                           variant="subtitle2"
                           sx={{
                             minWidth: "80px",
-                            fontSize: "18px",
-                            fontWeight: "bold",
+                            fontSize: "14px",
+                            fontWeight: 500,
                           }}
                         >
                           Last Name :
@@ -123,8 +123,8 @@ const CustomerDetails = () => {
                           variant="subtitle2"
                           sx={{
                             minWidth: "80px",
-                            fontSize: "18px",
-                            fontWeight: "bold",
+                            fontSize: "14px",
+                            fontWeight: 500,
                           }}
                         >
                           Email Address :
@@ -136,8 +136,8 @@ const CustomerDetails = () => {
                           variant="subtitle2"
                           sx={{
                             minWidth: "80px",
-                            fontSize: "18px",
-                            fontWeight: "bold",
+                            fontSize: "14px",
+                            fontWeight: 500,
                           }}
                         >
                           Phone Number :
@@ -149,8 +149,8 @@ const CustomerDetails = () => {
                           variant="subtitle2"
                           sx={{
                             minWidth: "80px",
-                            fontSize: "18px",
-                            fontWeight: "bold",
+                            fontSize: "14px",
+                            fontWeight: 500,
                           }}
                         >
                           CRN Number :
@@ -195,8 +195,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Address :
@@ -205,7 +205,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
@@ -217,8 +217,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             City :
@@ -227,7 +227,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             Hyderabad
@@ -238,8 +238,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             State :
@@ -248,7 +248,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             Telangana
@@ -259,8 +259,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Country :
@@ -269,7 +269,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             India
@@ -280,8 +280,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Pincode :
@@ -290,7 +290,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             500001
@@ -317,8 +317,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Customer Plan :
@@ -327,7 +327,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
@@ -339,8 +339,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Customer Date :
@@ -349,7 +349,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             25/04/2024
@@ -376,8 +376,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Amount :
@@ -386,7 +386,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
@@ -398,8 +398,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Payment Status :
@@ -408,7 +408,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             Paid
@@ -419,8 +419,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Transaction ID:
@@ -429,7 +429,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
@@ -441,8 +441,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Payment Mode :
@@ -451,7 +451,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
@@ -463,8 +463,8 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
-                              fontWeight: "bold",
+                              fontSize: "14px",
+                              fontWeight: 500,
                             }}
                           >
                             Transaction Date & Time :
@@ -473,7 +473,7 @@ const CustomerDetails = () => {
                             variant="subtitle2"
                             sx={{
                               minWidth: "80px",
-                              fontSize: "18px",
+                              fontSize: "14px",
                             }}
                           >
                             {" "}
