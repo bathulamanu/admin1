@@ -105,7 +105,7 @@ const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
       )}
       <CardHeader>
         <SubHeaderTitle variant="body2">
-          <Typography sx={{ marginRight: "140px", fontWeight: "bold" }}>
+          <Typography sx={{ marginRight: "130px", fontWeight: "bold" }}>
             {subheader}
           </Typography>
         </SubHeaderTitle>
@@ -273,7 +273,7 @@ const DetailsPlan = () => {
           justifyContent: "center",
           alignContent: "center",
           marginTop: "20px",
-          marginBottom: "20px",
+          marginBottom: "60px",
         }}
       >
         <Card variant="outlined">
