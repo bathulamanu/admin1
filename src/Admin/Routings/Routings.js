@@ -24,6 +24,7 @@ import PlansForm from "../customer/plans/PlansForm";
 import PlanDataPreview from "../customer/plans/PlanDataPreview";
 import InvoiceTable from "../customer/invoice/InvoiceTable";
 import InvoiceForm from "../customer/invoice/InvoiceForm";
+import InvoiceView from "../customer/invoice/InvoiceView";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -127,6 +128,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "invoices/invoiceForm",
         element: <InvoiceForm />,
+      },
+      {
+        path: "invoices/invoiceView",
+        element: <InvoiceView />,
       },
     ],
   },
