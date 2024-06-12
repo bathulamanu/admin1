@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import {
   Card,
   CardContent,
-  CardActions,
   Typography,
-  Button,
   Grid,
   Container,
   Stack,
-  Box,
-  IconButton,
   Divider,
   OutlinedInput,
   InputLabel,
   FormControl,
-  Tooltip,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
@@ -57,21 +52,6 @@ const PlansForm = () => {
     }));
   };
 
-  // const modules = {
-  //   toolbar: [
-  //     [{ header: "1" }, { header: "2" }, { font: [] }],
-  //     [{ size: [] }],
-  //     ["bold", "italic", "underline", "strike", "blockquote"],
-  //     [
-  //       { list: "ordered" },
-  //       { list: "bullet" },
-  //       { indent: "-1" },
-  //       { indent: "+1" },
-  //     ],
-  //     ["link", "image", "video"],
-  //     ["clean"],
-  //   ],
-  // };
   const modules = {
     toolbar: [
       ["bold", "italic", "underline"],

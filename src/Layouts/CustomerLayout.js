@@ -894,6 +894,112 @@ export const CustomerLayout = () => {
                     </Button>
                   )}
                 </Stack>
+                <Stack>
+                  {pathname &&
+                    pathname === "/customerPage/invoices/invoiceForm" && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Button
+                          // variant="contained"
+                          size="small"
+                          sx={{
+                            background: "inherit",
+                            color: "black",
+                            marginRight: "880px",
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/customerPage/customers");
+                          }}
+                        >
+                          <ArrowBackIosIcon
+                            sx={{ height: 16, width: 16 }}
+                            fontSize="small"
+                          />{" "}
+                          Back
+                        </Button>
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          justifyContent={"end"}
+                          marginBottom={"10px"}
+                          sx={{ marginRight: "200px" }}
+                        >
+                          <Button
+                            size="small"
+                            variant="contained"
+                            startIcon={<SaveAltIcon />}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            startIcon={<CloseIcon />}
+                          >
+                            Cancel
+                          </Button>
+                        </Stack>
+                      </Box>
+                    )}
+                </Stack>
+                <Stack>
+                  {pathname &&
+                    pathname === "/customerPage/invoices/invoiceView" && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          marginTop: "20px",
+                        }}
+                      >
+                        <Button
+                          // variant="contained"
+                          size="small"
+                          sx={{
+                            background: "inherit",
+                            color: "black",
+                            marginRight: "880px",
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate("/customerPage/customers");
+                          }}
+                        >
+                          <ArrowBackIosIcon
+                            sx={{ height: 16, width: 16 }}
+                            fontSize="small"
+                          />{" "}
+                          Back
+                        </Button>
+                        <Stack
+                          direction={"row"}
+                          spacing={2}
+                          justifyContent={"end"}
+                          marginBottom={"10px"}
+                          sx={{ marginRight: "200px" }}
+                        >
+                          <Button
+                            size="small"
+                            variant="contained"
+                            color="error"
+                          >
+                            Delete
+                          </Button>
+                          <Button size="small" variant="contained">
+                            Edit
+                          </Button>
+                        </Stack>
+                      </Box>
+                    )}
+                </Stack>
               </Stack>
             ) : (
               <Stack direction={"row"} spacing={2}></Stack>
