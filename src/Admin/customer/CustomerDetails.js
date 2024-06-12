@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import InvoiceColumns from "./InvoiceTableColumn";
+import InvoiceColumns from "./invoice/InvoiceTableColumn";
 import CommonDataTable from "../../GlobalComponents/CommonDataTable";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
