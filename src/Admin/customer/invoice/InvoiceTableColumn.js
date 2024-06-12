@@ -14,7 +14,7 @@ const InvoiceTableColumn = () => {
     {
       field: "customerName",
       headerName: "CUSTOMER NAME",
-      width: 200,
+      flex: 1,
       sortable: false,
       disableColumnFilter: true,
       disableColumnMenu: true,
@@ -23,7 +23,7 @@ const InvoiceTableColumn = () => {
     {
       field: "DateTime",
       headerName: " DATE & TIME",
-      width: 150,
+      flex: 1,
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
@@ -32,7 +32,7 @@ const InvoiceTableColumn = () => {
     {
       field: "crnNo",
       headerName: "CRN NUMBER",
-      width: 150,
+      flex: 1,
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
@@ -42,7 +42,7 @@ const InvoiceTableColumn = () => {
       field: "planAmount",
       headerName: "PLAN & AMOUNT",
       sortable: false,
-      width: 160,
+      flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => row?.planAmount,
@@ -53,7 +53,7 @@ const InvoiceTableColumn = () => {
       sortable: false,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      width: 160,
+      flex: 1,
       renderCell: ({ row }) => (
         <Stack
           alignItems={"start"}
@@ -66,7 +66,7 @@ const InvoiceTableColumn = () => {
             sx={{
               borderRadius: "4px",
               color: row?.status ? "#269254" : "#EF4646",
-              background: row?.status ? "#DEF7EC" : "#FDEDED",
+              background: row?.status ? "#fff" : "#fff",
             }}
           />
         </Stack>
@@ -76,7 +76,7 @@ const InvoiceTableColumn = () => {
       field: "action",
       headerName: "ACTION",
       sortable: false,
-      width: 160,
+      flex: 1,
       disableColumnFilter: true,
       disableColumnMenu: true,
       renderCell: (params) => (

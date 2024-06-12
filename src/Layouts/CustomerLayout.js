@@ -875,6 +875,25 @@ export const CustomerLayout = () => {
                       </Box>
                     )}
                 </Stack>
+                <Stack>
+                  {pathname && pathname === "/customerPage/invoices" && (
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        padding: 1,
+                        marginTop: "20px",
+                        marginRight: "100px",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/invoices/invoiceForm");
+                      }}
+                    >
+                      <AddIcon fontSize="small" /> Create Invoice
+                    </Button>
+                  )}
+                </Stack>
               </Stack>
             ) : (
               <Stack direction={"row"} spacing={2}></Stack>
