@@ -288,14 +288,14 @@ const DetailsPlan = () => {
         }}
       >
         <Card variant="outlined">
-          <CardContent sx={{ width: "550px" }}>
+          <CardContent sx={{ width: "500px" }}>
             <Typography
               variant="h4"
               sx={{
                 background: "#F3F8FF",
-                padding: "20px",
-                fontSize: "20px",
-                fontWeight: "bold",
+                padding: "10px",
+                fontSize: "24px",
+                fontWeight: 500,
                 textAlign: "center",
               }}
             >
@@ -303,20 +303,20 @@ const DetailsPlan = () => {
             </Typography>
             <Stack
               sx={{
-                marginTop: "15px",
+                marginTop: "10px",
                 display: "flex",
                 flexDirection: "column",
-                gap: 3,
+                gap: 1,
               }}
             >
               <Card variant="outlined" sx={{ borderRadius: "20px" }}>
-                <CardContent sx={{ fontSize: "20px" }}>Title</CardContent>
+                <CardContent sx={{ fontSize: "14px" }}>Title</CardContent>
               </Card>
               <Card variant="outlined" sx={{ borderRadius: "20px" }}>
-                <CardContent sx={{ fontSize: "20px" }}>Description</CardContent>
+                <CardContent sx={{ fontSize: "14px" }}>Description</CardContent>
               </Card>
               <Card variant="outlined" sx={{ borderRadius: "20px" }}>
-                <CardContent sx={{ fontSize: "20px" }}>Status</CardContent>
+                <CardContent sx={{ fontSize: "14px" }}>Status</CardContent>
               </Card>
             </Stack>
           </CardContent>
