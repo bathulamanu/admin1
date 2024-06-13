@@ -12,7 +12,6 @@ import SettingsPage from "../Settings/SettingsPage";
 import SettingsAddForm from "../Settings/SettingsAddForm";
 import Customers from "../customer/Customer";
 import { CustomerLayout } from "../../Layouts/CustomerLayout";
-import BabyDetails from "../customer/BabyDetails";
 import Finance from "../customer/Finance";
 import CustomerForm from "../customer/CustomerForm";
 import CustomerDetails from "../customer/CustomerDetails";
@@ -25,6 +24,8 @@ import PlanDataPreview from "../customer/plans/PlanDataPreview";
 import InvoiceTable from "../customer/invoice/InvoiceTable";
 import InvoiceForm from "../customer/invoice/InvoiceForm";
 import InvoiceView from "../customer/invoice/InvoiceView";
+import BabyDetails from "../customer/babyDetails/BabyDetails";
+import CustomerSettingsPage from "../customer/settings/SettingsPage";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -132,6 +133,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "invoices/invoiceView",
         element: <InvoiceView />,
+      },
+      {
+        path: "settings",
+        element: <CustomerSettingsPage />,
       },
     ],
   },

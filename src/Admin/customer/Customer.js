@@ -14,8 +14,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import CommonSelect from "../../GlobalComponents/CommonSelect";
 import CommonDataTable from "../../GlobalComponents/CommonDataTable";
 import customerColumns from "./Customertablecolumn";
+import { getCustomersList } from "../Slices/customerSlice";
 
 const Customers = () => {
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  const dispatch = useDispatch();
+  const customersList = useSelector((state) => state.customers.customersList);
+
+  console.log("listData", customersList);
+
+  useEffect(() => {
+    dispatch(getCustomersList(searchQuery));
+  }, []);
   const dummyData = [
     {
       id: 1,

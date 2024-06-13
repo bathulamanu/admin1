@@ -92,7 +92,7 @@ const InvoiceTableColumn = () => {
             onClick={(e) => {
               e.preventDefault();
               //   dispatch(getHospitalDetails(params?.row?.id));
-              navigate("/customerPage/customers/invoice");
+              navigate("/customerPage/invoices/invoiceView");
             }}
           >
             View Invoice
