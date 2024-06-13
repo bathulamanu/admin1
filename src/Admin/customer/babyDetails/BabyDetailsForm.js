@@ -15,7 +15,6 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import BabyDetailsFormData from "./BabyDetailsFormData";
 
 const headingStyle = {
   fontSize: "24px",
@@ -48,7 +47,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const BabyDetailsForm = () => {
-  const [showDetails, setShowDetails] = useState(false);
   const [formValues, setFormValues] = useState({
     motherName: "",
     dob: "",
@@ -413,13 +411,7 @@ const BabyDetailsForm = () => {
             >
               Frames
             </Typography>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={() => setShowDetails(!showDetails)}
-            >
-              Preview
-            </Button>
+
             <Button
               variant="contained"
               size="small"
@@ -432,7 +424,6 @@ const BabyDetailsForm = () => {
             </Button>
           </CardContent>
         </Card>
-        {showDetails && <BabyDetailsFormData />}
       </CardContent>
     </Card>
   );
