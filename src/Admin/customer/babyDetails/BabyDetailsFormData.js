@@ -62,96 +62,112 @@ const BabyDetailsFormData = () => {
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Baby Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Suraj Reddy
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Date of Birth :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      12/04/24
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Time of Birth :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      12:00 PM
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Weight :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      4 KG
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Delivery Doctor Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      RJ Praven
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Place of Birth :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Hydrabad
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Nominee Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Raima Reddy
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Nominee Relationship :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Mother
+                    </Typography>
                   </Stack>
                 </Stack>
                 <Avatar sx={{ width: 150, height: 150, marginRight: 6 }} />
@@ -173,48 +189,57 @@ const BabyDetailsFormData = () => {
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Doctor's Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      RJ Praven
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Hospital Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      {" "}
+                      Sum co Hospital
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
                         minWidth: "70px",
-                        fontSize: "15px",
+                        fontSize: "14px",
                       }}
                     >
                       Hospital Address Line-1 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Hydrabad
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
                       variant="subtitle2"
                       sx={{
-                        minWidth: "70px",
+                        minWidth: "74px",
                         fontSize: "15px",
                       }}
                     >
                       Hospital Address Line-1 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      Hydrabad
+                    </Typography>
                   </Stack>
                 </Stack>
                 <Avatar sx={{ width: 150, height: 150, marginRight: 6 }} />
