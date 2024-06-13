@@ -790,7 +790,7 @@ export const CustomerLayout = () => {
                         }}
                         onClick={(e) => {
                           e.preventDefault();
-                          navigate("/customerPage/customers");
+                          navigate("/customerPage/plans");
                         }}
                       >
                         <ArrowBackIosIcon
@@ -845,7 +845,7 @@ export const CustomerLayout = () => {
                           }}
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/customerPage/customers");
+                            navigate("/customerPage/plans");
                           }}
                         >
                           <ArrowBackIosIcon
@@ -915,7 +915,7 @@ export const CustomerLayout = () => {
                           }}
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/customerPage/customers");
+                            navigate("/customerPage/invoices");
                           }}
                         >
                           <ArrowBackIosIcon
@@ -970,7 +970,7 @@ export const CustomerLayout = () => {
                           }}
                           onClick={(e) => {
                             e.preventDefault();
-                            navigate("/customerPage/customers");
+                            navigate("/customerPage/invoices");
                           }}
                         >
                           <ArrowBackIosIcon

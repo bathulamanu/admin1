@@ -13,6 +13,7 @@ import {
 import { styled } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useNavigate } from "react-router-dom";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
@@ -97,6 +98,7 @@ const StyledCard = styled(Card)(({ highlight }) => ({
 }));
 
 const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
+  const navigate = useNavigate();
   return (
     <StyledCard highlight={highlight}>
       {highlight === "bestValue" && (
@@ -142,6 +144,10 @@ const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
             variant="contained"
             color="primary"
             sx={{ width: "148px", height: "38px" }}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/customerPage/plans/plansDetailsPreview");
+            }}
           >
             View
           </Button>

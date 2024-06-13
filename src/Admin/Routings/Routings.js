@@ -25,6 +25,7 @@ import InvoiceTable from "../customer/invoice/InvoiceTable";
 import InvoiceForm from "../customer/invoice/InvoiceForm";
 import InvoiceView from "../customer/invoice/InvoiceView";
 import BabyDetails from "../customer/babyDetails/BabyDetails";
+import CustomerSettingsPage from "../customer/settings/SettingsPage";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -132,6 +133,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "invoices/invoiceView",
         element: <InvoiceView />,
+      },
+      {
+        path: "settings",
+        element: <CustomerSettingsPage />,
       },
     ],
   },
