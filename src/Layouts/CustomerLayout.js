@@ -219,11 +219,23 @@ export const CustomerLayout = () => {
             <MenuItem
               onClick={() => {
                 handleMenuSideBar("Dashboard");
-                navigate("/dashboard");
+                navigate("/customerPage/customerDashboard");
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Dashboard" ? "#f0f0f0" : "inherit",
+                  activeItem === "Dashboard" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Dashboard"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Dashboard"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Dashboard" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Dashboard
