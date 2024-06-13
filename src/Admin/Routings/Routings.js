@@ -119,6 +119,10 @@ export const baseRoutes = createBrowserRouter([
         element: <BabyDetails />,
       },
       {
+        path: "baby_details/babyDetailsView",
+        element: <BabyDetails />,
+      },
+      {
         path: "finance",
         element: <Finance />,
       },
