@@ -1,7 +1,13 @@
-import { Button, Chip, Stack, Typography } from "@mui/material";
+import { Button, Chip, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+const StyledHeader = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  fontWeight: "bold",
+});
 
 function capitalizeFirstLetter(word) {
   return word?.charAt(0)?.toUpperCase() + word?.slice(1);
@@ -13,7 +19,7 @@ const InvoiceTableColumn = () => {
   const InvoiceColumns = [
     {
       field: "customerName",
-      headerName: "CUSTOMER NAME",
+      headerName: <StyledHeader>CUSTOMER NAME</StyledHeader>,
       flex: 1,
       sortable: false,
       disableColumnFilter: true,
@@ -22,7 +28,7 @@ const InvoiceTableColumn = () => {
     },
     {
       field: "DateTime",
-      headerName: " DATE & TIME",
+      headerName: <StyledHeader>DATE & TIME</StyledHeader>,
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
@@ -31,7 +37,7 @@ const InvoiceTableColumn = () => {
     },
     {
       field: "crnNo",
-      headerName: "CRN NUMBER",
+      headerName: <StyledHeader>CRN NUMBER</StyledHeader>,
       flex: 1,
       disableColumnMenu: true,
       sortable: false,
@@ -40,7 +46,7 @@ const InvoiceTableColumn = () => {
     },
     {
       field: "planAmount",
-      headerName: "PLAN & AMOUNT",
+      headerName: <StyledHeader>PLAN & AMOUNT</StyledHeader>,
       sortable: false,
       flex: 1,
       disableColumnMenu: true,
@@ -49,7 +55,7 @@ const InvoiceTableColumn = () => {
     },
     {
       field: "status",
-      headerName: "STATUS",
+      headerName: <StyledHeader>STATUS</StyledHeader>,
       sortable: false,
       disableColumnMenu: true,
       disableColumnFilter: true,
@@ -74,7 +80,7 @@ const InvoiceTableColumn = () => {
     },
     {
       field: "action",
-      headerName: "ACTION",
+      headerName: <StyledHeader>ACTION</StyledHeader>,
       sortable: false,
       flex: 1,
       disableColumnFilter: true,

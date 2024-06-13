@@ -101,7 +101,7 @@ const InvoiceView = () => {
                     padding: "10px",
                   }}
                 >
-                  <Typography sx={{ marginLeft: "16px", fontWeight: "bold" }}>
+                  <Typography sx={{ marginLeft: "16px", fontWeight: 500 }}>
                     Cryovault
                   </Typography>
                   <Typography>City, Country</Typography>
@@ -121,7 +121,9 @@ const InvoiceView = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <Typography sx={{ fontWeight: "bold" }}>Invoice</Typography>
+                    <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                      Invoice
+                    </Typography>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
                         variant="subtitle2"
@@ -202,14 +204,14 @@ const InvoiceView = () => {
                       variant="subtitle2"
                       sx={{
                         fontSize: "14px",
-                        fontWeight: "bold",
+                        fontWeight: 500,
                       }}
                     >
                       Bill From
                     </Typography>{" "}
                     <Typography
                       variant="subtitle2"
-                      sx={{ fontSize: "14px", fontWeight: "bold" }}
+                      sx={{ fontSize: "14px", fontWeight: 500 }}
                     >
                       Cryovault
                     </Typography>
@@ -220,14 +222,14 @@ const InvoiceView = () => {
                       variant="subtitle2"
                       sx={{
                         fontSize: "14px",
-                        fontWeight: "bold",
+                        fontWeight: 500,
                       }}
                     >
                       Bill To
                     </Typography>{" "}
                     <Typography
                       variant="subtitle2"
-                      sx={{ fontSize: "14px", fontWeight: "bold" }}
+                      sx={{ fontSize: "14px", fontWeight: 500 }}
                     >
                       suraj
                     </Typography>
@@ -248,7 +250,7 @@ const InvoiceView = () => {
                       variant="subtitle2"
                       sx={{
                         fontSize: "14px",
-                        fontWeight: "bold",
+                        fontWeight: 500,
                       }}
                     >
                       Customer Plan :
@@ -266,7 +268,7 @@ const InvoiceView = () => {
                     padding: "10px",
                   }}
                 >
-                  <Typography sx={{ fontWeight: "bold" }}>
+                  <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
                     Payment Details
                   </Typography>
                   <Stack
@@ -283,7 +285,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Amount :
@@ -300,7 +302,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Payment Status :
@@ -317,7 +319,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Payment Mode :
@@ -336,7 +338,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Transaction ID :
@@ -353,7 +355,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Transaction Date :
@@ -370,7 +372,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{
                             fontSize: "14px",
-                            fontWeight: "bold",
+                            fontWeight: 500,
                           }}
                         >
                           Transaction Time :
@@ -403,16 +405,16 @@ const InvoiceView = () => {
                         padding: "10px",
                       }}
                     >
-                      <Typography sx={{ fontWeight: "bold" }}>
+                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
                         Item Description
                       </Typography>
-                      <Typography sx={{ fontWeight: "bold" }}>
+                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
                         Date & Time
                       </Typography>
-                      <Typography sx={{ fontWeight: "bold" }}>
+                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
                         Payment Status
                       </Typography>
-                      <Typography sx={{ fontWeight: "bold" }}>
+                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
                         Amount
                       </Typography>
                     </Stack>
@@ -426,7 +428,9 @@ const InvoiceView = () => {
                       }}
                     >
                       <Typography sx={{}}>Item Description 1</Typography>
-                      <Typography sx={{ marginRight: "30px" }}>
+                      <Typography
+                        sx={{ fontSize: "14px", marginRight: "30px" }}
+                      >
                         22/05/24 - 11:00Am
                       </Typography>
                       <Typography sx={{ marginRight: "30px" }}>Paid</Typography>
@@ -440,8 +444,16 @@ const InvoiceView = () => {
                       marginLeft: "350px",
                     }}
                   >
-                    <Typography sx={{ fontWeight: "bold" }}>Total</Typography>
-                    <Typography sx={{ fontWeight: "bold", marginLeft: "85px" }}>
+                    <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                      Total
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        marginLeft: "85px",
+                      }}
+                    >
                       2456
                     </Typography>
                   </Stack>
@@ -464,7 +476,7 @@ const InvoiceView = () => {
                         padding: "20px",
                       }}
                     >
-                      <Typography sx={{}}>Notes</Typography>
+                      <Typography sx={{ fontSize: "14px" }}>Notes</Typography>
                     </Stack>
                   </Box>
                 </Stack>
