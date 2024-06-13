@@ -123,7 +123,7 @@ const BabyDetailsTableColumn = () => {
             onClick={(e) => {
               e.preventDefault();
               //   dispatch(getHospitalDetails(params?.row?.id));
-              navigate("/customerPage/customers/allDetails");
+              navigate("/customerPage/baby_details/babyDetailsView");
             }}
           >
             View Details
