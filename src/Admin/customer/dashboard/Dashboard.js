@@ -20,7 +20,6 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import PeopleIcon from "@mui/icons-material/People";
 import StorageIcon from "@mui/icons-material/Storage";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -35,14 +34,13 @@ const CustomerDashboard = () => {
   return (
     <Container
       disableGutters
-      maxWidth="lg"
+      maxWidth="xl"
       sx={{
-        maxHeight: "75%",
+        maxHeight: "85%",
         overflow: "auto",
         padding: "8px",
         display: "flex",
         flexDirection: "column",
-        // background: "#fff",
       }}
     >
       <Box sx={{ flexGrow: 1, border: "1px solid #CFD4DB" }}>
@@ -198,7 +196,7 @@ const CustomerDashboard = () => {
             </Card>
           </Box>
 
-          <Box sx={{ padding: "20px" }}>
+          <Box sx={{ padding: "20px", marginBottom: "60px" }}>
             <Card variant="outlined" sx={{ width: "550px" }}>
               <CardContent sx={{ padding: 0 }}>
                 <Stack

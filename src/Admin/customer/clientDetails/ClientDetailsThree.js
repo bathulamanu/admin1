@@ -25,7 +25,7 @@ import {
 } from "../../../globalFunctions";
 
 const headingStyle = {
-  fontSize: "24px",
+  fontSize: "18px",
   fontWeight: 500,
   marginTop: "10px",
   marginLeft: "15px",

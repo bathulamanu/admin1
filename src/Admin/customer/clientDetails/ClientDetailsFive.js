@@ -16,7 +16,7 @@ import {
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 
 const headingStyle = {
-  fontSize: "24px",
+  fontSize: "18px",
   fontWeight: 500,
   marginTop: "10px",
   marginLeft: "5px",

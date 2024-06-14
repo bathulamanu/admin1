@@ -18,7 +18,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 
 const headingStyle = {
-  fontSize: "24px",
+  fontSize: "18px",
   fontWeight: 500,
 };
 
@@ -57,7 +57,11 @@ const CustomerDetails = () => {
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack direction={"row"} justifyContent={"center"} spacing={2}>
                   <Typography
-                    sx={{ fontWeight: "bold", paddingTop: "8px" }}
+                    sx={{
+                      fontSize: "24px",
+                      fontWeight: 500,
+                      paddingTop: "8px",
+                    }}
                     variant="h5"
                   >
                     View Customer

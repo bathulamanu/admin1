@@ -42,6 +42,7 @@ const InvoiceTable = () => {
 
   return (
     <Container
+      maxWidth="xl"
       sx={{
         maxHeight: "75%",
         overflow: "auto",

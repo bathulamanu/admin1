@@ -56,7 +56,7 @@ const Details = () => {
       disableGutters
       maxWidth="xl"
       sx={{
-        maxHeight: "75%",
+        maxHeight: "85%",
         overflow: "auto",
         padding: "8px",
         display: "flex",

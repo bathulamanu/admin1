@@ -11,13 +11,14 @@
 // ];
 
 import { DataGrid } from "@mui/x-data-grid";
-import { Grid } from "@mui/material";
+import { Grid, Container } from "@mui/material";
 import React from "react";
 
 const CommonDataTable = ({ rows, columns }) => {
   return (
-    <Grid container justifyContent="center" style={{ padding: 20 }}>
-      <Grid item xs={12} style={{ maxWidth: 1200 }}>
+    <Container maxWidth="xl" sx={{ background: "#fff", padding: "18px" }}>
+      {/* <Grid container justifyContent="center" style={{ padding: 20 }}> */}
+      <Grid item xs={12}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -32,7 +33,8 @@ const CommonDataTable = ({ rows, columns }) => {
           autoHeight
         />
       </Grid>
-    </Grid>
+      {/* </Grid> */}
+    </Container>
   );
 };
 

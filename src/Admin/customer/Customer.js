@@ -60,7 +60,7 @@ const Customers = () => {
     "Kelly Snyder",
   ];
   return (
-    <Container sx={{ background: "#fff" }}>
+    <Container maxWidth="xl" sx={{ background: "#fff", padding: "18px" }}>
       <Box
         display={"flex"}
         justifyContent={"space-between"}
