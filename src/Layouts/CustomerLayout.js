@@ -59,19 +59,29 @@ export const CustomerLayout = () => {
   const [formOpen, setFormOpen] = useState(null);
   const [searchQuery, setSearchQuery] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
-  const data = JSON.parse(loginUserDetails);
+  const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
+
+  useEffect(() => {
+    if (!data) {
+      navigate("/");
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    return null;
+  }
   const { firstName, lastName } = data;
 
   const open = Boolean(anchorEl);
 
-  useEffect(() => {
-    dispatch(getCountryList());
-    dispatch(getGenderList(searchQuery));
-    dispatch(getSpecialization(searchQuery));
-    dispatch(getExperienceList(searchQuery));
-    dispatch(getEmploymentType(searchQuery));
-    dispatch(getStateList(352));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getCountryList());
+  //   dispatch(getGenderList(searchQuery));
+  //   dispatch(getSpecialization(searchQuery));
+  //   dispatch(getExperienceList(searchQuery));
+  //   dispatch(getEmploymentType(searchQuery));
+  //   dispatch(getStateList(352));
+  // }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -87,14 +97,14 @@ export const CustomerLayout = () => {
     setFormOpen(null);
   };
 
-  useEffect(() => {
-    setPathname(location.pathname);
-  }, [location]);
+  // useEffect(() => {
+  //   setPathname(location.pathname);
+  // }, [location]);
   // console.log('pathname', pathname)
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
         height: "100vh",
@@ -113,18 +123,20 @@ export const CustomerLayout = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "2px 12px",
+          padding: "25px 12px",
           zIndex: 100,
           position: "sticky",
           top: 0,
         }}
       >
-        <img
-          src={logo}
-          height={isMobile ? "24px" : "30px"}
-          width={"auto"}
-          alt="Logo"
-        />
+        <Link to="/dashboard">
+          <img
+            src={logo}
+            height={isMobile ? "24px" : "30px"}
+            width={"auto"}
+            alt="Logo"
+          />
+        </Link>
         <Stack direction="row" spacing={1} alignItems={"center"}>
           <NotificationsIcon
             sx={{
@@ -164,14 +176,14 @@ export const CustomerLayout = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem>Profile</MenuItem>
+            <MenuItem>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Stack>
       </Box>
       <Container
-        maxWidth="xl"
+        maxWidth="xxl"
         sx={{
           display: "flex",
           width: "100%",
@@ -391,7 +403,7 @@ export const CustomerLayout = () => {
         <Box
           sx={{
             background: "#F4F5F9",
-            padding: "3px",
+            padding: "15px",
             width: "80%",
           }}
         >
@@ -439,7 +451,7 @@ export const CustomerLayout = () => {
                               sx={{
                                 background: "inherit",
                                 color: "black",
-                                marginRight: "920px",
+                                marginRight: "1000px",
                               }}
                               onClick={(e) => {
                                 e.preventDefault();
@@ -488,7 +500,7 @@ export const CustomerLayout = () => {
                               }}
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate("/customerPage/customers/allDetails");
+                                navigate("/customerPage/customers");
                               }}
                             >
                               <ArrowBackIosIcon
@@ -727,15 +739,15 @@ export const CustomerLayout = () => {
                         justifyContent: "space-between",
                         // padding: 10,
                         marginTop: "20px",
+                        // gap: 100,
                       }}
                     >
                       <Button
-                        // variant="contained"
                         size="small"
                         sx={{
                           background: "inherit",
                           color: "black",
-                          marginRight: "920px",
+                          marginRight: "900px",
                         }}
                         onClick={(e) => {
                           e.preventDefault();
@@ -752,7 +764,10 @@ export const CustomerLayout = () => {
                       <Button
                         variant="contained"
                         size="small"
-                        sx={{ padding: 1, marginRight: "100px" }}
+                        sx={{
+                          padding: 1,
+                          marginRight: "100px",
+                        }}
                         onClick={(e) => {
                           e.preventDefault();
                           navigate("/customerPage/customerForm");
