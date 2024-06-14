@@ -59,19 +59,29 @@ export const CustomerLayout = () => {
   const [formOpen, setFormOpen] = useState(null);
   const [searchQuery, setSearchQuery] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
-  const data = JSON.parse(loginUserDetails);
+  const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
+
+  useEffect(() => {
+    if (!data) {
+      navigate("/");
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    return null;
+  }
   const { firstName, lastName } = data;
 
   const open = Boolean(anchorEl);
 
-  useEffect(() => {
-    dispatch(getCountryList());
-    dispatch(getGenderList(searchQuery));
-    dispatch(getSpecialization(searchQuery));
-    dispatch(getExperienceList(searchQuery));
-    dispatch(getEmploymentType(searchQuery));
-    dispatch(getStateList(352));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getCountryList());
+  //   dispatch(getGenderList(searchQuery));
+  //   dispatch(getSpecialization(searchQuery));
+  //   dispatch(getExperienceList(searchQuery));
+  //   dispatch(getEmploymentType(searchQuery));
+  //   dispatch(getStateList(352));
+  // }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -87,9 +97,9 @@ export const CustomerLayout = () => {
     setFormOpen(null);
   };
 
-  useEffect(() => {
-    setPathname(location.pathname);
-  }, [location]);
+  // useEffect(() => {
+  //   setPathname(location.pathname);
+  // }, [location]);
   // console.log('pathname', pathname)
 
   return (
@@ -113,18 +123,20 @@ export const CustomerLayout = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "2px 12px",
+          padding: "25px 12px",
           zIndex: 100,
           position: "sticky",
           top: 0,
         }}
       >
-        <img
-          src={logo}
-          height={isMobile ? "24px" : "30px"}
-          width={"auto"}
-          alt="Logo"
-        />
+        <Link to="/dashboard">
+          <img
+            src={logo}
+            height={isMobile ? "24px" : "30px"}
+            width={"auto"}
+            alt="Logo"
+          />
+        </Link>
         <Stack direction="row" spacing={1} alignItems={"center"}>
           <NotificationsIcon
             sx={{
@@ -164,8 +176,8 @@ export const CustomerLayout = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem>Profile</MenuItem>
+            <MenuItem>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Stack>
