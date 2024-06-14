@@ -51,13 +51,11 @@ const InvoiceView = () => {
 
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        // background: "#fff",
-        padding: "8px",
       }}
     >
       <Box sx={{ background: "#fff" }}>
@@ -85,7 +83,7 @@ const InvoiceView = () => {
         }}
       >
         <Card>
-          <CardContent sx={{ width: "610px" }}>
+          <CardContent sx={{ width: "700px" }}>
             <Box
               sx={{
                 padding: "10px",
@@ -485,7 +483,7 @@ const InvoiceView = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent sx={{ width: "510px" }}>
+          <CardContent sx={{ width: "700px" }}>
             <Typography
               sx={{
                 fontSize: "24px",

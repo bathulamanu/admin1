@@ -506,7 +506,7 @@ const CustomerDetails = () => {
                       role={undefined}
                       variant="contained"
                       tabIndex={-1}
-                      sx={{ marginTop: "10px", marginLeft: "900px" }}
+                      sx={{ marginTop: "10px", marginLeft: "1180px" }}
                     >
                       Download Invoice
                     </Button>

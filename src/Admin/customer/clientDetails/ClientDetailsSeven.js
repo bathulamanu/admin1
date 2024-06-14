@@ -128,7 +128,9 @@ const ClientDetailsSeven = () => {
             </FormControl>
           </Grid>
         </Grid>
-        <Stack sx={{ display: "flex", marginLeft: "820px", maxWidth: "350px" }}>
+        <Stack
+          sx={{ display: "flex", marginLeft: "1020px", maxWidth: "350px" }}
+        >
           <Grid container spacing={2} pt={3} pb={2}>
             <Grid item style={{ width: "100%" }}>
               <InputLabel sx={inputLableStyle}>

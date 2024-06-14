@@ -88,7 +88,7 @@ const ClientDetailsForth = () => {
         DELIVERY)
       </Typography>
       <CardContent>
-        <Card variant="outlined" sx={{ width: "600px", marginBottom: "15px" }}>
+        <Card variant="outlined" sx={{ width: "700px", marginBottom: "15px" }}>
           <CardContent sx={{ width: "600px" }}>
             <Grid container spacing={2} pb={2}>
               <Grid item style={{ width: "100%" }}>
@@ -188,7 +188,7 @@ const ClientDetailsForth = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -286,7 +286,7 @@ const ClientDetailsForth = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>

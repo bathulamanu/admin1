@@ -29,7 +29,7 @@ const VisuallyHiddenInput = styled("input")({
 const BabyDetailsFormData = () => {
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
@@ -44,10 +44,10 @@ const BabyDetailsFormData = () => {
             display: "flex",
             flexDirection: "row",
             gap: 5,
-            marginTop: "20px",
+            // marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "720px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 BABY DETAILS
@@ -174,7 +174,7 @@ const BabyDetailsFormData = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "720px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 DOCTOR'S DETAILS

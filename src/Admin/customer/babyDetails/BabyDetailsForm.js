@@ -84,7 +84,7 @@ const BabyDetailsForm = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 BABY DETAILS
               </Typography>
@@ -218,7 +218,7 @@ const BabyDetailsForm = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 Upload Baby's Picture
               </Typography>
@@ -259,7 +259,7 @@ const BabyDetailsForm = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "350px" }}
+                sx={{ marginTop: "10px", marginLeft: "450px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />
@@ -275,7 +275,7 @@ const BabyDetailsForm = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 DOCTOR DETAILS
               </Typography>
@@ -348,7 +348,7 @@ const BabyDetailsForm = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 Upload Doctor's Picture
               </Typography>
@@ -389,7 +389,7 @@ const BabyDetailsForm = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "350px" }}
+                sx={{ marginTop: "10px", marginLeft: "450px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />

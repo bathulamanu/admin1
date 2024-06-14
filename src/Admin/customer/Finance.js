@@ -6,7 +6,7 @@ const Finance = () => {
   return (
     <Container
       disableGutters
-      maxWidth="lg"
+      maxWidth="xxl"
       sx={{
         maxHeight: "75%",
         overflow: "auto",
@@ -22,8 +22,8 @@ const Finance = () => {
         sx={{
           justifyContent: "center",
           alignItems: "center",
-          marginTop: "90px",
-          marginBottom: "90px",
+          marginTop: "120px",
+          marginBottom: "120px",
           gap: 2,
         }}
       >

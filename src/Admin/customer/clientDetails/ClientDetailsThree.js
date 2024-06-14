@@ -90,7 +90,7 @@ const ClientDetailsThree = () => {
         }}
       >
         <Card variant="outlined">
-          <CardContent sx={{ width: "550px" }}>
+          <CardContent sx={{ width: "650px" }}>
             <Grid container spacing={2} pt={3} pb={2}>
               <Grid item style={{ width: "100%" }}>
                 <InputLabel sx={inputLableStyle}>
@@ -188,7 +188,7 @@ const ClientDetailsThree = () => {
           </CardContent>
         </Card>
         <Card variant="outlined">
-          <CardContent sx={{ width: "550px" }}>
+          <CardContent sx={{ width: "650px" }}>
             <Grid container spacing={2} pt={3} pb={2}>
               <Grid item style={{ width: "100%" }}>
                 <InputLabel sx={inputLableStyle}>

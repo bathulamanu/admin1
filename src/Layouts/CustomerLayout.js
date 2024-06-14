@@ -62,6 +62,10 @@ export const CustomerLayout = () => {
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
   useEffect(() => {
+    setPathname(location.pathname);
+  }, [location]);
+
+  useEffect(() => {
     if (!data) {
       navigate("/");
     }
@@ -97,11 +101,6 @@ export const CustomerLayout = () => {
     setFormOpen(null);
   };
 
-  // useEffect(() => {
-  //   setPathname(location.pathname);
-  // }, [location]);
-  // console.log('pathname', pathname)
-
   return (
     <Container
       maxWidth="xxl"
@@ -133,7 +132,7 @@ export const CustomerLayout = () => {
           <img
             src={logo}
             height={isMobile ? "24px" : "30px"}
-            width={"auto"}
+            width={"170px"}
             alt="Logo"
           />
         </Link>
@@ -207,9 +206,9 @@ export const CustomerLayout = () => {
               onClick={() => navigate("/dashboard")}
             >
               <Box>
-                <KeyboardBackspaceIcon sx={{}} />
+                <KeyboardBackspaceIcon sx={{ marginLeft: "35px" }} />
               </Box>
-              <Box sx={{ marginLeft: "6px" }}>Back to Menu</Box>
+              <Box sx={{ marginLeft: "12px" }}>Back to Menu</Box>
             </Typography>
             <Button
               variant="contained"
@@ -226,7 +225,7 @@ export const CustomerLayout = () => {
           </Stack>
           <MenuList
             variant="selectedMenu"
-            sx={{ marginLeft: "20px", fontWeight: 500 }}
+            sx={{ marginLeft: "60px", fontWeight: 500 }}
           >
             <MenuItem
               onClick={() => {
@@ -425,7 +424,7 @@ export const CustomerLayout = () => {
               </Stack>
             ) : (
               <Stack>
-                <Stack>
+                {/* <Stack>
                   {pathname &&
                     pathname === "/customerPage/customers/allDetails" && (
                       <Box
@@ -615,9 +614,9 @@ export const CustomerLayout = () => {
                         ) : null}
                       </Box>
                     )}
-                </Stack>
+                </Stack> */}
                 <Stack>
-                  {pathname && pathname === "/customerPage/customerForm" && (
+                  {/* {pathname && pathname === "/customerPage/customerForm" && (
                     <Box
                       sx={{
                         display: "flex",
@@ -668,10 +667,10 @@ export const CustomerLayout = () => {
                         </Button>
                       </Stack>
                     </Box>
-                  )}
+                  )} */}
                 </Stack>
                 <Stack>
-                  {pathname &&
+                  {/* {pathname &&
                     pathname === "/customerPage/customers/customerEdit" && (
                       <Box
                         sx={{
@@ -723,14 +722,14 @@ export const CustomerLayout = () => {
                           </Button>
                         </Stack>
                       </Box>
-                    )}
+                    )} */}
                 </Stack>
               </Stack>
             )}
 
             {formOpen == null ? (
               <Stack>
-                <Stack>
+                {/* <Stack>
                   {pathname && pathname === "/customerPage/customers" && (
                     <Box
                       sx={{
@@ -747,7 +746,7 @@ export const CustomerLayout = () => {
                         sx={{
                           background: "inherit",
                           color: "black",
-                          marginRight: "900px",
+                          marginRight: "1200px",
                         }}
                         onClick={(e) => {
                           e.preventDefault();
@@ -777,9 +776,9 @@ export const CustomerLayout = () => {
                       </Button>
                     </Box>
                   )}
-                </Stack>
+                </Stack> */}
                 <Stack>
-                  {pathname && pathname === "/customerPage/plans" && (
+                  {/* {pathname && pathname === "/customerPage/plans" && (
                     <Button
                       variant="contained"
                       size="small"
@@ -795,10 +794,10 @@ export const CustomerLayout = () => {
                     >
                       <AddIcon fontSize="small" /> Create Plan
                     </Button>
-                  )}
+                  )} */}
                 </Stack>
                 <Stack>
-                  {pathname && pathname === "/customerPage/plans/plansForm" && (
+                  {/* {pathname && pathname === "/customerPage/plans/plansForm" && (
                     <Box
                       sx={{
                         display: "flex",
@@ -849,10 +848,10 @@ export const CustomerLayout = () => {
                         </Button>
                       </Stack>
                     </Box>
-                  )}
+                  )} */}
                 </Stack>
                 <Stack>
-                  {pathname &&
+                  {/* {pathname &&
                     pathname === "/customerPage/plans/plansDetailsPreview" && (
                       <Box
                         sx={{
@@ -900,10 +899,10 @@ export const CustomerLayout = () => {
                           </Button>
                         </Stack>
                       </Box>
-                    )}
+                    )} */}
                 </Stack>
                 <Stack>
-                  {pathname && pathname === "/customerPage/invoices" && (
+                  {/* {pathname && pathname === "/customerPage/invoices" && (
                     <Button
                       variant="contained"
                       size="small"
@@ -919,10 +918,10 @@ export const CustomerLayout = () => {
                     >
                       <AddIcon fontSize="small" /> Create Invoice
                     </Button>
-                  )}
+                  )} */}
                 </Stack>
                 <Stack>
-                  {pathname &&
+                  {/* {pathname &&
                     pathname === "/customerPage/invoices/invoiceForm" && (
                       <Box
                         sx={{
@@ -974,10 +973,10 @@ export const CustomerLayout = () => {
                           </Button>
                         </Stack>
                       </Box>
-                    )}
+                    )} */}
                 </Stack>
                 <Stack>
-                  {pathname &&
+                  {/* {pathname &&
                     pathname === "/customerPage/invoices/invoiceView" && (
                       <Box
                         sx={{
@@ -1025,24 +1024,710 @@ export const CustomerLayout = () => {
                           </Button>
                         </Stack>
                       </Box>
-                    )}
+                    )} */}
                 </Stack>
               </Stack>
             ) : (
               <Stack direction={"row"} spacing={2}></Stack>
             )}
           </Box>
-
           <Stack
-            direction={"row"}
-            alignItems={"center"}
-            spacing={1}
-            marginLeft={2}
             marginBottom={3}
+            sx={{ display: "flex", flexDirection: "row" }}
           >
-            <Typography variant="h2">Customer Management</Typography>{" "}
-            <Typography variant="subtitle1">/</Typography>
-            <Typography variant="subtitle1">{activeItem}</Typography>
+            {pathname && pathname === "/customerPage/customers" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/dashboard");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                    marginLeft: "950px",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/customerForm");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Add Customer
+                </Button>
+              </Box>
+            )}
+            {pathname && pathname === "/customerPage/customerForm" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  // variant="contained"
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/customers");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"end"}
+                  marginLeft={"870px"}
+                >
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/customers/customerEdit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  // variant="contained"
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/customers");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"end"}
+                  marginLeft={"870px"}
+                >
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/customers/allDetails" && (
+              <Box>
+                {selectedTab === 0 ? (
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      sx={{
+                        padding: 1,
+                        marginLeft: "980px",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers/customerEdit");
+                      }}
+                    >
+                      <EditIcon fontSize="small" /> Edit
+                    </Button>
+                  </Stack>
+                ) : selectedTab === 1 ? (
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      justifyContent={"end"}
+                      marginLeft={"870px"}
+                    >
+                      <Button
+                        size="small"
+                        variant="contained"
+                        startIcon={<SaveAltIcon />}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={<CloseIcon />}
+                      >
+                        Cancel
+                      </Button>
+                    </Stack>
+                  </Stack>
+                ) : selectedTab === 2 ? (
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      justifyContent={"end"}
+                      marginLeft={"870px"}
+                    >
+                      <Button
+                        size="small"
+                        variant="contained"
+                        startIcon={<SaveAltIcon />}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        startIcon={<CloseIcon />}
+                      >
+                        Cancel
+                      </Button>
+                    </Stack>
+                  </Stack>
+                ) : selectedTab === 3 ? (
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                ) : null}
+              </Box>
+            )}
+            {pathname && pathname === "/customerPage/baby_details" && (
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                spacing={1}
+                marginLeft={2}
+              >
+                <Typography variant="h2">Customer Management</Typography>{" "}
+                <Typography variant="subtitle1">/</Typography>
+                <Typography variant="subtitle1">{activeItem}</Typography>
+              </Stack>
+            )}
+            {pathname &&
+              pathname === "/customerPage/baby_details/babyDetailsView" && (
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+              )}
+            {pathname && pathname === "/customerPage/invoices" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                    marginLeft: "1030px",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/invoices/invoiceForm");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Create Invoice
+                </Button>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/invoices/invoiceForm" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  // variant="contained"
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/customers");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"end"}
+                  marginLeft={"870px"}
+                >
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/invoices/invoiceView" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  // variant="contained"
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                    // marginRight: "880px",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/invoices");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"end"}
+                  sx={{ marginLeft: "950px" }}
+                >
+                  <Button size="small" variant="contained" color="error">
+                    Delete
+                  </Button>
+                  <Button size="small" variant="contained">
+                    Edit
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/plans" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                    marginLeft: "1060px",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/plans/plansForm");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Create Plan
+                </Button>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/plans/plansForm" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Button
+                  // variant="contained"
+                  size="small"
+                  sx={{
+                    background: "inherit",
+                    color: "black",
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/customerPage/customers");
+                  }}
+                >
+                  <ArrowBackIosIcon
+                    sx={{ height: 16, width: 16 }}
+                    fontSize="small"
+                  />{" "}
+                  Back
+                </Button>
+                <Stack
+                  direction={"row"}
+                  alignItems={"center"}
+                  spacing={1}
+                  marginLeft={2}
+                >
+                  <Typography variant="h2">Customer Management</Typography>{" "}
+                  <Typography variant="subtitle1">/</Typography>
+                  <Typography variant="subtitle1">{activeItem}</Typography>
+                </Stack>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  justifyContent={"end"}
+                  marginLeft={"920px"}
+                >
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname &&
+              pathname === "/customerPage/plans/plansDetailsPreview" && (
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                      // marginRight: "880px",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/plans");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    justifyContent={"end"}
+                    sx={{ marginLeft: "950px" }}
+                  >
+                    <Button size="small" variant="contained" color="error">
+                      Delete
+                    </Button>
+                    <Button size="small" variant="contained">
+                      Edit
+                    </Button>
+                  </Stack>
+                </Stack>
+              )}
           </Stack>
           <Outlet />
         </Box>
