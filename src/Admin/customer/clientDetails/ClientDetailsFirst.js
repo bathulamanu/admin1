@@ -79,7 +79,7 @@ const ClientDetailsFirst = () => {
       >
         <Box
           sx={{
-            width: "55%",
+            width: "60%",
             display: "flex",
             flexDirection: "column",
             gap: 4,
@@ -246,7 +246,7 @@ const ClientDetailsFirst = () => {
         </Box>
         <Box
           sx={{
-            width: "40%",
+            width: "37%",
             display: "flex",
             flexDirection: "column",
             gap: 4,
