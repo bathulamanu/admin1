@@ -1032,8 +1032,8 @@ export const CustomerLayout = () => {
             )}
           </Box>
           <Stack
-            marginBottom={3}
-            sx={{ display: "flex", flexDirection: "row" }}
+            // marginBottom={3}
+            sx={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
             {pathname && pathname === "/customerPage/customers" && (
               <Box
@@ -1041,41 +1041,44 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  size="small"
-                  sx={{
-                    background: "inherit",
-                    color: "black",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/dashboard");
-                  }}
-                >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
                 <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
                 >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                  <Button
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/dashboard");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
                 <Button
                   variant="contained"
                   size="small"
                   sx={{
                     padding: 1,
-                    marginLeft: "950px",
+                    // marginLeft: "950px",
                   }}
                   onClick={(e) => {
                     e.preventDefault();
