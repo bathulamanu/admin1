@@ -67,10 +67,11 @@ const ClientDetailsFive = () => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          gap: 5,
         }}
       >
         <Card variant="outlined">
-          <CardContent sx={{ width: "650px" }}>
+          <CardContent>
             <Typography variant="h5" sx={headingStyle}>
               DETAILS REFERENCE / DETAILS OF RETURNING CRYOVAULT CLIENT
             </Typography>
@@ -161,7 +162,7 @@ const ClientDetailsFive = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 SHIPMENT DETAILS
               </Typography>
@@ -181,7 +182,7 @@ const ClientDetailsFive = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 EMERGENCY CONTACT DETAILS
               </Typography>

@@ -86,7 +86,7 @@ const InvoiceForm = () => {
           marginBottom: "60px",
         }}
       >
-        <Stack sx={{ background: "#fff", width: "700px" }}>
+        <Stack sx={{ background: "#fff", width: "600px" }}>
           <Box sx={{ padding: "20px" }}>
             <Typography
               sx={{
@@ -310,7 +310,7 @@ const InvoiceForm = () => {
             </Button>
           </Box>
         </Stack>
-        <Stack sx={{ width: "700px" }}>
+        <Stack>
           <Box
             sx={{
               padding: "20px",

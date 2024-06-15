@@ -188,7 +188,7 @@ const ClientDetailsForth = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -286,7 +286,7 @@ const ClientDetailsForth = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>

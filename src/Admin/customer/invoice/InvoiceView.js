@@ -83,7 +83,7 @@ const InvoiceView = () => {
         }}
       >
         <Card>
-          <CardContent sx={{ width: "700px" }}>
+          <CardContent>
             <Box
               sx={{
                 padding: "10px",
@@ -483,7 +483,7 @@ const InvoiceView = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent sx={{ width: "700px" }}>
+          <CardContent sx={{ width: "550px" }}>
             <Typography
               sx={{
                 fontSize: "24px",
@@ -555,15 +555,6 @@ const InvoiceView = () => {
                 Send
               </Button>
             </Stack>
-            {/* <Grid item>
-                <Button
-                  size="small"
-                  variant="contained"
-                  startIcon={<SaveAltIcon />}
-                >
-                  Download
-                </Button>
-              </Grid> */}
           </CardContent>
         </Card>
       </Stack>
