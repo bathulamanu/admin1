@@ -16,6 +16,7 @@ import {
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import Dashboard from "../Admin/Dashboard/Dashboard";
 import { useTheme } from "@emotion/react";
 import dashboardBackGround from "../assets/dasboard_background.png";
@@ -67,8 +68,7 @@ export const MainLayout = () => {
   const [formOpen, setFormOpen] = useState(null);
   const [searchQuery, setSearchQuery] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
-  const data = JSON.parse(loginUserDetails);
-  const { firstName, lastName } = data;
+  const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData
@@ -111,9 +111,21 @@ export const MainLayout = () => {
   }, [location]);
   // console.log('pathname', pathname)
 
+  useEffect(() => {
+    if (!data) {
+      navigate("/");
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    return null;
+  }
+
+  const { firstName, lastName } = data;
+
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
         height: "100vh",
@@ -177,7 +189,7 @@ export const MainLayout = () => {
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            // onClose={handleClose}
             MenuListProps={{
               "aria-labelledby": "basic-button",
             }}
@@ -189,7 +201,7 @@ export const MainLayout = () => {
         </Stack>
       </Box>
       <Container
-        maxWidth="xl"
+        maxWidth="xxl"
         sx={{
           display: "flex",
           width: "100%",
@@ -197,27 +209,43 @@ export const MainLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", width: "15%" }}>
+        <Box sx={{ height: "100%", width: "20%" }}>
           <Stack spacing={0}>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{ borderRadius: 0, background: "black" }}
-              startIcon={<ArrowBackIosIcon />}
+            <Typography
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                borderRadius: 0,
+                background: "#cce0ff",
+                padding: 1,
+                color: "black",
+                fontSize: "18px",
+                cursor: "pointer",
+              }}
               onClick={() => navigate("/dashboard")}
             >
-              Back to menu
-            </Button>
+              <Box>
+                <KeyboardBackspaceIcon sx={{ marginLeft: "35px" }} />
+              </Box>
+              <Box sx={{ marginLeft: "12px" }}>Back to Menu</Box>
+            </Typography>
             <Button
               variant="contained"
               fullWidth
               size="small"
-              sx={{ borderRadius: 0 }}
+              sx={{
+                borderRadius: 0,
+                padding: 1,
+                fontSize: "18px",
+              }}
             >
-              Hospital Management
+              HOSPITAL MANAGEMENT
             </Button>
           </Stack>
-          <MenuList variant="selectedMenu">
+          <MenuList
+            variant="selectedMenu"
+            sx={{ marginLeft: "60px", fontWeight: 500 }}
+          >
             <MenuItem
               onClick={() => {
                 handleMenuSideBar("Dashboard");
@@ -225,7 +253,19 @@ export const MainLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Dashboard" ? "#f0f0f0" : "inherit",
+                  activeItem === "Dashboard" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Dashboard"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Dashboard"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Dashboard" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Dashboard
@@ -238,7 +278,19 @@ export const MainLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Hospitals" ? "#f0f0f0" : "inherit",
+                  activeItem === "Hospitals" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Hospitals"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Hospitals"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Hospitals" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Hospitals
@@ -251,7 +303,19 @@ export const MainLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Doctors" ? "#f0f0f0" : "inherit",
+                  activeItem === "Doctors" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Doctors"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Doctors"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Doctors" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Doctors
@@ -264,7 +328,19 @@ export const MainLayout = () => {
               }}
               sx={{
                 backgroundColor:
-                  activeItem === "Settings" ? "#f0f0f0" : "inherit",
+                  activeItem === "Settings" ? "#cce0ff" : "inherit",
+                color:
+                  activeItem === "Settings"
+                    ? theme.palette.primary.main
+                    : "inherit",
+                borderRight:
+                  activeItem === "Settings"
+                    ? `4px solid ${theme.palette.primary.main}`
+                    : "none",
+                fontWeight: activeItem === "Settings" ? "bold" : "normal",
+                "&:hover": {
+                  backgroundColor: "#cce0ff",
+                },
               }}
             >
               Settings
@@ -274,11 +350,424 @@ export const MainLayout = () => {
         <Box
           sx={{
             background: "#F4F5F9",
-            padding: "8px",
-            width: "85%",
+            padding: "15px",
+            width: "80%",
           }}
         >
-          <Box
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              padding: "10px",
+              marginBottom: "30px",
+            }}
+          >
+            {pathname && pathname === "/mainPage/hospitals" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/dashboard");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/mainPage/hospitalFrom");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Add Hospitals
+                </Button>
+              </Box>
+            )}
+            {pathname && pathname === "/mainPage/hospitalFrom" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddHospitalFormSubmit();
+                      setFormOpen(null);
+                      setActiveItem("Hospitals");
+                      dispatch(getHospitalsList(searchQuery));
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen(null);
+                      dispatch(getHospitalsList(searchQuery));
+                      setActiveItem("Hospitals");
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/hospitals/view" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen("Hospitals");
+                      dispatch(getHospitalDetails(searchQuery));
+                      navigate("hospitalFrom");
+                    }}
+                  >
+                    <EditIcon fontSize="small" /> Edit
+                  </Button>
+                  <Button variant="outlined" size="small" disabled>
+                    <DeleteIcon fontSize="small" /> Delete
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/doctors" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/dashboard");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("doctorForm");
+                    setFormOpen("Doctors");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Add Doctors
+                </Button>
+              </Box>
+            )}
+            {pathname && pathname === "/mainPage/doctorForm" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddHospitalFormSubmit();
+                      setFormOpen(null);
+                      setActiveItem("Hospitals");
+                      dispatch(getHospitalsList(searchQuery));
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen(null);
+                      dispatch(getHospitalsList(searchQuery));
+                      setActiveItem("Hospitals");
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/doctors/view" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen("Hospitals");
+                      dispatch(getHospitalDetails(searchQuery));
+                      navigate("/mainPage/doctorForm");
+                    }}
+                  >
+                    <EditIcon fontSize="small" /> Edit
+                  </Button>
+                  <Button variant="outlined" size="small" disabled>
+                    <DeleteIcon fontSize="small" /> Delete
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/settings" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("doctorForm");
+                    setFormOpen("Doctors");
+                  }}
+                >
+                  <AddIcon fontSize="small" /> Add Settings
+                </Button>
+              </Stack>
+            )}
+          </Stack>
+          {/* <Box
             height={"60px"}
             width={"100%"}
             display={"flex"}
@@ -376,12 +865,12 @@ export const MainLayout = () => {
                 </Button>
               </Stack>
             )}
-          </Box>
-          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+          </Box> */}
+          {/* <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <Typography variant="h5">Hospital Management</Typography>{" "}
             <Typography variant="h4">/</Typography>
             <Typography variant="subtitle1">{activeItem}</Typography>
-          </Stack>
+          </Stack> */}
 
           {/* {doctorFormOpen ? <DoctorAddForm /> : <DoctorsPage />} */}
           <Outlet />

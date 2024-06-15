@@ -1,10 +1,15 @@
-import { Button, Chip, Stack, Typography } from "@mui/material";
+import { Button, Chip, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import { getDoctorDetail } from "../Slices/doctorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter } from "../../globalFunctions";
 
+const StyledHeader = styled("div")({
+  display: "flex",
+  alignItems: "center",
+  fontWeight: "bold",
+});
 
 const DoctorsTableColumn = () => {
   const dispatch = useDispatch();
@@ -12,8 +17,8 @@ const DoctorsTableColumn = () => {
   const columns = [
     {
       field: "doctorName",
-      headerName: "DOCTOR NAME",
-      width: 170,
+      headerName: <StyledHeader>DOCTOR NAME</StyledHeader>,
+      flex: 1,
       sortable: false,
       disableColumnFilter: true,
       disableColumnMenu: true,
@@ -21,8 +26,8 @@ const DoctorsTableColumn = () => {
     },
     {
       field: "specialist",
-      headerName: "SPECIALIST",
-      width: 140,
+      headerName: <StyledHeader>SPECIALIST</StyledHeader>,
+      flex: 1,
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
@@ -30,9 +35,9 @@ const DoctorsTableColumn = () => {
     },
     {
       field: "experience",
-      headerName: "EXPERIENCE",
+      headerName: <StyledHeader>EXPERIENCE</StyledHeader>,
       type: "number",
-      width: 140,
+      flex: 1,
       sortable: false,
       disableColumnMenu: true,
       disableColumnFilter: true,
@@ -41,29 +46,29 @@ const DoctorsTableColumn = () => {
     },
     {
       field: "contact",
-      headerName: "CONTACT",
+      headerName: <StyledHeader>CONTACT</StyledHeader>,
       sortable: false,
-      width: 150,
+      flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => row?.phoneNumber,
     },
     {
       field: "location",
-      headerName: "LOCATION",
+      headerName: <StyledHeader>LOCATION</StyledHeader>,
       sortable: false,
-      width: 150,
+      flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) => capitalizeFirstLetter(row?.cityInfo?.name),
     },
     {
       field: "status",
-      headerName: "STATUS",
+      headerName: <StyledHeader>STATUS</StyledHeader>,
       sortable: false,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      width: 150,
+      flex: 1,
       renderCell: ({ row }) => (
         <Stack
           alignItems={"start"}
@@ -84,9 +89,9 @@ const DoctorsTableColumn = () => {
     },
     {
       field: "action",
-      headerName: "ACTION",
+      headerName: <StyledHeader>ACTION</StyledHeader>,
       sortable: false,
-      width: 150,
+      flex: 1,
       disableColumnFilter: true,
       disableColumnMenu: true,
       renderCell: (params, x) => {

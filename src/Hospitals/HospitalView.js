@@ -72,9 +72,9 @@ const HospitalView = () => {
   return (
     <Container
       disableGutters
-      maxWidth="xl"
+      maxWidth="xxl"
       sx={{
-        maxHeight: "450px",
+        maxHeight: "85%",
         overflow: "auto",
         padding: "8px",
         display: "flex",

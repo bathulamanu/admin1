@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import { useTheme } from '@mui/material/styles'
-import doctorImg from '../assets/doctor_img.png'
-import { styled } from '@mui/material/styles'
-import AddIcon from '@mui/icons-material/Add'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import React, { useEffect, useState } from "react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useTheme } from "@mui/material/styles";
+import doctorImg from "../assets/doctor_img.png";
+import { styled } from "@mui/material/styles";
+import AddIcon from "@mui/icons-material/Add";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
   Button,
@@ -19,280 +19,282 @@ import {
   Stack,
   TextField,
   Typography,
-} from '@mui/material'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import ReactQuill from 'react-quill'
-import facebook from '../assets/facebook.png'
-import instagram from '../assets/instagram.png'
-import youtube from '../assets/youtube.png'
-import twitter from '../assets/twitter.png'
-import linkedin from '../assets/linkedin.png'
-import pinterest from '../assets/pinterest.png'
-import link from '../assets/link.png'
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import dayjs from 'dayjs'
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import CommonSelect from '../GlobalComponents/CommonSelect'
-import { useDispatch, useSelector } from 'react-redux'
+} from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ReactQuill from "react-quill";
+import facebook from "../assets/facebook.png";
+import instagram from "../assets/instagram.png";
+import youtube from "../assets/youtube.png";
+import twitter from "../assets/twitter.png";
+import linkedin from "../assets/linkedin.png";
+import pinterest from "../assets/pinterest.png";
+import link from "../assets/link.png";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import CommonSelect from "../GlobalComponents/CommonSelect";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getByIdList,
   getCityIdList,
   getNamesIdList,
   getStateIdList,
-} from '../globalFunctions'
-import SingleSelect from '../GlobalComponents/SingleSelect'
-import { getCityList } from '../Admin/Slices/globalSlice'
-import { handlePostHospital } from '../Admin/Slices/hospitalSlice'
-import mapIcon from '../assets/map.png'
+} from "../globalFunctions";
+import SingleSelect from "../GlobalComponents/SingleSelect";
+import { getCityList } from "../Admin/Slices/globalSlice";
+import { handlePostHospital } from "../Admin/Slices/hospitalSlice";
+import mapIcon from "../assets/map.png";
 
-const VisuallyHiddenInput = styled('input')({
-  clip: 'rect(0 0 0 0)',
-  clipPath: 'inset(50%)',
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
   height: 1,
-  overflow: 'hidden',
-  position: 'absolute',
+  overflow: "hidden",
+  position: "absolute",
   bottom: 0,
   left: 0,
-  whiteSpace: 'nowrap',
+  whiteSpace: "nowrap",
   width: 1,
-})
+});
 
-const socialMediaLogoSize = 24
+const socialMediaLogoSize = 24;
 
 const headingStyle = {
-  fontSize: '14px',
-  fontWeight: 'bold',
-}
+  fontSize: "14px",
+  fontWeight: "bold",
+};
 const inputLableStyle = {
-  fontSize: '14px',
-  fontWeight: 'bold',
-  display: 'flex',
-  alignItems: 'center',
-}
+  fontSize: "14px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+};
 
 const redStarStyle = {
-  color: 'red',
-  marginLeft: '4px',
-}
+  color: "red",
+  marginLeft: "4px",
+};
 
 function deepCopyFormValues(hospitalDetails, formValues) {
   function deepCopy(target, source) {
     for (let key in source) {
-      if (source[key] && typeof source[key] === 'object') {
+      if (source[key] && typeof source[key] === "object") {
         if (Array.isArray(source[key])) {
-          target[key] = [...source[key]]
+          target[key] = [...source[key]];
         } else {
-          if (!target[key]) target[key] = {}
-          deepCopy(target[key], source[key])
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
         }
       } else {
-        target[key] = source[key]
+        target[key] = source[key];
       }
     }
   }
 
-  let copiedFormValue = JSON.parse(JSON.stringify(formValues))
-  deepCopy(copiedFormValue, hospitalDetails)
-  return copiedFormValue
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, hospitalDetails);
+  return copiedFormValue;
 }
 
 const HospitalAddForm = () => {
-  const theme = useTheme()
-  const dispatch = useDispatch()
-  const countryList = useSelector((state) => state.global.countryList)
-  const upDatedCountryList = getNamesIdList(countryList)
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const countryList = useSelector((state) => state.global.countryList);
+  const upDatedCountryList = getNamesIdList(countryList);
   const getSpecializationList = useSelector(
-    (state) => state.global.specializationList,
-  )
+    (state) => state.global.specializationList
+  );
 
-  const getStateList = useSelector((state) => state.global.stateList)
-  const getCitiesList = useSelector((state) => state.global.cityList)
+  const getStateList = useSelector((state) => state.global.stateList);
+  const getCitiesList = useSelector((state) => state.global.cityList);
   // console.log('All city for a state', getCitiesList)
-  const cityList = getCityIdList(getCitiesList)
-  const stateList = getStateIdList(getStateList)
-  const specializationList = getByIdList(getSpecializationList)
+  const cityList = getCityIdList(getCitiesList);
+  const stateList = getStateIdList(getStateList);
+  const specializationList = getByIdList(getSpecializationList);
 
-  const hospitalDetails = useSelector((state) => state.hospitals.hospitalDetail)
+  const hospitalDetails = useSelector(
+    (state) => state.hospitals.hospitalDetail
+  );
 
   // console.log('hospitalDetail', hospitalDetails)
 
   const [formValues, setFormValues] = useState({
-    hospitalName: '',
-    hospitalLogo: '',
+    hospitalName: "",
+    hospitalLogo: "",
     specialist: [],
-    LicenseNumber: '',
+    LicenseNumber: "",
     validity: {
       from: null,
       to: null,
     },
-    email: '',
-    website: '',
-    about: '',
+    email: "",
+    website: "",
+    about: "",
     sociallink: {
-      facebook: '',
-      instagram: '',
-      twitter: '',
-      LinkedIn: '',
-      youtube: '',
-      pinterest: '',
-      googleMap: '',
-      otherLink: '',
+      facebook: "",
+      instagram: "",
+      twitter: "",
+      LinkedIn: "",
+      youtube: "",
+      pinterest: "",
+      googleMap: "",
+      otherLink: "",
     },
-    faxNumber: '',
+    faxNumber: "",
     contact: {
-      countryCode: '+91',
-      phoneNumber: '',
-      AlterNativePhoneNumber: '',
-      landLine: '',
+      countryCode: "+91",
+      phoneNumber: "",
+      AlterNativePhoneNumber: "",
+      landLine: "",
     },
     HospitalAddress: {
-      addressLine1: '',
-      addressLine2: '',
-      nearLandMark: '',
+      addressLine1: "",
+      addressLine2: "",
+      nearLandMark: "",
       country: 352,
-      state: '',
-      city: '',
-      pincode: '',
-      latitude: '',
-      longitude: '',
+      state: "",
+      city: "",
+      pincode: "",
+      latitude: "",
+      longitude: "",
     },
-  })
+  });
 
   const handleChange = (e, name) => {
-    const value = e.target ? e.target.value : e
+    const value = e.target ? e.target.value : e;
     setFormValues((prev) => {
-      let temp = { ...prev }
+      let temp = { ...prev };
       switch (name) {
-        case 'specialist':
-          let res = value?.map((ele) => ({ specializationID: ele }))
-          temp.specialist = res
-          break
+        case "specialist":
+          let res = value?.map((ele) => ({ specializationID: ele }));
+          temp.specialist = res;
+          break;
 
-        case 'HospitalAddress1':
+        case "HospitalAddress1":
           temp.HospitalAddress = {
             ...temp.HospitalAddress,
             addressLine1: value,
-          }
-          break
+          };
+          break;
 
-        case 'HospitalAddress2':
+        case "HospitalAddress2":
           temp.HospitalAddress = {
             ...temp.HospitalAddress,
             addressLine2: value,
-          }
-          break
+          };
+          break;
 
-        case 'country':
-          temp.HospitalAddress = { ...temp.HospitalAddress, country: value }
-          break
+        case "country":
+          temp.HospitalAddress = { ...temp.HospitalAddress, country: value };
+          break;
 
-        case 'state':
-          temp.HospitalAddress = { ...temp.HospitalAddress, state: value }
-          break
+        case "state":
+          temp.HospitalAddress = { ...temp.HospitalAddress, state: value };
+          break;
 
-        case 'city':
-          temp.HospitalAddress = { ...temp.HospitalAddress, city: value }
-          break
-        case 'longitude':
-          temp.HospitalAddress = { ...temp.HospitalAddress, longitude: value }
-          break
-        case 'latitude':
-          temp.HospitalAddress = { ...temp.HospitalAddress, latitude: value }
-          break
+        case "city":
+          temp.HospitalAddress = { ...temp.HospitalAddress, city: value };
+          break;
+        case "longitude":
+          temp.HospitalAddress = { ...temp.HospitalAddress, longitude: value };
+          break;
+        case "latitude":
+          temp.HospitalAddress = { ...temp.HospitalAddress, latitude: value };
+          break;
 
-        case 'nearLandMark':
+        case "nearLandMark":
           temp.HospitalAddress = {
             ...temp.HospitalAddress,
             nearLandMark: value,
-          }
-          break
+          };
+          break;
 
-        case 'pincode':
-          temp.HospitalAddress = { ...temp.HospitalAddress, pincode: value }
-          break
+        case "pincode":
+          temp.HospitalAddress = { ...temp.HospitalAddress, pincode: value };
+          break;
 
-        case 'phoneNumber':
-          temp.contact = { ...temp.contact, phoneNumber: value }
-          break
+        case "phoneNumber":
+          temp.contact = { ...temp.contact, phoneNumber: value };
+          break;
 
-        case 'landLine':
-          temp.contact = { ...temp.contact, landLine: value }
-          break
+        case "landLine":
+          temp.contact = { ...temp.contact, landLine: value };
+          break;
 
-        case 'socialF':
-          temp.sociallink = { ...temp.sociallink, facebook: value }
-          break
+        case "socialF":
+          temp.sociallink = { ...temp.sociallink, facebook: value };
+          break;
 
-        case 'socialI':
-          temp.sociallink = { ...temp.sociallink, instagram: value }
-          break
+        case "socialI":
+          temp.sociallink = { ...temp.sociallink, instagram: value };
+          break;
 
-        case 'socialL':
-          temp.sociallink = { ...temp.sociallink, LinkedIn: value }
-          break
+        case "socialL":
+          temp.sociallink = { ...temp.sociallink, LinkedIn: value };
+          break;
 
-        case 'socialY':
-          temp.sociallink = { ...temp.sociallink, youtube: value }
-          break
+        case "socialY":
+          temp.sociallink = { ...temp.sociallink, youtube: value };
+          break;
 
-        case 'socialT':
-          temp.sociallink = { ...temp.sociallink, twitter: value }
-          break
+        case "socialT":
+          temp.sociallink = { ...temp.sociallink, twitter: value };
+          break;
 
-        case 'socialP':
-          temp.sociallink = { ...temp.sociallink, pinterest: value }
-          break
+        case "socialP":
+          temp.sociallink = { ...temp.sociallink, pinterest: value };
+          break;
 
-        case 'socialO':
-          temp.sociallink = { ...temp.sociallink, otherLink: value }
-          break
+        case "socialO":
+          temp.sociallink = { ...temp.sociallink, otherLink: value };
+          break;
 
-        case 'validity_from':
+        case "validity_from":
           temp.validity = {
             ...temp.validity,
             from: value ? dayjs(value).toISOString() : null,
-          }
-          break
-        case 'validity_to':
+          };
+          break;
+        case "validity_to":
           temp.validity = {
             ...temp.validity,
             to: value ? dayjs(value).toISOString() : null,
-          }
-          break
+          };
+          break;
 
         default:
-          temp[name] = value
-          break
+          temp[name] = value;
+          break;
       }
-      return temp
-    })
-  }
+      return temp;
+    });
+  };
 
   useEffect(() => {
-    dispatch(handlePostHospital(formValues))
-  }, [formValues])
+    dispatch(handlePostHospital(formValues));
+  }, [formValues]);
 
   // console.log('formvalues', formValues)
 
   const fetchingLocation = (formValues, getCitiesList) => {
-    const cityId = formValues.HospitalAddress.city
+    const cityId = formValues.HospitalAddress.city;
 
-    const city = getCitiesList.find((item) => item.cityID === cityId)
+    const city = getCitiesList.find((item) => item.cityID === cityId);
 
     if (city) {
-      const latitude = city.latitude.toString()
-      const longitude = city.longitude.toString()
+      const latitude = city.latitude.toString();
+      const longitude = city.longitude.toString();
 
-      return { latitude, longitude }
+      return { latitude, longitude };
     } else {
-      return null
+      return null;
     }
-  }
+  };
 
   useEffect(() => {
-    const location = fetchingLocation(formValues, getCitiesList)
+    const location = fetchingLocation(formValues, getCitiesList);
     if (location) {
       setFormValues({
         ...formValues,
@@ -301,38 +303,38 @@ const HospitalAddForm = () => {
           longitude: location.longitude,
           latitude: location.latitude,
         },
-      })
+      });
     }
-  }, [formValues.HospitalAddress.city])
+  }, [formValues.HospitalAddress.city]);
 
-  const updatedFormValues = deepCopyFormValues(hospitalDetails, formValues)
+  const updatedFormValues = deepCopyFormValues(hospitalDetails, formValues);
 
   useEffect(() => {
     setFormValues((prevValue) => ({
       ...prevValue,
       ...updatedFormValues,
-    }))
-  }, [hospitalDetails])
+    }));
+  }, [hospitalDetails]);
 
-  console.log('hospitalDetails', hospitalDetails)
-  console.log('formvalues', formValues)
+  console.log("hospitalDetails", hospitalDetails);
+  console.log("formvalues", formValues);
 
   return (
     <Container
       maxWidth="xl"
       disableGutters
       sx={{
-        maxHeight: '75%',
-        overflow: 'auto',
-        background: '#fff',
-        padding: '8px',
+        maxHeight: "85%",
+        overflow: "auto",
+        background: "#fff",
+        padding: "8px",
       }}
     >
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        height={'40px'}
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        height={"40px"}
         pt={5}
         pb={5}
         pl={1}
@@ -344,12 +346,12 @@ const HospitalAddForm = () => {
           <MoreVertIcon />
         </Stack>
       </Box>
-      <Box display={'flex'} justifyContent={'space-between'} gap={2}>
+      <Box display={"flex"} justifyContent={"space-between"} gap={2}>
         <Box
           sx={{
-            width: '60%',
-            display: 'flex',
-            flexDirection: 'column',
+            width: "60%",
+            display: "flex",
+            flexDirection: "column",
             gap: 4,
           }}
         >
@@ -359,7 +361,7 @@ const HospitalAddForm = () => {
                 GENERAL INFORMATION
               </Typography>
               <Grid container spacing={2} pt={3} pb={3}>
-                <Grid item style={{ width: '100%' }}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Hospital Name <span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -371,7 +373,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.hospitalName}
                       onChange={(e) =>
-                        handleChange(e.target.value, 'hospitalName')
+                        handleChange(e.target.value, "hospitalName")
                       }
                     />
                   </FormControl>
@@ -383,13 +385,13 @@ const HospitalAddForm = () => {
                     Specialist <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <CommonSelect
-                    Placeholder={'Select'}
+                    Placeholder={"Select"}
                     data={specializationList}
                     value={formValues?.specialist?.map(
-                      (item) => item?.specializationID,
+                      (item) => item?.specializationID
                     )}
-                    width={'100%'}
-                    onChange={(e) => handleChange(e, 'specialist')}
+                    width={"100%"}
+                    onChange={(e) => handleChange(e, "specialist")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -404,18 +406,18 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.LicenseNumber}
                       onChange={(e) =>
-                        handleChange(e.target.value, 'LicenseNumber')
+                        handleChange(e.target.value, "LicenseNumber")
                       }
                     />
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    Recongnition Validity from{' '}
+                    Recongnition Validity from{" "}
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
+                    <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
                           formValues.validity.from
@@ -423,7 +425,7 @@ const HospitalAddForm = () => {
                             : null
                         }
                         onChange={(newValue) =>
-                          handleChange(newValue, 'validity_from')
+                          handleChange(newValue, "validity_from")
                         }
                       />
                     </DemoContainer>
@@ -434,7 +436,7 @@ const HospitalAddForm = () => {
                     Recongnition Validity to<span style={redStarStyle}>*</span>
                   </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
+                    <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
                           formValues.validity.to
@@ -442,7 +444,7 @@ const HospitalAddForm = () => {
                             : null
                         }
                         onChange={(newValue) =>
-                          handleChange(newValue, 'validity_to')
+                          handleChange(newValue, "validity_to")
                         }
                       />
                     </DemoContainer>
@@ -450,7 +452,7 @@ const HospitalAddForm = () => {
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
-                <Grid item style={{ width: '100%' }}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Email Address<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -461,13 +463,13 @@ const HospitalAddForm = () => {
                       placeholder="hospial@gmail.com"
                       size="small"
                       value={formValues?.email}
-                      onChange={(e) => handleChange(e.target.value, 'email')}
+                      onChange={(e) => handleChange(e.target.value, "email")}
                     />
                   </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
-                <Grid item style={{ width: '100%' }}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Website URL<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -478,7 +480,7 @@ const HospitalAddForm = () => {
                       placeholder="hospial@gmail.com"
                       size="small"
                       value={formValues?.website}
-                      onChange={(e) => handleChange(e.target.value, 'website')}
+                      onChange={(e) => handleChange(e.target.value, "website")}
                     />
                   </FormControl>
                 </Grid>
@@ -488,15 +490,15 @@ const HospitalAddForm = () => {
           <Card variant="outlined">
             <CardContent>
               <Box
-                display={'flex'}
-                justifyContent={'space-between'}
+                display={"flex"}
+                justifyContent={"space-between"}
                 sx={{ mt: 1 }}
               >
                 <Typography sx={headingStyle}>HOSPITAL ADDRESS</Typography>
               </Box>
 
               <Grid container spacing={2} pt={3}>
-                <Grid item style={{ width: '100%' }}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Address 1<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -508,14 +510,14 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.HospitalAddress?.addressLine1}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'HospitalAddress1')
+                        handleChange(e.target.value, "HospitalAddress1");
                       }}
                     />
                   </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
-                <Grid item style={{ width: '100%' }}>
+                <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Address 2<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -527,7 +529,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.HospitalAddress?.addressLine2}
                       onChange={(e) =>
-                        handleChange(e.target.value, 'HospitalAddress2')
+                        handleChange(e.target.value, "HospitalAddress2")
                       }
                     />
                   </FormControl>
@@ -540,13 +542,13 @@ const HospitalAddForm = () => {
                     Country <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
-                    Placeholder={'Select'}
-                    width={'100%'}
+                    Placeholder={"Select"}
+                    width={"100%"}
                     disabled={true}
                     data={upDatedCountryList}
                     value={formValues?.HospitalAddress?.country}
                     onChange={(e) => {
-                      handleChange(e, 'country')
+                      handleChange(e, "country");
                     }}
                   />
                 </Grid>
@@ -555,13 +557,13 @@ const HospitalAddForm = () => {
                     State <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
-                    Placeholder={'Select'}
-                    width={'100%'}
+                    Placeholder={"Select"}
+                    width={"100%"}
                     data={stateList}
                     value={formValues?.HospitalAddress?.state}
                     onChange={(e) => {
-                      dispatch(getCityList(e))
-                      handleChange(e, 'state')
+                      dispatch(getCityList(e));
+                      handleChange(e, "state");
                     }}
                   />
                 </Grid>
@@ -570,12 +572,12 @@ const HospitalAddForm = () => {
                     City <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
-                    Placeholder={'Select'}
-                    width={'100%'}
+                    Placeholder={"Select"}
+                    width={"100%"}
                     data={cityList}
                     value={formValues?.HospitalAddress?.city}
                     onChange={(e) => {
-                      handleChange(e, 'city')
+                      handleChange(e, "city");
                     }}
                   />
                 </Grid>
@@ -592,7 +594,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.HospitalAddress?.nearLandMark}
                       onChange={(e) =>
-                        handleChange(e.target.value, 'nearLandMark')
+                        handleChange(e.target.value, "nearLandMark")
                       }
                     />
                   </FormControl>
@@ -609,7 +611,7 @@ const HospitalAddForm = () => {
                       placeholder="pincode"
                       size="small"
                       value={formValues?.HospitalAddress?.pincode}
-                      onChange={(e) => handleChange(e.target.value, 'pincode')}
+                      onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
                   </FormControl>
                 </Grid>
@@ -627,7 +629,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'phoneNumber')
+                        handleChange(e.target.value, "phoneNumber");
                       }}
                     />
                   </FormControl>
@@ -644,7 +646,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.contact?.landLine}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'landLine')
+                        handleChange(e.target.value, "landLine");
                       }}
                     />
                   </FormControl>
@@ -661,7 +663,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.faxNumber}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'faxNumber')
+                        handleChange(e.target.value, "faxNumber");
                       }}
                     />
                   </FormControl>
@@ -675,13 +677,13 @@ const HospitalAddForm = () => {
                 <Typography sx={headingStyle}>SOCIAL LINKS</Typography>
               </Stack>
               <Stack spacing={2}>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={facebook}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                    style={{ borderRadius: '4px' }}
-                  />{' '}
+                    style={{ borderRadius: "4px" }}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -690,17 +692,17 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.facebook}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialF')
+                        handleChange(e.target.value, "socialF");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={instagram}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                  />{' '}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -709,17 +711,17 @@ const HospitalAddForm = () => {
                       value={formValues?.sociallink?.instagram}
                       size="small"
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialI')
+                        handleChange(e.target.value, "socialI");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={linkedin}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                  />{' '}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -728,17 +730,17 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.LinkedIn}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialL')
+                        handleChange(e.target.value, "socialL");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={youtube}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                  />{' '}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -747,17 +749,17 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.youtube}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialY')
+                        handleChange(e.target.value, "socialY");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={twitter}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                  />{' '}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -766,18 +768,18 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.twitter}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialT')
+                        handleChange(e.target.value, "socialT");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={pinterest}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                    style={{ borderRadius: '4px' }}
-                  />{' '}
+                    style={{ borderRadius: "4px" }}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -786,17 +788,17 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.pinterest}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialP')
+                        handleChange(e.target.value, "socialP");
                       }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
-                  />{' '}
+                  />{" "}
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -805,7 +807,7 @@ const HospitalAddForm = () => {
                       size="small"
                       value={formValues?.sociallink?.otherLink}
                       onChange={(e) => {
-                        handleChange(e.target.value, 'socialO')
+                        handleChange(e.target.value, "socialO");
                       }}
                     />
                   </FormControl>
@@ -816,13 +818,13 @@ const HospitalAddForm = () => {
         </Box>
         <Box
           sx={{
-            width: '40%',
-            display: 'flex',
-            flexDirection: 'column',
+            width: "40%",
+            display: "flex",
+            flexDirection: "column",
             gap: 4,
           }}
         >
-          <Card variant="outlined" sx={{ width: '100%' }}>
+          <Card variant="outlined" sx={{ width: "100%" }}>
             <CardContent>
               <Stack spacing={1}>
                 <Stack>
@@ -831,10 +833,10 @@ const HospitalAddForm = () => {
                 <Stack>
                   <Typography variant="subtitle2">Upload Image</Typography>
                 </Stack>
-                <Stack alignItems={'center'}>
-                  <img src={doctorImg} height={'auto'} width={'150px'} />
+                <Stack alignItems={"center"}>
+                  <img src={doctorImg} height={"auto"} width={"150px"} />
                 </Stack>
-                <Stack direction={'row'} spacing={4}>
+                <Stack direction={"row"} spacing={4}>
                   <Stack>
                     <Typography variant="subtitle2">
                       supported formats JPG,PNG,SVG
@@ -856,7 +858,7 @@ const HospitalAddForm = () => {
                 </Stack>
                 <Card variant="outlined">
                   <CardContent>
-                    <Stack height={'175px'}>
+                    <Stack height={"175px"}>
                       <InputLabel sx={inputLableStyle}>Description</InputLabel>
                       <TextField
                         id="about"
@@ -865,7 +867,7 @@ const HospitalAddForm = () => {
                         variant="outlined"
                         placeholder="Add description here"
                         value={formValues?.about}
-                        onChange={(e) => handleChange(e.target.value, 'about')}
+                        onChange={(e) => handleChange(e.target.value, "about")}
                       />
                     </Stack>
                   </CardContent>
@@ -876,10 +878,10 @@ const HospitalAddForm = () => {
 
           <Card variant="outlined">
             <CardContent>
-              <Typography sx={({ marginTop: '5px' }, headingStyle)}>
+              <Typography sx={({ marginTop: "5px" }, headingStyle)}>
                 LOCATION
               </Typography>
-              <Grid container spacing={2} sx={{ marginTop: '10px' }}>
+              <Grid container spacing={2} sx={{ marginTop: "10px" }}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Longitude</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
@@ -909,7 +911,7 @@ const HospitalAddForm = () => {
                       value={formValues?.HospitalAddress?.latitude}
                       data={getCityList}
                       onChange={(e) => {
-                        handleChange(e, 'latitude')
+                        handleChange(e, "latitude");
                       }}
                     />
                   </FormControl>
@@ -923,7 +925,7 @@ const HospitalAddForm = () => {
         </Box>
       </Box>
     </Container>
-  )
-}
+  );
+};
 
-export default HospitalAddForm
+export default HospitalAddForm;
