@@ -37,20 +37,24 @@ const PlanDataPreview = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
           gap: 2,
           marginBottom: "80px",
+          padding: "15px",
         }}
       >
         <Stack
           sx={{
             display: "flex",
             flexDirection: "row",
-            gap: 2,
+            justifyContent: "space-between",
+            gap: 5,
           }}
         >
-          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "650px" }}>
+          <Card
+            variant="outlined"
+            sx={{ borderRadius: "15px", width: "700px" }}
+          >
+            <CardContent sx={{ width: "600px" }}>
               <Stack
                 direction={"row"}
                 sx={{ display: "flex", justifyContent: "space-between" }}
@@ -120,8 +124,11 @@ const PlanDataPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "650px" }}>
+          <Card
+            variant="outlined"
+            sx={{ borderRadius: "15px", width: "700px" }}
+          >
+            <CardContent sx={{ width: "600px" }}>
               {" "}
               <Stack
                 direction={"row"}
@@ -182,11 +189,12 @@ const PlanDataPreview = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
+            justifyContent: "space-between",
             gap: 2,
           }}
         >
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent sx={{ width: "700px" }}>
               {" "}
               <Stack
                 direction={"row"}
@@ -228,7 +236,7 @@ const PlanDataPreview = () => {
             </CardContent>
           </Card>
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px" }}>
+            <CardContent sx={{ width: "700px" }}>
               <Stack
                 direction={"row"}
                 sx={{ display: "flex", justifyContent: "space-between" }}
@@ -273,11 +281,12 @@ const PlanDataPreview = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
+            justifyContent: "space-between",
             gap: 2,
           }}
         >
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px", height: "200px" }}>
+            <CardContent sx={{ width: "700px", height: "200px" }}>
               <Stack
                 direction={"row"}
                 sx={{ display: "flex", justifyContent: "space-between" }}
@@ -294,7 +303,10 @@ const PlanDataPreview = () => {
                     >
                       Description :
                     </Typography>{" "}
-                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ fontSize: "14px", padding: "10px" }}
+                    >
                       It is a long established fact that a reader will be
                       distracted by the readable content of a page when looking
                       at its layout. The point of using Lorem Ipsum is that it
@@ -310,7 +322,7 @@ const PlanDataPreview = () => {
             </CardContent>
           </Card>
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px", height: "200px" }}>
+            <CardContent sx={{ width: "700px", height: "200px" }}>
               <Stack
                 direction={"row"}
                 sx={{ display: "flex", justifyContent: "space-between" }}
@@ -327,7 +339,10 @@ const PlanDataPreview = () => {
                     >
                       Additional Info :
                     </Typography>{" "}
-                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ fontSize: "14px", padding: "10px" }}
+                    >
                       It is a long established fact that a reader will be
                       distracted by the readable content of a page when looking
                       at its layout. The point of using Lorem Ipsum is that it
@@ -347,11 +362,12 @@ const PlanDataPreview = () => {
           sx={{
             display: "flex",
             flexDirection: "row",
+            justifyContent: "space-between",
             gap: 2,
           }}
         >
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px" }}>
+            <CardContent sx={{ width: "700px" }}>
               {" "}
               <Stack
                 direction={"row"}
@@ -412,7 +428,7 @@ const PlanDataPreview = () => {
               display: "flex",
               flexDirection: "column",
               gap: 2,
-              width: "600px",
+              width: "700px",
             }}
           >
             <Card variant="outlined" sx={{ borderRadius: "15px" }}>

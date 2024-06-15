@@ -1032,9 +1032,37 @@ export const CustomerLayout = () => {
             )}
           </Box>
           <Stack
-            // marginBottom={3}
             sx={{ display: "flex", flexDirection: "row", padding: "10px" }}
           >
+            {pathname && pathname === "/customerPage/customerDashboard" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack></Stack>
+              </Box>
+            )}
             {pathname && pathname === "/customerPage/customers" && (
               <Box
                 sx={{
@@ -1078,7 +1106,6 @@ export const CustomerLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
-                    // marginLeft: "950px",
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -1095,42 +1122,40 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  // variant="contained"
-                  size="small"
+                <Stack
                   sx={{
-                    background: "inherit",
-                    color: "black",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/customerPage/customers");
+                    display: "flex",
+                    flexDirection: "row",
                   }}
                 >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/customers");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"end"}
-                  marginLeft={"870px"}
-                >
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                   <Button
                     size="small"
                     variant="contained"
@@ -1154,42 +1179,40 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  // variant="contained"
-                  size="small"
+                <Stack
                   sx={{
-                    background: "inherit",
-                    color: "black",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/customerPage/customers");
+                    display: "flex",
+                    flexDirection: "row",
                   }}
                 >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/customers");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"end"}
-                  marginLeft={"870px"}
-                >
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                   <Button
                     size="small"
                     variant="contained"
@@ -1208,48 +1231,65 @@ export const CustomerLayout = () => {
               </Stack>
             )}
             {pathname && pathname === "/customerPage/customers/allDetails" && (
-              <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
                 {selectedTab === 0 ? (
                   <Stack
                     sx={{
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      width: "100%",
                     }}
                   >
-                    <Button
-                      size="small"
-                      sx={{
-                        background: "inherit",
-                        color: "black",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/customerPage/customers");
-                      }}
-                    >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
                     <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      spacing={1}
-                      marginLeft={2}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
                     >
-                      <Typography variant="h2">Customer Management</Typography>{" "}
-                      <Typography variant="subtitle1">/</Typography>
-                      <Typography variant="subtitle1">{activeItem}</Typography>
+                      <Button
+                        size="small"
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customers");
+                        }}
+                      >
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
+                      </Button>
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        spacing={1}
+                      >
+                        <Typography variant="h2">
+                          Customer Management
+                        </Typography>{" "}
+                        <Typography variant="subtitle1">/</Typography>
+                        <Typography variant="subtitle1">
+                          {activeItem}
+                        </Typography>
+                      </Stack>
                     </Stack>
                     <Button
                       variant="contained"
                       size="small"
                       sx={{
                         padding: 1,
-                        marginLeft: "980px",
                       }}
                       onClick={(e) => {
                         e.preventDefault();
@@ -1265,42 +1305,49 @@ export const CustomerLayout = () => {
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      width: "100%",
                     }}
                   >
-                    <Button
-                      // variant="contained"
-                      size="small"
+                    <Stack
                       sx={{
-                        background: "inherit",
-                        color: "black",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/customerPage/customers");
+                        display: "flex",
+                        flexDirection: "row",
                       }}
                     >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
-                    <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      spacing={1}
-                      marginLeft={2}
-                    >
-                      <Typography variant="h2">Customer Management</Typography>{" "}
-                      <Typography variant="subtitle1">/</Typography>
-                      <Typography variant="subtitle1">{activeItem}</Typography>
+                      <Button
+                        // variant="contained"
+                        size="small"
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customers");
+                        }}
+                      >
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
+                      </Button>
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        spacing={1}
+                        marginLeft={2}
+                      >
+                        <Typography variant="h2">
+                          Customer Management
+                        </Typography>{" "}
+                        <Typography variant="subtitle1">/</Typography>
+                        <Typography variant="subtitle1">
+                          {activeItem}
+                        </Typography>
+                      </Stack>
                     </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      justifyContent={"end"}
-                      marginLeft={"870px"}
-                    >
+                    <Stack direction={"row"} spacing={2}>
                       <Button
                         size="small"
                         variant="contained"
@@ -1323,42 +1370,49 @@ export const CustomerLayout = () => {
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      width: "100%",
                     }}
                   >
-                    <Button
-                      // variant="contained"
-                      size="small"
+                    <Stack
                       sx={{
-                        background: "inherit",
-                        color: "black",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/customerPage/customers");
+                        display: "flex",
+                        flexDirection: "row",
                       }}
                     >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
-                    <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      spacing={1}
-                      marginLeft={2}
-                    >
-                      <Typography variant="h2">Customer Management</Typography>{" "}
-                      <Typography variant="subtitle1">/</Typography>
-                      <Typography variant="subtitle1">{activeItem}</Typography>
+                      <Button
+                        // variant="contained"
+                        size="small"
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customers");
+                        }}
+                      >
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
+                      </Button>
+
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        spacing={1}
+                      >
+                        <Typography variant="h2">
+                          Customer Management
+                        </Typography>{" "}
+                        <Typography variant="subtitle1">/</Typography>
+                        <Typography variant="subtitle1">
+                          {activeItem}
+                        </Typography>
+                      </Stack>
                     </Stack>
-                    <Stack
-                      direction={"row"}
-                      spacing={2}
-                      justifyContent={"end"}
-                      marginLeft={"870px"}
-                    >
+                    <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                       <Button
                         size="small"
                         variant="contained"
@@ -1381,36 +1435,48 @@ export const CustomerLayout = () => {
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
+                      width: "100%",
                     }}
                   >
-                    <Button
-                      // variant="contained"
-                      size="small"
-                      sx={{
-                        background: "inherit",
-                        color: "black",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/customerPage/customers");
-                      }}
-                    >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
                     <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      spacing={1}
-                      marginLeft={2}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                      }}
                     >
-                      <Typography variant="h2">Customer Management</Typography>{" "}
-                      <Typography variant="subtitle1">/</Typography>
-                      <Typography variant="subtitle1">{activeItem}</Typography>
+                      <Button
+                        // variant="contained"
+                        size="small"
+                        sx={{
+                          background: "inherit",
+                          color: "black",
+                        }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate("/customerPage/customers");
+                        }}
+                      >
+                        <ArrowBackIosIcon
+                          sx={{ height: 16, width: 16 }}
+                          fontSize="small"
+                        />{" "}
+                        Back
+                      </Button>
+                      <Stack
+                        direction={"row"}
+                        alignItems={"center"}
+                        spacing={1}
+                      >
+                        <Typography variant="h2">
+                          Customer Management
+                        </Typography>{" "}
+                        <Typography variant="subtitle1">/</Typography>
+                        <Typography variant="subtitle1">
+                          {activeItem}
+                        </Typography>
+                      </Stack>
                     </Stack>
+                    <Stack></Stack>
                   </Stack>
                 ) : null}
               </Box>
@@ -1430,14 +1496,43 @@ export const CustomerLayout = () => {
             {pathname &&
               pathname === "/customerPage/baby_details/babyDetailsView" && (
                 <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
                 >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/baby_details");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
                 </Stack>
               )}
             {pathname && pathname === "/customerPage/invoices" && (
@@ -1446,6 +1541,7 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
                 <Stack
@@ -1463,7 +1559,6 @@ export const CustomerLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
-                    marginLeft: "1030px",
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -1480,42 +1575,35 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  // variant="contained"
-                  size="small"
-                  sx={{
-                    background: "inherit",
-                    color: "black",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/customerPage/customers");
-                  }}
-                >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/invoices");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"end"}
-                  marginLeft={"870px"}
-                >
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                   <Button
                     size="small"
                     variant="contained"
@@ -1539,43 +1627,41 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  // variant="contained"
-                  size="small"
-                  sx={{
-                    background: "inherit",
-                    color: "black",
-                    // marginRight: "880px",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/customerPage/invoices");
-                  }}
-                >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                      // marginRight: "880px",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/invoices");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"end"}
-                  sx={{ marginLeft: "950px" }}
-                >
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                   <Button size="small" variant="contained" color="error">
                     Delete
                   </Button>
@@ -1591,24 +1677,26 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
                 <Button
                   variant="contained"
                   size="small"
                   sx={{
                     padding: 1,
-                    marginLeft: "1060px",
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -1625,42 +1713,40 @@ export const CustomerLayout = () => {
                   display: "flex",
                   flexDirection: "row",
                   justifyContent: "space-between",
+                  width: "100%",
                 }}
               >
-                <Button
-                  // variant="contained"
-                  size="small"
-                  sx={{
-                    background: "inherit",
-                    color: "black",
-                  }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/customerPage/customers");
-                  }}
-                >
-                  <ArrowBackIosIcon
-                    sx={{ height: 16, width: 16 }}
-                    fontSize="small"
-                  />{" "}
-                  Back
-                </Button>
-                <Stack
-                  direction={"row"}
-                  alignItems={"center"}
-                  spacing={1}
-                  marginLeft={2}
-                >
-                  <Typography variant="h2">Customer Management</Typography>{" "}
-                  <Typography variant="subtitle1">/</Typography>
-                  <Typography variant="subtitle1">{activeItem}</Typography>
+                <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/plans");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  justifyContent={"end"}
-                  marginLeft={"920px"}
-                >
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                   <Button
                     size="small"
                     variant="contained"
@@ -1685,43 +1771,40 @@ export const CustomerLayout = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    width: "100%",
                   }}
                 >
-                  <Button
-                    // variant="contained"
-                    size="small"
-                    sx={{
-                      background: "inherit",
-                      color: "black",
-                      // marginRight: "880px",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/customerPage/plans");
-                    }}
-                  >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack
-                    direction={"row"}
-                    alignItems={"center"}
-                    spacing={1}
-                    marginLeft={2}
-                  >
-                    <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/plans");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
                   </Stack>
-                  <Stack
-                    direction={"row"}
-                    spacing={2}
-                    justifyContent={"end"}
-                    sx={{ marginLeft: "950px" }}
-                  >
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
                     <Button size="small" variant="contained" color="error">
                       Delete
                     </Button>
