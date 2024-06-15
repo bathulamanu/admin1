@@ -9,7 +9,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -28,6 +28,7 @@ import products from "../../assets/products.png";
 import { useTheme } from "@emotion/react";
 import dashboardBackGround from "../../assets/dasboard_background.png";
 import logo from "../../assets/logo.png";
+import logoNew from "../../assets/logoNew.jpg";
 import { useNavigate } from "react-router-dom";
 import { capitalizeFirstLetter, stringAvatar } from "../../globalFunctions";
 import { useSelector } from "react-redux";
@@ -113,10 +114,21 @@ const Dashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const loginUserDetails = localStorage.getItem("loginUser");
-  const data = JSON.parse(loginUserDetails);
+  const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
+
+  useEffect(() => {
+    if (!data) {
+      navigate("/");
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    return null;
+  }
+
   const { firstName, lastName } = data;
 
-  console.log("dkjhcksdghljh  slice", data);
+  // console.log("dkjhcksdghljh  slice", data);
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -130,10 +142,11 @@ const Dashboard = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
-        backgroundImage: `url(${dashboardBackGround})`,
+        // backgroundImage: `url(${dashboardBackGround})`,
+        background: "#F3F8FF",
         height: "100vh",
         display: "flex",
         alignItems: "center",
@@ -150,7 +163,7 @@ const Dashboard = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "2px 12px",
+          padding: "25px 12px",
           zIndex: 100,
           position: "fixed",
           top: 0,
@@ -159,7 +172,7 @@ const Dashboard = () => {
         <img
           src={logo}
           height={isMobile ? "24px" : "30px"}
-          width={"auto"}
+          width={"170px"}
           alt="Logo"
         />
         <Stack direction="row" spacing={1} alignItems={"center"}>
@@ -181,6 +194,7 @@ const Dashboard = () => {
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
               fontSize: isMobile ? "10px" : "12px",
+              background: isMobile ? "#3333ff" : "#3333ff",
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
@@ -195,13 +209,13 @@ const Dashboard = () => {
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            // onClose={handleClose}
             MenuListProps={{
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem>Profile</MenuItem>
+            <MenuItem>My account</MenuItem>
             <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
         </Stack>
@@ -236,23 +250,26 @@ const Dashboard = () => {
                 justifyContent={"flex-start"}
                 alignItems={"center"}
                 sx={{
-                  width: isMobile ? "60px" : "80px",
-                  height: isMobile ? "70px" : "90px",
+                  width: isMobile ? "60px" : "180px",
+                  height: isMobile ? "70px" : "190px",
                   cursor: "pointer",
                 }}
                 onClick={() => {
                   if (item.value == "hospital_management") {
                     navigate("/mainPage/hospitals");
+                  } else if (item.value == "customer_management") {
+                    navigate("/customerPage/customers");
                   }
                 }}
                 spacing={1}
               >
                 <Stack
                   sx={{
-                    height: isMobile ? "40px" : "50px",
-                    width: isMobile ? "40px" : "50px",
+                    height: isMobile ? "40px" : "100px",
+                    width: isMobile ? "40px" : "100px",
                     borderRadius: "50%",
                     background: "#fff",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   }}
                   display={"flex"}
                   justifyContent={"center"}
@@ -261,20 +278,21 @@ const Dashboard = () => {
                   <img
                     src={item.icon}
                     height={"auto"}
-                    width={isMobile ? "24px" : "32px"}
+                    width={isMobile ? "24px" : "70px"}
                     alt={item.title_text1}
+                    sx={{ padding: "10px" }}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={0} alignItems={"center"}>
                   <Typography
                     variant="subtitle1"
-                    fontSize={isMobile ? "8px" : "10px"}
+                    fontSize={isMobile ? "8px" : "16px"}
                   >
                     {item.title_text1}
                   </Typography>
                   <Typography
                     variant="subtitle1"
-                    fontSize={isMobile ? "8px" : "10px"}
+                    fontSize={isMobile ? "8px" : "16px"}
                   >
                     {item.title_text2}
                   </Typography>
@@ -285,164 +303,7 @@ const Dashboard = () => {
         </Grid>
       </Box>
     </Container>
-    // <Container
-    //   maxWidth="xl"
-    //   disableGutters
-    //   sx={{
-    //     backgroundImage: `url(${dashboardBackGround})`,
-    //     height: "100vh",
-    //     display: "flex",
-    //     alignItems: "center",
-    //     flexDirection: "column",
-    //   }}
-    // >
-    //   <Box
-    //     width={"98%"}
-    //     height={"40px"}
-    //     sx={{
-    //       background: "#fff",
-    //       margin: 0,
-    //       display: "flex",
-    //       alignItems: "center",
-    //       justifyContent: "space-between",
-    //       padding: "2px 12px",
-    //       zIndex: 100,
-    //     }}
-    //   >
-    //     <img src={logo} height={"30px"} width={"auto"} />
-    //     <Stack direction="row" spacing={2} alignItems={"center"}>
-    //       <NotificationsIcon /> <ChatBubbleIcon />{" "}
-    //       <Avatar {...stringAvatar("Kent Dodds")} />{" "}
-    //       <Typography variant="subtitle1"> sarah </Typography>
-    //       <KeyboardArrowDownIcon
-    //         onClick={handleClick}
-    //         style={{ cursor: "pointer" }}
-    //       />
-    //       <Menu
-    //         id="basic-menu"
-    //         anchorEl={anchorEl}
-    //         open={open}
-    //         onClose={handleClose}
-    //         MenuListProps={{
-    //           "aria-labelledby": "basic-button",
-    //         }}
-    //       >
-    //         <MenuItem onClick={handleClose}>Profile</MenuItem>
-    //         <MenuItem onClick={handleClose}>My account</MenuItem>
-    //         <MenuItem onClick={handleClose}>Logout</MenuItem>
-    //       </Menu>{" "}
-    //     </Stack>
-    //   </Box>
-
-    //   <Box
-    //     width={{ xs: "100%", md: "40%" }}
-    //     display={"flex"}
-    //     alignItems={"center"}
-    //     justifyContent={"center"}
-    //     padding={2}
-    //   >
-    //     <Grid container spacing={3} justifyContent="center">
-    //       {iconArray.map((item, index) => (
-    //         <Grid
-    //           item
-    //           xs={6} // 2 columns on extra-small screens
-    //           md={4} // 3 columns on medium screens
-    //           lg={3} // 4 columns on large screens and above
-    //           key={index}
-    //           display="flex"
-    //           justifyContent="center"
-    //         >
-    //           <Stack
-    //             display={"flex"}
-    //             justifyContent={"flex-start"}
-    //             alignItems={"center"}
-    //             sx={{ width: "80px", height: "90px" }}
-    //             spacing={1}
-    //           >
-    //             <Stack
-    //               sx={{
-    //                 height: "50px",
-    //                 width: "50px",
-    //                 borderRadius: "50%",
-    //                 background: "#fff",
-    //               }}
-    //               display={"flex"}
-    //               justifyContent={"center"}
-    //               alignItems={"center"}
-    //             >
-    //               <img src={item.icon} height={"auto"} width={"32px"} />
-    //             </Stack>
-    //             <Stack direction={"column"} spacing={0} alignItems={"center"}>
-    //               <Typography variant="subtitle1" fontSize={"10px"}>
-    //                 {item.title_text1}
-    //               </Typography>
-    //               <Typography variant="subtitle1" fontSize={"10px"}>
-    //                 {item.title_text2}
-    //               </Typography>
-    //             </Stack>
-    //           </Stack>
-    //         </Grid>
-    //       ))}
-    //     </Grid>
-    //   </Box>
-
-    // </Container>
   );
 };
 
 export default Dashboard;
-
-{
-  /* <Box
-        width={"100%"}
-        height={"100%"}
-        display={"flex"}
-        alignItems={"center"}
-        justifyContent={"center"}
-      >
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          flexWrap={"wrap"}
-          gap={"50px"}
-          width={"40%"}
-          padding={"24px"}
-        >
-          {iconArray.map((item) => {
-            return (
-              <Stack
-                display={"flex"}
-                justifyContent={'flex-start'}
-                alignItems={"center"}
-                sx={{ width: "80px",height:'90px' }}
-                spacing={1}
-              >
-                <Stack
-                  sx={{
-                    height: "50px",
-                    width: "50px",
-                    borderRadius: "50%",
-                    background: "#fff",
-                    
-                  }}
-                  display={"flex"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                >
-                  <img src={item.icon} height={"auto"} width={"32px"} />
-                </Stack>
-                <Stack direction={'column'} spacing={0} alignItems={'center'} >
-                  <Typography variant="subtitle1" fontSize={"10px"}>
-                    {item.title_text1}
-                  </Typography>
-                  <Typography variant="subtitle1" fontSize={"10px"}>
-                    {item.title_text2}
-                  </Typography>
-                </Stack>
-              </Stack>
-            );
-          })}
-        </Box>
-      </Box> */
-}

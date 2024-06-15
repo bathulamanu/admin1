@@ -32,28 +32,43 @@ import { useNavigate } from "react-router-dom";
 const socialMediaSize = 24;
 
 const HospitalView = () => {
-  const dispatch=useDispatch()
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
-  console.log("hospitalDetails", hospitalDetails);
-  const {
-    hospitalName,
-    hospitalLogo,
-    about,
-    HospitalAddress,
-    faxNumber,
-    LocationInfo,
-    contact,
-    validity,
-    specialist,
-    status,
-    email,
-    website,
-    doctorAssignmentsDetails,
-    sociallink,
-  } = hospitalDetails;
+
+  const hospitalName = hospitalDetails?.hospitalName;
+  const hospitalLogo = hospitalDetails?.hospitalLogo;
+  const about = hospitalDetails?.about;
+  const HospitalAddress = hospitalDetails?.HospitalAddress;
+  const faxNumber = hospitalDetails?.faxNumber;
+  const LocationInfo = hospitalDetails?.LocationInfo;
+  const contact = hospitalDetails?.contact;
+  const validity = hospitalDetails?.validity;
+  const specialist = hospitalDetails?.specialist;
+  const status = hospitalDetails?.status;
+  const email = hospitalDetails?.email;
+  const website = hospitalDetails?.website;
+  const doctorAssignmentsDetails = hospitalDetails?.doctorAssignmentsDetails;
+  const sociallink = hospitalDetails?.sociallink;
+
+  // const {
+  //   hospitalName
+  //   hospitalLogo,
+  //   about,
+  //   HospitalAddress,
+  //   faxNumber,
+  //   LocationInfo,
+  //   contact,
+  //   validity,
+  //   specialist,
+  //   status,
+  //   email,
+  //   website,
+  //   doctorAssignmentsDetails,
+  //   sociallink,
+  // } = hospitalDetails
   return (
     <Container
       disableGutters
@@ -76,7 +91,9 @@ const HospitalView = () => {
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
                   <Typography variant="h5" sx={{ color: "#327CF3" }}>
-                    {joinStringsWithSpace(hospitalName, " ")}
+                    {hospitalDetails
+                      ? joinStringsWithSpace(hospitalName, " ")
+                      : ""}
                   </Typography>
                 </Stack>
                 <MoreVertIcon />
@@ -89,7 +106,9 @@ const HospitalView = () => {
                     <Box display={"flex"} flexDirection={"column"} gap={3}>
                       <Stack>
                         <Typography variant="h5" sx={{ color: "#327CF3" }}>
-                          {joinStringsWithSpace(hospitalName, " ")}
+                          {hospitalDetails
+                            ? joinStringsWithSpace(hospitalName, " ")
+                            : ""}
                         </Typography>
                         {/* <Typography>({doctorID})</Typography> */}
                       </Stack>
@@ -262,7 +281,7 @@ const HospitalView = () => {
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box display={"flex"} flexWrap={"wrap"} gap={2}>
               {doctorAssignmentsDetails?.map((item, idx) => {
-                console.log("dbjksdjhj", item);
+                // console.log("dbjksdjhj", item);
                 return (
                   <Card key={`doc${idx}`}>
                     <Stack
