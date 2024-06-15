@@ -56,7 +56,7 @@ const SubHeaderTitle = styled(Typography)(({ type }) => ({
       : "inherit",
   fontWeight: "bold",
   textTransform: "uppercase",
-  width: "330px",
+  width: "430px",
   height: "56px",
   padding: "15px",
 }));
@@ -191,7 +191,7 @@ const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
 const DetailsPlan = () => {
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",

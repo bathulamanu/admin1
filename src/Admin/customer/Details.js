@@ -64,7 +64,7 @@ const Details = () => {
         gap: 4,
       }}
     >
-      <Box>
+      <Box sx={{ marginBottom: "40px" }}>
         <Card justifyContent={"space-between"}>
           <CardContent
             sx={{ display: "flex", flexDirection: "column", gap: 6 }}
@@ -76,7 +76,7 @@ const Details = () => {
                     sx={{ fontWeight: "bold", paddingTop: "8px" }}
                     variant="h5"
                   >
-                    {getHeaderText()}
+                    {/* {getHeaderText()} */}
                   </Typography>
                 </Stack>
               </Box>

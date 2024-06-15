@@ -57,13 +57,11 @@ const InvoiceForm = () => {
 
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        // background: "#fff",
-        padding: "8px",
       }}
     >
       <Box sx={{ background: "#fff" }}>
@@ -88,7 +86,7 @@ const InvoiceForm = () => {
           marginBottom: "60px",
         }}
       >
-        <Stack sx={{ background: "#fff", width: "600px" }}>
+        <Stack sx={{ background: "#fff", width: "700px" }}>
           <Box sx={{ padding: "20px" }}>
             <Typography
               sx={{
@@ -306,13 +304,13 @@ const InvoiceForm = () => {
               size="small"
               variant="contained"
               startIcon={<SaveAltIcon />}
-              sx={{ marginLeft: "430px", marginTop: "10px", width: "100px" }}
+              sx={{ marginLeft: "550px", marginTop: "10px", width: "100px" }}
             >
               Save
             </Button>
           </Box>
         </Stack>
-        <Stack sx={{ width: "600px" }}>
+        <Stack sx={{ width: "700px" }}>
           <Box
             sx={{
               padding: "20px",

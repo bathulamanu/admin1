@@ -34,6 +34,7 @@ const BabyDetails = () => {
   ];
   return (
     <Container
+      maxWidth="xxl"
       sx={{
         maxHeight: "75%",
         overflow: "auto",

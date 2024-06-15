@@ -69,7 +69,7 @@ const ClientDetailsPreview = () => {
             marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 FATHER INFORMATION
@@ -219,7 +219,7 @@ const ClientDetailsPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 MOTHER INFORMATION
@@ -378,7 +378,7 @@ const ClientDetailsPreview = () => {
             marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 COMMUNICATION DETAILS (CURRENT ADDRESS)
@@ -447,7 +447,7 @@ const ClientDetailsPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 COMMUNICATION DETAILS (PERMANENT ADDRESS)
@@ -594,7 +594,7 @@ const ClientDetailsPreview = () => {
             marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 CURRENT HOSPITAL ADDRESS
@@ -687,7 +687,7 @@ const ClientDetailsPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 DELIVERING ADDRESS
@@ -789,7 +789,7 @@ const ClientDetailsPreview = () => {
             marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                 DETAILS OF REFERENCE/DETAILS OF RETURNING CRYOVAULT CLIENT
@@ -846,7 +846,7 @@ const ClientDetailsPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 SHIPMENT DETAILS
@@ -876,7 +876,7 @@ const ClientDetailsPreview = () => {
             marginTop: "20px",
           }}
         >
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 EMERGENCY CONTACT DETAILS
@@ -933,7 +933,7 @@ const ClientDetailsPreview = () => {
               </Stack>
             </CardContent>
           </Card>
-          <Card variant="outlined" sx={{ width: "600px" }}>
+          <Card variant="outlined" sx={{ width: "700px" }}>
             <CardContent sx={{ width: "600px" }}>
               <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 APPLICABLE FOR CRYOVAULTS BIOTECH PVT. LTD.

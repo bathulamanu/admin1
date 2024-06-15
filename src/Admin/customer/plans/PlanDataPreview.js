@@ -11,13 +11,12 @@ import {
 const PlanDataPreview = () => {
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
         overflow: "auto",
         background: "#fff",
-        padding: "8px",
         marginBottom: "60px",
       }}
     >
@@ -51,7 +50,7 @@ const PlanDataPreview = () => {
           }}
         >
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Stack
                 direction={"row"}
                 sx={{ display: "flex", justifyContent: "space-between" }}
@@ -122,7 +121,7 @@ const PlanDataPreview = () => {
             </CardContent>
           </Card>
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px" }}>
+            <CardContent sx={{ width: "650px" }}>
               {" "}
               <Stack
                 direction={"row"}
@@ -187,7 +186,7 @@ const PlanDataPreview = () => {
           }}
         >
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent sx={{ width: "600px" }}>
+            <CardContent sx={{ width: "650px" }}>
               {" "}
               <Stack
                 direction={"row"}

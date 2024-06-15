@@ -142,7 +142,7 @@ const Dashboard = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
         // backgroundImage: `url(${dashboardBackGround})`,
@@ -172,7 +172,7 @@ const Dashboard = () => {
         <img
           src={logo}
           height={isMobile ? "24px" : "30px"}
-          width={"auto"}
+          width={"170px"}
           alt="Logo"
         />
         <Stack direction="row" spacing={1} alignItems={"center"}>
@@ -194,6 +194,7 @@ const Dashboard = () => {
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
               fontSize: isMobile ? "10px" : "12px",
+              background: isMobile ? "#3333ff" : "#3333ff",
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
@@ -249,8 +250,8 @@ const Dashboard = () => {
                 justifyContent={"flex-start"}
                 alignItems={"center"}
                 sx={{
-                  width: isMobile ? "60px" : "80px",
-                  height: isMobile ? "70px" : "90px",
+                  width: isMobile ? "60px" : "180px",
+                  height: isMobile ? "70px" : "190px",
                   cursor: "pointer",
                 }}
                 onClick={() => {
@@ -264,10 +265,11 @@ const Dashboard = () => {
               >
                 <Stack
                   sx={{
-                    height: isMobile ? "40px" : "50px",
-                    width: isMobile ? "40px" : "50px",
+                    height: isMobile ? "40px" : "100px",
+                    width: isMobile ? "40px" : "100px",
                     borderRadius: "50%",
                     background: "#fff",
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
                   }}
                   display={"flex"}
                   justifyContent={"center"}
@@ -276,20 +278,21 @@ const Dashboard = () => {
                   <img
                     src={item.icon}
                     height={"auto"}
-                    width={isMobile ? "24px" : "32px"}
+                    width={isMobile ? "24px" : "70px"}
                     alt={item.title_text1}
+                    sx={{ padding: "10px" }}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={0} alignItems={"center"}>
                   <Typography
                     variant="subtitle1"
-                    fontSize={isMobile ? "8px" : "10px"}
+                    fontSize={isMobile ? "8px" : "16px"}
                   >
                     {item.title_text1}
                   </Typography>
                   <Typography
                     variant="subtitle1"
-                    fontSize={isMobile ? "8px" : "10px"}
+                    fontSize={isMobile ? "8px" : "16px"}
                   >
                     {item.title_text2}
                   </Typography>

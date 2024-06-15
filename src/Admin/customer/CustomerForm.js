@@ -156,10 +156,10 @@ const CustomerForm = () => {
 
   return (
     <Container
-      // maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "75%",
+        maxHeight: "85%",
         overflow: "auto",
         background: "#fff",
         padding: "8px",
@@ -413,7 +413,7 @@ const CustomerForm = () => {
               </Grid>
             </CardContent>
           </Card>
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ marginBottom: "60px" }}>
             <CardContent>
               <Box
                 display={"flex"}
@@ -578,7 +578,7 @@ const CustomerForm = () => {
                 variant="contained"
                 tabIndex={-1}
                 startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "350px" }}
+                sx={{ marginTop: "10px", marginLeft: "500px" }}
               >
                 Upload Image
                 <VisuallyHiddenInput type="file" />

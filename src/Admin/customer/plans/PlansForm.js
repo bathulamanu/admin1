@@ -66,7 +66,7 @@ const PlansForm = () => {
   };
   return (
     <Container
-      maxWidth="lg"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
@@ -101,7 +101,7 @@ const PlansForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "600px",
+            width: "650px",
             gap: 2,
             marginBottom: "60px",
           }}
@@ -287,7 +287,7 @@ const PlansForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "600px",
+            width: "650px",
             gap: 2,
           }}
         >

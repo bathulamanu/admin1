@@ -70,7 +70,7 @@ const ClientDetailsFive = () => {
         }}
       >
         <Card variant="outlined">
-          <CardContent sx={{ width: "550px" }}>
+          <CardContent sx={{ width: "650px" }}>
             <Typography variant="h5" sx={headingStyle}>
               DETAILS REFERENCE / DETAILS OF RETURNING CRYOVAULT CLIENT
             </Typography>
@@ -161,7 +161,7 @@ const ClientDetailsFive = () => {
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "550px" }}>
+            <CardContent sx={{ width: "650px" }}>
               <Typography variant="h5" sx={headingStyle}>
                 SHIPMENT DETAILS
               </Typography>
