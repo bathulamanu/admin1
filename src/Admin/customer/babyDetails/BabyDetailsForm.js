@@ -81,10 +81,11 @@ const BabyDetailsForm = () => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            gap: 5,
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 BABY DETAILS
               </Typography>
@@ -218,7 +219,7 @@ const BabyDetailsForm = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 Upload Baby's Picture
               </Typography>
@@ -272,10 +273,11 @@ const BabyDetailsForm = () => {
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            gap: 5,
           }}
         >
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 DOCTOR DETAILS
               </Typography>
@@ -348,7 +350,7 @@ const BabyDetailsForm = () => {
             </CardContent>
           </Card>
           <Card variant="outlined">
-            <CardContent sx={{ width: "650px" }}>
+            <CardContent>
               <Typography variant="h5" sx={headingStyle}>
                 Upload Doctor's Picture
               </Typography>

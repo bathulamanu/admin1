@@ -79,7 +79,7 @@ const ClientDetailsFirst = () => {
         }}
       >
         <Card variant="outlined">
-          <CardContent sx={{ width: "650px" }}>
+          <CardContent>
             <Typography variant="h5" sx={headingStyle}>
               FATHER'S INFORMATION
             </Typography>
@@ -237,7 +237,7 @@ const ClientDetailsFirst = () => {
           </CardContent>
         </Card>
         <Card variant="outlined">
-          <CardContent sx={{ width: "650px" }}>
+          <CardContent>
             <Typography variant="h5" sx={headingStyle}>
               Upload Father's Picture
             </Typography>
