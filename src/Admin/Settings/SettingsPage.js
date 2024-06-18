@@ -64,7 +64,7 @@ const SettingsPage = () => {
   };
 
   return (
-    <Container sx={{ background: "#fff" }}>
+    <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <Box
         display={"flex"}
         justifyContent={"space-between"}

@@ -10,6 +10,7 @@ const StyledHeader = styled("div")({
   alignItems: "center",
   fontWeight: "bold",
 });
+
 function capitalizeFirstLetter(word) {
   return word?.charAt(0)?.toUpperCase() + word?.slice(1);
 }

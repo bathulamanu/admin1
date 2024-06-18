@@ -170,7 +170,7 @@ export const CustomerLayout = () => {
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            // onClose={handleClose}
             MenuListProps={{
               "aria-labelledby": "basic-button",
             }}
