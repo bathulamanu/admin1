@@ -321,13 +321,13 @@ const HospitalAddForm = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       disableGutters
       sx={{
         maxHeight: "85%",
         overflow: "auto",
         background: "#fff",
-        padding: "8px",
+        // padding: "8px",
       }}
     >
       <Box
