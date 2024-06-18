@@ -42,12 +42,10 @@ const InvoiceTable = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="xxl"
       sx={{
-        maxHeight: "75%",
+        maxHeight: "85%",
         overflow: "auto",
-        padding: "8px",
-        // display: "flex",
         background: "#fff",
       }}
     >

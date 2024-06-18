@@ -67,95 +67,105 @@ const ClientDetailsFive = () => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
-          gap: 5,
         }}
       >
-        <Card variant="outlined">
-          <CardContent>
-            <Typography variant="h5" sx={headingStyle}>
-              DETAILS REFERENCE / DETAILS OF RETURNING CRYOVAULT CLIENT
-            </Typography>
-            <Typography
-              variant="h5"
-              sx={{ fontSize: "15px", marginTop: "12px" }}
-            >
-              If you are existing Cryovault client, please provide details as
-              below<span style={redStarStyle}>*</span>
-            </Typography>
-            <Grid container spacing={2} pt={1} pb={2}>
-              <Grid item style={{ width: "100%" }}>
-                <InputLabel sx={inputLableStyle}>
-                  UIN
-                  <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
-                  <OutlinedInput
-                    fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input text"
-                    size="small"
-                    value={formValues?.uin}
-                    onChange={(e) => handleChange(e.target.value, "uin")}
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Typography
-              variant="h5"
-              sx={{ fontSize: "15px", marginTop: "10px" }}
-            >
-              If referred by an existing client, please provide details as below
-              <span style={redStarStyle}>*</span>
-              below<span style={redStarStyle}>*</span>
-            </Typography>
-            <Grid container spacing={2} pt={1} pb={2}>
-              <Grid item style={{ width: "100%" }}>
-                <InputLabel sx={inputLableStyle}>
-                  Referring clients name
-                  <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
-                  <OutlinedInput
-                    fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input text"
-                    size="small"
-                    value={formValues?.refferClient}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "refferClient")
-                    }
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2} pt={3}>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>Mobile-1</InputLabel>
-                <OutlinedInput
-                  fullWidth
-                  id="outlined-adornment-password"
-                  placeholder="Select"
-                  size="small"
-                  value={formValues?.mobile1}
-                  onChange={(e) => handleChange(e, "mobile1")}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>Mobile-2</InputLabel>
-                <OutlinedInput
-                  fullWidth
-                  id="outlined-adornment-password"
-                  placeholder="Select"
-                  size="small"
-                  value={formValues?.mobile2}
-                  onChange={(e) => handleChange(e, "mobile2")}
-                />
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-        <Stack
+        <Box
           sx={{
+            width: "49%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
+          <Card variant="outlined">
+            <CardContent sx={{ height: "440px" }}>
+              <Typography variant="h5" sx={headingStyle}>
+                DETAILS REFERENCE / DETAILS OF RETURNING CRYOVAULT CLIENT
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{ fontSize: "15px", marginTop: "12px" }}
+              >
+                If you are existing Cryovault client, please provide details as
+                below<span style={redStarStyle}>*</span>
+              </Typography>
+              <Grid container spacing={2} pt={1} pb={2}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    UIN
+                    <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input text"
+                      size="small"
+                      value={formValues?.uin}
+                      onChange={(e) => handleChange(e.target.value, "uin")}
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Typography
+                variant="h5"
+                sx={{ fontSize: "15px", marginTop: "10px" }}
+              >
+                If referred by an existing client, please provide details as
+                below
+                <span style={redStarStyle}>*</span>
+                below<span style={redStarStyle}>*</span>
+              </Typography>
+              <Grid container spacing={2} pt={1} pb={2}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Referring clients name
+                    <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input text"
+                      size="small"
+                      value={formValues?.refferClient}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "refferClient")
+                      }
+                    />
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={3}>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>Mobile-1</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    placeholder="Select"
+                    size="small"
+                    value={formValues?.mobile1}
+                    onChange={(e) => handleChange(e, "mobile1")}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>Mobile-2</InputLabel>
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    placeholder="Select"
+                    size="small"
+                    value={formValues?.mobile2}
+                    onChange={(e) => handleChange(e, "mobile2")}
+                  />
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Box>
+        <Box
+          sx={{
+            width: "49%",
             display: "flex",
             flexDirection: "column",
             gap: 4,
@@ -252,7 +262,7 @@ const ClientDetailsFive = () => {
               </Grid>
             </CardContent>
           </Card>
-        </Stack>
+        </Box>
       </Stack>
       <Card variant="outlined">
         <CardContent>

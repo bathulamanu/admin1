@@ -543,7 +543,14 @@ const CustomerForm = () => {
               </Typography>
               <Card variant="outlined">
                 <CardContent>
-                  <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
                     <Avatar sx={{ width: 200, height: 200, marginRight: 2 }} />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography variant="h5" sx={{ marginBottom: "10px" }}>
@@ -572,17 +579,27 @@ const CustomerForm = () => {
                   </Stack>
                 </CardContent>
               </Card>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "500px" }}
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
-                Upload Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
+                <Stack></Stack>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ marginTop: "10px" }}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput type="file" />
+                </Button>
+              </Stack>
             </CardContent>
           </Card>
         </Box>

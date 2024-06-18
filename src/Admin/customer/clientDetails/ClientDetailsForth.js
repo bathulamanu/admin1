@@ -88,173 +88,21 @@ const ClientDetailsForth = () => {
         DELIVERY)
       </Typography>
       <CardContent>
-        <Card variant="outlined" sx={{ width: "700px", marginBottom: "15px" }}>
-          <CardContent sx={{ width: "600px" }}>
-            <Grid container spacing={2} pb={2}>
-              <Grid item style={{ width: "100%" }}>
-                <InputLabel sx={inputLableStyle}>
-                  Expected date of delivery <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
-                  <OutlinedInput
-                    fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
-                    size="small"
-                    value={formValues?.expectedDate}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "expectedDate")
-                    }
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>
-                  Type of pregnancy <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <SingleSelect
-                  Placeholder={"Select"}
-                  width={"100%"}
-                  data={cityList}
-                  value={formValues?.pregnancy}
-                  onChange={(e) => {
-                    handleChange(e, "pregnancy");
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>
-                  How many childrens do you have alredy{" "}
-                  <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <SingleSelect
-                  Placeholder={"Select"}
-                  width={"100%"}
-                  data={stateList}
-                  value={formValues?.childrens}
-                  onChange={(e) => {
-                    // dispatch(getCityList(e))
-                    handleChange(e, "childrens");
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>
-                  Consulting Gynaecologist <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <FormControl variant="outlined" size="small" fullWidth>
-                  <OutlinedInput
-                    fullWidth
-                    type="number"
-                    id="pincode"
-                    placeholder="Input Text"
-                    size="small"
-                    value={formValues?.gynaecologist}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "gynaecologist")
-                    }
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel sx={inputLableStyle}>
-                  Consulting Hospitals <span style={redStarStyle}>*</span>
-                </InputLabel>
-                <FormControl variant="outlined" size="small" fullWidth>
-                  <OutlinedInput
-                    fullWidth
-                    type="number"
-                    id="pincode"
-                    placeholder="Input Text"
-                    size="small"
-                    value={formValues?.constHospitals}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "constHospitals")
-                    }
-                  />
-                </FormControl>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-        <Stack
+        <Box
           sx={{
+            width: "60%",
             display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            gap: 2,
+            flexDirection: "column",
+            gap: 4,
           }}
         >
-          <Card variant="outlined">
+          <Card variant="outlined" sx={{ marginBottom: "15px" }}>
             <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    City <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={cityList}
-                    value={formValues?.HospitalAddress?.city}
-                    onChange={(e) => {
-                      handleChange(e, "city");
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    State <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={stateList}
-                    value={formValues?.HospitalAddress?.state}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "state");
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Country <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    disabled={true}
-                    data={upDatedCountryList}
-                    value={formValues?.HospitalAddress?.country}
-                    onChange={(e) => {
-                      handleChange(e, "country");
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Pincode <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      type="number"
-                      id="pincode"
-                      placeholder="pincode"
-                      size="small"
-                      value={formValues?.HospitalAddress?.pincode}
-                      onChange={(e) => handleChange(e.target.value, "pincode")}
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-              <Grid container spacing={2} pt={3} pb={2}>
+              <Grid container spacing={2} pb={2}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
-                    Hospital Address <span style={redStarStyle}>*</span>
+                    Expected date of delivery{" "}
+                    <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
@@ -262,114 +110,299 @@ const ClientDetailsForth = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.HospitalAddress?.addressLine1}
+                      value={formValues?.expectedDate}
                       onChange={(e) =>
-                        handleChange(e.target.value, "addressLine1")
+                        handleChange(e.target.value, "expectedDate")
                       }
                     />
                   </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item style={{ width: "100%", color: "black" }}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                      // checked={sameAddress}
-                      // onChange={handleCheckboxChange}
-                      />
-                    }
-                    label="If  delivering hospital address is same as Current hospital address"
-                  />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-          <Card variant="outlined">
-            <CardContent>
-              <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    City <span style={redStarStyle}>*</span>
+                    Type of pregnancy <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
                     data={cityList}
-                    value={formValues?.DeliveringAddress?.city}
+                    value={formValues?.pregnancy}
                     onChange={(e) => {
-                      handleChange(e, "city");
+                      handleChange(e, "pregnancy");
                     }}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    State <span style={redStarStyle}>*</span>
+                    How many childrens do you have alredy{" "}
+                    <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
-                    value={formValues?.DeliveringAddress?.state}
+                    value={formValues?.childrens}
                     onChange={(e) => {
                       // dispatch(getCityList(e))
-                      handleChange(e, "state");
+                      handleChange(e, "childrens");
                     }}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    Country <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    disabled={true}
-                    data={upDatedCountryList}
-                    value={formValues?.DeliveringAddress?.country}
-                    onChange={(e) => {
-                      handleChange(e, "country");
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Pincode <span style={redStarStyle}>*</span>
+                    Consulting Gynaecologist <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
                       type="number"
                       id="pincode"
-                      placeholder="pincode"
+                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.DeliveringAddress?.pincode}
-                      onChange={(e) => handleChange(e.target.value, "pincode")}
+                      value={formValues?.gynaecologist}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "gynaecologist")
+                      }
                     />
                   </FormControl>
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} pt={3} pb={2}>
-                <Grid item style={{ width: "100%" }}>
+                <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    Delivering Address (If different from consulting
-                    gynaecologist)
-                    <span style={redStarStyle}>*</span>
+                    Consulting Hospitals <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input text"
+                      type="number"
+                      id="pincode"
+                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.DeliveringAddress?.addressLine2}
-                      onChange={(e) => handleChange(e.target.value, "otherId")}
+                      value={formValues?.constHospitals}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "constHospitals")
+                      }
                     />
                   </FormControl>
                 </Grid>
               </Grid>
             </CardContent>
           </Card>
+        </Box>
+        <Stack
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box
+            sx={{
+              width: "49%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+            }}
+          >
+            <Card variant="outlined">
+              <CardContent>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      City <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={cityList}
+                      value={formValues?.HospitalAddress?.city}
+                      onChange={(e) => {
+                        handleChange(e, "city");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      State <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={stateList}
+                      value={formValues?.HospitalAddress?.state}
+                      onChange={(e) => {
+                        // dispatch(getCityList(e))
+                        handleChange(e, "state");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      Country <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      disabled={true}
+                      data={upDatedCountryList}
+                      value={formValues?.HospitalAddress?.country}
+                      onChange={(e) => {
+                        handleChange(e, "country");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      Pincode <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl variant="outlined" size="small" fullWidth>
+                      <OutlinedInput
+                        fullWidth
+                        type="number"
+                        id="pincode"
+                        placeholder="pincode"
+                        size="small"
+                        value={formValues?.HospitalAddress?.pincode}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "pincode")
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} pt={3} pb={2}>
+                  <Grid item style={{ width: "100%" }}>
+                    <InputLabel sx={inputLableStyle}>
+                      Hospital Address <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl variant="outlined" fullWidth size="small">
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.HospitalAddress?.addressLine1}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "addressLine1")
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                  <Grid item style={{ width: "100%", color: "black" }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                        // checked={sameAddress}
+                        // onChange={handleCheckboxChange}
+                        />
+                      }
+                      label="If  delivering hospital address is same as Current hospital address"
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Box>
+          <Box
+            sx={{
+              width: "49%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+            }}
+          >
+            <Card variant="outlined">
+              <CardContent sx={{ height: "315px" }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      City <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={cityList}
+                      value={formValues?.DeliveringAddress?.city}
+                      onChange={(e) => {
+                        handleChange(e, "city");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      State <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={stateList}
+                      value={formValues?.DeliveringAddress?.state}
+                      onChange={(e) => {
+                        // dispatch(getCityList(e))
+                        handleChange(e, "state");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      Country <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      disabled={true}
+                      data={upDatedCountryList}
+                      value={formValues?.DeliveringAddress?.country}
+                      onChange={(e) => {
+                        handleChange(e, "country");
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <InputLabel sx={inputLableStyle}>
+                      Pincode <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl variant="outlined" size="small" fullWidth>
+                      <OutlinedInput
+                        fullWidth
+                        type="number"
+                        id="pincode"
+                        placeholder="pincode"
+                        size="small"
+                        value={formValues?.DeliveringAddress?.pincode}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "pincode")
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} pt={3} pb={2}>
+                  <Grid item style={{ width: "100%" }}>
+                    <InputLabel sx={inputLableStyle}>
+                      Delivering Address (If different from consulting
+                      gynaecologist)
+                      <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl variant="outlined" fullWidth size="small">
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input text"
+                        size="small"
+                        value={formValues?.DeliveringAddress?.addressLine2}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "otherId")
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          </Box>
         </Stack>
       </CardContent>
     </Card>
