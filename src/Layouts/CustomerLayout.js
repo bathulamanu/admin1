@@ -210,7 +210,17 @@ export const CustomerLayout = () => {
               </Box>
               <Box sx={{ marginLeft: "12px" }}>Back to Menu</Box>
             </Typography>
-            <Button
+            <Box sx={{ background: "#327CF3", color: "white" }}>
+              <Typography
+                sx={{
+                  marginLeft: "70px",
+                  padding: "7px",
+                }}
+              >
+                CUSTOMER MANAGEMENT
+              </Typography>
+            </Box>
+            {/* <Button
               variant="contained"
               fullWidth
               size="small"
@@ -221,7 +231,7 @@ export const CustomerLayout = () => {
               }}
             >
               CUSTOMER MANAGEMENT
-            </Button>
+            </Button> */}
           </Stack>
           <MenuList
             variant="selectedMenu"
