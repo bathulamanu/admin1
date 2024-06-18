@@ -254,19 +254,29 @@ const BabyDetailsForm = () => {
                       }}
                     >
                       <Avatar
-                        sx={{ width: 200, height: 200, marginRight: 2 }}
+                        sx={{ width: 150, height: 150, marginRight: 2 }}
                       />
                       <Stack sx={{ display: "flex", flexDirection: "column" }}>
-                        <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        <Typography
+                          variant="h5"
+                          sx={{ fontSize: "14px", marginBottom: "10px" }}
+                        >
                           Drop your new profile Image here
                         </Typography>
                         <Typography
                           variant="h5"
-                          sx={{ marginBottom: "10px", marginLeft: "50px" }}
+                          sx={{
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                            marginLeft: "50px",
+                          }}
                         >
                           Maximum (2MB)
                         </Typography>
-                        <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        <Typography
+                          variant="h5"
+                          sx={{ fontSize: "14px", marginBottom: "10px" }}
+                        >
                           Support Formats: JPG, PNG, SVG
                         </Typography>
                         <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
@@ -274,7 +284,7 @@ const BabyDetailsForm = () => {
                             component="label"
                             variant="contained"
                             disabled
-                            sx={{ fontSize: "24px" }}
+                            sx={{ fontSize: "14px" }}
                           >
                             Choose File
                           </Button>
@@ -428,19 +438,29 @@ const BabyDetailsForm = () => {
                       }}
                     >
                       <Avatar
-                        sx={{ width: 200, height: 200, marginRight: 2 }}
+                        sx={{ width: 150, height: 150, marginRight: 2 }}
                       />
                       <Stack sx={{ display: "flex", flexDirection: "column" }}>
-                        <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        <Typography
+                          variant="h5"
+                          sx={{ fontSize: "14px", marginBottom: "10px" }}
+                        >
                           Drop your new profile Image here
                         </Typography>
                         <Typography
                           variant="h5"
-                          sx={{ marginBottom: "10px", marginLeft: "50px" }}
+                          sx={{
+                            fontSize: "14px",
+                            marginBottom: "10px",
+                            marginLeft: "50px",
+                          }}
                         >
                           Maximum (2MB)
                         </Typography>
-                        <Typography variant="h5" sx={{ marginBottom: "10px" }}>
+                        <Typography
+                          variant="h5"
+                          sx={{ fontSize: "14px", marginBottom: "10px" }}
+                        >
                           Support Formats: JPG, PNG, SVG
                         </Typography>
                         <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
@@ -448,7 +468,7 @@ const BabyDetailsForm = () => {
                             component="label"
                             variant="contained"
                             disabled
-                            sx={{ fontSize: "24px" }}
+                            sx={{ fontSize: "14px" }}
                           >
                             Choose File
                           </Button>

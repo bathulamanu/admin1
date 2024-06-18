@@ -1,12 +1,12 @@
-import * as React from 'react'
-import { useTheme } from '@mui/material/styles'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import * as React from "react";
+import { useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -14,7 +14,7 @@ const MenuProps = {
       width: 150,
     },
   },
-}
+};
 
 function getStyles(name, personName, theme) {
   return {
@@ -22,7 +22,7 @@ function getStyles(name, personName, theme) {
       personName?.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
-  }
+  };
 }
 
 export default function CommonSelect({
@@ -32,29 +32,29 @@ export default function CommonSelect({
   Placeholder,
   width,
 }) {
-  const theme = useTheme()
-  const [selectedIds, setSelectedIds] = React.useState([])
+  const theme = useTheme();
+  const [selectedIds, setSelectedIds] = React.useState([]);
 
   const handleChange = (event) => {
-    const selectedValue = event.target.value
+    const selectedValue = event.target.value;
     setSelectedIds(
-      typeof selectedValue === 'string'
-        ? selectedValue.split(',')
-        : selectedValue,
-    )
+      typeof selectedValue === "string"
+        ? selectedValue.split(",")
+        : selectedValue
+    );
     onChange(
-      typeof selectedValue === 'string'
-        ? selectedValue.split(',')
-        : selectedValue,
-    )
-  }
+      typeof selectedValue === "string"
+        ? selectedValue.split(",")
+        : selectedValue
+    );
+  };
 
   const getSelectedNames = () => {
     return selectedIds?.map((id) => {
-      const selectedItem = data?.find((item) => item.id === id)
-      return selectedItem ? selectedItem.name : ''
-    })
-  }
+      const selectedItem = data?.find((item) => item.id === id);
+      return selectedItem ? selectedItem.name : "";
+    });
+  };
 
   // console.log("sdkjgjahs", selectedIds);
 
@@ -69,13 +69,13 @@ export default function CommonSelect({
         input={<OutlinedInput />}
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return <em>{Placeholder}</em>
+            return <em>{Placeholder}</em>;
           }
 
-          return getSelectedNames()?.join(', ')
+          return getSelectedNames()?.join(", ");
         }}
         MenuProps={MenuProps}
-        inputProps={{ 'aria-label': 'Without label' }}
+        inputProps={{ "aria-label": "Without label" }}
       >
         <MenuItem disabled value="">
           <em>{Placeholder}</em>
@@ -91,5 +91,5 @@ export default function CommonSelect({
         ))}
       </Select>
     </FormControl>
-  )
+  );
 }
