@@ -86,7 +86,7 @@ const InvoiceForm = () => {
           marginBottom: "60px",
         }}
       >
-        <Stack sx={{ background: "#fff", width: "600px" }}>
+        <Stack sx={{ background: "#fff", width: "49%" }}>
           <Box sx={{ padding: "20px" }}>
             <Typography
               sx={{
@@ -300,17 +300,34 @@ const InvoiceForm = () => {
                 </FormControl>
               </Grid>
             </Grid>
-            <Button
-              size="small"
-              variant="contained"
-              startIcon={<SaveAltIcon />}
-              sx={{ marginLeft: "550px", marginTop: "10px", width: "100px" }}
+            <Stack
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+              }}
             >
-              Save
-            </Button>
+              <Stack></Stack>
+              <Button
+                size="small"
+                variant="contained"
+                startIcon={<SaveAltIcon />}
+                sx={{ marginLeft: "550px", marginTop: "10px", width: "100px" }}
+              >
+                Save
+              </Button>
+            </Stack>
           </Box>
         </Stack>
-        <Stack>
+        <Stack
+          sx={{
+            width: "49%",
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+          }}
+        >
           <Box
             sx={{
               padding: "20px",

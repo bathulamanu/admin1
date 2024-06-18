@@ -38,11 +38,11 @@ const CustomerDetails = () => {
   return (
     <Container
       disableGutters
-      maxWidth="xl"
+      maxWidth="xxl"
       sx={{
-        maxHeight: "75%",
+        maxHeight: "85%",
         overflow: "auto",
-        padding: "8px",
+        // padding: "8px",
         display: "flex",
         flexDirection: "column",
         gap: 4,
@@ -500,17 +500,25 @@ const CustomerDetails = () => {
                     rows={dummyData || []}
                     columns={InvoiceColumns()}
                   />
-                  <Box sx={{ display: "flex", flexDirection: "end" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <Stack></Stack>
                     <Button
                       component="label"
                       role={undefined}
                       variant="contained"
                       tabIndex={-1}
-                      sx={{ marginTop: "10px", marginLeft: "1180px" }}
+                      sx={{ marginTop: "10px" }}
                     >
                       Download Invoice
                     </Button>
-                  </Box>
+                  </Stack>
                 </CardContent>
               </Card>
             </Box>

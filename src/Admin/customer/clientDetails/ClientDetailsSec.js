@@ -273,7 +273,14 @@ const ClientDetailsSec = () => {
               </Typography>
               <Card variant="outlined" sx={{ marginTop: "10px" }}>
                 <CardContent>
-                  <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
                     <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
@@ -312,23 +319,40 @@ const ClientDetailsSec = () => {
                   </Stack>
                 </CardContent>
               </Card>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "250px" }}
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
-                Upload Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
+                <Stack></Stack>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ marginTop: "10px" }}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput type="file" />
+                </Button>
+              </Stack>
               <Typography variant="h5" sx={headingStyle}>
                 Upload ID Proofs
               </Typography>
               <Card variant="outlined" sx={{ marginTop: "10px" }}>
                 <CardContent>
-                  <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
                     <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
@@ -371,17 +395,27 @@ const ClientDetailsSec = () => {
                   </Stack>
                 </CardContent>
               </Card>
-              <Button
-                component="label"
-                role={undefined}
-                variant="contained"
-                tabIndex={-1}
-                startIcon={<CloudUploadIcon />}
-                sx={{ marginTop: "10px", marginLeft: "250px" }}
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
               >
-                Upload Image
-                <VisuallyHiddenInput type="file" />
-              </Button>
+                <Stack></Stack>
+                <Button
+                  component="label"
+                  role={undefined}
+                  variant="contained"
+                  tabIndex={-1}
+                  startIcon={<CloudUploadIcon />}
+                  sx={{ marginTop: "10px" }}
+                >
+                  Upload Image
+                  <VisuallyHiddenInput type="file" />
+                </Button>
+              </Stack>
             </CardContent>
           </Card>
         </Box>

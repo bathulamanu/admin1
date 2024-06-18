@@ -54,11 +54,11 @@ const Details = () => {
   return (
     <Container
       disableGutters
-      maxWidth="xl"
+      maxWidth="xxl"
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        padding: "8px",
+        // padding: "8px",
         display: "flex",
         flexDirection: "column",
         gap: 4,

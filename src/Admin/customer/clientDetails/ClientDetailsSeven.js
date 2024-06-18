@@ -128,40 +128,62 @@ const ClientDetailsSeven = () => {
             </FormControl>
           </Grid>
         </Grid>
-        <Stack
+        {/* <Stack
           sx={{ display: "flex", marginLeft: "1020px", maxWidth: "350px" }}
+        > */}
+        <Stack
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
         >
-          <Grid container spacing={2} pt={3} pb={2}>
-            <Grid item style={{ width: "100%" }}>
-              <InputLabel sx={inputLableStyle}>
-                Signature of executive
-              </InputLabel>
-              <FormControl variant="outlined" fullWidth size="small">
-                <TextareaAutosize
-                  minRows={4}
-                  id="outlined-adornment-password"
-                  size="small"
-                  value={formValues?.excutiveSign}
-                  onChange={(e) => handleChange(e.target.value, "excutiveSign")}
-                />
-              </FormControl>
+          <Stack></Stack>
+          <Stack
+            sx={{
+              width: "25%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+            }}
+          >
+            <Grid container spacing={2} pt={3} pb={2}>
+              <Grid item style={{ width: "100%" }}>
+                <InputLabel sx={inputLableStyle}>
+                  Signature of executive
+                </InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
+                  <TextareaAutosize
+                    minRows={4}
+                    id="outlined-adornment-password"
+                    size="small"
+                    value={formValues?.excutiveSign}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "excutiveSign")
+                    }
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container spacing={2} pt={3} pb={2}>
-            <Grid item style={{ width: "100%" }}>
-              <InputLabel sx={inputLableStyle}>Name of excutive</InputLabel>
-              <FormControl variant="outlined" fullWidth size="small">
-                <OutlinedInput
-                  fullWidth
-                  id="outlined-adornment-password"
-                  placeholder="Input text"
-                  size="small"
-                  value={formValues?.excutiveName}
-                  onChange={(e) => handleChange(e.target.value, "excutiveName")}
-                />
-              </FormControl>
+            <Grid container spacing={2} pt={3} pb={2}>
+              <Grid item style={{ width: "100%" }}>
+                <InputLabel sx={inputLableStyle}>Name of excutive</InputLabel>
+                <FormControl variant="outlined" fullWidth size="small">
+                  <OutlinedInput
+                    fullWidth
+                    id="outlined-adornment-password"
+                    placeholder="Input text"
+                    size="small"
+                    value={formValues?.excutiveName}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "excutiveName")
+                    }
+                  />
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
+          </Stack>
         </Stack>
       </CardContent>
     </Card>

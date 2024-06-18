@@ -101,7 +101,7 @@ const PlansForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "650px",
+            width: "49%",
             gap: 2,
             marginBottom: "60px",
           }}
@@ -287,7 +287,7 @@ const PlansForm = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "650px",
+            width: "49%",
             gap: 2,
           }}
         >

@@ -40,7 +40,6 @@ const HospitalPage = () => {
     "Virginia Andrews",
     "Kelly Snyder",
   ];
-
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <Box
