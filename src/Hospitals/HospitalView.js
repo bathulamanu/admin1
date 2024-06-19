@@ -37,7 +37,7 @@ const HospitalView = () => {
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
-
+  console.log(hospitalDetails);
   const hospitalName = hospitalDetails?.hospitalName;
   const hospitalLogo = hospitalDetails?.hospitalLogo;
   const about = hospitalDetails?.about;
@@ -100,7 +100,7 @@ const HospitalView = () => {
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
               <Box display={"flex"} gap={3}>
-                <img src={hospitamImg} height={200} width={200} />
+                <img src={hospitalLogo} height={200} width={200} />
                 <Card>
                   <CardContent sx={{ display: "flex", gap: 4 }}>
                     <Box display={"flex"} flexDirection={"column"} gap={3}>

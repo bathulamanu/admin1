@@ -229,7 +229,17 @@ export const MainLayout = () => {
               </Box>
               <Box sx={{ marginLeft: "12px" }}>Back to Menu</Box>
             </Typography>
-            <Button
+            <Box sx={{ background: "#327CF3", color: "white" }}>
+              <Typography
+                sx={{
+                  marginLeft: "71px",
+                  padding: "7px",
+                }}
+              >
+                HOSPITAL MANAGEMENT
+              </Typography>
+            </Box>
+            {/* <Button
               variant="contained"
               fullWidth
               size="small"
@@ -240,7 +250,7 @@ export const MainLayout = () => {
               }}
             >
               HOSPITAL MANAGEMENT
-            </Button>
+            </Button> */}
           </Stack>
           <MenuList
             variant="selectedMenu"

@@ -46,6 +46,7 @@ import SingleSelect from "../GlobalComponents/SingleSelect";
 import { getCityList } from "../Admin/Slices/globalSlice";
 import { handlePostHospital } from "../Admin/Slices/hospitalSlice";
 import mapIcon from "../assets/map.png";
+import api from "../httpRequest";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -119,7 +120,6 @@ const HospitalAddForm = () => {
   );
 
   // console.log('hospitalDetail', hospitalDetails)
-
   const [formValues, setFormValues] = useState({
     hospitalName: "",
     hospitalLogo: "",
@@ -270,6 +270,30 @@ const HospitalAddForm = () => {
       }
       return temp;
     });
+  };
+
+  const handleImageUpload = async (e) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "CareerResume");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        // console.log(response?.data?.message).
+        setFormValues((prev) => ({
+          ...prev,
+          hospitalLogo: response?.data?.data?.key,
+        }));
+        console.log(formValues?.hospitalLogo);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -834,7 +858,11 @@ const HospitalAddForm = () => {
                   <Typography variant="subtitle2">Upload Image</Typography>
                 </Stack>
                 <Stack alignItems={"center"}>
-                  <img src={doctorImg} height={"auto"} width={"150px"} />
+                  <img
+                    src={formValues.hospitalLogo || doctorImg}
+                    height={"auto"}
+                    width={"150px"}
+                  />
                 </Stack>
                 <Stack direction={"row"} spacing={4}>
                   <Stack>
@@ -853,7 +881,12 @@ const HospitalAddForm = () => {
                     startIcon={<CloudUploadIcon />}
                   >
                     Upload Image
-                    <VisuallyHiddenInput type="file" />
+                    <input
+                      type="file"
+                      accept="image/jpeg, image/png, image/svg+xml"
+                      hidden
+                      onChange={handleImageUpload}
+                    />
                   </Button>
                 </Stack>
                 <Card variant="outlined">
