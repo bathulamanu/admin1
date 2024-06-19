@@ -5,6 +5,7 @@ const initialState = {
   doctorsList: [],
   loading: "",
   doctorDetail: {},
+  doctorPostData: {},
 };
 
 // /flyingbyts/api/user/getMasterConfiguration/:title/:search
@@ -38,10 +39,30 @@ export const getDoctorDetail = createAsyncThunk(
   }
 );
 
+export const addDoctors = createAsyncThunk(
+  "addDoctors",
+  async (data, thunkAPI) => {
+    console.log("data when we are posting", data);
+    try {
+      const response = await api.post("/addDoctorDetails", data);
+      console.log("Posted successfully", response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const doctorSlice = createSlice({
   name: "doctor",
   initialState,
-  reducers: {},
+  reducers: {
+    handlePostDoctor: (state, action) => {
+      state.doctorPostData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getDoctorList.pending, (state) => {
       state.loading = "pending";
@@ -67,5 +88,5 @@ const doctorSlice = createSlice({
   },
 });
 
-export const {} = doctorSlice.actions;
+export const { handlePostDoctor } = doctorSlice.actions;
 export default doctorSlice.reducer;
