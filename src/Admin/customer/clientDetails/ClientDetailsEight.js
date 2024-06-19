@@ -151,7 +151,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5">
+                <Typography variant="h5" maxWidth="800px">
                   C) Stroke, Seizureor Multiple Scierosis, Lung Disease, Kident
                   Disease, Liver Disease, Babesiosis, Genetic Disorder?
                 </Typography>
@@ -228,7 +228,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5">
+                <Typography variant="h5" maxWidth="800px">
                   Do you have, or have a family history of Dementia,
                   Degenerative or Neurological Disease, or CreutzfeldtJakob
                   Disease?
@@ -267,7 +267,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="800px">
                   In the past 6 months, have you received a bite from an animal
                   suspected of Rabies or takken any vaccinations (shots) for the
                   same?
@@ -344,7 +344,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="730px">
                   In the past 12 months, have you had any immunisations,
                   tattoos, body piercing, an accidental needle-prick, or come
                   into contact with someone’s blood, open wound, or small pox
@@ -498,7 +498,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="730px">
                   Have you ever received whole blood, blood factor products,
                   blood derivatves, growth hormones, bone or skin graft, or a
                   tissue, organ (either human or animal), dura mater or bone
@@ -576,7 +576,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="730px">
                   Have you been or travelled to a country endemic for SARS
                   AvianFlu, H1N1, (Swine) Flu or had intimate contact with some
                   one having risk factors?
@@ -691,7 +691,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="730px">
                   Have you been or travelled to a country endemic for, and/or
                   suffered from Malaria, Chikungunya, Dengueand West Nile Fever?
                 </Typography>
@@ -729,7 +729,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="930px">
+                <Typography variant="h5" maxWidth="730px">
                   In the past 12 months, have you visited or lived outside of
                   India? Pleaselist the countries, cities and the duration of
                   your stay(s)
@@ -1044,7 +1044,7 @@ const ClientDetailsEight = () => {
                 alignItems="center"
                 justifyContent="space-between"
               >
-                <Typography variant="h5" maxWidth="800px">
+                <Typography variant="h5" maxWidth="730px">
                   B) Any Red Cell related Diseaseor any Metabolic/Storage
                   Diseaseor any diseasesof Immune Deficiency or Genetic
                   Diseases? If yes, please list the details asbelow.

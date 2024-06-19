@@ -1776,7 +1776,7 @@ const ClientDetailsPreview = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="h5" maxWidth="930px">
+                      <Typography variant="h5" maxWidth="730px">
                         Have you ever received whole blood, blood factor
                         products, blood derivatves, growth hormones, bone or
                         skin graft, or a tissue, organ (either human or animal),
@@ -1870,7 +1870,7 @@ const ClientDetailsPreview = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="h5" maxWidth="930px">
+                      <Typography variant="h5" maxWidth="730px">
                         Have you been or travelled to a country endemic for SARS
                         AvianFlu, H1N1, (Swine) Flu or had intimate contact with
                         some one having risk factors?
@@ -2009,7 +2009,7 @@ const ClientDetailsPreview = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="h5" maxWidth="930px">
+                      <Typography variant="h5" maxWidth="730px">
                         Have you been or travelled to a country endemic for,
                         and/or suffered from Malaria, Chikungunya, Dengueand
                         West Nile Fever?
@@ -2056,7 +2056,7 @@ const ClientDetailsPreview = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="h5" maxWidth="930px">
+                      <Typography variant="h5" maxWidth="730px">
                         In the past 12 months, have you visited or lived outside
                         of India? Pleaselist the countries, cities and the
                         duration of your stay(s)
@@ -2415,7 +2415,7 @@ const ClientDetailsPreview = () => {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Typography variant="h5" maxWidth="800px">
+                      <Typography variant="h5" maxWidth="650px">
                         B) Any Red Cell related Diseaseor any Metabolic/Storage
                         Diseaseor any diseasesof Immune Deficiency or Genetic
                         Diseases? If yes, please list the details asbelow.
