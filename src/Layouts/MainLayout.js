@@ -47,6 +47,11 @@ import {
   getHospitalDetails,
   getHospitalsList,
 } from "../Admin/Slices/hospitalSlice";
+import {
+  getDoctorList,
+  getDoctorDetail,
+  addDoctors,
+} from "../Admin/Slices/doctorSlice";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -73,6 +78,8 @@ export const MainLayout = () => {
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData
   );
+
+  const addDoctorData = useSelector((state) => state.doctor.doctorPostData);
 
   const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail);
   // console.log('hospitalDetail', hospitalDetail)
@@ -104,6 +111,10 @@ export const MainLayout = () => {
 
   const handleAddHospitalFormSubmit = () => {
     dispatch(addHospitals(addHospitalData));
+  };
+
+  const handleAddDoctorFormSubmit = () => {
+    dispatch(addDoctors(addDoctorData));
   };
 
   useEffect(() => {
@@ -655,11 +666,11 @@ export const MainLayout = () => {
                     startIcon={<SaveAltIcon />}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleAddHospitalFormSubmit();
+                      handleAddDoctorFormSubmit();
                       setFormOpen(null);
-                      setActiveItem("Hospitals");
-                      dispatch(getHospitalsList(searchQuery));
-                      navigate("/mainPage/hospitals");
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      navigate("/mainPage/doctors");
                     }}
                   >
                     Save
@@ -671,9 +682,9 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       setFormOpen(null);
-                      dispatch(getHospitalsList(searchQuery));
-                      setActiveItem("Hospitals");
-                      navigate("/mainPage/hospitals");
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      navigate("/mainPage/doctors");
                     }}
                   >
                     Cancel
@@ -727,7 +738,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       setFormOpen("Hospitals");
-                      dispatch(getHospitalDetails(searchQuery));
+                      dispatch(getDoctorDetail(searchQuery));
                       navigate("/mainPage/doctorForm");
                     }}
                   >

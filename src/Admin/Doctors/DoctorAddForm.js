@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../assets/doctor_img.png";
 import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
+import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
@@ -14,8 +15,11 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import CommonSelect from "../../GlobalComponents/CommonSelect";
@@ -32,10 +36,18 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { useSelector } from "react-redux";
-import { getByIdList, getNamesIdList } from "../../globalFunctions";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getByIdList,
+  getCityIdList,
+  getNamesIdList,
+  getStateIdList,
+} from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-
+import api from "../../httpRequest";
+import { handlePostDoctor } from "../Slices/doctorSlice";
+import { getCityList } from "../Slices/globalSlice";
+import { getHospitalsList } from "../Slices/hospitalSlice";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -48,41 +60,48 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-// {
-//   "doctorFirstName": "Amrutha",
-//   "doctorLastName": "",
-//   "doctorID": "doc-02",
-//   "doctorProfile": "DoctorProfile/PomKpPCUkG-doctorFlyingbyes.jpg",
-//   "IMRregisterID": "74fghj7ghh",
-//   "countryCode": "+91",
-//   "phoneNumber": "9512368745",
-//   "status": true,
-//   "doctorDetailsID": 1,
-//   "specilizationInfo": [
-//       {
-//           "specilizationID": 58,
-//           "value": "Rheumatology"
-//       },
-//       {
-//           "specilizationID": 60,
-//           "value": "Gynecologist"
-//       }
-//   ],
-//   "id": 1,
-//   "cityInfo": {
-//       "cityID": 52385,
-//       "name": "Hyderabad"
-//   },
-//   "experienceInfo": {
-//       "experienceID": 5,
-//       "value": "3 Years"
-//   }
-// },
-
 const socialMediaLogoSize = 24;
+
+const headingStyle = {
+  fontSize: "14px",
+  fontWeight: "bold",
+};
+const inputLableStyle = {
+  fontSize: "14px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+};
+
+const redStarStyle = {
+  color: "red",
+  marginLeft: "4px",
+};
+
+function deepCopyFormValues(doctorDetails, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === "object") {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]];
+        } else {
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
+        }
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, doctorDetails);
+  return copiedFormValue;
+}
 
 const DoctorAddForm = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const getSpecializationList = useSelector(
     (state) => state.global.specializationList
   );
@@ -95,7 +114,26 @@ const DoctorAddForm = () => {
   const experienceList = getByIdList(getExperienceList);
   const genderList = getByIdList(getGenderList);
   const employementTypeList = getByIdList(getEmployementList);
-  // console.log("kjdgjkhdsgh", specializationList);
+  const getStateList = useSelector((state) => state.global.stateList);
+  const getCitiesList = useSelector((state) => state.global.cityList);
+  // console.log('All city for a state', getCitiesList)
+  const cityList = getCityIdList(getCitiesList);
+  const stateList = getStateIdList(getStateList);
+  const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
+  const [selectedHospital, setSelectedHospital] = useState("");
+  useEffect(() => {
+    dispatch(getHospitalsList(null));
+  }, []);
+  const handleHospitalChange = (event) => {
+    const selectedId = event.target.value;
+    const selectedHospital = hospitalsList.find(
+      (hospital) => hospital.id === selectedId
+    );
+    setSelectedHospital(selectedId);
+    handleOnChange(event, "hospitalAddress", selectedHospital.address);
+  };
+
+  const doctorDetails = useSelector((state) => state.doctor.doctorDetail);
 
   const [experienceData, setExperienceData] = useState({
     countryName: "",
@@ -108,46 +146,22 @@ const DoctorAddForm = () => {
   const [formValues, setFormValues] = useState({
     doctorFirstName: "",
     doctorLastName: "",
-    doctorProfile: "",
-    qualification: [{ qualificationId: 1 }, { qualificationId: 2 }],
-    specialist: [
-      {
-        specilizationID: 1,
-      },
-      {
-        specilizationID: 5,
-      },
-    ],
-    location: "", // any city id
-    DOB: "",
-    IMRregisterID: "",
-    experience: "",
     doctorID: "",
-    gender: "",
-    email: "",
+    specialist: [],
+    experience: "",
     status: "",
-    countryCode: "",
+    location: "",
+    IMRregisterID: "",
+    DOB: "",
+    gender: "",
     phoneNumber: "",
-    websiteLinks: [{ link: String }],
-    sociallink: {
-      facebook: "",
-      instagram: "",
-      twitter: "",
-      LinkedIn: "",
-      youtube: "",
-      pinterest: "",
-    },
-    doctorBio: "",
+    email: "",
     previousExperience: [
       {
-        country: "",
+        country: 352,
         state: "",
         city: "",
-        specialist: [
-          {
-            specilizationID: "",
-          },
-        ],
+        specialist: [],
         hospitalAddress: "",
         experience: "",
         employmentType: "",
@@ -169,14 +183,207 @@ const DoctorAddForm = () => {
       city: "",
       pincode: "",
     },
+    doctorProfile: "",
+    doctorBio: "",
+    sociallink: {
+      facebook: "",
+      instagram: "",
+      twitter: "",
+      LinkedIn: "",
+      youtube: "",
+      pinterest: "",
+    },
+    websiteLinks: [{ link: "" }],
   });
 
   const handleOnChange = (e, name) => {
-    // console.log("jkdhvkjgsdg", e);
-    setFormValues((prev) => ({ ...prev, [name]: e }));
+    const value = e.target ? e.target.value : e;
+    setFormValues((prev) => {
+      let temp = { ...prev };
+      switch (name) {
+        case "specialist":
+          let res = value?.map((ele) => ({ specializationID: ele }));
+          temp.specialist = res;
+          break;
+
+        case "DOB":
+          let dob = value ? dayjs(value).toISOString() : null;
+          temp.DOB = dob;
+          break;
+
+        case "country":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            country: value,
+          };
+          break;
+
+        case "state":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            state: value,
+          };
+          break;
+
+        case "city":
+          temp.previousExperience = { ...temp.previousExperience, city: value };
+          break;
+
+        case "Exspecialist":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            specialist: value,
+          };
+          break;
+
+        case "hospitalAddress":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            hospitalAddress: value,
+          };
+          break;
+
+        case "experience":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            experience: value,
+          };
+          break;
+
+        case "employmentType":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            employmentType: value,
+          };
+          break;
+
+        case "startDate":
+          temp.previousExperience = {
+            ...temp.previousExperience[0],
+            startDate: value ? dayjs(value).toISOString() : null,
+          };
+          break;
+
+        case "endDate":
+          temp.previousExperience = {
+            ...temp.previousExperience[0],
+            endDate: value ? dayjs(value).toISOString() : null,
+          };
+          break;
+
+        case "description":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            description: value,
+          };
+          break;
+
+        case "socialF":
+          temp.sociallink = { ...temp.sociallink, facebook: value };
+          break;
+
+        case "socialI":
+          temp.sociallink = { ...temp.sociallink, instagram: value };
+          break;
+
+        case "socialL":
+          temp.sociallink = { ...temp.sociallink, LinkedIn: value };
+          break;
+
+        case "socialY":
+          temp.sociallink = { ...temp.sociallink, youtube: value };
+          break;
+
+        case "socialT":
+          temp.sociallink = { ...temp.sociallink, twitter: value };
+          break;
+
+        case "socialP":
+          temp.sociallink = { ...temp.sociallink, pinterest: value };
+          break;
+
+        case "OtherLink1":
+          temp.websiteLinks = { ...temp.websiteLinks, link: value };
+          break;
+
+        default:
+          temp[name] = value;
+          break;
+      }
+      return temp;
+    });
   };
 
   // console.log("dhkjshdgjshcjs", formValues);
+
+  const handleImageUpload = async (e) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "CareerResume");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        // console.log(response?.data?.message).
+        setFormValues((prev) => ({
+          ...prev,
+          doctorProfile: response?.data?.data?.key,
+        }));
+        console.log(formValues?.hospitalLogo);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    dispatch(handlePostDoctor(formValues));
+  }, [formValues]);
+
+  const fetchingLocation = (formValues, getCitiesList) => {
+    const cityId = formValues.previousExperience.city;
+
+    const city = getCitiesList.find((item) => item.cityID === cityId);
+
+    if (city) {
+      const latitude = city.latitude.toString();
+      const longitude = city.longitude.toString();
+
+      return { latitude, longitude };
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    const location = fetchingLocation(formValues, getCitiesList);
+    if (location) {
+      setFormValues({
+        ...formValues,
+        previousExperience: {
+          ...formValues.previousExperience,
+          longitude: location.longitude,
+          latitude: location.latitude,
+        },
+      });
+    }
+  }, [formValues.previousExperience.city]);
+
+  const updatedFormValues = deepCopyFormValues(doctorDetails, formValues);
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }));
+  }, [doctorDetails]);
+
+  console.log("doctorDetails", doctorDetails);
+  console.log("formvalues", formValues);
 
   return (
     <Container
@@ -219,8 +426,8 @@ const DoctorAddForm = () => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">
-                    Doctor Name
+                  <InputLabel sx={inputLableStyle}>
+                    Doctor Name <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
@@ -238,7 +445,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel id="demo-select-small-label">
-                    Doctor ID
+                    Doctor ID <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
@@ -256,7 +463,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel id="demo-select-small-label">
-                    Doctor Name
+                    Doctor Name <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
@@ -283,7 +490,7 @@ const DoctorAddForm = () => {
                       (item) => item?.specilizationID
                     )}
                     data={specializationList}
-                    onChange={(e) => handleOnChange(e, "specilizationInfo")}
+                    onChange={(e) => handleOnChange(e, "specialist")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -295,7 +502,7 @@ const DoctorAddForm = () => {
                     value={formValues?.experience}
                     data={experienceList}
                     width={"100%"}
-                    onChange={(e) => handleOnChange(e, "experienceInfo")}
+                    onChange={(e) => handleOnChange(e, "experience")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -317,7 +524,7 @@ const DoctorAddForm = () => {
                     Placeholder={"Select"}
                     width={"100%"}
                     value={formValues?.location}
-                    onChange={(e) => handleOnChange(e)}
+                    onChange={(e) => handleOnChange(e, "location")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -340,8 +547,9 @@ const DoctorAddForm = () => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
+                        value={formValues.DOB ? dayjs(formValues.DOB) : null}
                         onChange={(e) => {
-                          handleOnChange(e, "dob");
+                          handleOnChange(e, "DOB");
                         }}
                       />
                     </DemoContainer>
@@ -368,7 +576,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
-                      onChange={(e) => handleOnChange(e, "phoneNumber")}
+                      value={formValues?.phoneNumber}
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "phoneNumber")
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -378,7 +589,8 @@ const DoctorAddForm = () => {
                     <OutlinedInput
                       fullWidth
                       name="email"
-                      onChange={(e) => handleOnChange(e, "email")}
+                      value={formValues?.email}
+                      onChange={(e) => handleOnChange(e.target.value, "email")}
                       id="outlined-adornment-password"
                       placeholder="email"
                       size="small"
@@ -407,7 +619,10 @@ const DoctorAddForm = () => {
                     Placeholder={"Select"}
                     data={upDatedCountryList}
                     width={"100%"}
-                    onChange={(e) => handleOnChange(e, "countryName")}
+                    value={formValues?.previousExperience[0]?.country}
+                    onChange={(e) => {
+                      handleOnChange(e, "country");
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -416,7 +631,12 @@ const DoctorAddForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    onChange={(e) => handleOnChange(e, "stateName")}
+                    data={stateList}
+                    value={formValues?.previousExperience[0]?.state}
+                    onChange={(e) => {
+                      dispatch(getCityList(e));
+                      handleOnChange(e, "state");
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -425,7 +645,11 @@ const DoctorAddForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    onChange={(e) => handleOnChange(e, "cityName")}
+                    data={cityList}
+                    value={formValues?.previousExperience[0]?.city}
+                    onChange={(e) => {
+                      handleOnChange(e, "city");
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -434,13 +658,30 @@ const DoctorAddForm = () => {
                     Placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
+                    value={formValues?.previousExperience[0]?.specialist}
+                    onChange={(e) => {
+                      handleOnChange(e, "Exspecialist");
+                    }}
                   />
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mt: 2, mb: 2 }}>
                 <InputLabel>Hospital and Address</InputLabel>
-                {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                <SingleSelect Placeholder={"Select"} width={"100%"} />
+                <FormControl sx={{ width: "100%" }}>
+                  <Select
+                    displayEmpty
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    value={selectedHospital || ""}
+                    onChange={handleHospitalChange}
+                  >
+                    {hospitalsList.map((hospital) => (
+                      <MenuItem key={hospital.id} value={hospital.id}>
+                        {`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
@@ -454,6 +695,10 @@ const DoctorAddForm = () => {
                     Placeholder={"Select"}
                     data={experienceList}
                     width={"100%"}
+                    value={formValues?.previousExperience[0]?.experience}
+                    onChange={(e) => {
+                      handleOnChange(e, "experience");
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -467,13 +712,28 @@ const DoctorAddForm = () => {
                     Placeholder={"Select"}
                     data={employementTypeList}
                     width={"100%"}
+                    value={formValues?.previousExperience[0]?.employmentType}
+                    onChange={(e) => {
+                      handleOnChange(e, "employmentType");
+                    }}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel>Start date </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
-                      <DatePicker />
+                      <DatePicker
+                        value={
+                          formValues?.previousExperience[0]?.startDate
+                            ? dayjs(
+                                formValues?.previousExperience[0]?.startDate
+                              )
+                            : null
+                        }
+                        onChange={(e) => {
+                          handleOnChange(e, "startDate");
+                        }}
+                      />
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
@@ -481,7 +741,16 @@ const DoctorAddForm = () => {
                   <InputLabel>End Date</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
-                      <DatePicker />
+                      <DatePicker
+                        value={
+                          formValues?.previousExperience[0]?.endDate
+                            ? dayjs(formValues?.previousExperience[0]?.endDate)
+                            : null
+                        }
+                        onChange={(e) => {
+                          handleOnChange(e, "endDate");
+                        }}
+                      />
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
@@ -489,7 +758,19 @@ const DoctorAddForm = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Stack sx={{ pt: 3 }}>
-                    <Typography variant="subtitle2">
+                    <InputLabel sx={inputLableStyle}>Description</InputLabel>
+                    <TextField
+                      id="description"
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      placeholder="Add description here"
+                      value={formValues?.previousExperience[0]?.description}
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "description")
+                      }
+                    />
+                    {/* <Typography variant="subtitle2">
                       Description (optional)
                     </Typography>
                     <CKEditor
@@ -509,7 +790,7 @@ const DoctorAddForm = () => {
                       onFocus={(event, editor) => {
                         // console.log("Focus.", editor);
                       }}
-                    />
+                    /> */}
                   </Stack>
                 </Grid>
               </Grid>
@@ -534,7 +815,11 @@ const DoctorAddForm = () => {
                   <Typography variant="subtitle2">Upload image</Typography>
                 </Stack>
                 <Stack alignItems={"center"}>
-                  <img src={doctorImg} height={"auto"} width={"150px"} />
+                  <img
+                    src={formValues.doctorProfile || doctorImg}
+                    height={"auto"}
+                    width={"150px"}
+                  />
                 </Stack>
                 <Stack direction={"row"} spacing={4}>
                   <Stack>
@@ -552,12 +837,29 @@ const DoctorAddForm = () => {
                     tabIndex={-1}
                     startIcon={<CloudUploadIcon />}
                   >
-                    Upload file
-                    <VisuallyHiddenInput type="file" />
+                    Upload Image
+                    <input
+                      type="file"
+                      accept="image/jpeg, image/png, image/svg+xml"
+                      hidden
+                      onChange={handleImageUpload}
+                    />
                   </Button>
                 </Stack>
                 <Stack height={"170px"} sx={{ pt: 3 }}>
-                  <Typography>Bio</Typography>
+                  <InputLabel sx={inputLableStyle}>Doctor Bio</InputLabel>
+                  <TextField
+                    id="doctorBio"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    placeholder="Add Bio here"
+                    value={formValues?.doctorBio}
+                    onChange={(e) =>
+                      handleOnChange(e.target.value, "doctorBio")
+                    }
+                  />
+                  {/* <Typography>Bio</Typography>
                   <CKEditor
                     editor={ClassicEditor}
                     disableWatchdog
@@ -575,7 +877,7 @@ const DoctorAddForm = () => {
                     onFocus={(event, editor) => {
                       // console.log("Focus.", editor);
                     }}
-                  />
+                  /> */}
                 </Stack>
               </Stack>
             </CardContent>
@@ -599,6 +901,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="www.facebook.com"
                       size="small"
+                      value={formValues?.sociallink?.facebook}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialF");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -613,7 +919,11 @@ const DoctorAddForm = () => {
                       fullWidth
                       id="outlined-adornment-password"
                       placeholder="www.instagram.com"
+                      value={formValues?.sociallink?.instagram}
                       size="small"
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialI");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -629,6 +939,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="www.linkedin.com"
                       size="small"
+                      value={formValues?.sociallink?.LinkedIn}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialL");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -644,6 +958,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="www.youtube.com"
                       size="small"
+                      value={formValues?.sociallink?.youtube}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialY");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -659,6 +977,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="www.twitter.com"
                       size="small"
+                      value={formValues?.sociallink?.twitter}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialT");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -675,6 +997,10 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="www.pinterest.com"
                       size="small"
+                      value={formValues?.sociallink?.pinterest}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "socialP");
+                      }}
                     />
                   </FormControl>
                 </Stack>
@@ -699,10 +1025,14 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder=""
                       size="small"
+                      value={formValues?.websiteLinks?.link}
+                      onChange={(e) => {
+                        handleOnChange(e.target.value, "OtherLink1");
+                      }}
                     />
                   </FormControl>
                 </Stack>
-                <Stack direction={"row"} spacing={2} alignItems={"center"}>
+                {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
                     height={socialMediaLogoSize}
@@ -716,7 +1046,7 @@ const DoctorAddForm = () => {
                       size="small"
                     />
                   </FormControl>
-                </Stack>
+                </Stack> */}
               </Stack>
             </CardContent>
           </Card>
