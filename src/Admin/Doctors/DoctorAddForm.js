@@ -42,12 +42,16 @@ import {
   getCityIdList,
   getNamesIdList,
   getStateIdList,
+  getQualificationIdList,
+  getCityNameByCountryIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
 import { handlePostDoctor } from "../Slices/doctorSlice";
 import { getCityList } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
+// import { getQualification } from "../Slices/globalSlice";
+import { getSettingList } from "../Slices/settingSlice";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -133,6 +137,18 @@ const DoctorAddForm = () => {
     handleOnChange(event, "hospitalAddress", selectedHospital.address);
   };
 
+  const getQualificationList = useSelector(
+    (state) => state.global.qualificationList
+  );
+  // const getQualification = getQualificationIdList(getQualificationList);
+
+  // console.log("getQualification", getQualificationList);
+
+  const getLoactionList = useSelector((state) => state.global.locationList);
+  // const getLoaction = getCityNameByCountryIdList(getLoactionList);
+  console.log("getLoaction", getLoactionList);
+
+  console.log("getSettingList", getSettingList());
   const doctorDetails = useSelector((state) => state.doctor.doctorDetail);
 
   const [experienceData, setExperienceData] = useState({
@@ -147,6 +163,7 @@ const DoctorAddForm = () => {
     doctorFirstName: "",
     doctorLastName: "",
     doctorID: "",
+    qualification: [],
     specialist: [],
     experience: "",
     status: "",
@@ -218,7 +235,7 @@ const DoctorAddForm = () => {
           };
           break;
 
-        case "state":
+        case "Exstate":
           temp.previousExperience = {
             ...temp.previousExperience,
             state: value,
@@ -243,7 +260,7 @@ const DoctorAddForm = () => {
           };
           break;
 
-        case "experience":
+        case "Exexperience":
           temp.previousExperience = {
             ...temp.previousExperience,
             experience: value,
@@ -444,7 +461,7 @@ const DoctorAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">
+                  <InputLabel sx={inputLableStyle}>
                     Doctor ID <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
@@ -462,29 +479,25 @@ const DoctorAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">
-                    Doctor Name <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      name="doctorLastName"
-                      id="outlined-adornment-password"
-                      placeholder="#D-00012"
-                      size="small"
-                      value={formValues?.doctorLastName}
-                      onChange={(e) =>
-                        handleOnChange(e.target.value, "doctorLastName")
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">
-                    Specialist
+                  <InputLabel sx={inputLableStyle}>
+                    Qualification<span style={redStarStyle}>*</span>
                   </InputLabel>
                   <CommonSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.specialist?.map(
+                      (item) => item?.specilizationID
+                    )}
+                    data={specializationList}
+                    onChange={(e) => handleOnChange(e, "qualification")}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>
+                    Specialist<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <CommonSelect
+                    placeholder={"Select"}
                     width={"100%"}
                     value={formValues?.specialist?.map(
                       (item) => item?.specilizationID
@@ -494,11 +507,11 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">
-                    Experience
+                  <InputLabel sx={inputLableStyle}>
+                    Experience<span style={redStarStyle}>*</span>
                   </InputLabel>
                   <SingleSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     value={formValues?.experience}
                     data={experienceList}
                     width={"100%"}
@@ -506,9 +519,9 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel id="demo-select-small-label">Status</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Status</InputLabel>
                   <SingleSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     width={"100%"}
                     value={formValues?.status}
                     data={[
@@ -519,16 +532,19 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Location</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Location</InputLabel>
                   <SingleSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     width={"100%"}
+                    data={cityList}
                     value={formValues?.location}
                     onChange={(e) => handleOnChange(e, "location")}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>IMr Registration ID</InputLabel>
+                  <InputLabel sx={inputLableStyle}>
+                    IMr Registration ID
+                  </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -543,7 +559,7 @@ const DoctorAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>DOB</InputLabel>
+                  <InputLabel sx={inputLableStyle}>DOB</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
@@ -556,9 +572,9 @@ const DoctorAddForm = () => {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Gender</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Gender</InputLabel>
                   <SingleSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     width={"100%"}
                     data={genderList}
                     value={formValues?.gender}
@@ -568,7 +584,7 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Phone number</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Phone number</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       name="phoneNumber"
@@ -584,7 +600,7 @@ const DoctorAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Email Address</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Email Address</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -614,9 +630,9 @@ const DoctorAddForm = () => {
               </Box>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel>Country</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Country</InputLabel>
                   <SingleSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     data={upDatedCountryList}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.country}
@@ -626,24 +642,24 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>State</InputLabel>
+                  <InputLabel sx={inputLableStyle}>State</InputLabel>
                   {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                  <SingleSelect
-                    Placeholder={"Select"}
+                  <CommonSelect
+                    placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
                     value={formValues?.previousExperience[0]?.state}
                     onChange={(e) => {
                       dispatch(getCityList(e));
-                      handleOnChange(e, "state");
+                      handleOnChange(e, "Exstate");
                     }}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>City</InputLabel>
+                  <InputLabel sx={inputLableStyle}>City</InputLabel>
                   {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                  <SingleSelect
-                    Placeholder={"Select"}
+                  <CommonSelect
+                    placeholder={"Select"}
                     width={"100%"}
                     data={cityList}
                     value={formValues?.previousExperience[0]?.city}
@@ -653,9 +669,9 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Specialist</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Specialist</InputLabel>
                   <CommonSelect
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.specialist}
@@ -666,11 +682,13 @@ const DoctorAddForm = () => {
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mt: 2, mb: 2 }}>
-                <InputLabel>Hospital and Address</InputLabel>
+                <InputLabel sx={inputLableStyle}>
+                  Hospital and Address
+                </InputLabel>
                 <FormControl sx={{ width: "100%" }}>
                   <Select
                     displayEmpty
-                    Placeholder={"Select"}
+                    placeholder={"Select"}
                     width={"100%"}
                     value={selectedHospital || ""}
                     onChange={handleHospitalChange}
@@ -685,31 +703,31 @@ const DoctorAddForm = () => {
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <InputLabel>Experience</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Experience</InputLabel>
                   {/* <CommonSelect
                     Placeholder={"Select"}
                     data={experienceList}
                     width={"100%"}
                   /> */}
-                  <SingleSelect
-                    Placeholder={"Select"}
+                  <CommonSelect
+                    placeholder={"Select"}
                     data={experienceList}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.experience}
                     onChange={(e) => {
-                      handleOnChange(e, "experience");
+                      handleOnChange(e, "Exexperience");
                     }}
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Employment type</InputLabel>
+                  <InputLabel sx={inputLableStyle}>Employment type</InputLabel>
                   {/* <CommonSelect
                     Placeholder={"Select"}
                     data={employementTypeList}
                     width={"100%"}
                   /> */}
-                  <SingleSelect
-                    Placeholder={"Select"}
+                  <CommonSelect
+                    placeholder={"Select"}
                     data={employementTypeList}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.employmentType}
@@ -719,7 +737,7 @@ const DoctorAddForm = () => {
                   />
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>Start date </InputLabel>
+                  <InputLabel sx={inputLableStyle}>Start date </InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
@@ -738,7 +756,7 @@ const DoctorAddForm = () => {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel>End Date</InputLabel>
+                  <InputLabel sx={inputLableStyle}>End Date</InputLabel>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
@@ -812,7 +830,9 @@ const DoctorAddForm = () => {
                   <Typography>ABOUT HOSPITAL </Typography>
                 </Stack>
                 <Stack>
-                  <Typography variant="subtitle2">Upload image</Typography>
+                  <Typography variant="subtitle2" sx={inputLableStyle}>
+                    Upload image
+                  </Typography>
                 </Stack>
                 <Stack alignItems={"center"}>
                   <img

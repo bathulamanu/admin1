@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import api from '../../httpRequest'
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../../httpRequest";
 
 const initialState = {
   countryList: [],
@@ -10,222 +10,247 @@ const initialState = {
   qualificationList: [],
   experienceList: [],
   employementList: [],
-  loading: '',
-}
+  locationList: [],
+  loading: "",
+};
 
 export const getCountryList = createAsyncThunk(
-  'getCountryList',
+  "getCountryList",
   async (_, thunkAPI) => {
     try {
-      const response = await api.get('/getCountryName')
-      return response.data
+      const response = await api.get("/getCountryName");
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getStateList = createAsyncThunk(
-  'getStateList',
+  "getStateList",
   async (id, thunkAPI) => {
     try {
-      const response = await api.get(`/getStateName/${id}`)
-      return response.data
+      const response = await api.get(`/getStateName/${id}`);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getCityList = createAsyncThunk(
-  'getCityList',
+  "getCityList",
   async (id, thunkAPI) => {
     try {
-      const response = await api.get(`/getCityName/${id}`)
-      return response.data
+      const response = await api.get(`/getCityName/${id}`);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getSpecialization = createAsyncThunk(
-  'getSpecialization',
+  "getSpecialization",
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/Specialization/${search}`,
-      )
-      return response.data
+        `getMasterConfiguration/Specialization/${search}`
+      );
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getGenderList = createAsyncThunk(
-  'getGenderList',
+  "getGenderList",
   async (search, thunkAPI) => {
     try {
-      const response = await api.get(`getMasterConfiguration/Gender/${search}`)
-      return response.data
+      const response = await api.get(`getMasterConfiguration/Gender/${search}`);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getExperienceList = createAsyncThunk(
-  'getExperienceList',
+  "getExperienceList",
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/Experience/${search}`,
-      )
-      return response.data
+        `getMasterConfiguration/Experience/${search}`
+      );
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
 export const getEmploymentType = createAsyncThunk(
-  'getEmploymentType',
+  "getEmploymentType",
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/EmploymentType/${search}`,
-      )
-      return response.data
+        `getMasterConfiguration/EmploymentType/${search}`
+      );
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 export const getQualification = createAsyncThunk(
-  'getQualification',
+  "getQualification",
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/Doctor Qualification/${search}`,
-      )
-      return response.data
+        `getMasterConfiguration/Doctor Qualification/${search}`
+      );
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response ? error.response.data : error.message,
-      )
+        error.response ? error.response.data : error.message
+      );
     }
-  },
-)
+  }
+);
 
+export const getCityNameByCountry = createAsyncThunk(
+  "getCityNameByCountry",
+  async (search, thunkAPI) => {
+    try {
+      const response = await api.get(`/getCityNameByCountry/352`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
 const globalSlice = createSlice({
-  name: 'global',
+  name: "global",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getCountryList.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getCountryList.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.countryList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.countryList = action.payload.data;
+    });
     builder.addCase(getCountryList.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getStateList.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getStateList.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.stateList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.stateList = action.payload.data;
+    });
     builder.addCase(getStateList.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getCityList.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getCityList.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.cityList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.cityList = action.payload.data;
+    });
     builder.addCase(getCityList.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getSpecialization.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getSpecialization.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.specializationList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.specializationList = action.payload.data;
+    });
     builder.addCase(getSpecialization.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getGenderList.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getGenderList.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.genderList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.genderList = action.payload.data;
+    });
     builder.addCase(getGenderList.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getExperienceList.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getExperienceList.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.experienceList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.experienceList = action.payload.data;
+    });
     builder.addCase(getExperienceList.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getEmploymentType.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getEmploymentType.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.employementList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.employementList = action.payload.data;
+    });
     builder.addCase(getEmploymentType.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
+      state.authLoading = "complete_failure";
+    });
 
     builder.addCase(getQualification.pending, (state) => {
-      state.loading = 'pending'
-    })
+      state.loading = "pending";
+    });
     builder.addCase(getQualification.fulfilled, (state, action) => {
-      state.loading = 'complete_success'
-      state.qualificationList = action.payload.data
-    })
+      state.loading = "complete_success";
+      state.qualificationList = action.payload.data;
+    });
     builder.addCase(getQualification.rejected, (state) => {
-      state.authLoading = 'complete_failure'
-    })
-  },
-})
+      state.authLoading = "complete_failure";
+    });
 
-export const {} = globalSlice.actions
-export default globalSlice.reducer
+    builder.addCase(getCityNameByCountry.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getCityNameByCountry.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.locationList = action.payload.data;
+    });
+    builder.addCase(getCityNameByCountry.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+  },
+});
+
+export const {} = globalSlice.actions;
+export default globalSlice.reducer;
