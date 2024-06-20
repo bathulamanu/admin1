@@ -30,6 +30,7 @@ import {
   getNamesIdList,
   getStateIdList,
 } from "../../globalFunctions";
+import api from "../../httpRequest";
 
 const headingStyle = {
   fontSize: "14px",
@@ -152,6 +153,30 @@ const CustomerForm = () => {
       }
       return temp;
     });
+  };
+
+  const handleImageUpload = async (e) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "customerProfile");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        // console.log(response?.data?.message).
+        setFormValues((prev) => ({
+          ...prev,
+          doctorProfile: response?.data?.data?.key,
+        }));
+        console.log(formValues?.doctorProfile);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -597,7 +622,12 @@ const CustomerForm = () => {
                   sx={{ marginTop: "10px" }}
                 >
                   Upload Image
-                  <VisuallyHiddenInput type="file" />
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/svg+xml"
+                    hidden
+                    onChange={handleImageUpload}
+                  />
                 </Button>
               </Stack>
             </CardContent>

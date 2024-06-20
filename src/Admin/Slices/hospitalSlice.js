@@ -6,11 +6,13 @@ const initialState = {
   hospitalDetail: {},
   loading: "",
   hospitalPostData: {},
+  hospitalEditPostData: {},
 };
 
 // /flyingbyts/api/user/getMasterConfiguration/:title/:search
 // /flyingbyts/api/user/getHospitalDetails/:search
 // /flyingbyts/api/user/getDoctorDetails/:search
+// /flyingbyts/api/user/UpdateHospitalDetails/:HospitalID
 export const getHospitalsList = createAsyncThunk(
   "getHospitalsList",
   async (search, thunkAPI) => {
@@ -55,12 +57,31 @@ export const addHospitals = createAsyncThunk(
   }
 );
 
+export const editHospitals = createAsyncThunk(
+  "editHospitals",
+  async (id, data, thunkAPI) => {
+    console.log("data when we are posting", id, data);
+    try {
+      const response = await api.post(`/UpdateHospitalDetails/${id}`, data);
+      console.log("Updated Posted successfully", response.data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const hospitalSlice = createSlice({
   name: "hospitals",
   initialState,
   reducers: {
     handlePostHospital: (state, action) => {
       state.hospitalPostData = action.payload;
+    },
+    handleEditPostHospital: (state, action) => {
+      state.hospitalEditPostData = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -89,5 +110,8 @@ const hospitalSlice = createSlice({
   },
 });
 
-export const { handlePostHospital } = hospitalSlice.actions;
+export const {
+  handlePostHospital,
+  handleEditPostHospital,
+} = hospitalSlice.actions;
 export default hospitalSlice.reducer;
