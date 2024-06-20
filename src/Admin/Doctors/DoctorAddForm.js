@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../assets/doctor_img.png";
-import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -36,8 +34,6 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getByIdList,
@@ -71,27 +67,6 @@ const redStarStyle = {
   color: "red",
   marginLeft: "4px",
 };
-
-function deepCopyFormValues(doctorDetails, formValues) {
-  function deepCopy(target, source) {
-    for (let key in source) {
-      if (source[key] && typeof source[key] === "object") {
-        if (Array.isArray(source[key])) {
-          target[key] = [...source[key]];
-        } else {
-          if (!target[key]) target[key] = {};
-          deepCopy(target[key], source[key]);
-        }
-      } else {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
-  deepCopy(copiedFormValue, doctorDetails);
-  return copiedFormValue;
-}
 
 const DoctorAddForm = () => {
   const theme = useTheme();
@@ -142,15 +117,6 @@ const DoctorAddForm = () => {
   }, [dispatch]);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
-  const doctorDetails = useSelector((state) => state.doctor.doctorDetail);
-
-  const [experienceData, setExperienceData] = useState({
-    countryName: "",
-    stateName: "",
-    cityName: "",
-    startDate: "",
-    endDate: "",
-  });
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     doctorFirstName: "",
