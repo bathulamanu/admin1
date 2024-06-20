@@ -138,7 +138,7 @@ export const getCityNameByCountry = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(`/getCityNameByCountry/352`);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message
@@ -244,7 +244,7 @@ const globalSlice = createSlice({
     });
     builder.addCase(getCityNameByCountry.fulfilled, (state, action) => {
       state.loading = "complete_success";
-      state.locationList = action.payload.data;
+      state.locationList = action.payload;
     });
     builder.addCase(getCityNameByCountry.rejected, (state) => {
       state.authLoading = "complete_failure";
