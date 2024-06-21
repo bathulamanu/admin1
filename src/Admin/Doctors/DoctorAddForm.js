@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../assets/doctor_img.png";
-import { styled } from "@mui/material/styles";
 import AddIcon from "@mui/icons-material/Add";
 import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -13,6 +12,7 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   MenuItem,
@@ -34,8 +34,6 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getByIdList,
@@ -48,21 +46,9 @@ import {
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
 import { handlePostDoctor } from "../Slices/doctorSlice";
-import { getCityList } from "../Slices/globalSlice";
+import { getCityList, getCityNameByCountry } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
-// import { getQualification } from "../Slices/globalSlice";
-import { getSettingList } from "../Slices/settingSlice";
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
+import { getQualification } from "../Slices/globalSlice";
 
 const socialMediaLogoSize = 24;
 
@@ -81,27 +67,6 @@ const redStarStyle = {
   color: "red",
   marginLeft: "4px",
 };
-
-function deepCopyFormValues(doctorDetails, formValues) {
-  function deepCopy(target, source) {
-    for (let key in source) {
-      if (source[key] && typeof source[key] === "object") {
-        if (Array.isArray(source[key])) {
-          target[key] = [...source[key]];
-        } else {
-          if (!target[key]) target[key] = {};
-          deepCopy(target[key], source[key]);
-        }
-      } else {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
-  deepCopy(copiedFormValue, doctorDetails);
-  return copiedFormValue;
-}
 
 const DoctorAddForm = () => {
   const theme = useTheme();
@@ -140,25 +105,19 @@ const DoctorAddForm = () => {
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
   );
-  // const getQualification = getQualificationIdList(getQualificationList);
-
-  // console.log("getQualification", getQualificationList);
+  useEffect(() => {
+    dispatch(getQualification(null));
+  }, [dispatch]);
+  const getQualif = getQualificationIdList(getQualificationList);
+  // console.log("getQualification", getQualif);
 
   const getLoactionList = useSelector((state) => state.global.locationList);
-  // const getLoaction = getCityNameByCountryIdList(getLoactionList);
-  console.log("getLoaction", getLoactionList);
+  useEffect(() => {
+    dispatch(getCityNameByCountry(null));
+  }, [dispatch]);
+  const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
-  console.log("getSettingList", getSettingList());
-  const doctorDetails = useSelector((state) => state.doctor.doctorDetail);
-
-  const [experienceData, setExperienceData] = useState({
-    countryName: "",
-    stateName: "",
-    cityName: "",
-    startDate: "",
-    endDate: "",
-  });
-
+  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     doctorFirstName: "",
     doctorLastName: "",
@@ -212,6 +171,39 @@ const DoctorAddForm = () => {
     },
     websiteLinks: [{ link: "" }],
   });
+  const validateField = (name, value, updatedValues) => {
+    let tempErrors = { ...errors };
+
+    switch (name) {
+      case "doctorFirstName":
+        tempErrors.doctorFirstName =
+          value.length >= 3
+            ? ""
+            : "Doctor's name must be at least 3 characters .";
+        break;
+      case "doctorID":
+        tempErrors.doctorID =
+          value.length >= 5 ? "" : "Doctor ID must be at least 5 characters.";
+        break;
+      case "qualification":
+        tempErrors.qualification = updatedValues.qualification.length
+          ? ""
+          : "Qualification is required.";
+        break;
+      case "specialist":
+        tempErrors.specialist = updatedValues.specialist.length
+          ? ""
+          : "Specialist is required.";
+        break;
+      case "experience":
+        tempErrors.experience = value ? "" : "Experience is required.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(tempErrors);
+  };
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -221,6 +213,11 @@ const DoctorAddForm = () => {
         case "specialist":
           let res = value?.map((ele) => ({ specializationID: ele }));
           temp.specialist = res;
+          break;
+
+        case "qualification":
+          let qul = value?.map((ele) => ({ qualificationId: ele }));
+          temp.qualification = qul;
           break;
 
         case "DOB":
@@ -327,6 +324,7 @@ const DoctorAddForm = () => {
           temp[name] = value;
           break;
       }
+      validateField(name, value, temp);
       return temp;
     });
   };
@@ -339,7 +337,7 @@ const DoctorAddForm = () => {
     };
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    formData.append("folder", "CareerResume");
+    formData.append("folder", "DoctorProfile");
     try {
       const response = await api.post("/upload", formData, { headers });
       if (response?.data?.status === 200) {
@@ -348,7 +346,7 @@ const DoctorAddForm = () => {
           ...prev,
           doctorProfile: response?.data?.data?.key,
         }));
-        console.log(formValues?.hospitalLogo);
+        console.log(formValues?.doctorProfile);
       } else {
         console.log(response?.data?.message);
       }
@@ -360,46 +358,6 @@ const DoctorAddForm = () => {
   useEffect(() => {
     dispatch(handlePostDoctor(formValues));
   }, [formValues]);
-
-  const fetchingLocation = (formValues, getCitiesList) => {
-    const cityId = formValues.previousExperience.city;
-
-    const city = getCitiesList.find((item) => item.cityID === cityId);
-
-    if (city) {
-      const latitude = city.latitude.toString();
-      const longitude = city.longitude.toString();
-
-      return { latitude, longitude };
-    } else {
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    const location = fetchingLocation(formValues, getCitiesList);
-    if (location) {
-      setFormValues({
-        ...formValues,
-        previousExperience: {
-          ...formValues.previousExperience,
-          longitude: location.longitude,
-          latitude: location.latitude,
-        },
-      });
-    }
-  }, [formValues.previousExperience.city]);
-
-  const updatedFormValues = deepCopyFormValues(doctorDetails, formValues);
-
-  useEffect(() => {
-    setFormValues((prevValue) => ({
-      ...prevValue,
-      ...updatedFormValues,
-    }));
-  }, [doctorDetails]);
-
-  console.log("doctorDetails", doctorDetails);
   console.log("formvalues", formValues);
 
   return (
@@ -446,7 +404,12 @@ const DoctorAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Doctor Name <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.doctorFirstName}
+                  >
                     <OutlinedInput
                       fullWidth
                       name="doctorFirstName"
@@ -458,13 +421,21 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "doctorFirstName")
                       }
                     />
+                    {!!errors.doctorFirstName && (
+                      <FormHelperText>{errors.doctorFirstName}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Doctor ID <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.doctorID}
+                  >
                     <OutlinedInput
                       fullWidth
                       name="doctorID"
@@ -476,6 +447,9 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "doctorID")
                       }
                     />
+                    {!!errors.doctorID && (
+                      <FormHelperText>{errors.doctorID}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -485,12 +459,16 @@ const DoctorAddForm = () => {
                   <CommonSelect
                     placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.specialist?.map(
-                      (item) => item?.specilizationID
+                    value={formValues?.qualification?.map(
+                      (item) => item?.qualificationId
                     )}
-                    data={specializationList}
+                    data={getQualif}
                     onChange={(e) => handleOnChange(e, "qualification")}
+                    error={!!errors.qualification}
                   />
+                  {!!errors.qualification && (
+                    <FormHelperText>{errors.qualification}</FormHelperText>
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -504,7 +482,11 @@ const DoctorAddForm = () => {
                     )}
                     data={specializationList}
                     onChange={(e) => handleOnChange(e, "specialist")}
+                    error={!!errors.specialist}
                   />
+                  {!!errors.specialist && (
+                    <FormHelperText>{errors.specialist}</FormHelperText>
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -516,7 +498,11 @@ const DoctorAddForm = () => {
                     data={experienceList}
                     width={"100%"}
                     onChange={(e) => handleOnChange(e, "experience")}
+                    error={!!errors.experience}
                   />
+                  {!!errors.experience && (
+                    <FormHelperText>{errors.experience}</FormHelperText>
+                  )}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Status</InputLabel>
@@ -536,7 +522,7 @@ const DoctorAddForm = () => {
                   <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
-                    data={cityList}
+                    data={getLoaction}
                     value={formValues?.location}
                     onChange={(e) => handleOnChange(e, "location")}
                   />

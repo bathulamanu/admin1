@@ -46,6 +46,7 @@ import {
   addHospitals,
   getHospitalDetails,
   getHospitalsList,
+  editHospitals,
 } from "../Admin/Slices/hospitalSlice";
 import {
   getDoctorList,
@@ -77,6 +78,10 @@ export const MainLayout = () => {
 
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData
+  );
+
+  const editHospitalData = useSelector(
+    (state) => state.hospitals.hospitalEditPostData
   );
 
   const addDoctorData = useSelector((state) => state.doctor.doctorPostData);
@@ -111,6 +116,10 @@ export const MainLayout = () => {
 
   const handleAddHospitalFormSubmit = () => {
     dispatch(addHospitals(addHospitalData));
+  };
+
+  const handleEditHospitalFormSubmit = () => {
+    dispatch(editHospitals(editHospitalData));
   };
 
   const handleAddDoctorFormSubmit = () => {
@@ -553,15 +562,87 @@ export const MainLayout = () => {
                     size="small"
                     onClick={(e) => {
                       e.preventDefault();
-                      setFormOpen("Hospitals");
+                      // setFormOpen("Hospitals");
                       dispatch(getHospitalDetails(searchQuery));
-                      navigate("hospitalFrom");
+                      navigate("/mainPage/hospitals/Edit");
                     }}
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
                   <Button variant="outlined" size="small" disabled>
                     <DeleteIcon fontSize="small" /> Delete
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/hospitals/Edit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleEditHospitalFormSubmit();
+                      setFormOpen(null);
+                      setActiveItem("Hospitals");
+                      dispatch(getHospitalsList(searchQuery));
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen(null);
+                      dispatch(getHospitalsList(searchQuery));
+                      setActiveItem("Hospitals");
+                      navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    Cancel
                   </Button>
                 </Stack>
               </Stack>

@@ -28,6 +28,7 @@ import BabyDetails from "../customer/babyDetails/BabyDetails";
 import CustomerSettingsPage from "../customer/settings/SettingsPage";
 import BabyDetailsFormData from "../customer/babyDetails/BabyDetailsFormData";
 import CustomerDashboard from "../customer/dashboard/Dashboard";
+import HospitalEditForm from "../../Hospitals/HospitalEditForm";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -65,6 +66,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "hospitals/view",
         element: <HospitalView />,
+      },
+      {
+        path: "hospitals/Edit",
+        element: <HospitalEditForm />,
       },
       {
         path: "settings",
