@@ -20,12 +20,17 @@ import SettingsBrandDataTable from "./SettingsBrandDataTable";
 import { getSettingList } from "../Slices/settingSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { setActiveTitle } from "../Slices/settingLayoutSlice";
 
 const SettingsPage = () => {
   const [title, setTitle] = useState("Specialization");
   const [searchQuery, setSearchQuery] = useState(null);
   const [activeTag, setActiveTag] = useState("Specialist");
   const dispatch = useDispatch();
+
+  const { activeTitle, activeButton } = useSelector(
+    (state) => state.settinglayout
+  );
 
   const specializationList = useSelector(
     (state) => state.settings.settingsList
@@ -35,17 +40,17 @@ const SettingsPage = () => {
   console.log("brandList", brandList);
 
   useEffect(() => {
-    if (title === "Brands") {
+    if (activeTitle === "Brands") {
       dispatch(getHospitalsList(searchQuery));
-    } else if (title === "Specialization") {
-      dispatch(getSettingList(title, searchQuery));
+    } else if (activeTitle === "Specialization") {
+      dispatch(getSettingList(activeTitle, searchQuery));
     } else {
-      dispatch(getSettingList(`Doctor ${title}`, searchQuery));
+      dispatch(getSettingList(`Doctor ${activeTitle}`, searchQuery));
     }
-  }, [dispatch, title]);
+  }, [dispatch, activeTitle]);
 
-  const handleButtonClick = (newTitle) => {
-    setTitle(newTitle);
+  const handleButtonClick = (newTitle, buttonIndex) => {
+    dispatch(setActiveTitle({ title: newTitle, buttonIndex }));
     if (newTitle === "Specialization") {
       setActiveTag("Specialist");
     } else {
@@ -54,10 +59,10 @@ const SettingsPage = () => {
   };
 
   const getRows = () => {
-    if (title === "Brands") {
+    if (activeTitle === "Brands") {
       return brandList || [];
     }
-    if (title === "Specialization" || "Qualification") {
+    if (activeTitle === "Specialization" || "Qualification") {
       return specializationList || [];
     }
     return [];
@@ -71,7 +76,7 @@ const SettingsPage = () => {
         padding={"12px 8px"}
       >
         <Stack justifyContent={"center"}>
-          <Typography variant="h6">{activeTag}</Typography>
+          <Typography variant="h6">{activeTitle}</Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
           <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
@@ -94,55 +99,54 @@ const SettingsPage = () => {
       <Box display={"flex"} justifyContent={"left"} marginBottom={2} gap={2}>
         <Stack>
           <Button
-            variant={title === "Specialization" ? "contained" : "outlined"}
+            variant={activeButton === 0 ? "contained" : "outlined"}
             sx={{
               border: "none",
-              backgroundColor:
-                title === "Specialization" ? "#1976d2" : "#e0e0e0",
-              color: title === "Specialization" ? "#fff" : "#000",
+              backgroundColor: activeButton === 0 ? "#1976d2" : "#e0e0e0",
+              color: activeButton === 0 ? "#fff" : "#000",
             }}
-            onClick={() => handleButtonClick("Specialization")}
+            onClick={() => handleButtonClick("Specialization", 0)}
           >
             Specialization
           </Button>
         </Stack>
         <Stack>
           <Button
-            variant={title === "Qualification" ? "contained" : "outlined"}
+            variant={activeButton === 1 ? "contained" : "outlined"}
             sx={{
               border: "none",
-              backgroundColor:
-                title === "Qualification" ? "#1976d2" : "#e0e0e0",
-              color: title === "Qualification" ? "#fff" : "#000",
+              backgroundColor: activeButton === 1 ? "#1976d2" : "#e0e0e0",
+              color: activeButton === 1 ? "#fff" : "#000",
             }}
-            onClick={() => handleButtonClick("Qualification")}
+            onClick={() => handleButtonClick("Qualification", 1)}
           >
             Qualification
           </Button>
         </Stack>
         <Stack>
           <Button
-            variant={title === "Brands" ? "contained" : "outlined"}
+            variant={activeButton === 2 ? "contained" : "outlined"}
             sx={{
               border: "none",
-              backgroundColor: title === "Brands" ? "#1976d2" : "#e0e0e0",
-              color: title === "Brands" ? "#fff" : "#000",
+              backgroundColor: activeButton === 2 ? "#1976d2" : "#e0e0e0",
+              color: activeButton === 2 ? "#fff" : "#000",
             }}
-            onClick={() => handleButtonClick("Brands")}
+            onClick={() => handleButtonClick("Brands", 2)}
           >
             Brands
           </Button>
         </Stack>
       </Box>
-      {title && title === "Brands" ? (
+      {activeTitle === "Brands" ? (
         <SettingsBrandDataTable
           rows={getRows()}
-          columns={settingBrandColumns(title)}
+          columns={settingBrandColumns(activeTitle)}
         />
       ) : (
-        <>
-          <SettingsDataTable rows={getRows()} columns={settingColumns(title)} />
-        </>
+        <SettingsDataTable
+          rows={getRows()}
+          columns={settingColumns(activeTitle)}
+        />
       )}
     </Container>
   );

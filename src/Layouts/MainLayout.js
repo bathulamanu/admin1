@@ -130,6 +130,9 @@ export const MainLayout = () => {
     setPathname(location.pathname);
   }, [location]);
   // console.log('pathname', pathname)
+  const { activeTitle, activeButton } = useSelector(
+    (state) => state.settinglayout
+  );
 
   useEffect(() => {
     if (!data) {
@@ -864,7 +867,7 @@ export const MainLayout = () => {
                     setFormOpen("Doctors");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Add Settings
+                  <AddIcon fontSize="small" /> Add {activeTitle}
                 </Button>
               </Stack>
             )}
