@@ -4,6 +4,8 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
   Menu,
   MenuItem,
   MenuList,
@@ -133,6 +135,7 @@ export const MainLayout = () => {
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
+  const [openSpecialization, setOpenSpecialization] = useState(false);
 
   useEffect(() => {
     if (!data) {
@@ -198,6 +201,7 @@ export const MainLayout = () => {
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
               fontSize: isMobile ? "10px" : "12px",
+              background: isMobile ? "#3333ff" : "#3333ff",
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
@@ -861,14 +865,29 @@ export const MainLayout = () => {
                   sx={{
                     padding: 1,
                   }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("doctorForm");
-                    setFormOpen("Doctors");
-                  }}
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   // navigate("doctorForm");
+                  //   // setFormOpen("Doctors");
+                  // }}
+                  onClick={() => setOpenSpecialization(true)}
                 >
                   <AddIcon fontSize="small" /> Add {activeTitle}
                 </Button>
+                <Dialog open={openSpecialization}>
+                  <DialogContent sx={{ width: "500px" }}>
+                    <CloseIcon
+                      sx={{
+                        marginLeft: "400px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setOpenSpecialization(!openSpecialization)}
+                    />
+                    <Box sx={{}}>
+                      <Typography></Typography>
+                    </Box>
+                  </DialogContent>
+                </Dialog>
               </Stack>
             )}
           </Stack>

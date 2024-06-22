@@ -100,7 +100,17 @@ const HospitalView = () => {
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
               <Box display={"flex"} gap={3}>
-                <img src={hospitalLogo} height={200} width={200} />
+                {/* <img src={hospitalLogo} height={200} width={200} /> */}
+                <img
+                  src={
+                    hospitalLogo
+                      ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${hospitalLogo}`
+                      : doctorImg
+                  }
+                  alt="Hospital Logo"
+                  height={"auto"}
+                  width={"150px"}
+                />
                 <Card>
                   <CardContent sx={{ display: "flex", gap: 4 }}>
                     <Box display={"flex"} flexDirection={"column"} gap={3}>
