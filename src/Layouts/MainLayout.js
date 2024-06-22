@@ -4,9 +4,15 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
+  FormControl,
+  Grid,
+  InputLabel,
   Menu,
   MenuItem,
   MenuList,
+  OutlinedInput,
   Paper,
   Stack,
   Typography,
@@ -53,6 +59,7 @@ import {
   getDoctorDetail,
   addDoctors,
 } from "../Admin/Slices/doctorSlice";
+import SingleSelect from "../GlobalComponents/SingleSelect";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -61,6 +68,18 @@ const StyledLink = styled(Link)`
     background-color: #f0f0f0;
   }
 `;
+
+const inputLableStyle = {
+  fontSize: "14px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+};
+
+const redStarStyle = {
+  color: "red",
+  marginLeft: "4px",
+};
 
 export const MainLayout = () => {
   const navigate = useNavigate();
@@ -130,6 +149,15 @@ export const MainLayout = () => {
     setPathname(location.pathname);
   }, [location]);
   // console.log('pathname', pathname)
+  const { activeTitle, activeButton } = useSelector(
+    (state) => state.settinglayout
+  );
+  const [openSpecialization, setOpenSpecialization] = useState(false);
+
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+  });
 
   useEffect(() => {
     if (!data) {
@@ -195,6 +223,7 @@ export const MainLayout = () => {
               width: isMobile ? 18 : 24,
               height: isMobile ? 18 : 24,
               fontSize: isMobile ? "10px" : "12px",
+              background: isMobile ? "#3333ff" : "#3333ff",
             }}
           />
           <Typography variant="subtitle1" fontSize={isMobile ? "10px" : "12px"}>
@@ -858,14 +887,73 @@ export const MainLayout = () => {
                   sx={{
                     padding: 1,
                   }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate("doctorForm");
-                    setFormOpen("Doctors");
-                  }}
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   // navigate("doctorForm");
+                  //   // setFormOpen("Doctors");
+                  // }}
+                  onClick={() => setOpenSpecialization(true)}
                 >
-                  <AddIcon fontSize="small" /> Add Settings
+                  <AddIcon fontSize="small" /> Add {activeTitle}
                 </Button>
+                <Dialog open={openSpecialization}>
+                  <DialogContent sx={{ width: "500px" }}>
+                    <CloseIcon
+                      sx={{
+                        marginLeft: "400px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setOpenSpecialization(!openSpecialization)}
+                    />
+                    <Box sx={{}}>
+                      <Typography sx={{ fontWeight: "bold" }}>
+                        Add {activeTitle}
+                      </Typography>
+                      <Box>
+                        <Grid container spacing={2} pt={3} pb={2}>
+                          <Grid item style={{ width: "100%" }}>
+                            <InputLabel sx={inputLableStyle}>
+                              Title <span style={redStarStyle}>*</span>
+                            </InputLabel>
+                            <FormControl
+                              variant="outlined"
+                              fullWidth
+                              size="small"
+                            >
+                              <OutlinedInput
+                                fullWidth
+                                id="outlined-adornment-password"
+                                placeholder="Input Text"
+                                size="small"
+                                value={formValues?.firstName}
+                                // onChange={(e) =>
+                                //   // handleChange(e.target.value, "firstName")
+                                // }
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2} pt={3} pb={2}>
+                          <Grid item style={{ width: "100%" }}>
+                            <InputLabel sx={inputLableStyle}>
+                              Status <span style={redStarStyle}>*</span>
+                            </InputLabel>
+                            <SingleSelect
+                              Placeholder={"Select"}
+                              width={"100%"}
+                              // data={stateList}
+                              value={formValues?.customerPlan}
+                              onChange={(e) => {
+                                // dispatch(getCityList(e))
+                                // handleChange(e, "customerPlan");
+                              }}
+                            />
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    </Box>
+                  </DialogContent>
+                </Dialog>
               </Stack>
             )}
           </Stack>

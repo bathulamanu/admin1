@@ -859,7 +859,12 @@ const HospitalAddForm = () => {
                 </Stack>
                 <Stack alignItems={"center"}>
                   <img
-                    src={formValues.hospitalLogo || doctorImg}
+                    src={
+                      formValues.hospitalLogo
+                        ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.hospitalLogo}`
+                        : doctorImg
+                    }
+                    alt="Hospital Logo"
                     height={"auto"}
                     width={"150px"}
                   />
