@@ -155,9 +155,20 @@ export const MainLayout = () => {
   const [openSpecialization, setOpenSpecialization] = useState(false);
 
   const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
+    title: "",
+    status: "",
   });
+
+  const handleOnChange = (e, name) => {
+    const value = e.target ? e.target.value : e;
+    setFormValues((prev) => {
+      let temp = { ...prev };
+    });
+  };
+  // useEffect(() => {
+  //   dispatch(handlePostDoctor(formValues));
+  // }, [formValues]);
+  console.log("formvalues", formValues);
 
   useEffect(() => {
     if (!data) {
@@ -939,17 +950,26 @@ export const MainLayout = () => {
                               Status <span style={redStarStyle}>*</span>
                             </InputLabel>
                             <SingleSelect
-                              Placeholder={"Select"}
+                              placeholder={"Select"}
                               width={"100%"}
-                              // data={stateList}
-                              value={formValues?.customerPlan}
-                              onChange={(e) => {
-                                // dispatch(getCityList(e))
-                                // handleChange(e, "customerPlan");
-                              }}
+                              value={formValues?.status}
+                              data={[
+                                { id: "1", name: "Active" },
+                                { id: "2", name: "InActive" },
+                              ]}
+                              onChange={(e) => handleOnChange(e, "status")}
                             />
                           </Grid>
                         </Grid>
+                        <Box sx={{ display: "flex", marginLeft: "115px" }}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ width: "200px" }}
+                          >
+                            Save
+                          </Button>
+                        </Box>
                       </Box>
                     </Box>
                   </DialogContent>

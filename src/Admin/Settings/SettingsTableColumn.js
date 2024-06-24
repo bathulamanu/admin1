@@ -1,16 +1,60 @@
-import { Button, Stack, styled, Switch } from "@mui/material";
-import React from "react";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  FormControl,
+  Grid,
+  InputLabel,
+  OutlinedInput,
+  Stack,
+  styled,
+  Switch,
+  Typography,
+} from "@mui/material";
+import React, { useState } from "react";
 import { capitalizeFirstLetter } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SingleSelect from "../../GlobalComponents/SingleSelect";
+import { useSelector } from "react-redux";
+import CloseIcon from "@mui/icons-material/Close";
 
 const StyledHeader = styled("div")({
   display: "flex",
   alignItems: "center",
   fontWeight: "bold",
 });
+const inputLableStyle = {
+  fontSize: "14px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+};
 
+const redStarStyle = {
+  color: "red",
+  marginLeft: "4px",
+};
 const SettingsTableColumn = (title) => {
+  const { activeTitle, activeButton } = useSelector(
+    (state) => state.settinglayout
+  );
+  const [openEdit, setOpenEdit] = useState(false);
+  const [formValues, setFormValues] = useState({
+    title: "",
+    status: "",
+  });
+
+  const handleOnChange = (e, name) => {
+    const value = e.target ? e.target.value : e;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  console.log("formvalues", formValues);
   const settingColumns = [
     {
       field: "value",
@@ -81,9 +125,75 @@ const SettingsTableColumn = (title) => {
             height={"100%"}
             width={"100%"}
           >
-            <Button variant="contained" size="small">
+            <Button
+              variant="contained"
+              size="small"
+              onClick={() =>
+                //  console.log("clicked")
+                setOpenEdit(true)
+              }
+            >
               <EditIcon fontSize="small" /> Edit
             </Button>
+            <Dialog open={openEdit}>
+              <DialogContent sx={{ width: "500px" }}>
+                <CloseIcon
+                  sx={{
+                    marginLeft: "400px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setOpenEdit(!openEdit)}
+                />
+                <Box sx={{}}>
+                  <Typography sx={{ fontWeight: "bold" }}>
+                    Add {activeTitle}
+                  </Typography>
+                  <Box>
+                    <Grid container spacing={2} pt={3} pb={2}>
+                      <Grid item style={{ width: "100%" }}>
+                        <InputLabel sx={inputLableStyle}>Title</InputLabel>
+                        <FormControl variant="outlined" fullWidth size="small">
+                          <OutlinedInput
+                            fullWidth
+                            id="outlined-adornment-password"
+                            placeholder="Input Text"
+                            size="small"
+                            value={formValues?.firstName}
+                            // onChange={(e) =>
+                            //   // handleChange(e.target.value, "firstName")
+                            // }
+                          />
+                        </FormControl>
+                      </Grid>
+                    </Grid>
+                    <Grid container spacing={2} pt={3} pb={2}>
+                      <Grid item style={{ width: "100%" }}>
+                        <InputLabel sx={inputLableStyle}>Status</InputLabel>
+                        <SingleSelect
+                          placeholder={"Select"}
+                          width={"100%"}
+                          value={formValues?.status}
+                          data={[
+                            { id: "1", name: "Active" },
+                            { id: "2", name: "InActive" },
+                          ]}
+                          onChange={(e) => handleOnChange(e, "status")}
+                        />
+                      </Grid>
+                    </Grid>
+                    <Box sx={{ display: "flex", marginLeft: "115px" }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ width: "200px" }}
+                      >
+                        Save
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              </DialogContent>
+            </Dialog>
             <Button variant="outlined" size="small" disabled>
               <DeleteIcon fontSize="small" /> Delete
             </Button>
