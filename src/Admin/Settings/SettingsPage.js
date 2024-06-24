@@ -23,7 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveTitle } from "../Slices/settingLayoutSlice";
 
 const SettingsPage = () => {
-  const [title, setTitle] = useState("Specialization");
+  // const [title, setTitle] = useState("Specialization");
   const [searchQuery, setSearchQuery] = useState(null);
   const [activeTag, setActiveTag] = useState("Specialist");
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const SettingsPage = () => {
   const specializationList = useSelector(
     (state) => state.settings.settingsList
   );
-  // console.log('specializationList', specializationList)
+  // console.log("specializationList", specializationList);
   const brandList = useSelector((state) => state.hospitals.hospitalsList);
   console.log("brandList", brandList);
 
@@ -137,17 +137,17 @@ const SettingsPage = () => {
           </Button>
         </Stack>
       </Box>
-      {activeTitle === "Brands" ? (
+      {/* {activeTitle === "Brands" ? (
         <SettingsBrandDataTable
           rows={getRows()}
           columns={settingBrandColumns(activeTitle)}
         />
-      ) : (
-        <SettingsDataTable
-          rows={getRows()}
-          columns={settingColumns(activeTitle)}
-        />
-      )}
+      ) : ( */}
+      <SettingsDataTable
+        rows={getRows()}
+        columns={settingColumns(activeTitle)}
+      />
+      {/* )} */}
     </Container>
   );
 };
