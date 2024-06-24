@@ -16,6 +16,7 @@ import InvoiceColumns from "./invoice/InvoiceTableColumn";
 import CommonDataTable from "../../GlobalComponents/CommonDataTable";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
+import { useSelector } from "react-redux";
 
 const headingStyle = {
   fontSize: "18px",
@@ -24,6 +25,8 @@ const headingStyle = {
 
 const CustomerDetails = () => {
   const navigate = useNavigate();
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  console.log("customerDetail", customerDetail);
 
   const dummyData = [
     {

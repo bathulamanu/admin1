@@ -22,10 +22,10 @@ const Customers = () => {
   const dispatch = useDispatch();
   const customersList = useSelector((state) => state.customers.customersList);
 
-  console.log("listData", customersList);
+  // console.log("listData", customersList);
 
   useEffect(() => {
-    dispatch(getCustomersList(searchQuery));
+    dispatch(getCustomersList(null));
   }, []);
   const dummyData = [
     {
@@ -99,7 +99,7 @@ const Customers = () => {
           <MoreVertIcon />
         </Stack>
       </Box>
-      <CommonDataTable rows={dummyData || []} columns={customerColumns()} />
+      <CommonDataTable rows={customersList || []} columns={customerColumns()} />
     </Container>
   );
 };
