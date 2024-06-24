@@ -60,6 +60,7 @@ import {
   addDoctors,
 } from "../Admin/Slices/doctorSlice";
 import SingleSelect from "../GlobalComponents/SingleSelect";
+import api from "../httpRequest";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -155,20 +156,29 @@ export const MainLayout = () => {
   const [openSpecialization, setOpenSpecialization] = useState(false);
 
   const [formValues, setFormValues] = useState({
-    title: "",
+    title: activeTitle,
+    value: "",
     status: "",
   });
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => {
-      let temp = { ...prev };
-    });
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  // useEffect(() => {
-  //   dispatch(handlePostDoctor(formValues));
-  // }, [formValues]);
-  console.log("formvalues", formValues);
+  const handleSave = async () => {
+    console.log("formvalues", formValues);
+    try {
+      const response = await api.post("/addMasterConfiguration", formValues);
+      console.log("Posted successfully", response.data);
+      dispatch(getSpecialization(searchQuery));
+      setOpenSpecialization(!openSpecialization);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (!data) {
@@ -936,10 +946,10 @@ export const MainLayout = () => {
                                 id="outlined-adornment-password"
                                 placeholder="Input Text"
                                 size="small"
-                                value={formValues?.firstName}
-                                // onChange={(e) =>
-                                //   // handleChange(e.target.value, "firstName")
-                                // }
+                                value={formValues?.value}
+                                onChange={(e) =>
+                                  handleOnChange(e.target.value, "value")
+                                }
                               />
                             </FormControl>
                           </Grid>
@@ -954,8 +964,8 @@ export const MainLayout = () => {
                               width={"100%"}
                               value={formValues?.status}
                               data={[
-                                { id: "1", name: "Active" },
-                                { id: "2", name: "InActive" },
+                                { id: true, name: "Active" },
+                                { id: false, name: "InActive" },
                               ]}
                               onChange={(e) => handleOnChange(e, "status")}
                             />
@@ -966,6 +976,7 @@ export const MainLayout = () => {
                             variant="contained"
                             color="primary"
                             sx={{ width: "200px" }}
+                            onClick={handleSave}
                           >
                             Save
                           </Button>

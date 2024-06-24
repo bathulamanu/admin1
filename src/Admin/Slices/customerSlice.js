@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../httpRequest";
+// import api from "../../httpRequest";
+import adminapi from "../../adminhttpRequest";
 
 const initialState = {
   customersList: [],
@@ -12,8 +13,8 @@ export const getCustomersList = createAsyncThunk(
   "getCustomersList",
   async (search, thunkAPI) => {
     try {
-      const response = await api.get(`getHospitalDetails/${search}`);
-      console.log("API response", response);
+      const response = await adminapi.get(`/getcustomerlist`);
+      // console.log("API response", response.data);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

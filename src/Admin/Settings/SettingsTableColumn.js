@@ -17,8 +17,10 @@ import { capitalizeFirstLetter } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
+import api from "../../httpRequest";
+import { getSpecialization } from "../Slices/globalSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -36,13 +38,15 @@ const redStarStyle = {
   color: "red",
   marginLeft: "4px",
 };
-const SettingsTableColumn = (title) => {
+const SettingsTableColumn = () => {
+  const dispatch = useDispatch();
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
   const [openEdit, setOpenEdit] = useState(false);
   const [formValues, setFormValues] = useState({
-    title: "",
+    title: activeTitle,
+    value: "",
     status: "",
   });
 
@@ -54,7 +58,28 @@ const SettingsTableColumn = (title) => {
     }));
   };
 
-  console.log("formvalues", formValues);
+  const handleOnClick = (params) => {
+    setFormValues({
+      title: activeTitle,
+      value: params.row.value,
+      status: params.row.status,
+    });
+    setOpenEdit(true);
+  };
+  const handleSave = async (params) => {
+    // console.log("formvalues", formValues);
+    try {
+      const response = await api.put(
+        `/UpdateMasterConfiguration/${params}`,
+        formValues
+      );
+      console.log("Updated successfully", response.data);
+      dispatch(getSpecialization(null));
+      setOpenEdit(!openEdit);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const settingColumns = [
     {
       field: "value",
@@ -113,7 +138,7 @@ const SettingsTableColumn = (title) => {
       flex: 1,
       disableColumnFilter: true,
       disableColumnMenu: true,
-      renderCell: (params, x) => {
+      renderCell: (params) => {
         return (
           <Stack
             gap={2}
@@ -128,10 +153,7 @@ const SettingsTableColumn = (title) => {
             <Button
               variant="contained"
               size="small"
-              onClick={() =>
-                //  console.log("clicked")
-                setOpenEdit(true)
-              }
+              onClick={() => handleOnClick(params)}
             >
               <EditIcon fontSize="small" /> Edit
             </Button>
@@ -158,10 +180,10 @@ const SettingsTableColumn = (title) => {
                             id="outlined-adornment-password"
                             placeholder="Input Text"
                             size="small"
-                            value={formValues?.firstName}
-                            // onChange={(e) =>
-                            //   // handleChange(e.target.value, "firstName")
-                            // }
+                            value={formValues?.value}
+                            onChange={(e) =>
+                              handleOnChange(e.target.value, "value")
+                            }
                           />
                         </FormControl>
                       </Grid>
@@ -174,8 +196,8 @@ const SettingsTableColumn = (title) => {
                           width={"100%"}
                           value={formValues?.status}
                           data={[
-                            { id: "1", name: "Active" },
-                            { id: "2", name: "InActive" },
+                            { id: true, name: "Active" },
+                            { id: false, name: "InActive" },
                           ]}
                           onChange={(e) => handleOnChange(e, "status")}
                         />
@@ -186,6 +208,9 @@ const SettingsTableColumn = (title) => {
                         variant="contained"
                         color="primary"
                         sx={{ width: "200px" }}
+                        onClick={() =>
+                          handleSave(params?.row?.masterConfigurationID)
+                        }
                       >
                         Save
                       </Button>
