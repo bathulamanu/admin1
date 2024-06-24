@@ -19,6 +19,8 @@ import {
   styled,
   useMediaQuery,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -135,6 +137,47 @@ export const MainLayout = () => {
   };
 
   const handleAddHospitalFormSubmit = () => {
+    if (!addHospitalData.hospitalName.trim()) {
+      alert("Hospital Name is required");
+      return;
+    } else if (
+      !addHospitalData.specialist ||
+      addHospitalData.specialist.length === 0
+    ) {
+      alert("At least one Specialist is required");
+      return;
+    } else if (!addHospitalData.LicenseNumber.trim()) {
+      alert("License Number is required");
+      return;
+    } else if (!addHospitalData.validity.from) {
+      alert("Validity start date is required");
+      return;
+    } else if (!addHospitalData.validity.to) {
+      alert("Validity end date is required");
+      return;
+    } else if (!addHospitalData.email.trim()) {
+      alert("Email is required");
+      return;
+    } else if (!addHospitalData.contact.phoneNumber.trim()) {
+      alert("Phone Number is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
+      alert("Address Line 1 is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.country) {
+      alert("Country is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.state.trim()) {
+      alert("State is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.city.trim()) {
+      alert("City is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
+      alert("Pincode is required");
+      return;
+    }
+    navigate("/mainPage/hospitals");
     dispatch(addHospitals(addHospitalData));
   };
 
@@ -143,6 +186,32 @@ export const MainLayout = () => {
   };
 
   const handleAddDoctorFormSubmit = () => {
+    if (!addDoctorData.doctorFirstName) {
+      alert("doctor's Name is required");
+      return;
+    } else if (!addDoctorData.doctorID.trim()) {
+      alert("doctor's ID is required");
+      return;
+    } else if (
+      !addDoctorData.qualification ||
+      addDoctorData.qualification.length === 0
+    ) {
+      alert("At least one qualification is required");
+      return;
+    } else if (
+      !addDoctorData.specialist ||
+      addDoctorData.specialist.length === 0
+    ) {
+      alert("At least one specialist is required");
+      return;
+    } else if (
+      !addDoctorData.experience ||
+      addDoctorData.experience.length === 0
+    ) {
+      alert("At least one experience is required");
+      return;
+    }
+    navigate("/mainPage/doctors");
     dispatch(addDoctors(addDoctorData));
   };
 
@@ -543,9 +612,9 @@ export const MainLayout = () => {
                       e.preventDefault();
                       handleAddHospitalFormSubmit();
                       setFormOpen(null);
-                      setActiveItem("Hospitals");
+                      // setActiveItem("Hospitals");
                       dispatch(getHospitalsList(searchQuery));
-                      navigate("/mainPage/hospitals");
+                      // navigate("/mainPage/hospitals");
                     }}
                   >
                     Save
@@ -801,7 +870,7 @@ export const MainLayout = () => {
                       setFormOpen(null);
                       // setActiveItem("Hospitals");
                       dispatch(getDoctorList(searchQuery));
-                      navigate("/mainPage/doctors");
+                      // navigate("/mainPage/doctors");
                     }}
                   >
                     Save

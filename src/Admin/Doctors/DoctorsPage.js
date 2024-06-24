@@ -15,6 +15,8 @@ import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import column from "../Doctors/DoctorsTableColumn";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const DoctorsPage = () => {
   const dispatch = useDispatch();
@@ -41,6 +43,7 @@ const DoctorsPage = () => {
 
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}

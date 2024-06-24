@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../httpRequest";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const initialState = {
   hospitalsList: [],
@@ -48,6 +50,7 @@ export const addHospitals = createAsyncThunk(
     try {
       const response = await api.post("/addHospitalDetails", data);
       console.log("Posted successfully", response.data);
+      toast.success(response.data.message);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -64,6 +67,7 @@ export const editHospitals = createAsyncThunk(
     try {
       const response = await api.put(`/UpdateHospitalDetails/${id}`, data);
       console.log("Updated Posted successfully", response.data);
+      toast.success(response.data.message);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

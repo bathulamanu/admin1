@@ -12,6 +12,7 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
@@ -20,6 +21,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ReactQuill from "react-quill";
 import facebook from "../assets/facebook.png";
@@ -44,7 +47,10 @@ import {
 } from "../globalFunctions";
 import SingleSelect from "../GlobalComponents/SingleSelect";
 import { getCityList } from "../Admin/Slices/globalSlice";
-import { handlePostHospital } from "../Admin/Slices/hospitalSlice";
+import {
+  addHospitals,
+  handlePostHospital,
+} from "../Admin/Slices/hospitalSlice";
 import mapIcon from "../assets/map.png";
 import api from "../httpRequest";
 
@@ -120,6 +126,7 @@ const HospitalAddForm = () => {
   );
 
   // console.log('hospitalDetail', hospitalDetails)
+  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     hospitalName: "",
     hospitalLogo: "",
@@ -161,6 +168,42 @@ const HospitalAddForm = () => {
       longitude: "",
     },
   });
+
+  const validateField = (name, value, updatedValues) => {
+    let tempErrors = { ...errors };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
+    switch (name) {
+      case "hospitalName":
+        tempErrors.hospitalName =
+          value.length >= 3
+            ? ""
+            : "Hospital name must be at least 3 characters .";
+        break;
+      case "email":
+        tempErrors.email = emailRegex.test(value)
+          ? ""
+          : "Invalid email address.";
+        break;
+      case "website":
+        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+        break;
+      case "phoneNumber":
+        tempErrors.phoneNumber =
+          value.length === 10 ? "" : "Phone number is required.";
+        break;
+      case "pincode":
+        tempErrors.pincode =
+          value.length === 6 ? "" : "Pincode must be 6 digits.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(tempErrors);
+  };
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -268,6 +311,7 @@ const HospitalAddForm = () => {
           temp[name] = value;
           break;
       }
+      validateField(name, value, temp);
       return temp;
     });
   };
@@ -354,6 +398,7 @@ const HospitalAddForm = () => {
         // padding: "8px",
       }}
     >
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -389,7 +434,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Hospital Name <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.hospitalName}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -400,6 +450,9 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "hospitalName")
                       }
                     />
+                    {!!errors.hospitalName && (
+                      <FormHelperText>{errors.hospitalName}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -422,7 +475,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Licence number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.LicenseNumber}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -433,6 +491,9 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "LicenseNumber")
                       }
                     />
+                    {!!errors.LicenseNumber && (
+                      <FormHelperText>{errors.LicenseNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -480,7 +541,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Email Address<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.email}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -489,6 +555,9 @@ const HospitalAddForm = () => {
                       value={formValues?.email}
                       onChange={(e) => handleChange(e.target.value, "email")}
                     />
+                    {!!errors.email && (
+                      <FormHelperText>{errors.email}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -497,7 +566,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Website URL<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.website}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -506,6 +580,9 @@ const HospitalAddForm = () => {
                       value={formValues?.website}
                       onChange={(e) => handleChange(e.target.value, "website")}
                     />
+                    {!!errors.website && (
+                      <FormHelperText>{errors.website}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -627,7 +704,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Pincode <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.pincode}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
@@ -637,6 +719,9 @@ const HospitalAddForm = () => {
                       value={formValues?.HospitalAddress?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
+                    {!!errors.pincode && (
+                      <FormHelperText>{errors.pincode}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
 
@@ -644,7 +729,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Phone number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.phoneNumber}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
@@ -656,12 +746,13 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "phoneNumber");
                       }}
                     />
+                    {!!errors.phoneNumber && (
+                      <FormHelperText>{errors.phoneNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Landline<span style={redStarStyle}>*</span>
-                  </InputLabel>
+                  <InputLabel sx={inputLableStyle}>Landline</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -676,9 +767,7 @@ const HospitalAddForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Fax Number<span style={redStarStyle}>*</span>
-                  </InputLabel>
+                  <InputLabel sx={inputLableStyle}>Fax Number</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
