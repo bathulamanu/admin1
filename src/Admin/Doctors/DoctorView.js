@@ -22,20 +22,21 @@ import stathoscope from "../../assets/stathoscope.png";
 import chat from "../../assets/chat.png";
 
 const DoctorView = () => {
-  const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  // console.log("doctorDetails", doctorDetail);
+  const doctorDetail = useSelector((state) => state.doctor.doctorDetail) || {};
+  console.log("doctorDetails", doctorDetail);
   const {
-    doctorFirstName,
-    doctorLastName,
-    doctorID,
-    specilizationInfo,
-    DOB,
-    IMRregisterID,
-    qualificationInfo,
-    experienceInfo,
-    doctorBio,
-    previousExperience,
+    doctorFirstName = "",
+    doctorLastName = "",
+    doctorID = "",
+    specilizationInfo = [],
+    DOB = "",
+    IMRregisterID = "",
+    qualificationInfo = [],
+    experienceInfo = {},
+    doctorBio = "",
+    previousExperience = [],
   } = doctorDetail;
+
   return (
     <Container
       disableGutters
@@ -65,7 +66,7 @@ const DoctorView = () => {
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
               <Box display={"flex"}>
-                <img src={doctorImage} height={200} width={200} />
+                <img src={doctorImage} height={200} width={200} alt="Doctor" />
                 <Card>
                   <CardContent sx={{ display: "flex", gap: 4 }}>
                     <Box display={"flex"} flexDirection={"column"} gap={3}>
@@ -90,8 +91,8 @@ const DoctorView = () => {
                           </Typography>{" "}
                           <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
-                            {specilizationInfo?.[0]?.value} ,{" "}
-                            {specilizationInfo?.[1]?.value}{" "}
+                            {specilizationInfo?.[0]?.value || ""} ,{" "}
+                            {specilizationInfo?.[1]?.value || ""}{" "}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={1}>
@@ -103,9 +104,9 @@ const DoctorView = () => {
                           </Typography>
                           <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
-                            {qualificationInfo?.[0]?.value}
+                            {qualificationInfo?.[0]?.value || ""}
                             {", "}
-                            {qualificationInfo?.[1]?.value}{" "}
+                            {qualificationInfo?.[1]?.value || ""}{" "}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={1}>
@@ -117,7 +118,7 @@ const DoctorView = () => {
                           </Typography>
                           <Typography variant="subtitle2">:</Typography>
                           <Typography variant="subtitle2">
-                            {formatToMMMYYYY(DOB)}
+                            {formatToMMMYYYY(DOB) || ""}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={1}>
@@ -141,7 +142,12 @@ const DoctorView = () => {
                       </Stack>
                       <Stack direction={"row"} spacing={3} alignItems={"start"}>
                         <Stack justifyContent={"start"}>
-                          <img src={stathoscope} height={24} width={24} />
+                          <img
+                            src={stathoscope}
+                            height={24}
+                            width={24}
+                            alt="Stethoscope"
+                          />
                         </Stack>
                         <Stack spacing={1}>
                           <Typography>
@@ -154,7 +160,7 @@ const DoctorView = () => {
                       </Stack>
                       <Stack direction={"row"} spacing={3} alignItems={"start"}>
                         <Stack justifyContent={"start"}>
-                          <img src={chat} height={24} width={24} />
+                          <img src={chat} height={24} width={24} alt="Chat" />
                         </Stack>
                         <Stack spacing={1}>
                           <Typography>
@@ -189,14 +195,20 @@ const DoctorView = () => {
             </Box>
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box>
-              {previousExperience?.map((item) => {
+              {previousExperience?.map((item, index) => {
                 // console.log("doctorsNamehgdfjsg", item);
                 return (
-                  <Box display={"flex"} justifyContent={"space-between"}>
+                  <Box
+                    key={index}
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                  >
                     <Box display={"flex"} gap={2}>
                       <Box>
                         <Avatar
-                          {...stringAvatar(item?.hospitalDetails?.hospitalName)}
+                          {...stringAvatar(
+                            item?.hospitalDetails?.hospitalName || ""
+                          )}
                           sx={{
                             width: 28,
                             height: 28,
@@ -212,62 +224,59 @@ const DoctorView = () => {
                         <Stack direction={"row"}>
                           <Typography variant="subtitle2">
                             {" "}
-                            {
-                              item?.hospitalDetails?.HospitalAddress
-                                ?.nearLandMark
-                            }
+                            {item?.hospitalDetails?.HospitalAddress
+                              ?.nearLandMark || ""}
                             ,{" "}
                           </Typography>
                           <Typography variant="subtitle2">
-                            {
-                              item?.hospitalDetails?.HospitalAddress
-                                ?.addressLine1
-                            }
+                            {item?.hospitalDetails?.HospitalAddress
+                              ?.addressLine1 || ""}
                           </Typography>
                           <Typography variant="subtitle2">
-                            {
-                              item?.hospitalDetails?.HospitalAddress
-                                ?.addressLine2
-                            }
+                            {item?.hospitalDetails?.HospitalAddress
+                              ?.addressLine2 || ""}
                           </Typography>
                         </Stack>
 
-                        {item?.specilizationInfo?.map((ele) => {
+                        {item?.specilizationInfo?.map((ele, i) => {
                           return (
-                            <Typography variant="subtitle2">
+                            <Typography key={i} variant="subtitle2">
                               {" "}
-                              {ele?.value}
-                              {" - "} {item?.employmentTypeInfo?.value}
+                              {ele?.value || ""}
+                              {" - "} {item?.employmentTypeInfo?.value || ""}
                             </Typography>
                           );
                         })}
                         <Stack direction={"row"}>
                           <Typography variant="subtitle2">
-                            {item?.LocationInfo?.cityName} -{" "}
-                            {item?.hospitalDetails?.HospitalAddress?.pincode},
+                            {item?.LocationInfo?.cityName || ""} -{" "}
+                            {item?.hospitalDetails?.HospitalAddress?.pincode ||
+                              ""}
+                            ,
                           </Typography>
 
                           <Typography variant="subtitle2">
-                            {item?.LocationInfo?.stateName} ,
+                            {item?.LocationInfo?.stateName || ""} ,
                           </Typography>
 
                           <Typography variant="subtitle2">
-                            {item?.LocationInfo?.countryName}
+                            {item?.LocationInfo?.countryName || ""}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={1}>
                           <Typography variant="subtitle2">
                             {" "}
                             Phone No.{" "}
-                            {item?.hospitalDetails?.contact?.phoneNumber}
+                            {item?.hospitalDetails?.contact?.phoneNumber || ""}
                           </Typography>
                           <Typography variant="subtitle2">
-                            Landline {item?.hospitalDetails?.contact?.landLine}
+                            Landline{" "}
+                            {item?.hospitalDetails?.contact?.landLine || ""}
                           </Typography>
                         </Stack>
                         <Stack>
                           <Typography variant="subtitle2">
-                            Fax No. {item?.hospitalDetails?.faxNumber}
+                            Fax No. {item?.hospitalDetails?.faxNumber || ""}
                           </Typography>
                         </Stack>
                       </Box>
@@ -275,15 +284,15 @@ const DoctorView = () => {
                     <Box>
                       <Stack direction={"row"} spacing={1}>
                         <Typography variant="subtitle2">
-                          {formatToMMMYYYY(item?.startDate)}
+                          {formatToMMMYYYY(item?.startDate) || ""}
                         </Typography>
                         <Typography variant="subtitle2">-</Typography>
                         <Typography variant="subtitle2">
-                          {formatToMMMYYYY(item?.endDate)},
+                          {formatToMMMYYYY(item?.endDate) || ""},
                         </Typography>
 
                         <Typography variant="subtitle2">
-                          {item?.experienceInfo?.value}
+                          {item?.experienceInfo?.value || ""}
                         </Typography>
                       </Stack>
                     </Box>

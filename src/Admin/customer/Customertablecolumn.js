@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import { getCustomerDetails } from "../Slices/customerSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -31,7 +32,11 @@ const CustomerTableColumn = () => {
       sortable: true,
       disableColumnFilter: true,
       disableColumnMenu: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
+      valueGetter: (_, row) => {
+        const firstName = capitalizeFirstLetter(row?.firstName);
+        const lastName = capitalizeFirstLetter(row?.lastName);
+        return `${firstName} ${lastName}`;
+      },
     },
     {
       field: "RegDate",
@@ -45,7 +50,7 @@ const CustomerTableColumn = () => {
       disableColumnMenu: true,
       sortable: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.RegDate),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.registrationCRNid),
     },
     {
       field: "crnNo",
@@ -59,7 +64,7 @@ const CustomerTableColumn = () => {
       disableColumnMenu: true,
       sortable: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.registrationCRNid),
     },
     {
       field: "contact",
@@ -73,7 +78,7 @@ const CustomerTableColumn = () => {
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => row?.contact?.phoneNumber,
+      valueGetter: (_, row) => row?.phoneNumber,
     },
     {
       field: "location",
@@ -87,8 +92,7 @@ const CustomerTableColumn = () => {
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) =>
-        capitalizeFirstLetter(row?.LocationInfo?.cityName),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.cityName),
     },
     {
       field: "action",
@@ -109,7 +113,7 @@ const CustomerTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              //   dispatch(getHospitalDetails(params?.row?.id));
+              // dispatch(getCustomerDetails(params?.row?.id));
               navigate("/customerPage/customers/allDetails");
             }}
           >

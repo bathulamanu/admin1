@@ -24,6 +24,20 @@ export const getCustomersList = createAsyncThunk(
   }
 );
 
+export const getCustomerDetails = createAsyncThunk(
+  "getCustomerDetails",
+  async (id, thunkAPI) => {
+    try {
+      const response = await adminapi.get(`getEachHospitalDetails/${id}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const customerSlice = createSlice({
   name: "customers",
   initialState,
@@ -37,6 +51,18 @@ const customerSlice = createSlice({
       state.customersList = action.payload.data;
     });
     builder.addCase(getCustomersList.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getCustomerDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getCustomerDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      // console.log("jksakgujcfjdhbk", action.payload);
+      state.customerDetail = action?.payload?.data;
+    });
+    builder.addCase(getCustomerDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
