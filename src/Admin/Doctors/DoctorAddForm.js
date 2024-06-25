@@ -176,6 +176,9 @@ const DoctorAddForm = () => {
   const validateField = (name, value, updatedValues) => {
     let tempErrors = { ...errors };
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
     switch (name) {
       case "doctorFirstName":
         tempErrors.doctorFirstName =
@@ -199,6 +202,22 @@ const DoctorAddForm = () => {
         break;
       case "experience":
         tempErrors.experience = value ? "" : "Experience is required.";
+        break;
+      case "email":
+        tempErrors.email = emailRegex.test(value)
+          ? ""
+          : "Invalid email address.";
+        break;
+      case "website":
+        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+        break;
+      case "phoneNumber":
+        tempErrors.phoneNumber =
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
+        break;
+      case "pincode":
+        tempErrors.pincode =
+          value.length === 6 ? "" : "Pincode must be 6 digits.";
         break;
       default:
         break;
@@ -585,7 +604,12 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Phone number</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.phoneNumber}
+                  >
                     <OutlinedInput
                       name="phoneNumber"
                       fullWidth
@@ -597,11 +621,19 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "phoneNumber")
                       }
                     />
+                    {!!errors.phoneNumber && (
+                      <FormHelperText>{errors.phoneNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Email Address</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.email}
+                  >
                     <OutlinedInput
                       fullWidth
                       name="email"
@@ -611,6 +643,9 @@ const DoctorAddForm = () => {
                       placeholder="email"
                       size="small"
                     />
+                    {!!errors.email && (
+                      <FormHelperText>{errors.email}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -1044,7 +1079,12 @@ const DoctorAddForm = () => {
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.website}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -1055,6 +1095,9 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "OtherLink1");
                       }}
                     />
+                    {!!errors.website && (
+                      <FormHelperText>{errors.website}</FormHelperText>
+                    )}
                   </FormControl>
                 </Stack>
                 {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>

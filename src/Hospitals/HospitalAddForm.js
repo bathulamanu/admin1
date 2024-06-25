@@ -192,7 +192,7 @@ const HospitalAddForm = () => {
         break;
       case "phoneNumber":
         tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number is required.";
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
         break;
       case "pincode":
         tempErrors.pincode =
