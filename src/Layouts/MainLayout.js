@@ -139,43 +139,43 @@ export const MainLayout = () => {
 
   const handleAddHospitalFormSubmit = () => {
     if (!addHospitalData.hospitalName.trim()) {
-      alert("Hospital Name is required");
+      toast.error("Hospital Name is required");
       return;
     } else if (
       !addHospitalData.specialist ||
       addHospitalData.specialist.length === 0
     ) {
-      alert("At least one Specialist is required");
+      toast.error("At least one Specialist is required");
       return;
     } else if (!addHospitalData.LicenseNumber.trim()) {
-      alert("License Number is required");
+      toast.error("License Number is required");
       return;
     } else if (!addHospitalData.validity.from) {
-      alert("Validity start date is required");
+      toast.error("Validity start date is required");
       return;
     } else if (!addHospitalData.validity.to) {
-      alert("Validity end date is required");
+      toast.error("Validity end date is required");
       return;
     } else if (!addHospitalData.email.trim()) {
-      alert("Email is required");
+      toast.error("Email is required");
       return;
     } else if (!addHospitalData.contact.phoneNumber.trim()) {
-      alert("Phone Number is required");
+      toast.error("Phone Number is required");
       return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-      alert("Address Line 1 is required");
+      toast.error("Address Line 1 is required");
       return;
     } else if (!addHospitalData.HospitalAddress.country) {
-      alert("Country is required");
+      toast.error("Country is required");
       return;
     } else if (!addHospitalData.HospitalAddress.state.trim()) {
-      alert("State is required");
+      toast.error("State is required");
       return;
     } else if (!addHospitalData.HospitalAddress.city.trim()) {
-      alert("City is required");
+      toast.error("City is required");
       return;
     } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
-      alert("Pincode is required");
+      toast.error("Pincode is required");
       return;
     }
     navigate("/mainPage/hospitals");
@@ -188,28 +188,28 @@ export const MainLayout = () => {
 
   const handleAddDoctorFormSubmit = () => {
     if (!addDoctorData.doctorFirstName) {
-      alert("doctor's Name is required");
+      toast.error("doctor's Name is required");
       return;
     } else if (!addDoctorData.doctorID.trim()) {
-      alert("doctor's ID is required");
+      toast.error("doctor's ID is required");
       return;
     } else if (
       !addDoctorData.qualification ||
       addDoctorData.qualification.length === 0
     ) {
-      alert("At least one qualification is required");
+      toast.error("At least one qualification is required");
       return;
     } else if (
       !addDoctorData.specialist ||
       addDoctorData.specialist.length === 0
     ) {
-      alert("At least one specialist is required");
+      toast.error("At least one specialist is required");
       return;
     } else if (
       !addDoctorData.experience ||
       addDoctorData.experience.length === 0
     ) {
-      alert("At least one experience is required");
+      toast.error("At least one experience is required");
       return;
     }
     navigate("/mainPage/doctors");
@@ -245,8 +245,6 @@ export const MainLayout = () => {
       [name]: value,
     }));
   };
-  console.log("formvalues", formValues);
-
   const handleSave = async () => {
     console.log("formvalues", formValues);
     try {
@@ -883,7 +881,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleAddDoctorFormSubmit();
-                      setFormOpen(null);
+                      // setFormOpen(null);
                       // setActiveItem("Hospitals");
                       dispatch(getDoctorList(searchQuery));
                       // navigate("/mainPage/doctors");

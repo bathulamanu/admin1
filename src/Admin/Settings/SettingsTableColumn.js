@@ -12,7 +12,7 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,7 +20,7 @@ import SingleSelect from "../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "../../httpRequest";
-import { getSpecialization } from "../Slices/globalSlice";
+import { getQualification, getSpecialization } from "../Slices/globalSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -43,12 +43,20 @@ const SettingsTableColumn = () => {
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
+  const [searchQuery, setSearchQuery] = useState(null);
   const [openEdit, setOpenEdit] = useState(false);
   const [formValues, setFormValues] = useState({
     title: activeTitle,
     value: "",
-    status: "",
+    IsActive: "",
   });
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      title: activeTitle,
+    }));
+  }, [activeTitle]);
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -62,7 +70,7 @@ const SettingsTableColumn = () => {
     setFormValues({
       title: activeTitle,
       value: params.row.value,
-      status: params.row.status,
+      IsActive: params.row.status,
     });
     setOpenEdit(true);
   };
@@ -74,7 +82,8 @@ const SettingsTableColumn = () => {
         formValues
       );
       console.log("Updated successfully", response.data);
-      dispatch(getSpecialization(null));
+      dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
       setOpenEdit(!openEdit);
     } catch (error) {
       console.log(error);
@@ -194,12 +203,12 @@ const SettingsTableColumn = () => {
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
-                          value={formValues?.status}
+                          value={formValues?.IsActive}
                           data={[
-                            { id: true, name: "Active" },
-                            { id: false, name: "InActive" },
+                            { id: "47", name: "Active" },
+                            { id: "48", name: "InActive" },
                           ]}
-                          onChange={(e) => handleOnChange(e, "status")}
+                          onChange={(e) => handleOnChange(e, "IsActive")}
                         />
                       </Grid>
                     </Grid>

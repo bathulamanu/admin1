@@ -22,6 +22,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CommonSelect from "../../GlobalComponents/CommonSelect";
 import facebook from "../../assets/facebook.png";
 import instagram from "../../assets/instagram.png";
@@ -371,6 +373,7 @@ const DoctorAddForm = () => {
         padding: "8px",
       }}
     >
+      <ToastContainer />
       <Box
         display={"flex"}
         alignItems={"center"}
