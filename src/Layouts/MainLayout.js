@@ -45,6 +45,7 @@ import {
   getEmploymentType,
   getExperienceList,
   getGenderList,
+  getQualification,
   getSpecialization,
   getStateList,
 } from "../Admin/Slices/globalSlice";
@@ -227,8 +228,15 @@ export const MainLayout = () => {
   const [formValues, setFormValues] = useState({
     title: activeTitle,
     value: "",
-    status: "",
+    IsActive: "",
   });
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      title: activeTitle,
+    }));
+  }, [activeTitle]);
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -237,13 +245,21 @@ export const MainLayout = () => {
       [name]: value,
     }));
   };
+  console.log("formvalues", formValues);
+
   const handleSave = async () => {
     console.log("formvalues", formValues);
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
       console.log("Posted successfully", response.data);
       dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
       setOpenSpecialization(!openSpecialization);
+      setFormValues({
+        title: activeItem,
+        value: "",
+        IsActive: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -1031,12 +1047,12 @@ export const MainLayout = () => {
                             <SingleSelect
                               placeholder={"Select"}
                               width={"100%"}
-                              value={formValues?.status}
+                              value={formValues?.IsActive}
                               data={[
-                                { id: true, name: "Active" },
-                                { id: false, name: "InActive" },
+                                { id: "47", name: "Active" },
+                                { id: "48", name: "InActive" },
                               ]}
-                              onChange={(e) => handleOnChange(e, "status")}
+                              onChange={(e) => handleOnChange(e, "IsActive")}
                             />
                           </Grid>
                         </Grid>
