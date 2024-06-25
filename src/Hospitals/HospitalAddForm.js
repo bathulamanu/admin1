@@ -192,7 +192,7 @@ const HospitalAddForm = () => {
         break;
       case "phoneNumber":
         tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number is required.";
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
         break;
       case "pincode":
         tempErrors.pincode =
@@ -398,7 +398,18 @@ const HospitalAddForm = () => {
         // padding: "8px",
       }}
     >
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Box
         display={"flex"}
         justifyContent={"space-between"}

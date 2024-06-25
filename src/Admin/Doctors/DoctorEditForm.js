@@ -70,7 +70,27 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const DoctorAddForm = () => {
+function deepCopyFormValues(doctorDetail, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === "object") {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]];
+        } else {
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
+        }
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, doctorDetail);
+  return copiedFormValue;
+}
+
+const DoctorEditForm = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const getSpecializationList = useSelector(
@@ -176,9 +196,6 @@ const DoctorAddForm = () => {
   const validateField = (name, value, updatedValues) => {
     let tempErrors = { ...errors };
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-
     switch (name) {
       case "doctorFirstName":
         tempErrors.doctorFirstName =
@@ -202,22 +219,6 @@ const DoctorAddForm = () => {
         break;
       case "experience":
         tempErrors.experience = value ? "" : "Experience is required.";
-        break;
-      case "email":
-        tempErrors.email = emailRegex.test(value)
-          ? ""
-          : "Invalid email address.";
-        break;
-      case "website":
-        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-        break;
-      case "phoneNumber":
-        tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number must be 10 digits.";
-        break;
-      case "pincode":
-        tempErrors.pincode =
-          value.length === 6 ? "" : "Pincode must be 6 digits.";
         break;
       default:
         break;
@@ -381,6 +382,19 @@ const DoctorAddForm = () => {
   }, [formValues]);
   console.log("formvalues", formValues);
 
+  const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
+  // console.log("doctorDetails", doctorDetail);
+  const updatedFormValues = deepCopyFormValues(doctorDetail, formValues);
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }));
+  }, [doctorDetail]);
+
+  console.log("doctorDetail", doctorDetail);
+
   return (
     <Container
       maxWidth="xxl"
@@ -392,18 +406,7 @@ const DoctorAddForm = () => {
         padding: "8px",
       }}
     >
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer />
       <Box
         display={"flex"}
         alignItems={"center"}
@@ -604,12 +607,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Phone number</InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    error={!!errors.phoneNumber}
-                  >
+                  <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       name="phoneNumber"
                       fullWidth
@@ -621,19 +619,11 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "phoneNumber")
                       }
                     />
-                    {!!errors.phoneNumber && (
-                      <FormHelperText>{errors.phoneNumber}</FormHelperText>
-                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Email Address</InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    error={!!errors.email}
-                  >
+                  <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
                       name="email"
@@ -643,9 +633,6 @@ const DoctorAddForm = () => {
                       placeholder="email"
                       size="small"
                     />
-                    {!!errors.email && (
-                      <FormHelperText>{errors.email}</FormHelperText>
-                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -1079,12 +1066,7 @@ const DoctorAddForm = () => {
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
-                  <FormControl
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    error={!!errors.website}
-                  >
+                  <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -1095,9 +1077,6 @@ const DoctorAddForm = () => {
                         handleOnChange(e.target.value, "OtherLink1");
                       }}
                     />
-                    {!!errors.website && (
-                      <FormHelperText>{errors.website}</FormHelperText>
-                    )}
                   </FormControl>
                 </Stack>
                 {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>
@@ -1124,4 +1103,4 @@ const DoctorAddForm = () => {
   );
 };
 
-export default DoctorAddForm;
+export default DoctorEditForm;

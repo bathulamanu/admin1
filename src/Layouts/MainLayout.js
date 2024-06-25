@@ -45,6 +45,7 @@ import {
   getEmploymentType,
   getExperienceList,
   getGenderList,
+  getQualification,
   getSpecialization,
   getStateList,
 } from "../Admin/Slices/globalSlice";
@@ -138,43 +139,43 @@ export const MainLayout = () => {
 
   const handleAddHospitalFormSubmit = () => {
     if (!addHospitalData.hospitalName.trim()) {
-      alert("Hospital Name is required");
+      toast.warning("Hospital Name is required");
       return;
     } else if (
       !addHospitalData.specialist ||
       addHospitalData.specialist.length === 0
     ) {
-      alert("At least one Specialist is required");
+      toast.warning("At least one Specialist is required");
       return;
     } else if (!addHospitalData.LicenseNumber.trim()) {
-      alert("License Number is required");
+      toast.warning("License Number is required");
       return;
     } else if (!addHospitalData.validity.from) {
-      alert("Validity start date is required");
+      toast.warning("Validity start date is required");
       return;
     } else if (!addHospitalData.validity.to) {
-      alert("Validity end date is required");
+      toast.warning("Validity end date is required");
       return;
     } else if (!addHospitalData.email.trim()) {
-      alert("Email is required");
+      toast.warning("Email is required");
       return;
     } else if (!addHospitalData.contact.phoneNumber.trim()) {
-      alert("Phone Number is required");
+      toast.warning("Phone Number is required");
       return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-      alert("Address Line 1 is required");
+      toast.warning("Address Line 1 is required");
       return;
     } else if (!addHospitalData.HospitalAddress.country) {
-      alert("Country is required");
+      toast.warning("Country is required");
       return;
     } else if (!addHospitalData.HospitalAddress.state.trim()) {
-      alert("State is required");
+      toast.warning("State is required");
       return;
     } else if (!addHospitalData.HospitalAddress.city.trim()) {
-      alert("City is required");
+      toast.warning("City is required");
       return;
     } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
-      alert("Pincode is required");
+      toast.warning("Pincode is required");
       return;
     }
     navigate("/mainPage/hospitals");
@@ -187,28 +188,28 @@ export const MainLayout = () => {
 
   const handleAddDoctorFormSubmit = () => {
     if (!addDoctorData.doctorFirstName) {
-      alert("doctor's Name is required");
+      toast.warning("doctor's Name is required");
       return;
     } else if (!addDoctorData.doctorID.trim()) {
-      alert("doctor's ID is required");
+      toast.warning("doctor's ID is required");
       return;
     } else if (
       !addDoctorData.qualification ||
       addDoctorData.qualification.length === 0
     ) {
-      alert("At least one qualification is required");
+      toast.warning("At least one qualification is required");
       return;
     } else if (
       !addDoctorData.specialist ||
       addDoctorData.specialist.length === 0
     ) {
-      alert("At least one specialist is required");
+      toast.warning("At least one specialist is required");
       return;
     } else if (
       !addDoctorData.experience ||
       addDoctorData.experience.length === 0
     ) {
-      alert("At least one experience is required");
+      toast.warning("At least one experience is required");
       return;
     }
     navigate("/mainPage/doctors");
@@ -227,8 +228,15 @@ export const MainLayout = () => {
   const [formValues, setFormValues] = useState({
     title: activeTitle,
     value: "",
-    status: "",
+    IsActive: "",
   });
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      title: activeTitle,
+    }));
+  }, [activeTitle]);
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -241,9 +249,16 @@ export const MainLayout = () => {
     console.log("formvalues", formValues);
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
-      console.log("Posted successfully", response.data);
+      // console.log("Posted successfully", response.data);
+      toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
       setOpenSpecialization(!openSpecialization);
+      setFormValues({
+        title: activeItem,
+        value: "",
+        IsActive: "",
+      });
     } catch (error) {
       console.log(error);
     }
@@ -867,7 +882,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleAddDoctorFormSubmit();
-                      setFormOpen(null);
+                      // setFormOpen(null);
                       // setActiveItem("Hospitals");
                       dispatch(getDoctorList(searchQuery));
                       // navigate("/mainPage/doctors");
@@ -937,15 +952,87 @@ export const MainLayout = () => {
                     size="small"
                     onClick={(e) => {
                       e.preventDefault();
-                      setFormOpen("Hospitals");
+                      // setFormOpen("Hospitals");
                       dispatch(getDoctorDetail(searchQuery));
-                      navigate("/mainPage/doctorForm");
+                      navigate("/mainPage/doctors/edit");
                     }}
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
                   <Button variant="outlined" size="small" disabled>
                     <DeleteIcon fontSize="small" /> Delete
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/doctors/edit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddDoctorFormSubmit();
+                      // setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      // navigate("/mainPage/doctors");
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    Cancel
                   </Button>
                 </Stack>
               </Stack>
@@ -1031,12 +1118,12 @@ export const MainLayout = () => {
                             <SingleSelect
                               placeholder={"Select"}
                               width={"100%"}
-                              value={formValues?.status}
+                              value={formValues?.IsActive}
                               data={[
-                                { id: true, name: "Active" },
-                                { id: false, name: "InActive" },
+                                { id: "47", name: "Active" },
+                                { id: "48", name: "InActive" },
                               ]}
-                              onChange={(e) => handleOnChange(e, "status")}
+                              onChange={(e) => handleOnChange(e, "IsActive")}
                             />
                           </Grid>
                         </Grid>

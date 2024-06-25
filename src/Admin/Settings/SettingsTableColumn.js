@@ -12,7 +12,9 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -20,7 +22,7 @@ import SingleSelect from "../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "../../httpRequest";
-import { getSpecialization } from "../Slices/globalSlice";
+import { getQualification, getSpecialization } from "../Slices/globalSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -40,6 +42,7 @@ const redStarStyle = {
 };
 const SettingsTableColumn = () => {
   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState(null);
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
@@ -49,7 +52,12 @@ const SettingsTableColumn = () => {
     value: "",
     status: "",
   });
-
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      title: activeTitle,
+    }));
+  }, [activeTitle]);
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => ({
@@ -73,9 +81,25 @@ const SettingsTableColumn = () => {
         `/UpdateMasterConfiguration/${params}`,
         formValues
       );
-      console.log("Updated successfully", response.data);
-      dispatch(getSpecialization(null));
+      toast.success(response.data.message);
+      dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
       setOpenEdit(!openEdit);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (params) => {
+    // console.log("formvalues", formValues);
+    try {
+      const response = await api.delete(
+        `/deleteMasterConfiguration/${params}`,
+        formValues
+      );
+      toast.success(response.data.message);
+      dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
     } catch (error) {
       console.log(error);
     }
@@ -219,7 +243,11 @@ const SettingsTableColumn = () => {
                 </Box>
               </DialogContent>
             </Dialog>
-            <Button variant="outlined" size="small" disabled>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleDelete(params?.row?.masterConfigurationID)}
+            >
               <DeleteIcon fontSize="small" /> Delete
             </Button>
           </Stack>
