@@ -1120,8 +1120,8 @@ export const MainLayout = () => {
                               width={"100%"}
                               value={formValues?.IsActive}
                               data={[
-                                { id: "47", name: "Active" },
-                                { id: "48", name: "InActive" },
+                                { id: 47, name: "Active" },
+                                { id: 48, name: "InActive" },
                               ]}
                               onChange={(e) => handleOnChange(e, "IsActive")}
                             />

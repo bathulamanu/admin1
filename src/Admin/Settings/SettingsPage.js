@@ -23,6 +23,7 @@ import { getSpecialization } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import SettingsBrandDataTable from "./SettingsBrandDataTable";
 import settingBrandColumns from "./SettingBrandTableColumn";
+import { getByIdList, getQualificationIdList } from "../../globalFunctions";
 
 const SettingsPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
@@ -38,6 +39,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getSpecialization(null));
   }, [dispatch]);
+  const specialiList = getByIdList(specializationList);
   // console.log("specializationList", specializationList);
 
   const qualificationList = useSelector(
@@ -46,6 +48,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getQualification(null));
   }, [dispatch]);
+  const getQualif = getQualificationIdList(qualificationList);
   // console.log("getQualification", qualificationList);
 
   const brandList = useSelector((state) => state.hospitals.hospitalsList);
@@ -103,8 +106,20 @@ const SettingsPage = () => {
               }
             />
           </FormControl>
-          <CommonSelect Placeholder={"Specialist"} />
-          <CommonSelect Placeholder={"Status"} />
+          <Stack>
+            {activeTitle === "Specialization" ? (
+              <CommonSelect Placeholder={"Specialition"} data={specialiList} />
+            ) : activeTitle === "Doctor Qualification" ? (
+              <CommonSelect Placeholder={"Qualification"} data={getQualif} />
+            ) : null}
+          </Stack>
+          <CommonSelect
+            Placeholder={"Status"}
+            data={[
+              { id: true, name: "Active" },
+              { id: false, name: "InActive" },
+            ]}
+          />
           <MoreVertIcon />
         </Stack>
       </Box>
