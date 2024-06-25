@@ -9,6 +9,8 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useSelector } from "react-redux";
@@ -50,6 +52,7 @@ const DoctorView = () => {
         gap: 4,
       }}
     >
+      <ToastContainer />
       <Box>
         <Card justifyContent={"space-between"}>
           <CardContent

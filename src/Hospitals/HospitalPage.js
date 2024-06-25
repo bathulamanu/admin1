@@ -16,6 +16,8 @@ import CommonSelect from "../GlobalComponents/CommonSelect";
 import { getHospitalsList } from "../Admin/Slices/hospitalSlice";
 import { getCountryList } from "../Admin/Slices/globalSlice";
 import hospitalColumns from "../Hospitals/HospitalTableColumn";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const HospitalPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
@@ -42,6 +44,7 @@ const HospitalPage = () => {
   ];
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
