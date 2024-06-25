@@ -858,7 +858,12 @@ const DoctorEditForm = () => {
                 </Stack>
                 <Stack alignItems={"center"}>
                   <img
-                    src={formValues.doctorProfile || doctorImg}
+                    src={
+                      formValues.doctorProfile
+                        ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.doctorProfile}`
+                        : doctorImg
+                    }
+                    alt="doctorProfile"
                     height={"auto"}
                     width={"150px"}
                   />

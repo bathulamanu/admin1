@@ -40,24 +40,22 @@ const redStarStyle = {
 };
 const SettingsTableColumn = () => {
   const dispatch = useDispatch();
+  const [searchQuery, setSearchQuery] = useState(null);
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
-  const [searchQuery, setSearchQuery] = useState(null);
   const [openEdit, setOpenEdit] = useState(false);
   const [formValues, setFormValues] = useState({
     title: activeTitle,
     value: "",
-    IsActive: "",
+    status: "",
   });
-
   useEffect(() => {
     setFormValues((prev) => ({
       ...prev,
       title: activeTitle,
     }));
   }, [activeTitle]);
-
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => ({
@@ -70,7 +68,7 @@ const SettingsTableColumn = () => {
     setFormValues({
       title: activeTitle,
       value: params.row.value,
-      IsActive: params.row.status,
+      status: params.row.status,
     });
     setOpenEdit(true);
   };
@@ -203,12 +201,12 @@ const SettingsTableColumn = () => {
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
-                          value={formValues?.IsActive}
+                          value={formValues?.status}
                           data={[
-                            { id: "47", name: "Active" },
-                            { id: "48", name: "InActive" },
+                            { id: true, name: "Active" },
+                            { id: false, name: "InActive" },
                           ]}
-                          onChange={(e) => handleOnChange(e, "IsActive")}
+                          onChange={(e) => handleOnChange(e, "status")}
                         />
                       </Grid>
                     </Grid>
