@@ -139,43 +139,43 @@ export const MainLayout = () => {
 
   const handleAddHospitalFormSubmit = () => {
     if (!addHospitalData.hospitalName.trim()) {
-      toast.error("Hospital Name is required");
+      toast.warning("Hospital Name is required");
       return;
     } else if (
       !addHospitalData.specialist ||
       addHospitalData.specialist.length === 0
     ) {
-      toast.error("At least one Specialist is required");
+      toast.warning("At least one Specialist is required");
       return;
     } else if (!addHospitalData.LicenseNumber.trim()) {
-      toast.error("License Number is required");
+      toast.warning("License Number is required");
       return;
     } else if (!addHospitalData.validity.from) {
-      toast.error("Validity start date is required");
+      toast.warning("Validity start date is required");
       return;
     } else if (!addHospitalData.validity.to) {
-      toast.error("Validity end date is required");
+      toast.warning("Validity end date is required");
       return;
     } else if (!addHospitalData.email.trim()) {
-      toast.error("Email is required");
+      toast.warning("Email is required");
       return;
     } else if (!addHospitalData.contact.phoneNumber.trim()) {
-      toast.error("Phone Number is required");
+      toast.warning("Phone Number is required");
       return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-      toast.error("Address Line 1 is required");
+      toast.warning("Address Line 1 is required");
       return;
     } else if (!addHospitalData.HospitalAddress.country) {
-      toast.error("Country is required");
+      toast.warning("Country is required");
       return;
     } else if (!addHospitalData.HospitalAddress.state.trim()) {
-      toast.error("State is required");
+      toast.warning("State is required");
       return;
     } else if (!addHospitalData.HospitalAddress.city.trim()) {
-      toast.error("City is required");
+      toast.warning("City is required");
       return;
     } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
-      toast.error("Pincode is required");
+      toast.warning("Pincode is required");
       return;
     }
     navigate("/mainPage/hospitals");
@@ -188,28 +188,28 @@ export const MainLayout = () => {
 
   const handleAddDoctorFormSubmit = () => {
     if (!addDoctorData.doctorFirstName) {
-      toast.error("doctor's Name is required");
+      toast.warning("doctor's Name is required");
       return;
     } else if (!addDoctorData.doctorID.trim()) {
-      toast.error("doctor's ID is required");
+      toast.warning("doctor's ID is required");
       return;
     } else if (
       !addDoctorData.qualification ||
       addDoctorData.qualification.length === 0
     ) {
-      toast.error("At least one qualification is required");
+      toast.warning("At least one qualification is required");
       return;
     } else if (
       !addDoctorData.specialist ||
       addDoctorData.specialist.length === 0
     ) {
-      toast.error("At least one specialist is required");
+      toast.warning("At least one specialist is required");
       return;
     } else if (
       !addDoctorData.experience ||
       addDoctorData.experience.length === 0
     ) {
-      toast.error("At least one experience is required");
+      toast.warning("At least one experience is required");
       return;
     }
     navigate("/mainPage/doctors");
@@ -249,7 +249,8 @@ export const MainLayout = () => {
     console.log("formvalues", formValues);
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
-      console.log("Posted successfully", response.data);
+      // console.log("Posted successfully", response.data);
+      toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
       setOpenSpecialization(!openSpecialization);

@@ -373,7 +373,18 @@ const DoctorAddForm = () => {
         padding: "8px",
       }}
     >
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Box
         display={"flex"}
         alignItems={"center"}

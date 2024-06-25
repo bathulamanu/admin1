@@ -9,7 +9,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
@@ -19,6 +20,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { setActiveTitle } from "../Slices/settingLayoutSlice";
 import { getQualification } from "../Slices/globalSlice";
 import { getSpecialization } from "../Slices/globalSlice";
+import { getHospitalsList } from "../Slices/hospitalSlice";
+import SettingsBrandDataTable from "./SettingsBrandDataTable";
+import settingBrandColumns from "./SettingBrandTableColumn";
 
 const SettingsPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
@@ -34,7 +38,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getSpecialization(null));
   }, [dispatch]);
-  console.log("specializationList", specializationList);
+  // console.log("specializationList", specializationList);
 
   const qualificationList = useSelector(
     (state) => state.global.qualificationList
@@ -42,13 +46,21 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getQualification(null));
   }, [dispatch]);
-  console.log("getQualification", qualificationList);
+  // console.log("getQualification", qualificationList);
+
+  const brandList = useSelector((state) => state.hospitals.hospitalsList);
+  useEffect(() => {
+    dispatch(getHospitalsList(null));
+  }, [dispatch]);
+  // console.log("brandList", brandList);
 
   useEffect(() => {
     if (activeTitle === "Specialization") {
       dispatch(getSpecialization(searchQuery));
     } else if (activeTitle === "Qualification") {
       dispatch(getQualification(searchQuery));
+    } else if (activeTitle === "Brands") {
+      dispatch(getHospitalsList(searchQuery));
     }
   }, [dispatch, activeTitle]);
 
@@ -61,12 +73,15 @@ const SettingsPage = () => {
       return specializationList || [];
     } else if (activeTitle === "Doctor Qualification") {
       return qualificationList || [];
+    } else if (activeTitle === "Brands") {
+      return brandList || [];
     }
     return [];
   };
 
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -120,8 +135,28 @@ const SettingsPage = () => {
             Qualification
           </Button>
         </Stack>
+        {/* <Stack>
+          <Button
+            variant={activeButton === 2 ? "contained" : "outlined"}
+            sx={{
+              border: "none",
+              backgroundColor: activeButton === 2 ? "#1976d2" : "#e0e0e0",
+              color: activeButton === 2 ? "#fff" : "#000",
+            }}
+            onClick={() => handleButtonClick("Brands", 2)}
+          >
+            Brands
+          </Button>
+        </Stack> */}
       </Box>
+      {/* {activeTitle === "Brands" ? (
+        <SettingsBrandDataTable
+          rows={getRows()}
+          columns={settingBrandColumns()}
+        />
+      ) : ( */}
       <SettingsDataTable rows={getRows()} columns={settingColumns()} />
+      {/* )} */}
     </Container>
   );
 };

@@ -12,6 +12,8 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import { capitalizeFirstLetter } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
@@ -79,10 +81,25 @@ const SettingsTableColumn = () => {
         `/UpdateMasterConfiguration/${params}`,
         formValues
       );
-      console.log("Updated successfully", response.data);
+      toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
       setOpenEdit(!openEdit);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (params) => {
+    // console.log("formvalues", formValues);
+    try {
+      const response = await api.delete(
+        `/deleteMasterConfiguration/${params}`,
+        formValues
+      );
+      toast.success(response.data.message);
+      dispatch(getSpecialization(searchQuery));
+      dispatch(getQualification(searchQuery));
     } catch (error) {
       console.log(error);
     }
@@ -226,7 +243,11 @@ const SettingsTableColumn = () => {
                 </Box>
               </DialogContent>
             </Dialog>
-            <Button variant="outlined" size="small" disabled>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleDelete(params?.row?.masterConfigurationID)}
+            >
               <DeleteIcon fontSize="small" /> Delete
             </Button>
           </Stack>
