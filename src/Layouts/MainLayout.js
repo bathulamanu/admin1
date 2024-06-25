@@ -951,15 +951,87 @@ export const MainLayout = () => {
                     size="small"
                     onClick={(e) => {
                       e.preventDefault();
-                      setFormOpen("Hospitals");
+                      // setFormOpen("Hospitals");
                       dispatch(getDoctorDetail(searchQuery));
-                      navigate("/mainPage/doctorForm");
+                      navigate("/mainPage/doctors/edit");
                     }}
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
                   <Button variant="outlined" size="small" disabled>
                     <DeleteIcon fontSize="small" /> Delete
+                  </Button>
+                </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/mainPage/doctors/edit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Hospital Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    startIcon={<SaveAltIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddDoctorFormSubmit();
+                      // setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      // navigate("/mainPage/doctors");
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      navigate("/mainPage/doctors");
+                    }}
+                  >
+                    Cancel
                   </Button>
                 </Stack>
               </Stack>

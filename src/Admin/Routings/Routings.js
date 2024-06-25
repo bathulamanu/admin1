@@ -29,6 +29,7 @@ import CustomerSettingsPage from "../customer/settings/SettingsPage";
 import BabyDetailsFormData from "../customer/babyDetails/BabyDetailsFormData";
 import CustomerDashboard from "../customer/dashboard/Dashboard";
 import HospitalEditForm from "../../Hospitals/HospitalEditForm";
+import DoctorEditForm from "../Doctors/DoctorEditForm";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -50,6 +51,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "doctors/view",
         element: <DoctorView />,
+      },
+      {
+        path: "doctors/edit",
+        element: <DoctorEditForm />,
       },
       {
         path: "doctorForm",

@@ -70,7 +70,27 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const DoctorAddForm = () => {
+function deepCopyFormValues(doctorDetail, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === "object") {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]];
+        } else {
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
+        }
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, doctorDetail);
+  return copiedFormValue;
+}
+
+const DoctorEditForm = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const getSpecializationList = useSelector(
@@ -361,6 +381,19 @@ const DoctorAddForm = () => {
     dispatch(handlePostDoctor(formValues));
   }, [formValues]);
   console.log("formvalues", formValues);
+
+  const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
+  // console.log("doctorDetails", doctorDetail);
+  const updatedFormValues = deepCopyFormValues(doctorDetail, formValues);
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }));
+  }, [doctorDetail]);
+
+  console.log("doctorDetail", doctorDetail);
 
   return (
     <Container
@@ -825,12 +858,7 @@ const DoctorAddForm = () => {
                 </Stack>
                 <Stack alignItems={"center"}>
                   <img
-                    src={
-                      formValues.doctorProfile
-                        ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.doctorProfile}`
-                        : doctorImg
-                    }
-                    alt="doctorProfile"
+                    src={formValues.doctorProfile || doctorImg}
                     height={"auto"}
                     width={"150px"}
                   />
@@ -1070,4 +1098,4 @@ const DoctorAddForm = () => {
   );
 };
 
-export default DoctorAddForm;
+export default DoctorEditForm;
