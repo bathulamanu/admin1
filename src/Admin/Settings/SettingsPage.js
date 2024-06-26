@@ -72,6 +72,7 @@ const SettingsPage = () => {
   const handleButtonClick = (newTitle, buttonIndex) => {
     dispatch(setActiveTitle({ title: newTitle, buttonIndex }));
   };
+  //specialization
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const filteredList = specializationList.filter((item) => {
