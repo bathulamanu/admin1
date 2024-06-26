@@ -62,8 +62,8 @@ export const addHospitals = createAsyncThunk(
 
 export const editHospitals = createAsyncThunk(
   "editHospitals",
-  async ({ id }, data, thunkAPI) => {
-    console.log("data when we are posting", id, data);
+  async ({ id, data }, thunkAPI) => {
+    console.log("data when we are posting", data);
     try {
       const response = await api.put(`/UpdateHospitalDetails/${id}`, data);
       console.log("Updated Posted successfully", response.data);
