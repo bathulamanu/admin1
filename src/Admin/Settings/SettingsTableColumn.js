@@ -106,6 +106,7 @@ const SettingsTableColumn = () => {
       console.log(error);
     }
   };
+
   const settingColumns = [
     {
       field: "value",

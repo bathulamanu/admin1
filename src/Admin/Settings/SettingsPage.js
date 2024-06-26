@@ -5,7 +5,9 @@ import {
   Container,
   FormControl,
   InputAdornment,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
@@ -70,12 +72,39 @@ const SettingsPage = () => {
   const handleButtonClick = (newTitle, buttonIndex) => {
     dispatch(setActiveTitle({ title: newTitle, buttonIndex }));
   };
+  const [statusFilter, setStatusFilter] = useState("");
+  const [searchValue, setSearchValue] = useState("");
+  const filteredList = specializationList.filter((item) => {
+    const matchesSearch =
+      item?.value &&
+      item.value.toLowerCase().includes(searchValue.toLowerCase());
 
+    const matchesStatus =
+      statusFilter === "" ||
+      (statusFilter === "Active" && item.IsActiveValue === true) ||
+      (statusFilter === "Inactive" && item.IsActiveValue === false);
+    return matchesSearch && matchesStatus;
+  });
+
+  //qualification
+  const [statusFilterQ, setStatusFilterQ] = useState("");
+  const [searchValueQ, setSearchValueQ] = useState("");
+  const filteredListQ = qualificationList.filter((item) => {
+    const matchesSearchQ =
+      item?.value &&
+      item.value.toLowerCase().includes(searchValueQ.toLowerCase());
+
+    const matchesStatusQ =
+      statusFilterQ === "" ||
+      (statusFilterQ === "Active" && item.IsActiveValue === true) ||
+      (statusFilterQ === "Inactive" && item.IsActiveValue === false);
+    return matchesSearchQ && matchesStatusQ;
+  });
   const getRows = () => {
     if (activeTitle === "Specialization") {
-      return specializationList || [];
+      return filteredList || [];
     } else if (activeTitle === "Doctor Qualification") {
-      return qualificationList || [];
+      return filteredListQ || [];
     } else if (activeTitle === "Brands") {
       return brandList || [];
     }
@@ -93,35 +122,76 @@ const SettingsPage = () => {
         <Stack justifyContent={"center"}>
           <Typography variant="h6">{activeTitle}</Typography>
         </Stack>
-        <Stack direction={"row"} alignItems={"center"} spacing={1}>
-          <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
-            <OutlinedInput
-              type={"text"}
-              placeholder="Search"
-              size="small"
-              startAdornment={
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              }
+        {activeTitle === "Specialization" ? (
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
+              <OutlinedInput
+                type={"text"}
+                placeholder="Search"
+                size="small"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <CommonSelect
+              Placeholder={"Specialition"}
+              data={specialiList}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
             />
-          </FormControl>
-          <Stack>
-            {activeTitle === "Specialization" ? (
-              <CommonSelect Placeholder={"Specialition"} data={specialiList} />
-            ) : activeTitle === "Doctor Qualification" ? (
-              <CommonSelect Placeholder={"Qualification"} data={getQualif} />
-            ) : null}
+            <FormControl sx={{ width: "30%" }}>
+              <Select
+                width={"100%"}
+                sx={{ height: "40px" }}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem value="">All</MenuItem>
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+            <MoreVertIcon />
           </Stack>
-          <CommonSelect
-            Placeholder={"Status"}
-            data={[
-              { id: true, name: "Active" },
-              { id: false, name: "InActive" },
-            ]}
-          />
-          <MoreVertIcon />
-        </Stack>
+        ) : activeTitle === "Doctor Qualification" ? (
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
+              <OutlinedInput
+                type={"text"}
+                placeholder="Search"
+                size="small"
+                value={searchValueQ}
+                onChange={(e) => setSearchValueQ(e.target.value)}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <CommonSelect Placeholder={"Qualification"} data={getQualif} />
+            <FormControl sx={{ width: "30%" }}>
+              <Select
+                width={"100%"}
+                sx={{ height: "40px" }}
+                value={statusFilterQ}
+                onChange={(e) => setStatusFilterQ(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem value="">All</MenuItem>
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+            <MoreVertIcon />
+          </Stack>
+        ) : null}
       </Box>
       <Box display={"flex"} justifyContent={"left"} marginBottom={2} gap={2}>
         <Stack>
