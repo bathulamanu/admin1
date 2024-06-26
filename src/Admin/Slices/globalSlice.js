@@ -122,7 +122,7 @@ export const getQualification = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/Doctor Qualification/${search}`
+        `getMasterConfiguration/Qualification/${search}`
       );
       return response.data;
     } catch (error) {

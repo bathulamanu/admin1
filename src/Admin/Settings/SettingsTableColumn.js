@@ -195,7 +195,7 @@ const SettingsTableColumn = () => {
                 />
                 <Box sx={{}}>
                   <Typography sx={{ fontWeight: "bold" }}>
-                    Add {activeTitle}
+                    Edit {activeTitle}
                   </Typography>
                   <Box>
                     <Grid container spacing={2} pt={3} pb={2}>
@@ -235,7 +235,7 @@ const SettingsTableColumn = () => {
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
-                          value={formValues?.IsActive}
+                          value={formValues?.IsActive ? 48 : 47}
                           data={[
                             { id: 47, name: "Active" },
                             { id: 48, name: "InActive" },

@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import settingColumns from "../Settings/SettingsTableColumn";
@@ -25,7 +24,6 @@ import { getSpecialization } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import SettingsBrandDataTable from "./SettingsBrandDataTable";
 import settingBrandColumns from "./SettingBrandTableColumn";
-import { getByIdList, getQualificationIdList } from "../../globalFunctions";
 
 const SettingsPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
@@ -41,8 +39,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getSpecialization(null));
   }, [dispatch]);
-  const specialiList = getByIdList(specializationList);
-  // console.log("specializationList", specializationList);
+  console.log("specializationList", specializationList);
 
   const qualificationList = useSelector(
     (state) => state.global.qualificationList
@@ -50,14 +47,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getQualification(null));
   }, [dispatch]);
-  // const getQualif = getQualificationIdList(qualificationList);
-  console.log("getQualification", qualificationList);
-
-  const brandList = useSelector((state) => state.hospitals.hospitalsList);
-  useEffect(() => {
-    dispatch(getHospitalsList(null));
-  }, [dispatch]);
-  // console.log("brandList", brandList);
+  // console.log("getQualification", qualificationList);
 
   useEffect(() => {
     if (activeTitle === "Specialization") {
@@ -130,10 +120,10 @@ const SettingsPage = () => {
   const getRows = () => {
     if (activeTitle === "Specialization") {
       return filteredList || [];
-    } else if (activeTitle === "Doctor Qualification") {
+    } else if (activeTitle === "Qualification") {
       return filteredListQ || [];
     } else if (activeTitle === "Brands") {
-      return brandList || [];
+      return [];
     }
     return [];
   };
@@ -205,7 +195,7 @@ const SettingsPage = () => {
             </FormControl>
             <MoreVertIcon />
           </Stack>
-        ) : activeTitle === "Doctor Qualification" ? (
+        ) : activeTitle === "Qualification" ? (
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
               <OutlinedInput
@@ -286,12 +276,12 @@ const SettingsPage = () => {
               backgroundColor: activeButton === 1 ? "#1976d2" : "#e0e0e0",
               color: activeButton === 1 ? "#fff" : "#000",
             }}
-            onClick={() => handleButtonClick("Doctor Qualification", 1)}
+            onClick={() => handleButtonClick("Qualification", 1)}
           >
             Qualification
           </Button>
         </Stack>
-        {/* <Stack>
+        <Stack>
           <Button
             variant={activeButton === 2 ? "contained" : "outlined"}
             sx={{
@@ -303,7 +293,7 @@ const SettingsPage = () => {
           >
             Brands
           </Button>
-        </Stack> */}
+        </Stack>
       </Box>
       {/* {activeTitle === "Brands" ? (
         <SettingsBrandDataTable
