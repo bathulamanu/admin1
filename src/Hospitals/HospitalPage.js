@@ -29,29 +29,10 @@ const HospitalPage = () => {
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
 
   console.log("listData", hospitalsList);
-  // hospitalsList.forEach((hospital) => {
-  //   console.log(`Hospital ID: ${hospital.HospitalID}`);
-  //   console.log(`Hospital Name: ${hospital.hospitalName}`);
-
-  //   // Iterate over each specialization in the 'specialist' array
-  //   hospital.specialist.forEach((specialization) => {
-  //     console.log(`Specialization ID: ${specialization.specilizationID}`);
-  //     console.log(`Specialization Name: ${specialization.value}`);
-  //   });
-  // });
 
   useEffect(() => {
     dispatch(getHospitalsList(searchQuery));
   }, []);
-
-  const specializationList = useSelector(
-    (state) => state.global.specializationList
-  );
-  useEffect(() => {
-    dispatch(getSpecialization(null));
-  }, [dispatch]);
-  const specialiList = getByIdList(specializationList);
-  // console.log("specializationList", specializationList);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -60,23 +41,34 @@ const HospitalPage = () => {
     const matchesSearch =
       item?.hospitalName &&
       item.hospitalName.toLowerCase().includes(searchValue.toLowerCase());
-    const matchesSelect =
-      item?.hospitalName &&
-      item.hospitalName.toLowerCase().includes(selectValue.toLowerCase());
+
     const matchesStatus =
       statusFilter === "" ||
       (statusFilter === "Active" && item.status === true) ||
       (statusFilter === "Inactive" && item.status === false);
-    return matchesSearch && matchesStatus;
-  });
-  const [selectedValue, setSelectedValue] = useState("");
-  const handleSelectChange = (event) => {
-    setSelectedValue(event.target.value);
-  };
-  const uniqueValues = [
-    ...new Set(filteredList.map((item) => item.specialist)),
-  ];
 
+    const matchesSpecialization =
+      selectValue === "" ||
+      item.specialist.some(
+        (specialization) => specialization.specilizationID === selectValue
+      );
+    return matchesSearch && matchesStatus && matchesSpecialization;
+  });
+
+  const uniqueSpecializationsMap = new Map();
+  hospitalsList.forEach((hospital) => {
+    hospital.specialist.forEach((specialization) => {
+      uniqueSpecializationsMap.set(
+        specialization.specilizationID,
+        specialization.value
+      );
+    });
+  });
+
+  const uniqueSpecializations = Array.from(
+    uniqueSpecializationsMap,
+    ([id, value]) => ({ id, value })
+  );
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <ToastContainer />
@@ -101,16 +93,25 @@ const HospitalPage = () => {
               }
             />
           </FormControl>
-          <CommonSelect
-            data={specialiList}
-            Placeholder={"Spacialist"}
-            // value={uniqueValues}
-            // value={selectedValue}
-            value={selectedValue?.specialist?.map(
-              (item) => item?.specializationID
-            )}
-            onChange={handleSelectChange}
-          />
+          <FormControl sx={{ width: "50%" }}>
+            <Select
+              sx={{ height: "40px" }}
+              width={"100%"}
+              value={selectValue}
+              onChange={(e) => setSelectValue(e.target.value)}
+              displayEmpty
+              placeholder="specialization"
+            >
+              <MenuItem value="">
+                <em>specialization</em>
+              </MenuItem>
+              {[...uniqueSpecializations].map((specialization, index) => (
+                <MenuItem key={index} value={specialization.id}>
+                  {specialization.value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl sx={{ width: "30%" }}>
             <Select
               width={"100%"}
@@ -119,7 +120,7 @@ const HospitalPage = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               displayEmpty
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="">Status</MenuItem>
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Inactive">Inactive</MenuItem>
             </Select>
