@@ -20,7 +20,6 @@ import { getCountryList, getSpecialization } from "../Admin/Slices/globalSlice";
 import hospitalColumns from "../Hospitals/HospitalTableColumn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getByIdList } from "../globalFunctions";
 
 const HospitalPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
@@ -28,7 +27,7 @@ const HospitalPage = () => {
   const dispatch = useDispatch();
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
 
-  console.log("listData", hospitalsList);
+  // console.log("listData", hospitalsList);
 
   useEffect(() => {
     dispatch(getHospitalsList(searchQuery));
@@ -101,6 +100,13 @@ const HospitalPage = () => {
               onChange={(e) => setSelectValue(e.target.value)}
               displayEmpty
               placeholder="specialization"
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200, // Adjust this value as needed
+                  },
+                },
+              }}
             >
               <MenuItem value="">
                 <em>specialization</em>

@@ -27,23 +27,15 @@ const DoctorsPage = () => {
   const [searchQuery, setSearchQuery] = useState(null);
   const doctorsList = useSelector((state) => state.doctor.doctorsList);
 
-  // console.log("doctorsList", doctorsList);
+  console.log("doctorsList", doctorsList);
 
   useEffect(() => {
     dispatch(getDoctorList(searchQuery));
   }, []);
 
-  const specializationList = useSelector(
-    (state) => state.global.specializationList
-  );
-  useEffect(() => {
-    dispatch(getSpecialization(null));
-  }, [dispatch]);
-  const specialiList = getByIdList(specializationList);
-  // console.log("specializationList", specializationList);
-
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [selectValue, setSelectValue] = useState("");
   const filteredList = doctorsList.filter((item) => {
     const matchesSearch =
       item?.doctorFirstName &&
@@ -53,8 +45,29 @@ const DoctorsPage = () => {
       statusFilter === "" ||
       (statusFilter === "Active" && item.status === true) ||
       (statusFilter === "Inactive" && item.status === false);
-    return matchesSearch && matchesStatus;
+
+    const matchesSpecialization =
+      selectValue === "" ||
+      item.specilizationInfo.some(
+        (specialization) => specialization.specilizationID === selectValue
+      );
+    return matchesSearch && matchesStatus && matchesSpecialization;
   });
+
+  const uniqueSpecializationsMap = new Map();
+  doctorsList.forEach((doctor) => {
+    doctor.specilizationInfo.forEach((specialization) => {
+      uniqueSpecializationsMap.set(
+        specialization.specilizationID,
+        specialization.value
+      );
+    });
+  });
+
+  const uniqueSpecializations = Array.from(
+    uniqueSpecializationsMap,
+    ([id, value]) => ({ id, value })
+  );
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <ToastContainer />
@@ -79,7 +92,33 @@ const DoctorsPage = () => {
               }
             />
           </FormControl>
-          <CommonSelect data={specialiList} Placeholder={"Spacialist"} />
+          {/* <CommonSelect data={specialiList} Placeholder={"Spacialist"} /> */}
+          <FormControl sx={{ width: "50%" }}>
+            <Select
+              sx={{ height: "40px" }}
+              width={"100%"}
+              value={selectValue}
+              onChange={(e) => setSelectValue(e.target.value)}
+              displayEmpty
+              placeholder="specialization"
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 200, // Adjust this value as needed
+                  },
+                },
+              }}
+            >
+              <MenuItem value="">
+                <em>specialization</em>
+              </MenuItem>
+              {[...uniqueSpecializations].map((specialization, index) => (
+                <MenuItem key={index} value={specialization.id}>
+                  {specialization.value}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
           <FormControl sx={{ width: "30%" }}>
             <Select
               width={"100%"}

@@ -50,8 +50,8 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getQualification(null));
   }, [dispatch]);
-  const getQualif = getQualificationIdList(qualificationList);
-  // console.log("getQualification", qualificationList);
+  // const getQualif = getQualificationIdList(qualificationList);
+  console.log("getQualification", qualificationList);
 
   const brandList = useSelector((state) => state.hospitals.hospitalsList);
   useEffect(() => {
@@ -75,6 +75,8 @@ const SettingsPage = () => {
   //specialization
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const [selectValue, setSelectValue] = useState("");
+
   const filteredList = specializationList.filter((item) => {
     const matchesSearch =
       item?.value &&
@@ -84,12 +86,25 @@ const SettingsPage = () => {
       statusFilter === "" ||
       (statusFilter === "Active" && item.IsActiveValue === true) ||
       (statusFilter === "Inactive" && item.IsActiveValue === false);
-    return matchesSearch && matchesStatus;
+
+    const matchesSpecialization =
+      selectValue === "" || item.value === selectValue;
+
+    return matchesSearch && matchesStatus && matchesSpecialization;
+  });
+
+  // Create a unique list of specializations
+  const uniqueSpecializations = Array.from(
+    new Set(specializationList.map((item) => item.value))
+  ).map((value) => {
+    return specializationList.find((item) => item.value === value);
   });
 
   //qualification
   const [statusFilterQ, setStatusFilterQ] = useState("");
   const [searchValueQ, setSearchValueQ] = useState("");
+  const [selectValueQ, setSelectValueQ] = useState("");
+
   const filteredListQ = qualificationList.filter((item) => {
     const matchesSearchQ =
       item?.value &&
@@ -99,8 +114,19 @@ const SettingsPage = () => {
       statusFilterQ === "" ||
       (statusFilterQ === "Active" && item.IsActiveValue === true) ||
       (statusFilterQ === "Inactive" && item.IsActiveValue === false);
-    return matchesSearchQ && matchesStatusQ;
+
+    const matchesQulaification =
+      selectValueQ === "" || item.value === selectValueQ;
+    return matchesSearchQ && matchesStatusQ && matchesQulaification;
   });
+
+  // Create a unique list of Qulaification
+  const uniqueQulaification = Array.from(
+    new Set(qualificationList.map((item) => item.value))
+  ).map((value) => {
+    return qualificationList.find((item) => item.value === value);
+  });
+
   const getRows = () => {
     if (activeTitle === "Specialization") {
       return filteredList || [];
@@ -139,12 +165,31 @@ const SettingsPage = () => {
                 }
               />
             </FormControl>
-            <CommonSelect
-              Placeholder={"Specialition"}
-              data={specialiList}
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
+            <FormControl sx={{ width: "50%" }}>
+              <Select
+                sx={{ height: "40px" }}
+                value={selectValue}
+                onChange={(e) => setSelectValue(e.target.value)}
+                displayEmpty
+                placeholder="Specialization"
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 200, // Adjust this value as needed
+                    },
+                  },
+                }}
+              >
+                <MenuItem value="">
+                  <em>Specialization</em>
+                </MenuItem>
+                {uniqueSpecializations.map((specialization, index) => (
+                  <MenuItem key={index} value={specialization.value}>
+                    {specialization.value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl sx={{ width: "30%" }}>
               <Select
                 width={"100%"}
@@ -176,7 +221,32 @@ const SettingsPage = () => {
                 }
               />
             </FormControl>
-            <CommonSelect Placeholder={"Qualification"} data={getQualif} />
+            {/* <CommonSelect Placeholder={"Qualification"} data={getQualif} /> */}
+            <FormControl sx={{ width: "50%" }}>
+              <Select
+                sx={{ height: "40px" }}
+                value={selectValueQ}
+                onChange={(e) => setSelectValueQ(e.target.value)}
+                displayEmpty
+                placeholder="Qulaification"
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 200, // Adjust this value as needed
+                    },
+                  },
+                }}
+              >
+                <MenuItem value="">
+                  <em>Qulaification</em>
+                </MenuItem>
+                {uniqueQulaification.map((qulaification, index) => (
+                  <MenuItem key={index} value={qulaification.value}>
+                    {qulaification.value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <FormControl sx={{ width: "30%" }}>
               <Select
                 width={"100%"}
