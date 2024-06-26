@@ -6,7 +6,9 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
   styled,
   Switch,
@@ -50,7 +52,7 @@ const SettingsTableColumn = () => {
   const [formValues, setFormValues] = useState({
     title: activeTitle,
     value: "",
-    status: "",
+    IsActive: "",
   });
   useEffect(() => {
     setFormValues((prev) => ({
@@ -104,6 +106,7 @@ const SettingsTableColumn = () => {
       console.log(error);
     }
   };
+
   const settingColumns = [
     {
       field: "value",
@@ -129,8 +132,8 @@ const SettingsTableColumn = () => {
           width={"100%"}
         >
           <Switch
-            checked={row.status}
-            label={row?.status ? "Active" : "In Active"}
+            checked={row.IsActiveValue}
+            label={row?.IsActiveValue ? "Active" : "In Active"}
             sx={{
               "& .MuiSwitch-switchBase.Mui-checked": {
                 color: "#269254",
@@ -212,18 +215,32 @@ const SettingsTableColumn = () => {
                         </FormControl>
                       </Grid>
                     </Grid>
+                    {/* <Grid container spacing={2} pt={3} pb={2}>
+                      <Grid item style={{ width: "100%" }}>
+                        <InputLabel sx={inputLableStyle}>Status</InputLabel>
+                        <Select
+                          displayEmpty
+                          placeholder={"Select"}
+                          width={"100%"}
+                          value={formValues?.IsActive}
+                        >
+                          <MenuItem>Active</MenuItem>
+                          <MenuItem>InActive</MenuItem>
+                        </Select>
+                      </Grid>
+                    </Grid> */}
                     <Grid container spacing={2} pt={3} pb={2}>
                       <Grid item style={{ width: "100%" }}>
                         <InputLabel sx={inputLableStyle}>Status</InputLabel>
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
-                          value={formValues?.status}
+                          value={formValues?.IsActive}
                           data={[
-                            { id: true, name: "Active" },
-                            { id: false, name: "InActive" },
+                            { id: 47, name: "Active" },
+                            { id: 48, name: "InActive" },
                           ]}
-                          onChange={(e) => handleOnChange(e, "status")}
+                          onChange={(e) => handleOnChange(e, "IsActive")}
                         />
                       </Grid>
                     </Grid>
