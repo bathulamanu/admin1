@@ -96,7 +96,6 @@ function deepCopyFormValues(hospitalDetails, formValues) {
       }
     }
   }
-
   let copiedFormValue = JSON.parse(JSON.stringify(formValues));
   deepCopy(copiedFormValue, hospitalDetails);
   return copiedFormValue;

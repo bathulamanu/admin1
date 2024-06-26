@@ -183,6 +183,47 @@ export const MainLayout = () => {
   };
 
   const handleEditHospitalFormSubmit = () => {
+    // if (!addHospitalData.hospitalName.trim()) {
+    //   toast.warning("Hospital Name is required");
+    //   return;
+    // } else if (
+    //   !addHospitalData.specialist ||
+    //   addHospitalData.specialist.length === 0
+    // ) {
+    //   toast.warning("At least one Specialist is required");
+    //   return;
+    // } else if (!addHospitalData.LicenseNumber.trim()) {
+    //   toast.warning("License Number is required");
+    //   return;
+    // } else if (!addHospitalData.validity.from) {
+    //   toast.warning("Validity start date is required");
+    //   return;
+    // } else if (!addHospitalData.validity.to) {
+    //   toast.warning("Validity end date is required");
+    //   return;
+    // } else if (!addHospitalData.email.trim()) {
+    //   toast.warning("Email is required");
+    //   return;
+    // } else if (!addHospitalData.contact.phoneNumber.trim()) {
+    //   toast.warning("Phone Number is required");
+    //   return;
+    // } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
+    //   toast.warning("Address Line 1 is required");
+    //   return;
+    // } else if (!addHospitalData.HospitalAddress.country) {
+    //   toast.warning("Country is required");
+    //   return;
+    // } else if (!addHospitalData.HospitalAddress.state.trim()) {
+    //   toast.warning("State is required");
+    //   return;
+    // } else if (!addHospitalData.HospitalAddress.city.trim()) {
+    //   toast.warning("City is required");
+    //   return;
+    // } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
+    //   toast.warning("Pincode is required");
+    //   return;
+    // }
+    navigate("/mainPage/hospitals");
     dispatch(editHospitals(editHospitalData));
   };
 
@@ -759,7 +800,7 @@ export const MainLayout = () => {
                       setFormOpen(null);
                       setActiveItem("Hospitals");
                       dispatch(getHospitalsList(searchQuery));
-                      navigate("/mainPage/hospitals");
+                      // navigate("/mainPage/hospitals");
                     }}
                   >
                     Save
