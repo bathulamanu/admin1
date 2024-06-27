@@ -52,7 +52,6 @@ const DoctorView = () => {
         gap: 4,
       }}
     >
-      <ToastContainer />
       <Box>
         <Card justifyContent={"space-between"}>
           <CardContent
@@ -61,130 +60,270 @@ const DoctorView = () => {
             <Box>
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
-                  <Typography variant="h5" sx={{ color: "#327CF3" }}>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: "#327CF3",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Dr.{joinStringsWithSpace(doctorFirstName, doctorLastName)}
                   </Typography>
                 </Stack>
                 <MoreVertIcon />
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
-              <Box display={"flex"}>
-                <img src={doctorImage} height={200} width={200} alt="Doctor" />
-                <Card>
-                  <CardContent sx={{ display: "flex", gap: 4 }}>
-                    <Box display={"flex"} flexDirection={"column"} gap={3}>
-                      <Stack>
-                        <Typography variant="h5" sx={{ color: "#327CF3" }}>
-                          {joinStringsWithSpace(
-                            doctorFirstName,
-                            doctorLastName
-                          )}
-                        </Typography>
-                        <Typography variant="h5" sx={{ color: "#327CF3" }}>
-                          ({doctorID})
-                        </Typography>
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Stack direction={"row"} spacing={1}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  gap: 4,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "20%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                  }}
+                >
+                  <Card variant="outlined" sx={{ height: "280px" }}>
+                    <CardContent sx={{ display: "flex", gap: 4 }}>
+                      <img
+                        src={doctorImage}
+                        height={"auto"}
+                        width={200}
+                        alt="Doctor"
+                      />
+                    </CardContent>
+                  </Card>
+                </Box>
+                <Box
+                  sx={{
+                    width: "80%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                  }}
+                >
+                  <Card variant="outlined" sx={{ height: "280px" }}>
+                    <CardContent sx={{ display: "flex", gap: 4 }}>
+                      <Box
+                        display={"flex"}
+                        width={"48%"}
+                        flexDirection={"column"}
+                        gap={4}
+                      >
+                        <Stack>
                           <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "70px" }}
+                            variant="h5"
+                            sx={{
+                              color: "#327CF3",
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                            }}
                           >
-                            Specialist
-                          </Typography>{" "}
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {specilizationInfo?.[0]?.value || ""} ,{" "}
-                            {specilizationInfo?.[1]?.value || ""}{" "}
+                            {joinStringsWithSpace(
+                              doctorFirstName,
+                              doctorLastName
+                            )}
                           </Typography>
-                        </Stack>
-                        <Stack direction={"row"} spacing={1}>
                           <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "70px" }}
+                            variant="h5"
+                            sx={{
+                              color: "#327CF3",
+                              fontSize: "18px",
+                            }}
                           >
-                            Degree
+                            ({doctorID})
                           </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {qualificationInfo?.[0]?.value || ""}
-                            {", "}
-                            {qualificationInfo?.[1]?.value || ""}{" "}
-                          </Typography>
-                        </Stack>
-                        <Stack direction={"row"} spacing={1}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "70px" }}
-                          >
-                            Date of Birth
-                          </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {formatToMMMYYYY(DOB) || ""}
-                          </Typography>
-                        </Stack>
-                        <Stack direction={"row"} spacing={1}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "70px" }}
-                          >
-                            IMR ID
-                          </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {IMRregisterID}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                    <Divider orientation="vertical" />
-                    <Box display={"flex"} flexDirection={"column"} gap={5}>
-                      <Stack>
-                        <Typography>About the Doctor</Typography>
-                      </Stack>
-                      <Stack direction={"row"} spacing={3} alignItems={"start"}>
-                        <Stack justifyContent={"start"}>
-                          <img
-                            src={stathoscope}
-                            height={24}
-                            width={24}
-                            alt="Stethoscope"
-                          />
                         </Stack>
                         <Stack spacing={1}>
-                          <Typography>
-                            {experienceInfo?.value} of Experience
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {doctorBio}
-                          </Typography>
+                          <Stack direction={"row"} spacing={1}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Specialist
+                            </Typography>{" "}
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {specilizationInfo?.[0]?.value || ""} ,{" "}
+                              {specilizationInfo?.[1]?.value || ""}{" "}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={1}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Degree
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {qualificationInfo?.[0]?.value || ""}
+                              {", "}
+                              {qualificationInfo?.[1]?.value || ""}{" "}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={1}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Date of Birth
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {formatToMMMYYYY(DOB) || ""}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={1}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              IMR ID
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {IMRregisterID}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                      <Stack direction={"row"} spacing={3} alignItems={"start"}>
-                        <Stack justifyContent={"start"}>
-                          <img src={chat} height={24} width={24} alt="Chat" />
+                      </Box>
+                      <Divider orientation="vertical" flexItem />
+                      <Box
+                        display={"flex"}
+                        width={"48%"}
+                        flexDirection={"column"}
+                        gap={4}
+                      >
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <Stack>
+                            <Typography
+                              sx={{ fontSize: "18px", fontWeight: "bold" }}
+                            >
+                              About the Doctor
+                            </Typography>
+                          </Stack>
+                          <Stack>
+                            <Switch defaultChecked />
+                          </Stack>
                         </Stack>
-                        <Stack spacing={1}>
-                          <Typography>
-                            {experienceInfo?.value} of Experience
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            {doctorBio}
-                          </Typography>
+                        <Stack
+                          direction={"row"}
+                          spacing={3}
+                          alignItems={"start"}
+                        >
+                          <Stack justifyContent={"start"}>
+                            <img
+                              src={stathoscope}
+                              height={24}
+                              width={24}
+                              alt="Stethoscope"
+                            />
+                          </Stack>
+                          <Stack spacing={1}>
+                            <Typography>
+                              {experienceInfo?.value} of Experience
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {doctorBio}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    </Box>
-                    <Stack>
-                      <Switch defaultChecked />
-                    </Stack>
-                  </CardContent>
-                </Card>
+                        <Stack
+                          direction={"row"}
+                          spacing={3}
+                          alignItems={"start"}
+                        >
+                          <Stack justifyContent={"start"}>
+                            <img src={chat} height={24} width={24} alt="Chat" />
+                          </Stack>
+                          <Stack spacing={1}>
+                            <Typography>
+                              {experienceInfo?.value} of Experience
+                            </Typography>
+                            <Typography variant="subtitle2">
+                              {doctorBio}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Box>
               </Box>
             </Box>
             <Box>
-              <Typography variant="h5">Description :</Typography>
-              <Typography variant="subtitle2">{doctorBio}</Typography>
+              <Typography
+                variant="h5"
+                sx={{ fontSize: "18px", fontWeight: "bold" }}
+              >
+                Description :
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                {doctorBio}
+              </Typography>
             </Box>
           </CardContent>
         </Card>
@@ -193,8 +332,12 @@ const DoctorView = () => {
         <Card>
           <CardContent>
             <Box display={"flex"} justifyContent={"space-between"}>
-              <Typography>Experience</Typography>
-              <Typography>View all</Typography>
+              <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
+                Experience
+              </Typography>
+              <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
+                View all
+              </Typography>
             </Box>
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box>

@@ -90,7 +90,14 @@ const HospitalView = () => {
             <Box>
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
-                  <Typography variant="h5" sx={{ color: "#327CF3" }}>
+                  <Typography
+                    // variant="h5"
+                    sx={{
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                      color: "#327CF3",
+                    }}
+                  >
                     {hospitalDetails
                       ? joinStringsWithSpace(hospitalName, " ")
                       : ""}
@@ -99,185 +106,325 @@ const HospitalView = () => {
                 <MoreVertIcon />
               </Box>
               <Divider sx={{ mt: 3, mb: 3 }} />
-              <Box display={"flex"} gap={3}>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  gap: 4,
+                }}
+              >
                 {/* <img src={hospitalLogo} height={200} width={200} /> */}
-                <img
-                  src={
-                    hospitalLogo
-                      ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${hospitalLogo}`
-                      : doctorImg
-                  }
-                  alt="Hospital Logo"
-                  height={"auto"}
-                  width={"150px"}
-                />
-                <Card>
-                  <CardContent sx={{ display: "flex", gap: 4 }}>
-                    <Box display={"flex"} flexDirection={"column"} gap={3}>
-                      <Stack>
-                        <Typography variant="h5" sx={{ color: "#327CF3" }}>
-                          {hospitalDetails
-                            ? joinStringsWithSpace(hospitalName, " ")
-                            : ""}
-                        </Typography>
-                        {/* <Typography>({doctorID})</Typography> */}
-                      </Stack>
-                      <Stack spacing={1}>
-                        <Stack direction={"row"} spacing={2}>
+                <Box
+                  sx={{
+                    width: "20%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                  }}
+                >
+                  <Card variant="outlined" sx={{ height: "300px" }}>
+                    <CardContent sx={{ display: "flex", gap: 4 }}>
+                      <img
+                        src={
+                          hospitalLogo
+                            ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${hospitalLogo}`
+                            : doctorImg
+                        }
+                        alt="Hospital Logo"
+                        height={"auto"}
+                        width={"210px"}
+                      />
+                    </CardContent>
+                  </Card>
+                </Box>
+                <Box
+                  sx={{
+                    width: "80%",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                  }}
+                >
+                  <Card variant="outlined" sx={{ height: "300px" }}>
+                    <CardContent sx={{ display: "flex", gap: 4 }}>
+                      <Box
+                        display={"flex"}
+                        width={"48%"}
+                        flexDirection={"column"}
+                        gap={4}
+                      >
+                        <Stack>
                           <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "80px" }}
+                            variant="h5"
+                            sx={{
+                              color: "#327CF3",
+                              fontSize: "18px",
+                              fontWeight: "bold",
+                            }}
                           >
-                            Specialist
-                          </Typography>{" "}
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {specialist?.[0]?.value} , {specialist?.[1]?.value},{" "}
-                            {specialist?.[2]?.value},{" "}
+                            {hospitalDetails
+                              ? joinStringsWithSpace(hospitalName, " ")
+                              : ""}
                           </Typography>
+                          {/* <Typography>({doctorID})</Typography> */}
                         </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "80px" }}
-                          >
-                            Status
-                          </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">
-                            {status ? "Active" : "Inactive"}
-                          </Typography>
+                        <Stack spacing={1}>
+                          <Stack direction={"row"} spacing={2}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Specialist
+                            </Typography>{" "}
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {specialist?.[0]?.value} ,{" "}
+                              {specialist?.[1]?.value}, {specialist?.[2]?.value}
+                              ,{" "}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={2}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Status
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {status ? "Active" : "Inactive"}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={2}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Email Address
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {email}
+                            </Typography>
+                          </Stack>
+                          <Stack direction={"row"} spacing={2}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{
+                                minWidth: "80px",
+                                fontSize: "16px",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              Website
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px", fontWeight: "bold" }}
+                            >
+                              :
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {website}
+                            </Typography>
+                          </Stack>
                         </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "80px" }}
-                          >
-                            Email Address
-                          </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">{email}</Typography>
-                        </Stack>
-                        <Stack direction={"row"} spacing={2}>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ minWidth: "80px" }}
-                          >
-                            Website
-                          </Typography>
-                          <Typography variant="subtitle2">:</Typography>
-                          <Typography variant="subtitle2">{website}</Typography>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                    <Divider orientation="vertical" />
-                    <Box display={"flex"} flexDirection={"column"} gap={5}>
-                      <Stack>
-                        <Typography>Address</Typography>
-                      </Stack>
-                      <Stack spacing={0} alignItems={"start"}>
-                        <Stack justifyContent={"start"}>
-                          <Typography variant="subtitle2">
-                            {HospitalAddress?.addressLine1},
-                            {HospitalAddress?.addressLine2},near{" "}
-                            {HospitalAddress?.nearLandMark}
-                          </Typography>
-                        </Stack>
-                        <Stack spacing={0}>
-                          <Typography variant="subtitle2">
-                            {LocationInfo?.cityName}-{HospitalAddress?.pincode},
-                            {LocationInfo?.stateName} state ,
-                            {LocationInfo?.countryName}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            Phone No. : {contact?.phoneNumber},
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            LandLine : {contact?.landLine}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            Fax: {faxNumber}
-                          </Typography>
-                        </Stack>
-                      </Stack>
-                      <Stack direction={"row"} spacing={3} alignItems={"start"}>
-                        <a
-                          href={sociallink?.googleMap}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: "none" }}
+                      </Box>
+                      <Divider orientation="vertical" flexItem />
+                      <Box
+                        display={"flex"}
+                        width={"48%"}
+                        flexDirection={"column"}
+                        gap={2}
+                      >
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
                         >
-                          <Button
-                            size="small"
-                            variant="contained"
-                            startIcon={<RoomSharpIcon />}
-                            fullWidth
-                          >
-                            View Location
-                          </Button>
-                        </a>
-                        <Stack direction="row" spacing={0.5}>
-                          <a
-                            href={sociallink?.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <img
-                              src={facebookLogo}
-                              alt="Facebook"
-                              width={socialMediaSize}
-                              height={socialMediaSize}
-                            />
-                          </a>
-                          <a
-                            href={sociallink?.instagram}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <img
-                              src={instagramLogo}
-                              alt="Twitter"
-                              width={socialMediaSize}
-                              height={socialMediaSize}
-                            />
-                          </a>
-                          <a
-                            href={sociallink?.LinkedIn}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <img
-                              src={linkedinLogo}
-                              alt="LinkedIn"
-                              width={socialMediaSize}
-                              height={socialMediaSize}
-                            />
-                          </a>
-                          <a
-                            href={sociallink?.twitter}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <img
-                              src={twitterLogo}
-                              alt="Twitter"
-                              width={socialMediaSize}
-                              height={socialMediaSize}
-                            />
-                          </a>
+                          <Stack>
+                            <Typography
+                              sx={{ fontSize: "18px", fontWeight: "bold" }}
+                            >
+                              Address
+                            </Typography>
+                          </Stack>
+                          <Stack>
+                            <Switch defaultChecked />
+                          </Stack>
                         </Stack>
-                      </Stack>
-                    </Box>
-                    <Stack>
-                      <Switch defaultChecked />
-                    </Stack>
-                  </CardContent>
-                </Card>
+                        <Stack spacing={0} alignItems={"start"}>
+                          <Stack justifyContent={"start"}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {HospitalAddress?.addressLine1},
+                              {HospitalAddress?.addressLine2},near{" "}
+                              {HospitalAddress?.nearLandMark}
+                            </Typography>
+                          </Stack>
+                          <Stack spacing={0}>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              {LocationInfo?.cityName}-
+                              {HospitalAddress?.pincode},
+                              {LocationInfo?.stateName} state ,
+                              {LocationInfo?.countryName}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              Phone No. : {contact?.phoneNumber},
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              LandLine : {contact?.landLine}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ fontSize: "16px" }}
+                            >
+                              Fax: {faxNumber}
+                            </Typography>
+                          </Stack>
+                        </Stack>
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <a
+                            href={sociallink?.googleMap}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ textDecoration: "none" }}
+                          >
+                            <Button
+                              size="small"
+                              variant="contained"
+                              startIcon={<RoomSharpIcon />}
+                              fullWidth
+                            >
+                              View Location
+                            </Button>
+                          </a>
+                          <Stack direction="row" spacing={0.8}>
+                            <a
+                              href={sociallink?.facebook}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <img
+                                src={facebookLogo}
+                                alt="Facebook"
+                                width={socialMediaSize}
+                                height={socialMediaSize}
+                              />
+                            </a>
+                            <a
+                              href={sociallink?.instagram}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <img
+                                src={instagramLogo}
+                                alt="Twitter"
+                                width={socialMediaSize}
+                                height={socialMediaSize}
+                              />
+                            </a>
+                            <a
+                              href={sociallink?.LinkedIn}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <img
+                                src={linkedinLogo}
+                                alt="LinkedIn"
+                                width={socialMediaSize}
+                                height={socialMediaSize}
+                              />
+                            </a>
+                            <a
+                              href={sociallink?.twitter}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <img
+                                src={twitterLogo}
+                                alt="Twitter"
+                                width={socialMediaSize}
+                                height={socialMediaSize}
+                              />
+                            </a>
+                          </Stack>
+                        </Stack>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Box>
               </Box>
             </Box>
             <Box>
-              <Typography>Description :</Typography>
-              <Typography variant="subtitle2">{about}</Typography>
+              <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                Description :
+              </Typography>
+              <Typography variant="subtitle2" sx={{ fontSize: "16px" }}>
+                {about}
+              </Typography>
             </Box>
           </CardContent>
         </Card>
@@ -286,7 +433,9 @@ const HospitalView = () => {
         <Card>
           <CardContent>
             <Box display={"flex"} justifyContent={"space-between"}>
-              <Typography>Doctors</Typography>
+              <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                Doctors
+              </Typography>
             </Box>
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box display={"flex"} flexWrap={"wrap"} gap={2}>
