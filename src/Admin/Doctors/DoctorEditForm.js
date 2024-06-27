@@ -47,7 +47,7 @@ import {
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
-import { handlePostDoctor } from "../Slices/doctorSlice";
+import { handleEditPostDoctor, handlePostDoctor } from "../Slices/doctorSlice";
 import { getCityList, getCityNameByCountry } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import { getQualification } from "../Slices/globalSlice";
@@ -378,7 +378,7 @@ const DoctorEditForm = () => {
   };
 
   useEffect(() => {
-    dispatch(handlePostDoctor(formValues));
+    dispatch(handleEditPostDoctor(formValues));
   }, [formValues]);
   console.log("formvalues", formValues);
 

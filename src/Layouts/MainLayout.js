@@ -61,6 +61,7 @@ import {
   getDoctorList,
   getDoctorDetail,
   addDoctors,
+  editDoctors,
 } from "../Admin/Slices/doctorSlice";
 import SingleSelect from "../GlobalComponents/SingleSelect";
 import api from "../httpRequest";
@@ -108,6 +109,9 @@ export const MainLayout = () => {
   );
 
   const addDoctorData = useSelector((state) => state.doctor.doctorPostData);
+  const editDoctorData = useSelector(
+    (state) => state.doctor.doctorEditPostData
+  );
 
   const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail);
   // console.log('hospitalDetail', hospitalDetail)
@@ -257,6 +261,10 @@ export const MainLayout = () => {
     }
     navigate("/mainPage/doctors");
     dispatch(addDoctors(addDoctorData));
+  };
+  const handleEditDoctorFormSubmit = () => {
+    navigate("/mainPage/doctors");
+    dispatch(editDoctors(editDoctorData));
   };
 
   useEffect(() => {
@@ -1054,7 +1062,7 @@ export const MainLayout = () => {
                     startIcon={<SaveAltIcon />}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleAddDoctorFormSubmit();
+                      handleEditDoctorFormSubmit();
                       // setFormOpen(null);
                       // setActiveItem("Hospitals");
                       dispatch(getDoctorList(searchQuery));
