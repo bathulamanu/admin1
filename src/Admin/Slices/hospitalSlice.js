@@ -10,7 +10,8 @@ const initialState = {
   hospitalPostData: {},
   entities: {},
   hospitalEditPostData: {},
-  HospitalID: null
+  HospitalID: null,
+  hospitalEditDetail:[]
 };
 
 // /flyingbyts/api/user/getMasterConfiguration/:title/:search
