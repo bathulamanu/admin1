@@ -9,7 +9,7 @@ const initialState = {
   doctorDetail: {},
   doctorPostData: {},
   doctorEditPostData: {},
-  doctorID: null,
+  DoctorID: null,
   doctorEditDetail: [],
 };
 
@@ -63,11 +63,11 @@ export const addDoctors = createAsyncThunk(
 
 export const editDoctors = createAsyncThunk(
   "editDoctors",
-  async ({ doctorID, editDoctorData }, thunkAPI) => {
-    console.log("data when we are posting", doctorID, editDoctorData);
+  async ({ DoctorID, editDoctorData }, thunkAPI) => {
+    console.log("data when we are posting", DoctorID, editDoctorData);
     try {
       const response = await api.put(
-        `/UpdateDoctorDetails/${doctorID}`,
+        `/UpdateDoctorDetails/${DoctorID}`,
         editDoctorData
       );
       console.log("Updated Posted successfully", response.data);

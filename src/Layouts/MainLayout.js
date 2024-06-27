@@ -266,8 +266,8 @@ export const MainLayout = () => {
     navigate("/mainPage/doctors");
 
     console.log("cehck edit ", editDoctorData);
-    const doctorID = editDoctorData.doctorID;
-    dispatch(editDoctors({ doctorID, editDoctorData }));
+    const DoctorID = editDoctorData.doctorDetailsID;
+    dispatch(editDoctors({ DoctorID, editDoctorData }));
   };
 
   useEffect(() => {
