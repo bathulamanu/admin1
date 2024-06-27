@@ -224,7 +224,9 @@ export const MainLayout = () => {
     //   return;
     // }
     navigate("/mainPage/hospitals");
-    dispatch(editHospitals(editHospitalData));
+    console.log("cehck edit ", editHospitalData);
+    const HospitalID = editHospitalData.HospitalID;
+    dispatch(editHospitals({HospitalID , editHospitalData}));
   };
 
   const handleAddDoctorFormSubmit = () => {
