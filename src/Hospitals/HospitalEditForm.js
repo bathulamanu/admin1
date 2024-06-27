@@ -210,12 +210,16 @@ const HospitalEditForm = () => {
       let temp = { ...prev };
       switch (name) {
         case "specialist":
-          // Find the full specialization objects from the specializationList by their IDs
-          let selectedSpecializations = value.map((id) =>
-            specializationList.find((item) => item.id === id)
-          );
-          temp.specialist = selectedSpecializations;
+          let res = value?.map((ele) => ({ specializationID: ele }));
+          temp.specialist = res;
           break;
+        // case "specialist":
+        //   // Find the full specialization objects from the specializationList by their IDs
+        //   let selectedSpecializations = value.map((id) =>
+        //     specializationList.find((item) => item.id === id)
+        //   );
+        //   temp.specialist = selectedSpecializations;
+        //   break;
 
         case "HospitalAddress1":
           temp.HospitalAddress = {
@@ -475,6 +479,20 @@ const HospitalEditForm = () => {
                     Specialist <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <CommonSelect
+                    Placeholder={"Select"}
+                    data={specializationList}
+                    value={formValues?.specialist?.map(
+                      (item) => item?.specializationID
+                    )}
+                    width={"100%"}
+                    onChange={(e) => handleChange(e, "specialist")}
+                  />
+                </Grid>
+                {/* <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>
+                    Specialist <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <CommonSelect
                     multiple
                     Placeholder={"Select"}
                     data={specializationList}
@@ -484,7 +502,7 @@ const HospitalEditForm = () => {
                     width={"100%"}
                     onChange={(e) => handleChange(e, "specialist")}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Licence number <span style={redStarStyle}>*</span>

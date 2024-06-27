@@ -163,23 +163,38 @@ export const MainLayout = () => {
     } else if (!addHospitalData.email.trim()) {
       toast.warning("Email is required");
       return;
-    } else if (!addHospitalData.contact.phoneNumber.trim()) {
-      toast.warning("Phone Number is required");
-      return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
       toast.warning("Address Line 1 is required");
       return;
-    } else if (!addHospitalData.HospitalAddress.country) {
+    } else if (!addHospitalData.HospitalAddress.addressLine2.trim()) {
+      toast.warning("Address Line 2 is required");
+      return;
+    } else if (
+      !addHospitalData.HospitalAddress.country ||
+      addHospitalData.HospitalAddress.country === 0
+    ) {
       toast.warning("Country is required");
       return;
-    } else if (!addHospitalData.HospitalAddress.state.trim()) {
+    } else if (
+      !addHospitalData.HospitalAddress.state ||
+      addHospitalData.HospitalAddress.state === 0
+    ) {
       toast.warning("State is required");
       return;
-    } else if (!addHospitalData.HospitalAddress.city.trim()) {
+    } else if (
+      !addHospitalData.HospitalAddress.city ||
+      addHospitalData.HospitalAddress.city === 0
+    ) {
       toast.warning("City is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.nearLandMark.trim()) {
+      toast.warning("Near LandMark is required");
       return;
     } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
       toast.warning("Pincode is required");
+      return;
+    } else if (!addHospitalData.contact.phoneNumber.trim()) {
+      toast.warning("Phone Number is required");
       return;
     }
     navigate("/mainPage/hospitals");
@@ -208,23 +223,38 @@ export const MainLayout = () => {
     } else if (!editHospitalData.email.trim()) {
       toast.warning("Email is required");
       return;
-    } else if (!editHospitalData.contact.phoneNumber.trim()) {
-      toast.warning("Phone Number is required");
-      return;
-    } else if (!editHospitalData.HospitalAddress.addressLine1.trim()) {
+    } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
       toast.warning("Address Line 1 is required");
       return;
-      // } else if (!editHospitalData.HospitalAddress.country) {
-      //   toast.warning("Country is required");
-      //   return;
-      // } else if (!editHospitalData.HospitalAddress.state.trim()) {
-      //   toast.warning("State is required");
-      //   return;
-      // } else if (!editHospitalData.HospitalAddress.city.trim()) {
-      //   toast.warning("City is required");
-      //   return;
-    } else if (!editHospitalData.HospitalAddress.pincode.trim()) {
+    } else if (!addHospitalData.HospitalAddress.addressLine2.trim()) {
+      toast.warning("Address Line 2 is required");
+      return;
+    } else if (
+      !addHospitalData.HospitalAddress.country ||
+      addHospitalData.HospitalAddress.country === 0
+    ) {
+      toast.warning("Country is required");
+      return;
+    } else if (
+      !addHospitalData.HospitalAddress.state ||
+      addHospitalData.HospitalAddress.state === 0
+    ) {
+      toast.warning("State is required");
+      return;
+    } else if (
+      !addHospitalData.HospitalAddress.city ||
+      addHospitalData.HospitalAddress.city === 0
+    ) {
+      toast.warning("City is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.nearLandMark.trim()) {
+      toast.warning("Near LandMark is required");
+      return;
+    } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
       toast.warning("Pincode is required");
+      return;
+    } else if (!addHospitalData.contact.phoneNumber.trim()) {
+      toast.warning("Phone Number is required");
       return;
     }
     navigate("/mainPage/hospitals");

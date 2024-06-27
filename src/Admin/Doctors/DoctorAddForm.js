@@ -145,10 +145,11 @@ const DoctorAddForm = () => {
         employmentType: "",
         startDate: "",
         endDate: "",
-        currentlyWorking: {
-          type: "",
-          default: false,
-        },
+        // currentlyWorking: {
+        //   type: "",
+        //   default: false,
+        // },
+        currentlyWorking: false,
         description: "",
       },
     ],
