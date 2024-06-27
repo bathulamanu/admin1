@@ -11,7 +11,7 @@ const initialState = {
   entities: {},
   hospitalEditPostData: {},
   HospitalID: null,
-  hospitalEditDetail:[]
+  hospitalEditDetail: [],
 };
 
 // /flyingbyts/api/user/getMasterConfiguration/:title/:search
@@ -65,11 +65,14 @@ export const addHospitals = createAsyncThunk(
 
 export const editHospitals = createAsyncThunk(
   "editHospitals",
-  async ( {HospitalID, editHospitalData }, thunkAPI) => {
-    alert("ok okat ")
+  async ({ HospitalID, editHospitalData }, thunkAPI) => {
+    // alert("ok okat ")
     console.log("data when we are posting", HospitalID, editHospitalData);
     try {
-      const response = await api.put(`/UpdateHospitalDetails/${HospitalID}`, editHospitalData);
+      const response = await api.put(
+        `/UpdateHospitalDetails/${HospitalID}`,
+        editHospitalData
+      );
       console.log("Updated Posted successfully", response.data);
       toast.success(response.data.message);
       return response.data;
@@ -80,8 +83,6 @@ export const editHospitals = createAsyncThunk(
     }
   }
 );
-
-
 
 const hospitalSlice = createSlice({
   name: "hospitals",

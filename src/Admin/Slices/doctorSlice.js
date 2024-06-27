@@ -9,6 +9,8 @@ const initialState = {
   doctorDetail: {},
   doctorPostData: {},
   doctorEditPostData: {},
+  doctorID: null,
+  doctorEditDetail: [],
 };
 
 // /flyingbyts/api/user/getMasterConfiguration/:title/:search
@@ -61,10 +63,13 @@ export const addDoctors = createAsyncThunk(
 
 export const editDoctors = createAsyncThunk(
   "editDoctors",
-  async ({ id, data }, thunkAPI) => {
-    console.log("data when we are posting", data);
+  async ({ doctorID, editDoctorData }, thunkAPI) => {
+    console.log("data when we are posting", doctorID, editDoctorData);
     try {
-      const response = await api.put(`/UpdateDoctorDetails/${id}`, data);
+      const response = await api.put(
+        `/UpdateDoctorDetails/${doctorID}`,
+        editDoctorData
+      );
       console.log("Updated Posted successfully", response.data);
       toast.success(response.data.message);
       return response.data;
@@ -107,6 +112,18 @@ const doctorSlice = createSlice({
       state.doctorDetail = action.payload.data;
     });
     builder.addCase(getDoctorDetail.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(editDoctors.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(editDoctors.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      // console.log("jksakgujcfjdhbk", action.payload);
+      state.doctorEditDetail = action?.payload?.data;
+    });
+    builder.addCase(editDoctors.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

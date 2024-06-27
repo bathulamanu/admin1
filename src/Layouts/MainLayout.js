@@ -187,50 +187,50 @@ export const MainLayout = () => {
   };
 
   const handleEditHospitalFormSubmit = () => {
-    // if (!addHospitalData.hospitalName.trim()) {
-    //   toast.warning("Hospital Name is required");
-    //   return;
-    // } else if (
-    //   !addHospitalData.specialist ||
-    //   addHospitalData.specialist.length === 0
-    // ) {
-    //   toast.warning("At least one Specialist is required");
-    //   return;
-    // } else if (!addHospitalData.LicenseNumber.trim()) {
-    //   toast.warning("License Number is required");
-    //   return;
-    // } else if (!addHospitalData.validity.from) {
-    //   toast.warning("Validity start date is required");
-    //   return;
-    // } else if (!addHospitalData.validity.to) {
-    //   toast.warning("Validity end date is required");
-    //   return;
-    // } else if (!addHospitalData.email.trim()) {
-    //   toast.warning("Email is required");
-    //   return;
-    // } else if (!addHospitalData.contact.phoneNumber.trim()) {
-    //   toast.warning("Phone Number is required");
-    //   return;
-    // } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-    //   toast.warning("Address Line 1 is required");
-    //   return;
-    // } else if (!addHospitalData.HospitalAddress.country) {
-    //   toast.warning("Country is required");
-    //   return;
-    // } else if (!addHospitalData.HospitalAddress.state.trim()) {
-    //   toast.warning("State is required");
-    //   return;
-    // } else if (!addHospitalData.HospitalAddress.city.trim()) {
-    //   toast.warning("City is required");
-    //   return;
-    // } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
-    //   toast.warning("Pincode is required");
-    //   return;
-    // }
+    if (!editHospitalData.hospitalName.trim()) {
+      toast.warning("Hospital Name is required");
+      return;
+    } else if (
+      !editHospitalData.specialist ||
+      editHospitalData.specialist.length === 0
+    ) {
+      toast.warning("At least one Specialist is required");
+      return;
+    } else if (!editHospitalData.LicenseNumber.trim()) {
+      toast.warning("License Number is required");
+      return;
+    } else if (!editHospitalData.validity.from) {
+      toast.warning("Validity start date is required");
+      return;
+    } else if (!editHospitalData.validity.to) {
+      toast.warning("Validity end date is required");
+      return;
+    } else if (!editHospitalData.email.trim()) {
+      toast.warning("Email is required");
+      return;
+    } else if (!editHospitalData.contact.phoneNumber.trim()) {
+      toast.warning("Phone Number is required");
+      return;
+    } else if (!editHospitalData.HospitalAddress.addressLine1.trim()) {
+      toast.warning("Address Line 1 is required");
+      return;
+      // } else if (!editHospitalData.HospitalAddress.country) {
+      //   toast.warning("Country is required");
+      //   return;
+      // } else if (!editHospitalData.HospitalAddress.state.trim()) {
+      //   toast.warning("State is required");
+      //   return;
+      // } else if (!editHospitalData.HospitalAddress.city.trim()) {
+      //   toast.warning("City is required");
+      //   return;
+    } else if (!editHospitalData.HospitalAddress.pincode.trim()) {
+      toast.warning("Pincode is required");
+      return;
+    }
     navigate("/mainPage/hospitals");
     console.log("cehck edit ", editHospitalData);
     const HospitalID = editHospitalData.HospitalID;
-    dispatch(editHospitals({HospitalID , editHospitalData}));
+    dispatch(editHospitals({ HospitalID, editHospitalData }));
   };
 
   const handleAddDoctorFormSubmit = () => {
@@ -264,7 +264,10 @@ export const MainLayout = () => {
   };
   const handleEditDoctorFormSubmit = () => {
     navigate("/mainPage/doctors");
-    dispatch(editDoctors(editDoctorData));
+
+    console.log("cehck edit ", editDoctorData);
+    const doctorID = editDoctorData.doctorID;
+    dispatch(editDoctors({ doctorID, editDoctorData }));
   };
 
   useEffect(() => {

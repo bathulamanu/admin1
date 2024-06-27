@@ -12,6 +12,7 @@ import {
   CardContent,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
@@ -20,6 +21,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import ReactQuill from "react-quill";
 import facebook from "../assets/facebook.png";
@@ -122,6 +125,7 @@ const HospitalEditForm = () => {
   );
 
   // console.log('hospitalDetail', hospitalDetails)
+  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     hospitalName: "",
     hospitalLogo: "",
@@ -164,14 +168,53 @@ const HospitalEditForm = () => {
     },
   });
 
+  const validateField = (name, value, updatedValues) => {
+    let tempErrors = { ...errors };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
+    switch (name) {
+      case "hospitalName":
+        tempErrors.hospitalName =
+          value.length >= 3
+            ? ""
+            : "Hospital name must be at least 3 characters .";
+        break;
+      case "email":
+        tempErrors.email = emailRegex.test(value)
+          ? ""
+          : "Invalid email address.";
+        break;
+      case "website":
+        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+        break;
+      case "phoneNumber":
+        tempErrors.phoneNumber =
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
+        break;
+      case "pincode":
+        tempErrors.pincode =
+          value.length === 6 ? "" : "Pincode must be 6 digits.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(tempErrors);
+  };
+
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => {
       let temp = { ...prev };
       switch (name) {
         case "specialist":
-          let res = value?.map((ele) => ({ specializationID: ele }));
-          temp.specialist = res;
+          // Find the full specialization objects from the specializationList by their IDs
+          let selectedSpecializations = value.map((id) =>
+            specializationList.find((item) => item.id === id)
+          );
+          temp.specialist = selectedSpecializations;
           break;
 
         case "HospitalAddress1":
@@ -270,6 +313,7 @@ const HospitalEditForm = () => {
           temp[name] = value;
           break;
       }
+      validateField(name, value, temp);
       return temp;
     });
   };
@@ -356,6 +400,18 @@ const HospitalEditForm = () => {
         // padding: "8px",
       }}
     >
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -391,7 +447,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Hospital Name <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.hospitalName}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -402,6 +463,9 @@ const HospitalEditForm = () => {
                         handleChange(e.target.value, "hospitalName")
                       }
                     />
+                    {!!errors.hospitalName && (
+                      <FormHelperText>{errors.hospitalName}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -411,11 +475,12 @@ const HospitalEditForm = () => {
                     Specialist <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <CommonSelect
+                    multiple
                     Placeholder={"Select"}
                     data={specializationList}
-                    value={formValues?.specialist?.map(
-                      (item) => item?.specializationID
-                    )}
+                    value={
+                      formValues?.specialist?.map((item) => item?.id) || []
+                    }
                     width={"100%"}
                     onChange={(e) => handleChange(e, "specialist")}
                   />
@@ -424,7 +489,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Licence number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.LicenseNumber}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -435,6 +505,9 @@ const HospitalEditForm = () => {
                         handleChange(e.target.value, "LicenseNumber")
                       }
                     />
+                    {!!errors.LicenseNumber && (
+                      <FormHelperText>{errors.LicenseNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -482,7 +555,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Email Address<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.email}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -491,6 +569,9 @@ const HospitalEditForm = () => {
                       value={formValues?.email}
                       onChange={(e) => handleChange(e.target.value, "email")}
                     />
+                    {!!errors.email && (
+                      <FormHelperText>{errors.email}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -499,7 +580,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Website URL<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.website}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -508,6 +594,9 @@ const HospitalEditForm = () => {
                       value={formValues?.website}
                       onChange={(e) => handleChange(e.target.value, "website")}
                     />
+                    {!!errors.website && (
+                      <FormHelperText>{errors.website}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -629,7 +718,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Pincode <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.pincode}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
@@ -639,6 +733,9 @@ const HospitalEditForm = () => {
                       value={formValues?.HospitalAddress?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
+                    {!!errors.pincode && (
+                      <FormHelperText>{errors.pincode}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
 
@@ -646,7 +743,12 @@ const HospitalEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Phone number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.phoneNumber}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
@@ -658,6 +760,9 @@ const HospitalEditForm = () => {
                         handleChange(e.target.value, "phoneNumber");
                       }}
                     />
+                    {!!errors.phoneNumber && (
+                      <FormHelperText>{errors.phoneNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
