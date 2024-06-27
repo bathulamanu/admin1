@@ -235,7 +235,8 @@ const SettingsTableColumn = () => {
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
-                          value={formValues?.IsActive ? 48 : 47}
+                          value={formValues?.IsActive}
+                          // value={formValues?.IsActive ? 48 : 47}
                           data={[
                             { id: 47, name: "Active" },
                             { id: 48, name: "InActive" },
