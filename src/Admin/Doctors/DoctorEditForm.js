@@ -137,6 +137,7 @@ const DoctorEditForm = () => {
   useEffect(() => {
     dispatch(getCityNameByCountry(null));
   }, [dispatch]);
+  console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
   const [errors, setErrors] = useState({});
