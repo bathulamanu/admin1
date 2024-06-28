@@ -72,7 +72,7 @@ const SettingsTableColumn = () => {
     setFormValues({
       title: activeTitle,
       value: params.row.value,
-      IsActive: params.row.IsActive //params.row.status,
+      IsActive: params.row.IsActive, //params.row.status,
     });
     setOpenEdit(true);
   };
@@ -215,28 +215,14 @@ const SettingsTableColumn = () => {
                         </FormControl>
                       </Grid>
                     </Grid>
-                    {/* <Grid container spacing={2} pt={3} pb={2}>
-                      <Grid item style={{ width: "100%" }}>
-                        <InputLabel sx={inputLableStyle}>Status</InputLabel>
-                        <Select
-                          displayEmpty
-                          placeholder={"Select"}
-                          width={"100%"}
-                          value={formValues?.IsActive}
-                        >
-                          <MenuItem>Active</MenuItem>
-                          <MenuItem>InActive</MenuItem>
-                        </Select>
-                      </Grid>
-                    </Grid> */}
+
                     <Grid container spacing={2} pt={3} pb={2}>
                       <Grid item style={{ width: "100%" }}>
-                        <InputLabel sx={inputLableStyle}>Status {formValues?.IsActive} {"okok "}</InputLabel>
+                        <InputLabel sx={inputLableStyle}>Status</InputLabel>
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
                           value={formValues?.IsActive}
-                          // value={formValues?.IsActive ? 48 : 47}
                           data={[
                             { id: 47, name: "Active" },
                             { id: 48, name: "InActive" },

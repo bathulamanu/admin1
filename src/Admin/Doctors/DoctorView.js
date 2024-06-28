@@ -24,20 +24,31 @@ import stathoscope from "../../assets/stathoscope.png";
 import chat from "../../assets/chat.png";
 
 const DoctorView = () => {
-  const doctorDetail = useSelector((state) => state.doctor.doctorDetail) || {};
+  const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
   console.log("doctorDetails", doctorDetail);
-  const {
-    doctorFirstName = "",
-    doctorLastName = "",
-    doctorID = "",
-    specilizationInfo = [],
-    DOB = "",
-    IMRregisterID = "",
-    qualificationInfo = [],
-    experienceInfo = {},
-    doctorBio = "",
-    previousExperience = [],
-  } = doctorDetail;
+  const doctorFirstName = doctorDetail?.doctorFirstName;
+  const doctorLastName = doctorDetail?.doctorLastName;
+  const doctorID = doctorDetail?.doctorID;
+  const specialist = doctorDetail?.specialist;
+  const DOB = doctorDetail?.DOB;
+  const IMRregisterID = doctorDetail?.IMRregisterID;
+  const qualification = doctorDetail?.qualification;
+  const experience = doctorDetail?.experience;
+  const doctorBio = doctorDetail?.doctorBio;
+  const previousExperience = doctorDetail?.previousExperience;
+
+  // const {
+  //   doctorFirstName = "",
+  //   doctorLastName = "",
+  //   doctorID = "",
+  //   specilizationInfo = [],
+  //   DOB = "",
+  //   IMRregisterID = "",
+  //   qualificationInfo = [],
+  //   experienceInfo = {},
+  //   doctorBio = "",
+  //   previousExperience = [],
+  // } = doctorDetail;
 
   return (
     <Container
@@ -163,8 +174,9 @@ const DoctorView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {specilizationInfo?.[0]?.value || ""} ,{" "}
-                              {specilizationInfo?.[1]?.value || ""}{" "}
+                              {specialist?.[0]?.value || ""}
+                              {/* ,{" "}
+                              {specialist?.[1]?.value || ""}{" "} */}
                             </Typography>
                           </Stack>
                           <Stack direction={"row"} spacing={1}>
@@ -188,9 +200,9 @@ const DoctorView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {qualificationInfo?.[0]?.value || ""}
-                              {", "}
-                              {qualificationInfo?.[1]?.value || ""}{" "}
+                              {qualification?.[0]?.value || ""}
+                              {/* {", "}
+                              {qualification?.[1]?.value || ""}{" "} */}
                             </Typography>
                           </Stack>
                           <Stack direction={"row"} spacing={1}>
@@ -284,7 +296,7 @@ const DoctorView = () => {
                           </Stack>
                           <Stack spacing={1}>
                             <Typography>
-                              {experienceInfo?.value} of Experience
+                              {experience?.value} of Experience
                             </Typography>
                             <Typography variant="subtitle2">
                               {doctorBio}
@@ -301,7 +313,7 @@ const DoctorView = () => {
                           </Stack>
                           <Stack spacing={1}>
                             <Typography>
-                              {experienceInfo?.value} of Experience
+                              {experience?.value} of Experience
                             </Typography>
                             <Typography variant="subtitle2">
                               {doctorBio}

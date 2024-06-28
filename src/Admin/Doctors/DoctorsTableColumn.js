@@ -31,7 +31,8 @@ const DoctorsTableColumn = () => {
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter("gyno"),
+      valueGetter: (_, row) =>
+        capitalizeFirstLetter(row?.specilizationInfo?.[0]?.value),
     },
     {
       field: "experience",
