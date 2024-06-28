@@ -554,7 +554,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Location</InputLabel>
-                  <SingleSelect
+                  <CommonSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={getLoaction}
