@@ -78,13 +78,21 @@ const DoctorsTableColumn = () => {
           width={"100%"}
         >
           <Chip
+            label={row?.IsActive === 47 ? "Active" : "In Active"}
+            sx={{
+              borderRadius: "4px",
+              color: row?.IsActive === 47 ? "#269254" : "#EF4646",
+              background: row?.IsActive === 47 ? "#DEF7EC" : "#FDEDED",
+            }}
+          />
+          {/* <Chip
             label={row?.status ? "Active" : "In Active"}
             sx={{
               borderRadius: "4px",
               color: row?.status ? "#269254" : "#EF4646",
               background: row?.status ? "#DEF7EC" : "#FDEDED",
             }}
-          />
+          /> */}
         </Stack>
       ),
     },
