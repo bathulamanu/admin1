@@ -395,7 +395,7 @@ const DoctorEditForm = () => {
     }));
   }, [doctorDetail]);
 
-  console.log("doctorDetail", doctorDetail);
+  // console.log("doctorDetail", doctorDetail);
 
   return (
     <Container

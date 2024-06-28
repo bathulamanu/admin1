@@ -33,7 +33,7 @@ const DoctorView = () => {
   const DOB = doctorDetail?.DOB;
   const IMRregisterID = doctorDetail?.IMRregisterID;
   const qualification = doctorDetail?.qualification;
-  const experience = doctorDetail?.experience;
+  const experienceInfo = doctorDetail?.experienceInfo;
   const doctorBio = doctorDetail?.doctorBio;
   const previousExperience = doctorDetail?.previousExperience;
 
@@ -296,7 +296,7 @@ const DoctorView = () => {
                           </Stack>
                           <Stack spacing={1}>
                             <Typography>
-                              {experience?.value} of Experience
+                              {experienceInfo?.value} of Experience
                             </Typography>
                             <Typography variant="subtitle2">
                               {doctorBio}
@@ -313,7 +313,7 @@ const DoctorView = () => {
                           </Stack>
                           <Stack spacing={1}>
                             <Typography>
-                              {experience?.value} of Experience
+                              {experienceInfo?.value} of Experience
                             </Typography>
                             <Typography variant="subtitle2">
                               {doctorBio}

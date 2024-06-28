@@ -81,6 +81,23 @@ export const editDoctors = createAsyncThunk(
   }
 );
 
+export const deleteDoctors = createAsyncThunk(
+  "deleteDoctors",
+  async ({ DoctorID }, thunkAPI) => {
+    console.log("data when we are posting", DoctorID);
+    try {
+      const response = await api.delete(`/deleteDoctorDetails/${DoctorID}`);
+      console.log("Deleted Posted successfully", response.data);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const doctorSlice = createSlice({
   name: "doctor",
   initialState,
@@ -124,6 +141,19 @@ const doctorSlice = createSlice({
       state.doctorEditDetail = action?.payload?.data;
     });
     builder.addCase(editDoctors.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(deleteDoctors.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(deleteDoctors.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.doctorsList = state.doctorsList.filter(
+        (doctor) => doctor.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteDoctors.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

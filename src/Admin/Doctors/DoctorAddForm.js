@@ -564,7 +564,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    IMr Registration ID
+                    IMR Registration ID
                   </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput

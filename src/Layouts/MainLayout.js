@@ -56,12 +56,14 @@ import {
   getHospitalDetails,
   getHospitalsList,
   editHospitals,
+  deleteHospitals,
 } from "../Admin/Slices/hospitalSlice";
 import {
   getDoctorList,
   getDoctorDetail,
   addDoctors,
   editDoctors,
+  deleteDoctors,
 } from "../Admin/Slices/doctorSlice";
 import SingleSelect from "../GlobalComponents/SingleSelect";
 import api from "../httpRequest";
@@ -103,18 +105,18 @@ export const MainLayout = () => {
   const addHospitalData = useSelector(
     (state) => state.hospitals.hospitalPostData
   );
-
   const editHospitalData = useSelector(
     (state) => state.hospitals.hospitalEditPostData
+  );
+  const hospitalDetails = useSelector(
+    (state) => state.hospitals.hospitalDetail
   );
 
   const addDoctorData = useSelector((state) => state.doctor.doctorPostData);
   const editDoctorData = useSelector(
     (state) => state.doctor.doctorEditPostData
   );
-
-  const hospitalDetail = useSelector((state) => state.hospitals.hospitalDetail);
-  // console.log('hospitalDetail', hospitalDetail)
+  const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
 
   const open = Boolean(anchorEl);
 
@@ -263,6 +265,13 @@ export const MainLayout = () => {
     dispatch(editHospitals({ HospitalID, editHospitalData }));
   };
 
+  const handleDeleteHospitalFormSubmit = () => {
+    const HospitalID = hospitalDetails?.HospitalID;
+    console.log("hospients id", HospitalID);
+    dispatch(deleteHospitals({ HospitalID }));
+    navigate("/mainPage/hospitals");
+  };
+
   const handleAddDoctorFormSubmit = () => {
     if (!addDoctorData.doctorFirstName) {
       toast.warning("doctor's Name is required");
@@ -300,6 +309,12 @@ export const MainLayout = () => {
     dispatch(editDoctors({ DoctorID, editDoctorData }));
   };
 
+  const handleDeleteDoctorFormSubmit = () => {
+    const DoctorID = doctorDetail.doctorDetailsID;
+    console.log("Doctor id", DoctorID);
+    dispatch(deleteDoctors({ DoctorID }));
+    navigate("/mainPage/doctors");
+  };
   useEffect(() => {
     setPathname(location.pathname);
   }, [location]);
@@ -787,8 +802,19 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="outlined" size="small" disabled>
-                    <DeleteIcon fontSize="small" /> Delete
+                  <Button variant="outlined" size="small">
+                    <DeleteIcon
+                      fontSize="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteHospitalFormSubmit();
+                        // setFormOpen(null);
+                        // setActiveItem("Hospitals");
+                        dispatch(getHospitalsList(searchQuery));
+                        // navigate("/mainPage/hospitals");
+                      }}
+                    />{" "}
+                    Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -1043,8 +1069,19 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="outlined" size="small" disabled>
-                    <DeleteIcon fontSize="small" /> Delete
+                  <Button variant="outlined" size="small">
+                    <DeleteIcon
+                      fontSize="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleDeleteDoctorFormSubmit();
+                        // setFormOpen(null);
+                        // setActiveItem("Hospitals");
+                        dispatch(getDoctorList(searchQuery));
+                        // navigate("/mainPage/doctors");
+                      }}
+                    />{" "}
+                    Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -1102,7 +1139,7 @@ export const MainLayout = () => {
                       // navigate("/mainPage/doctors");
                     }}
                   >
-                    Save
+                    Update
                   </Button>
                   <Button
                     size="small"

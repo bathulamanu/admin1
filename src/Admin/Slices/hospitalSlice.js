@@ -84,6 +84,23 @@ export const editHospitals = createAsyncThunk(
   }
 );
 
+export const deleteHospitals = createAsyncThunk(
+  "deleteHospitals",
+  async ({ HospitalID }, thunkAPI) => {
+    console.log("data when we are posting", HospitalID);
+    try {
+      const response = await api.delete(`/deleteHospitalDetails/${HospitalID}`);
+      console.log("Deleted successfully", response.data);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const hospitalSlice = createSlice({
   name: "hospitals",
   initialState,
@@ -127,6 +144,19 @@ const hospitalSlice = createSlice({
       state.hospitalEditDetail = action?.payload?.data;
     });
     builder.addCase(editHospitals.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(deleteHospitals.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(deleteHospitals.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.hospitalsList = state.hospitalsList.filter(
+        (hospital) => hospital.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteHospitals.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
