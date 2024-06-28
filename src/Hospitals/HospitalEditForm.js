@@ -391,6 +391,7 @@ const HospitalEditForm = () => {
   }, [hospitalDetails]);
 
   console.log("hospitalDetails", hospitalDetails);
+  console.log("specializationList", specializationList);
   console.log("formvalues", formValues);
 
   return (
@@ -482,12 +483,13 @@ const HospitalEditForm = () => {
                     Placeholder={"Select"}
                     data={specializationList}
                     value={formValues?.specialist?.map(
-                      (item) => item?.specializationID
+                      (item) => console.log("item?.specializationID ", item?.specializationID) // item?.specializationID || 
                     )}
+                    // value=[${58}]
                     width={"100%"}
                     onChange={(e) => handleChange(e, "specialist")}
                   />
-                </Grid>
+                </Grid>g
                 {/* <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Specialist <span style={redStarStyle}>*</span>
@@ -1055,10 +1057,10 @@ const HospitalEditForm = () => {
                       placeholder="logitude"
                       size="small"
                       value={formValues?.HospitalAddress?.longitude}
-                      // data={cityList}
-                      // onChange={(e) => {
-                      //   handleChange(e, 'longitude')
-                      // }}
+                    // data={cityList}
+                    // onChange={(e) => {
+                    //   handleChange(e, 'longitude')
+                    // }}
                     />
                   </FormControl>
                 </Grid>
