@@ -44,11 +44,16 @@ import {
   getStateIdList,
   getQualificationIdList,
   getCityNameByCountryIdList,
+  getStatusIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
 import { handleEditPostDoctor, handlePostDoctor } from "../Slices/doctorSlice";
-import { getCityList, getCityNameByCountry } from "../Slices/globalSlice";
+import {
+  getCityList,
+  getCityNameByCountry,
+  getStatus,
+} from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import { getQualification } from "../Slices/globalSlice";
 
@@ -140,6 +145,13 @@ const DoctorEditForm = () => {
   console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
+  const getStatusList = useSelector((state) => state.global.statusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
+  const statuses = getStatusIdList(getStatusList);
+  // console.log("getStatusList", statuses);
+
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     doctorFirstName: "",
@@ -148,7 +160,7 @@ const DoctorEditForm = () => {
     qualification: [],
     specialist: [],
     experience: "",
-    status: "",
+    IsActive: "",
     location: "",
     IMRregisterID: "",
     DOB: "",
@@ -547,12 +559,9 @@ const DoctorEditForm = () => {
                   <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.status}
-                    data={[
-                      { id: "1", name: "Active" },
-                      { id: "2", name: "InActive" },
-                    ]}
-                    onChange={(e) => handleOnChange(e, "status")}
+                    value={formValues?.IsActive}
+                    data={statuses}
+                    onChange={(e) => handleOnChange(e, "IsActive")}
                   />
                 </Grid>
                 <Grid item xs={6}>
