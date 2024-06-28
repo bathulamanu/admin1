@@ -11,6 +11,7 @@ const initialState = {
   experienceList: [],
   employementList: [],
   locationList: [],
+  statusList: [],
   loading: "",
 };
 
@@ -146,6 +147,20 @@ export const getCityNameByCountry = createAsyncThunk(
     }
   }
 );
+
+export const getStatus = createAsyncThunk(
+  "getStatus",
+  async (search, thunkAPI) => {
+    try {
+      const response = await api.get(`getMasterConfiguration/status/${search}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
 const globalSlice = createSlice({
   name: "global",
   initialState,
@@ -247,6 +262,17 @@ const globalSlice = createSlice({
       state.locationList = action.payload;
     });
     builder.addCase(getCityNameByCountry.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getStatus.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getStatus.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.statusList = action.payload.data;
+    });
+    builder.addCase(getStatus.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

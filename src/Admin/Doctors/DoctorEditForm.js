@@ -137,6 +137,7 @@ const DoctorEditForm = () => {
   useEffect(() => {
     dispatch(getCityNameByCountry(null));
   }, [dispatch]);
+  console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
   const [errors, setErrors] = useState({});
@@ -165,10 +166,11 @@ const DoctorEditForm = () => {
         employmentType: "",
         startDate: "",
         endDate: "",
-        currentlyWorking: {
-          type: "",
-          default: false,
-        },
+        // currentlyWorking: {
+        //   type: "",
+        //   default: false,
+        // },
+        currentlyWorking: false,
         description: "",
       },
     ],
@@ -393,7 +395,7 @@ const DoctorEditForm = () => {
     }));
   }, [doctorDetail]);
 
-  console.log("doctorDetail", doctorDetail);
+  // console.log("doctorDetail", doctorDetail);
 
   return (
     <Container

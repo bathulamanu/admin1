@@ -102,8 +102,18 @@ export function getQualificationIdList(arr) {
 export function getCityNameByCountryIdList(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
-      id: item?.countryID,
+      id: item?.cityID,
       name: item?.name,
+    }));
+    return result;
+  }
+}
+
+export function getStatusIdList(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.masterConfigurationID,
+      name: item?.description,
     }));
     return result;
   }

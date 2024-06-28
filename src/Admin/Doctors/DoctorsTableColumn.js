@@ -31,7 +31,8 @@ const DoctorsTableColumn = () => {
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter("gyno"),
+      valueGetter: (_, row) =>
+        capitalizeFirstLetter(row?.specilizationInfo?.[0]?.value),
     },
     {
       field: "experience",
@@ -77,7 +78,7 @@ const DoctorsTableColumn = () => {
           width={"100%"}
         >
           <Chip
-            label={row?.status ? "Active" : "In Active"}
+            label={row?.IsActiveInfo ? "Active" : "In Active"}
             sx={{
               borderRadius: "4px",
               color: row?.status ? "#269254" : "#EF4646",
