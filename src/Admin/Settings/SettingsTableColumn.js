@@ -72,7 +72,7 @@ const SettingsTableColumn = () => {
     setFormValues({
       title: activeTitle,
       value: params.row.value,
-      status: params.row.status,
+      IsActive: params.row.IsActive //params.row.status,
     });
     setOpenEdit(true);
   };
@@ -231,7 +231,7 @@ const SettingsTableColumn = () => {
                     </Grid> */}
                     <Grid container spacing={2} pt={3} pb={2}>
                       <Grid item style={{ width: "100%" }}>
-                        <InputLabel sx={inputLableStyle}>Status</InputLabel>
+                        <InputLabel sx={inputLableStyle}>Status {formValues?.IsActive} {"okok "}</InputLabel>
                         <SingleSelect
                           placeholder={"Select"}
                           width={"100%"}
