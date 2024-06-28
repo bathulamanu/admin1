@@ -192,9 +192,10 @@ const HospitalView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {specialist?.[0]?.value} ,{" "}
+                              {specialist?.[0]?.value}
+                              {/* ,{" "}
                               {specialist?.[1]?.value}, {specialist?.[2]?.value}
-                              ,{" "}
+                              ,{" "} */}
                             </Typography>
                           </Stack>
                           <Stack direction={"row"} spacing={2}>
