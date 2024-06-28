@@ -78,7 +78,7 @@ const DoctorsTableColumn = () => {
           width={"100%"}
         >
           <Chip
-            label={row?.status ? "Active" : "In Active"}
+            label={row?.IsActiveInfo ? "Active" : "In Active"}
             sx={{
               borderRadius: "4px",
               color: row?.status ? "#269254" : "#EF4646",

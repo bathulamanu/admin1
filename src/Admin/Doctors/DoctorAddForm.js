@@ -44,11 +44,16 @@ import {
   getStateIdList,
   getQualificationIdList,
   getCityNameByCountryIdList,
+  getStatusIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
 import { handlePostDoctor } from "../Slices/doctorSlice";
-import { getCityList, getCityNameByCountry } from "../Slices/globalSlice";
+import {
+  getCityList,
+  getCityNameByCountry,
+  getStatus,
+} from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
 import { getQualification } from "../Slices/globalSlice";
 
@@ -117,8 +122,15 @@ const DoctorAddForm = () => {
   useEffect(() => {
     dispatch(getCityNameByCountry(null));
   }, [dispatch]);
-  // console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
+  console.log("getLoactionList", getLoaction);
+
+  const getStatusList = useSelector((state) => state.global.statusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
+  const statuses = getStatusIdList(getStatusList);
+  // console.log("getStatusList", statuses);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -128,7 +140,7 @@ const DoctorAddForm = () => {
     qualification: [],
     specialist: [],
     experience: "",
-    status: "",
+    IsActive: "",
     location: "",
     IMRregisterID: "",
     DOB: "",
@@ -544,12 +556,13 @@ const DoctorAddForm = () => {
                   <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.status}
-                    data={[
-                      { id: "1", name: "Active" },
-                      { id: "2", name: "InActive" },
-                    ]}
-                    onChange={(e) => handleOnChange(e, "status")}
+                    value={formValues?.IsActive}
+                    data={statuses}
+                    // data={[
+                    //   { id: 47, name: "Active" },
+                    //   { id: 48, name: "InActive" },
+                    // ]}
+                    onChange={(e) => handleOnChange(e, "IsActive")}
                   />
                 </Grid>
                 <Grid item xs={6}>

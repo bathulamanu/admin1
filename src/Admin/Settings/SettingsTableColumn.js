@@ -17,14 +17,18 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
-import { capitalizeFirstLetter } from "../../globalFunctions";
+import { capitalizeFirstLetter, getStatusIdList } from "../../globalFunctions";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "../../httpRequest";
-import { getQualification, getSpecialization } from "../Slices/globalSlice";
+import {
+  getQualification,
+  getSpecialization,
+  getStatus,
+} from "../Slices/globalSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -48,6 +52,14 @@ const SettingsTableColumn = () => {
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
+
+  const getStatusList = useSelector((state) => state.global.statusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
+  const statuses = getStatusIdList(getStatusList);
+  // console.log("getStatusList", statuses);
+
   const [openEdit, setOpenEdit] = useState(false);
   const [formValues, setFormValues] = useState({
     title: activeTitle,
@@ -223,10 +235,7 @@ const SettingsTableColumn = () => {
                           placeholder={"Select"}
                           width={"100%"}
                           value={formValues?.IsActive}
-                          data={[
-                            { id: 47, name: "Active" },
-                            { id: 48, name: "InActive" },
-                          ]}
+                          data={statuses}
                           onChange={(e) => handleOnChange(e, "IsActive")}
                         />
                       </Grid>

@@ -38,7 +38,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoctorAddForm from "../Admin/Doctors/DoctorAddForm";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { capitalizeFirstLetter, stringAvatar } from "../globalFunctions";
+import {
+  capitalizeFirstLetter,
+  getStatusIdList,
+  stringAvatar,
+} from "../globalFunctions";
 import {
   getCityList,
   getCountryList,
@@ -48,6 +52,7 @@ import {
   getQualification,
   getSpecialization,
   getStateList,
+  getStatus,
 } from "../Admin/Slices/globalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import DoctorView from "../Admin/Doctors/DoctorView";
@@ -322,6 +327,14 @@ export const MainLayout = () => {
   const { activeTitle, activeButton } = useSelector(
     (state) => state.settinglayout
   );
+
+  const getStatusList = useSelector((state) => state.global.statusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
+  const statuses = getStatusIdList(getStatusList);
+  // console.log("getStatusList", statuses);
+
   const [openSpecialization, setOpenSpecialization] = useState(false);
 
   const [formValues, setFormValues] = useState({
@@ -1240,10 +1253,7 @@ export const MainLayout = () => {
                               placeholder={"Select"}
                               width={"100%"}
                               value={formValues?.IsActive}
-                              data={[
-                                { id: 47, name: "Active" },
-                                { id: 48, name: "InActive" },
-                              ]}
+                              data={statuses}
                               onChange={(e) => handleOnChange(e, "IsActive")}
                             />
                           </Grid>
