@@ -607,7 +607,7 @@ const HospitalEditForm = () => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="hospial@gmail.com"
+                      placeholder="http://example.com"
                       size="small"
                       value={formValues?.website}
                       onChange={(e) => handleChange(e.target.value, "website")}
