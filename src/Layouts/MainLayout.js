@@ -71,7 +71,7 @@ import {
   deleteDoctors,
 } from "../Admin/Slices/doctorSlice";
 import SingleSelect from "../GlobalComponents/SingleSelect";
-import api from "../httpRequest";
+import api from "../api/httpRequest";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;

@@ -1,5 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../httpRequest";
+import {
+  asyncThunkCreator,
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
+import api from "../../api/httpRequest";
+import customerapi from "../../api/customerhttpRequest";
 
 const initialState = {
   countryList: [],
@@ -12,6 +17,8 @@ const initialState = {
   employementList: [],
   locationList: [],
   statusList: [],
+  typeOfProofData: [],
+  SubscribedUserData: [],
   loading: "",
 };
 
@@ -161,6 +168,37 @@ export const getStatus = createAsyncThunk(
     }
   }
 );
+
+export const GetTypeOfProof = createAsyncThunk(
+  "GetTypeOfProof",
+  async (search, thunkAPI) => {
+    try {
+      const response = await api.get(
+        `getMasterConfiguration/IDProof/${search}`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const getAnnexureInfo = createAsyncThunk(
+  "getAnnexureInfo",
+  async (search, thunkAPI) => {
+    try {
+      const response = await customerapi.get(`/getAnnexureInfo`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const globalSlice = createSlice({
   name: "global",
   initialState,
@@ -274,6 +312,30 @@ const globalSlice = createSlice({
     });
     builder.addCase(getStatus.rejected, (state) => {
       state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(GetTypeOfProof.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(GetTypeOfProof.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.typeOfProofData = action.payload.data;
+    });
+    builder.addCase(GetTypeOfProof.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getAnnexureInfo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getAnnexureInfo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.SubscribedUserData = action.payload.data;
+    });
+    builder.addCase(getAnnexureInfo.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
     });
   },
 });

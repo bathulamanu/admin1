@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import api from "../../httpRequest";
-import adminapi from "../../adminhttpRequest";
+import adminapi from "../../api/adminhttpRequest";
 
 const initialState = {
   customersList: [],

@@ -50,7 +50,7 @@ import {
   getEmpTypeIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 import { handlePostDoctor } from "../Slices/doctorSlice";
 import {
   getCityList,

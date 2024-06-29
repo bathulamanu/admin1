@@ -52,7 +52,7 @@ import {
   handlePostHospital,
 } from "../Admin/Slices/hospitalSlice";
 import mapIcon from "../assets/map.png";
-import api from "../httpRequest";
+import api from "../api/httpRequest";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",

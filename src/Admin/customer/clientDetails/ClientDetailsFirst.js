@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -15,6 +15,10 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
+import api from "../../../api/httpRequest";
+import { useDispatch, useSelector } from "react-redux";
+import { getTypeOfProofList } from "../../../globalFunctions";
+import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -34,30 +38,35 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const ClientDetailsFirst = () => {
+  const dispatch = useDispatch();
+  const IDproofDetails = useSelector((state) => state.global.typeOfProofData);
+  useEffect(() => {
+    dispatch(GetTypeOfProof(null));
+  }, [dispatch]);
+  const IDList = getTypeOfProofList(IDproofDetails);
+
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  useEffect(() => {
+    dispatch(getAnnexureInfo);
+  }, [dispatch]);
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
   const [formValues, setFormValues] = useState({
-    fatherName: "",
-    dob: "",
-    email: "",
-    phoneNumber: "",
-    occupation: "",
-    designation: "",
-    orgName: "",
-    idProof: "",
-    idProofNo: "",
-    otherId: "",
+    ExpectantFatherName: "",
+    ExpectantFatherDOB: "",
+    ExpectantFatherEmail: "",
+    ExpectantFatherMobile: "",
+    ExpectantFatherOccupation: "",
+    ExpectantFatherDesignation: "",
+    ExpectantFatherOrganizationName: "",
+    ExpectantFatherIDproof: "",
+    ExpectantFatherIdproofNo: "",
+    ExpectantFatherOtherInfo: "",
+    ExpectantFatherProfilePhoto: "",
+    ExpectantFatherIDproofPhoto: "",
   });
 
   const handleChange = (e, name) => {
@@ -68,6 +77,30 @@ const ClientDetailsFirst = () => {
     }));
   };
 
+  const handleImageUpload = async (e, fieldName) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "ClientDetails");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        setFormValues((prev) => ({
+          ...prev,
+          [fieldName]: response?.data?.data?.key,
+        }));
+        console.log(formValues[fieldName]);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log("formvalues", formValues);
   return (
     <Card variant="outlined">
       <CardContent
@@ -98,11 +131,12 @@ const ClientDetailsFirst = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantFatherName"
+                      name="ExpectantFatherName"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.fatherName}
-                      onChange={(e) => handleChange(e, "fatherName")}
+                      value={formValues?.ExpectantFatherName}
+                      onChange={(e) => handleChange(e, "ExpectantFatherName")}
                     />
                   </FormControl>
                 </Grid>
@@ -112,11 +146,12 @@ const ClientDetailsFirst = () => {
                   </InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="ExpectantFatherDOB"
+                    name="ExpectantFatherDOB"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.dob}
-                    onChange={(e) => handleChange(e, "dob")}
+                    value={formValues?.ExpectantFatherDOB}
+                    onChange={(e) => handleChange(e, "ExpectantFatherDOB")}
                   />
                 </Grid>
               </Grid>
@@ -128,11 +163,12 @@ const ClientDetailsFirst = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantFatherEmail"
+                      name="ExpectantFatherEmail"
                       placeholder="Input Email"
                       size="small"
-                      value={formValues?.email}
-                      onChange={(e) => handleChange(e, "email")}
+                      value={formValues?.ExpectantFatherEmail}
+                      onChange={(e) => handleChange(e, "ExpectantFatherEmail")}
                     />
                   </FormControl>
                 </Grid>
@@ -142,11 +178,12 @@ const ClientDetailsFirst = () => {
                   </InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="ExpectantFatherMobile"
+                    name="ExpectantFatherMobile"
                     placeholder="Input Phone Number"
                     size="small"
-                    value={formValues?.phoneNumber}
-                    onChange={(e) => handleChange(e, "phoneNumber")}
+                    value={formValues?.ExpectantFatherMobile}
+                    onChange={(e) => handleChange(e, "ExpectantFatherMobile")}
                   />
                 </Grid>
               </Grid>
@@ -158,11 +195,14 @@ const ClientDetailsFirst = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantFatherOccupation"
+                      name="ExpectantFatherOccupation"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.occupation}
-                      onChange={(e) => handleChange(e, "occupation")}
+                      value={formValues?.ExpectantFatherOccupation}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherOccupation")
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -172,11 +212,14 @@ const ClientDetailsFirst = () => {
                   </InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="ExpectantFatherDesignation"
+                    name="ExpectantFatherDesignation"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.designation}
-                    onChange={(e) => handleChange(e, "designation")}
+                    value={formValues?.ExpectantFatherDesignation}
+                    onChange={(e) =>
+                      handleChange(e, "ExpectantFatherDesignation")
+                    }
                   />
                 </Grid>
               </Grid>
@@ -188,11 +231,14 @@ const ClientDetailsFirst = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantFatherOrganizationName"
+                      name="ExpectantFatherOrganizationName"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.ExpectantFatherOrganizationName}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherOrganizationName")
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -205,8 +251,9 @@ const ClientDetailsFirst = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
+                    data={IDList}
+                    value={formValues?.ExpectantFatherIDproof}
+                    onChange={(e) => handleChange(e, "ExpectantFatherIDproof")}
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -215,11 +262,14 @@ const ClientDetailsFirst = () => {
                   </InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="ExpectantFatherIdproofNo"
+                    name="ExpectantFatherIdproofNo"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.idProofNo}
-                    onChange={(e) => handleChange(e, "idProofNo")}
+                    value={formValues?.ExpectantFatherIdproofNo}
+                    onChange={(e) =>
+                      handleChange(e, "ExpectantFatherIdproofNo")
+                    }
                   />
                 </Grid>
               </Grid>
@@ -232,11 +282,14 @@ const ClientDetailsFirst = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantFatherIdproofNo"
+                      name="ExpectantFatherIdproofNo"
                       placeholder="Input text"
                       size="small"
-                      value={formValues?.otherId}
-                      onChange={(e) => handleChange(e, "otherId")}
+                      value={formValues?.ExpectantFatherIdproofNo}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherIdproofNo")
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -267,7 +320,10 @@ const ClientDetailsFirst = () => {
                       width: "100%",
                     }}
                   >
-                    <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
+                    <Avatar
+                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.ExpectantFatherProfilePhoto}`}
+                      sx={{ width: 150, height: 150, marginRight: 2 }}
+                    />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
                         variant="h5"
@@ -323,7 +379,14 @@ const ClientDetailsFirst = () => {
                   sx={{ marginTop: "10px" }}
                 >
                   Upload Image
-                  <VisuallyHiddenInput type="file" />
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/svg+xml"
+                    hidden
+                    onChange={(e) =>
+                      handleImageUpload(e, "ExpectantFatherProfilePhoto")
+                    }
+                  />
                 </Button>
               </Stack>
               <Typography variant="h5" sx={headingStyle}>
@@ -339,7 +402,10 @@ const ClientDetailsFirst = () => {
                       width: "100%",
                     }}
                   >
-                    <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
+                    <Avatar
+                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.ExpectantFatherIDproofPhoto}`}
+                      sx={{ width: 150, height: 150, marginRight: 2 }}
+                    />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
                         variant="h5"
@@ -403,7 +469,14 @@ const ClientDetailsFirst = () => {
                   }}
                 >
                   Upload Image
-                  <VisuallyHiddenInput type="file" />
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/svg+xml"
+                    hidden
+                    onChange={(e) =>
+                      handleImageUpload(e, "ExpectantFatherIDproofPhoto")
+                    }
+                  />
                 </Button>
               </Stack>
             </CardContent>

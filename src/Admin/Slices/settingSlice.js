@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 
 const initialState = {
   settingsList: [],
