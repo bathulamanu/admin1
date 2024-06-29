@@ -10,8 +10,10 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Container,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   InputLabel,
@@ -158,10 +160,6 @@ const DoctorAddForm = () => {
         employmentType: "",
         startDate: "",
         endDate: "",
-        // currentlyWorking: {
-        //   type: "",
-        //   default: false,
-        // },
         currentlyWorking: false,
         description: "",
       },
@@ -317,6 +315,13 @@ const DoctorAddForm = () => {
           temp.previousExperience = {
             ...temp.previousExperience[0],
             endDate: value ? dayjs(value).toISOString() : null,
+          };
+          break;
+
+        case "currentlyWorking":
+          temp.previousExperience = {
+            ...temp.previousExperience,
+            currentlyWorking: value,
           };
           break;
 
@@ -567,7 +572,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Location</InputLabel>
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={getLoaction}
@@ -822,6 +827,22 @@ const DoctorAddForm = () => {
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
+              </Grid>
+              <Grid width={"100%"} sx={{ mb: 1 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="currentlyWorking"
+                      checked={
+                        formValues.previousExperience[0].currentlyWorking
+                      }
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "currentlyWorking")
+                      }
+                    />
+                  }
+                  label="Currently working here"
+                />
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
