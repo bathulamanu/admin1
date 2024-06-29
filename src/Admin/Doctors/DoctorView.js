@@ -29,7 +29,7 @@ const DoctorView = () => {
   const doctorFirstName = doctorDetail?.doctorFirstName;
   const doctorLastName = doctorDetail?.doctorLastName;
   const doctorID = doctorDetail?.doctorID;
-  const specialist = doctorDetail?.specialist;
+  const specialistInfo = doctorDetail?.specialistInfo;
   const DOB = doctorDetail?.DOB;
   const IMRregisterID = doctorDetail?.IMRregisterID;
   const qualification = doctorDetail?.qualification;
@@ -174,7 +174,7 @@ const DoctorView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {specialist?.[0]?.value || ""}
+                              {specialistInfo?.[0]?.value || ""}
                               {/* ,{" "}
                               {specialist?.[1]?.value || ""}{" "} */}
                             </Typography>
