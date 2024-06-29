@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -17,7 +17,7 @@ import {
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import api from "../../../api/httpRequest";
 import { useDispatch, useSelector } from "react-redux";
-import { getTypeOfProofList } from "../../../globalFunctions";
+import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
 import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
 
 const headingStyle = {
@@ -38,7 +38,18 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const ClientDetailsFirst = () => {
+const ClientDetailsFirst = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
   const dispatch = useDispatch();
   const IDproofDetails = useSelector((state) => state.global.typeOfProofData);
   useEffect(() => {
@@ -49,9 +60,9 @@ const ClientDetailsFirst = () => {
   const SubscribedInnerPageData = useSelector(
     (state) => state.global.SubscribedUserData
   );
-  useEffect(() => {
-    dispatch(getAnnexureInfo);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAnnexureInfo);
+  // }, [dispatch]);
   console.log("SubscribedInnerPageData", SubscribedInnerPageData);
 
   const [formValues, setFormValues] = useState({
@@ -99,6 +110,43 @@ const ClientDetailsFirst = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    async function getCustomerFatherData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerClientFatherDetails
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerClientFatherDetails) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1].value =
+                item == "ExpectantFatherDOB"
+                  ? formatDate(
+                      SubscribedInnerPageData.CustomerClientFatherDetails[item]
+                    )
+                  : SubscribedInnerPageData.CustomerClientFatherDetails[item];
+            }
+          }
+          for (let item2 in formValues) {
+            if (item2 == item) {
+              formValues[item2] =
+                SubscribedInnerPageData.CustomerClientFatherDetails[item];
+            }
+          }
+        }
+      }
+    }
+    getCustomerFatherData();
+  }, [SubscribedInnerPageData]);
+
+  useEffect(() => {
+    // e.preventDefault();
+    getAnnexureInfo();
+  }, [handlePrev]);
 
   console.log("formvalues", formValues);
   return (
@@ -485,6 +533,6 @@ const ClientDetailsFirst = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsFirst;

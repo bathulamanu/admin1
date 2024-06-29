@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import moment from "moment";
 function stringToColor(string) {
   let hash = 0;
   for (let i = 0; i < string.length; i += 1) {
@@ -137,4 +138,8 @@ export function getTypeOfProofList(arr) {
     }));
     return result;
   }
+}
+
+export function formatDate(dateString) {
+  return moment(dateString).format("DD-MM-YYYY");
 }

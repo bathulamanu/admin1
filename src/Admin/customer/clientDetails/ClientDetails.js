@@ -90,6 +90,7 @@ const ClientDetails = () => {
             <ClientDetailsFirst
               ref={childFatherDetailsRef}
               handleNext={handleNext}
+              handlePrev={handlePrevious}
               currentStep={currentStep}
               setCurrentStep={setCurrentStep}
               totalSteps={totalSteps}
