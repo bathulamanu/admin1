@@ -36,7 +36,7 @@ const DoctorsPage = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectValue, setSelectValue] = useState("");
-  const filteredList = doctorsList.filter((item) => {
+  const filteredList = doctorsList?.filter((item) => {
     const matchesSearch =
       item?.doctorFirstName &&
       item.doctorFirstName.toLowerCase().includes(searchValue.toLowerCase());

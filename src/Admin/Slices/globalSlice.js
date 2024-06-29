@@ -138,7 +138,7 @@ export const getCityNameByCountry = createAsyncThunk(
   "getCityNameByCountry",
   async (search, thunkAPI) => {
     try {
-      const response = await api.get(`/getCityNameByCountry/352`);
+      const response = await api.get(`/getCityNameByCountry/352/1699`);
       return response.data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
