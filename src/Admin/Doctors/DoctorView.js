@@ -25,7 +25,7 @@ import chat from "../../assets/chat.png";
 
 const DoctorView = () => {
   const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  console.log("doctorDetails", doctorDetail);
+  // console.log("doctorDetails", doctorDetail);
   const doctorFirstName = doctorDetail?.doctorFirstName;
   const doctorLastName = doctorDetail?.doctorLastName;
   const doctorID = doctorDetail?.doctorID;

@@ -125,7 +125,7 @@ const DoctorAddForm = () => {
     dispatch(getCityNameByCountry(null));
   }, [dispatch]);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
-  console.log("getLoactionList", getLoaction);
+  // console.log("getLoactionList", getLoaction);
 
   const getStatusList = useSelector((state) => state.global.statusList);
   useEffect(() => {
