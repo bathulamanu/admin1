@@ -1,4 +1,4 @@
-import { Button, Chip, Stack, styled, Typography } from "@mui/material";
+import { Button, Chip, Stack, styled } from "@mui/material";
 import React from "react";
 import { getDoctorDetail } from "../Slices/doctorSlice";
 import { useDispatch } from "react-redux";
@@ -77,14 +77,26 @@ const DoctorsTableColumn = () => {
           height={"100%"}
           width={"100%"}
         >
-          <Chip
-            label={row?.IsActive === 47 ? "Active" : "In Active"}
-            sx={{
-              borderRadius: "4px",
-              color: row?.IsActive === 47 ? "#269254" : "#EF4646",
-              background: row?.IsActive === 47 ? "#DEF7EC" : "#FDEDED",
-            }}
-          />
+          {row?.IsActive === 47 && (
+            <Chip
+              label={"Active"}
+              sx={{
+                borderRadius: "4px",
+                color: "#269254",
+                background: "#DEF7EC",
+              }}
+            />
+          )}
+          {row?.IsActive === 46 && (
+            <Chip
+              label={"In Active"}
+              sx={{
+                borderRadius: "4px",
+                color: "#EF4646",
+                background: "#FDEDED",
+              }}
+            />
+          )}
           {/* <Chip
             label={row?.status ? "Active" : "In Active"}
             sx={{

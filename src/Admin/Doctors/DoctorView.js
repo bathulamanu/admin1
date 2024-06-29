@@ -25,11 +25,11 @@ import chat from "../../assets/chat.png";
 
 const DoctorView = () => {
   const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  console.log("doctorDetails", doctorDetail);
+  // console.log("doctorDetails", doctorDetail);
   const doctorFirstName = doctorDetail?.doctorFirstName;
   const doctorLastName = doctorDetail?.doctorLastName;
   const doctorID = doctorDetail?.doctorID;
-  const specialist = doctorDetail?.specialist;
+  const specialistInfo = doctorDetail?.specialistInfo;
   const DOB = doctorDetail?.DOB;
   const IMRregisterID = doctorDetail?.IMRregisterID;
   const qualification = doctorDetail?.qualification;
@@ -174,7 +174,7 @@ const DoctorView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {specialist?.[0]?.value || ""}
+                              {specialistInfo?.[0]?.value || ""}
                               {/* ,{" "}
                               {specialist?.[1]?.value || ""}{" "} */}
                             </Typography>
