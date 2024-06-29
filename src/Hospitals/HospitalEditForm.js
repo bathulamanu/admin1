@@ -488,21 +488,6 @@ const HospitalEditForm = () => {
                     onChange={(e) => handleChange(e, "specialist")}
                   />
                 </Grid>
-                {/* <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Specialist <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <CommonSelect
-                    multiple
-                    Placeholder={"Select"}
-                    data={specializationList}
-                    value={
-                      formValues?.specialist?.map((item) => item?.id) || []
-                    }
-                    width={"100%"}
-                    onChange={(e) => handleChange(e, "specialist")}
-                  />
-                </Grid> */}
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Licence number <span style={redStarStyle}>*</span>
@@ -750,6 +735,7 @@ const HospitalEditForm = () => {
                       size="small"
                       value={formValues?.HospitalAddress?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
+                      inputProps={{ maxLength: 6 }}
                     />
                     {!!errors.pincode && (
                       <FormHelperText>{errors.pincode}</FormHelperText>
@@ -773,6 +759,7 @@ const HospitalEditForm = () => {
                       id="outlined-adornment-password"
                       placeholder="phone number"
                       size="small"
+                      inputProps={{ maxLength: 10 }}
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
                         handleChange(e.target.value, "phoneNumber");
@@ -784,9 +771,7 @@ const HospitalEditForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Landline<span style={redStarStyle}>*</span>
-                  </InputLabel>
+                  <InputLabel sx={inputLableStyle}>Landline</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth
@@ -801,9 +786,7 @@ const HospitalEditForm = () => {
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Fax Number<span style={redStarStyle}>*</span>
-                  </InputLabel>
+                  <InputLabel sx={inputLableStyle}>Fax Number</InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
                       fullWidth

@@ -252,6 +252,63 @@ const SettingsPage = () => {
             </FormControl>
             <MoreVertIcon />
           </Stack>
+        ) : activeTitle === "Brands" ? (
+          <Stack direction={"row"} alignItems={"center"} spacing={1}>
+            <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
+              <OutlinedInput
+                type={"text"}
+                placeholder="Search"
+                size="small"
+                value={searchValueQ}
+                onChange={(e) => setSearchValueQ(e.target.value)}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            {/* <CommonSelect Placeholder={"Qualification"} data={getQualif} /> */}
+            <FormControl sx={{ width: "50%" }}>
+              <Select
+                sx={{ height: "40px" }}
+                value={selectValueQ}
+                onChange={(e) => setSelectValueQ(e.target.value)}
+                displayEmpty
+                placeholder="Brands"
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 200, // Adjust this value as needed
+                    },
+                  },
+                }}
+              >
+                <MenuItem value="">
+                  <em>Brands</em>
+                </MenuItem>
+                {/* {uniqueQulaification.map((qulaification, index) => (
+                  <MenuItem key={index} value={qulaification.value}>
+                    {qulaification.value}
+                  </MenuItem>
+                ))} */}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ width: "30%" }}>
+              <Select
+                width={"100%"}
+                sx={{ height: "40px" }}
+                value={statusFilterQ}
+                onChange={(e) => setStatusFilterQ(e.target.value)}
+                displayEmpty
+              >
+                <MenuItem value="">All</MenuItem>
+                <MenuItem value="Active">Active</MenuItem>
+                <MenuItem value="Inactive">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+            <MoreVertIcon />
+          </Stack>
         ) : null}
       </Box>
       <Box display={"flex"} justifyContent={"left"} marginBottom={2} gap={2}>

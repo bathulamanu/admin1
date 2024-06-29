@@ -118,3 +118,13 @@ export function getStatusIdList(arr) {
     return result;
   }
 }
+
+export function getEmpTypeIdList(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.masterConfigurationID,
+      name: item?.description,
+    }));
+    return result;
+  }
+}

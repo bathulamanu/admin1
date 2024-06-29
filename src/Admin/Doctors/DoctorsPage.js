@@ -43,8 +43,8 @@ const DoctorsPage = () => {
 
     const matchesStatus =
       statusFilter === "" ||
-      (statusFilter === "Active" && item.status === true) ||
-      (statusFilter === "Inactive" && item.status === false);
+      (statusFilter === "Active" && item.IsActive === 47) ||
+      (statusFilter === "Inactive" && item.IsActive === 46);
 
     const matchesSpecialization =
       selectValue === "" ||

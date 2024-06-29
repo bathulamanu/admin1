@@ -170,6 +170,9 @@ export const MainLayout = () => {
     } else if (!addHospitalData.email.trim()) {
       toast.warning("Email is required");
       return;
+    } else if (!addHospitalData.website.trim()) {
+      toast.warning("website is required");
+      return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
       toast.warning("Address Line 1 is required");
       return;

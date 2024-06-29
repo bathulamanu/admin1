@@ -585,6 +585,7 @@ const DoctorEditForm = () => {
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
+                      value={formValues?.IMRregisterID}
                       onChange={(e) =>
                         handleOnChange(e.target.value, "IMRregisterID")
                       }

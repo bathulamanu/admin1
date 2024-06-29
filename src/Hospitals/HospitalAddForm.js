@@ -727,6 +727,7 @@ const HospitalAddForm = () => {
                       id="pincode"
                       placeholder="pincode"
                       size="small"
+                      inputProps={{ maxLength: 6 }}
                       value={formValues?.HospitalAddress?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
@@ -752,6 +753,7 @@ const HospitalAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="phone number"
                       size="small"
+                      inputProps={{ maxLength: 10 }}
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
                         handleChange(e.target.value, "phoneNumber");

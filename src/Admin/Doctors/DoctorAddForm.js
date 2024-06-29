@@ -47,6 +47,7 @@ import {
   getQualificationIdList,
   getCityNameByCountryIdList,
   getStatusIdList,
+  getEmpTypeIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../httpRequest";
@@ -54,6 +55,7 @@ import { handlePostDoctor } from "../Slices/doctorSlice";
 import {
   getCityList,
   getCityNameByCountry,
+  getEmploymentType,
   getStatus,
 } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
@@ -133,6 +135,13 @@ const DoctorAddForm = () => {
   }, [dispatch]);
   const statuses = getStatusIdList(getStatusList);
   // console.log("getStatusList", statuses);
+
+  const getEmpTypeList = useSelector((state) => state.global.employementList);
+  useEffect(() => {
+    dispatch(getEmploymentType(null));
+  }, [dispatch]);
+  const EmpType = getEmpTypeIdList(getEmpTypeList);
+  // console.log("getEmpTypeList", EmpType);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -591,6 +600,7 @@ const DoctorAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
+                      value={formValues?.IMRregisterID}
                       onChange={(e) =>
                         handleOnChange(e.target.value, "IMRregisterID")
                       }
@@ -783,7 +793,7 @@ const DoctorAddForm = () => {
                   /> */}
                   <CommonSelect
                     placeholder={"Select"}
-                    data={employementTypeList}
+                    data={EmpType}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.employmentType}
                     onChange={(e) => {
