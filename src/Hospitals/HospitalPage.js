@@ -137,7 +137,7 @@ const HospitalPage = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               displayEmpty
             >
-              <MenuItem value="">Status</MenuItem>
+              <MenuItem value="">All</MenuItem>
               <MenuItem value="Active">Active</MenuItem>
               <MenuItem value="Inactive">Inactive</MenuItem>
             </Select>
