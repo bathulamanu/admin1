@@ -251,6 +251,8 @@ const DoctorAddForm = () => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => {
       let temp = { ...prev };
+      // let experience = [...temp.previousExperience];
+      // let updatedExperience = { ...experience[index] };
       switch (name) {
         case "specialist":
           let res = value?.map((ele) => ({ specializationID: ele }));
@@ -273,6 +275,8 @@ const DoctorAddForm = () => {
             country: value,
           };
           break;
+        // updatedExperience.country = value;
+        // break;
 
         case "Exstate":
           temp.previousExperience = {
@@ -280,6 +284,8 @@ const DoctorAddForm = () => {
             state: value,
           };
           break;
+        // updatedExperience.state = value;
+        // break;
 
         case "city":
           temp.previousExperience = { ...temp.previousExperience, city: value };
