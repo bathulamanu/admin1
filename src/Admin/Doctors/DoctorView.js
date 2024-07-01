@@ -25,8 +25,9 @@ import chat from "../../assets/chat.png";
 
 const DoctorView = () => {
   const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  console.log("doctorDetails", doctorDetail);
+  // console.log("doctorDetails", doctorDetail);
   const doctorFirstName = doctorDetail?.doctorFirstName;
+  const doctorProfile = doctorDetail?.doctorProfile;
   const doctorLastName = doctorDetail?.doctorLastName;
   const doctorID = doctorDetail?.doctorID;
   const specialistInfo = doctorDetail?.specialistInfo;
@@ -104,7 +105,11 @@ const DoctorView = () => {
                   <Card variant="outlined" sx={{ height: "280px" }}>
                     <CardContent sx={{ display: "flex", gap: 4 }}>
                       <img
-                        src={doctorImage}
+                        src={
+                          doctorProfile
+                            ? `https://flyingbyts.s3.ap-south-2.amazonaws.com/${doctorProfile}`
+                            : doctorImage
+                        }
                         height={"auto"}
                         width={200}
                         alt="Doctor"

@@ -53,6 +53,7 @@ import {
   getCityNameByCountryIdList,
   getStatusIdList,
   getEmpTypeIdList,
+  getHospitalNameById,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../api/httpRequest";
@@ -109,14 +110,9 @@ const DoctorAddForm = forwardRef((props, ref) => {
   useEffect(() => {
     dispatch(getHospitalsList(null));
   }, []);
-  const handleHospitalChange = (event) => {
-    const selectedId = event.target.value;
-    const selectedHospital = hospitalsList.find(
-      (hospital) => hospital.id === selectedId
-    );
-    setSelectedHospital(selectedId);
-    handleOnChange(event, "hospitalAddress", selectedHospital.address);
-  };
+
+  const getHospitalnames = getHospitalNameById(hospitalsList);
+  // console.log("HospitalsList name", getHospitalnames);
 
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
@@ -802,7 +798,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>City</InputLabel>
-                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
                   <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
@@ -831,39 +826,22 @@ const DoctorAddForm = forwardRef((props, ref) => {
               </Grid>
               <Grid width={"100%"} sx={{ mt: 2, mb: 2 }}>
                 <InputLabel sx={inputLableStyle}>
+                  {" "}
                   Hospital and Address
                 </InputLabel>
-                <FormControl sx={{ width: "100%" }}>
-                  <Select
-                    displayEmpty
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={selectedHospital || ""}
-                    onChange={handleHospitalChange}
-                    MenuProps={{
-                      PaperProps: {
-                        style: {
-                          maxHeight: 200, // Adjust this value as needed
-                        },
-                      },
-                    }}
-                  >
-                    {hospitalsList.map((hospital) => (
-                      <MenuItem key={hospital.id} value={hospital.id}>
-                        {`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SingleSelect
+                  placeholder={"Select"}
+                  data={getHospitalnames}
+                  width={"100%"}
+                  value={formValues?.previousExperience[0]?.hospitalAddress}
+                  onChange={(e) => {
+                    handleOnChange(e, "hospitalAddress");
+                  }}
+                />
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Experience</InputLabel>
-                  {/* <CommonSelect
-                    Placeholder={"Select"}
-                    data={experienceList}
-                    width={"100%"}
-                  /> */}
                   <SingleSelect
                     placeholder={"Select"}
                     data={experienceList}
@@ -876,11 +854,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Employment type</InputLabel>
-                  {/* <CommonSelect
-                    Placeholder={"Select"}
-                    data={employementTypeList}
-                    width={"100%"}
-                  /> */}
                   <SingleSelect
                     placeholder={"Select"}
                     data={EmpType}

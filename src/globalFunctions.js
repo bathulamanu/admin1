@@ -140,6 +140,16 @@ export function getTypeOfProofList(arr) {
   }
 }
 
+export function getHospitalNameById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.HospitalID,
+      name: item?.hospitalName + " - " + item?.LocationInfo?.cityName,
+    }));
+    return result;
+  }
+}
+
 export function formatDate(dateString) {
   return moment(dateString).format("DD-MM-YYYY");
 }

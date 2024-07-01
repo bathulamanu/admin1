@@ -47,6 +47,8 @@ import {
   getQualificationIdList,
   getCityNameByCountryIdList,
   getStatusIdList,
+  getEmpTypeIdList,
+  getHospitalNameById,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import api from "../../api/httpRequest";
@@ -54,6 +56,7 @@ import { handleEditPostDoctor, handlePostDoctor } from "../Slices/doctorSlice";
 import {
   getCityList,
   getCityNameByCountry,
+  getEmploymentType,
   getStatus,
 } from "../Slices/globalSlice";
 import { getHospitalsList } from "../Slices/hospitalSlice";
@@ -118,18 +121,11 @@ const DoctorEditForm = () => {
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
-  const [selectedHospital, setSelectedHospital] = useState("");
   useEffect(() => {
     dispatch(getHospitalsList(null));
   }, []);
-  const handleHospitalChange = (event) => {
-    const selectedId = event.target.value;
-    const selectedHospital = hospitalsList.find(
-      (hospital) => hospital.id === selectedId
-    );
-    setSelectedHospital(selectedId);
-    handleOnChange(event, "hospitalAddress", selectedHospital.address);
-  };
+  const getHospitalnames = getHospitalNameById(hospitalsList);
+  // console.log("HospitalsList name", getHospitalnames);
 
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
@@ -144,7 +140,7 @@ const DoctorEditForm = () => {
   useEffect(() => {
     dispatch(getCityNameByCountry(null));
   }, [dispatch]);
-  console.log("getLoactionList", getLoactionList);
+  // console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
 
   const getStatusList = useSelector((state) => state.global.statusList);
@@ -153,6 +149,13 @@ const DoctorEditForm = () => {
   }, [dispatch]);
   const statuses = getStatusIdList(getStatusList);
   // console.log("getStatusList", statuses);
+
+  const getEmpTypeList = useSelector((state) => state.global.employementList);
+  useEffect(() => {
+    dispatch(getEmploymentType(null));
+  }, [dispatch]);
+  const EmpType = getEmpTypeIdList(getEmpTypeList);
+  // console.log("getEmpTypeList", EmpType);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -749,8 +752,7 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>State</InputLabel>
-                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
@@ -764,7 +766,7 @@ const DoctorEditForm = () => {
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>City</InputLabel>
                   {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={cityList}
@@ -780,7 +782,10 @@ const DoctorEditForm = () => {
                     placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
-                    value={formValues?.previousExperience[0]?.specialist}
+                    // value={formValues?.previousExperience[0]?.specialist}
+                    value={formValues?.previousExperience[0]?.specialist?.map(
+                      (item) => item?.specilizationID
+                    )}
                     onChange={(e) => {
                       handleOnChange(e, "Exspecialist");
                     }}
@@ -789,33 +794,23 @@ const DoctorEditForm = () => {
               </Grid>
               <Grid width={"100%"} sx={{ mt: 2, mb: 2 }}>
                 <InputLabel sx={inputLableStyle}>
+                  {" "}
                   Hospital and Address
                 </InputLabel>
-                <FormControl sx={{ width: "100%" }}>
-                  <Select
-                    displayEmpty
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={selectedHospital || ""}
-                    onChange={handleHospitalChange}
-                  >
-                    {hospitalsList.map((hospital) => (
-                      <MenuItem key={hospital.id} value={hospital.id}>
-                        {`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <SingleSelect
+                  placeholder={"Select"}
+                  data={getHospitalnames}
+                  width={"100%"}
+                  value={formValues?.previousExperience[0]?.hospitalAddress}
+                  onChange={(e) => {
+                    handleOnChange(e, "hospitalAddress");
+                  }}
+                />
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Experience</InputLabel>
-                  {/* <CommonSelect
-                    Placeholder={"Select"}
-                    data={experienceList}
-                    width={"100%"}
-                  /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     data={experienceList}
                     width={"100%"}
@@ -827,14 +822,9 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Employment type</InputLabel>
-                  {/* <CommonSelect
-                    Placeholder={"Select"}
-                    data={employementTypeList}
-                    width={"100%"}
-                  /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
-                    data={employementTypeList}
+                    data={EmpType}
                     width={"100%"}
                     value={formValues?.previousExperience[0]?.employmentType}
                     onChange={(e) => {

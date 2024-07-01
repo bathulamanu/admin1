@@ -39,7 +39,7 @@ const SettingsPage = () => {
   useEffect(() => {
     dispatch(getSpecialization(null));
   }, [dispatch]);
-  // console.log("specializationList", specializationList);
+  console.log("specializationList", specializationList);
 
   const qualificationList = useSelector(
     (state) => state.global.qualificationList
