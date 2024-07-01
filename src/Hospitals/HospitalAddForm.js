@@ -52,7 +52,7 @@ import {
   handlePostHospital,
 } from "../Admin/Slices/hospitalSlice";
 import mapIcon from "../assets/map.png";
-import api from "../httpRequest";
+import api from "../api/httpRequest";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -727,6 +727,7 @@ const HospitalAddForm = () => {
                       id="pincode"
                       placeholder="pincode"
                       size="small"
+                      inputProps={{ maxLength: 6 }}
                       value={formValues?.HospitalAddress?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
@@ -752,6 +753,7 @@ const HospitalAddForm = () => {
                       id="outlined-adornment-password"
                       placeholder="phone number"
                       size="small"
+                      inputProps={{ maxLength: 10 }}
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
                         handleChange(e.target.value, "phoneNumber");

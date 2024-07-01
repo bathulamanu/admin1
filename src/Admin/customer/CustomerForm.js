@@ -30,7 +30,7 @@ import {
   getNamesIdList,
   getStateIdList,
 } from "../../globalFunctions";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 
 const headingStyle = {
   fontSize: "14px",

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -149,7 +149,7 @@ const doctorSlice = createSlice({
     });
     builder.addCase(deleteDoctors.fulfilled, (state, action) => {
       state.loading = "complete_success";
-      state.doctorsList = state.doctorsList.filter(
+      state.doctorsList = state.doctorsList?.filter(
         (doctor) => doctor.id !== action.meta.arg
       );
     });

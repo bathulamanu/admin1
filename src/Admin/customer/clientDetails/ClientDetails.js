@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
@@ -15,11 +15,15 @@ import ClientDetailsSix from "./ClientDetailsSix";
 import ClientDetailsSeven from "./ClientDetailsSeven";
 import ClientDetailsEight from "./ClientDetailsEight";
 import ClientDetailsPreview from "./ClientDetailsPreview";
+import { useDispatch } from "react-redux";
 
 const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPreview, setShowPreview] = useState(false);
   const totalSteps = 8;
+  const dispatch = useDispatch();
+  const childFatherDetailsRef = useRef();
+  const childMotherDetailsRef = useRef();
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -27,6 +31,12 @@ const ClientDetails = () => {
     } else if (currentStep === totalSteps) {
       setShowPreview(true);
     }
+    // if (childFatherDetailsRef.current) {
+    //   childFatherDetailsRef.current.getFatherData();
+    // }
+    // if (childMotherDetailsRef.current) {
+    //   childMotherDetailsRef.current.getMotherDetails();
+    // }
   };
 
   const handlePrevious = () => {
@@ -76,7 +86,16 @@ const ClientDetails = () => {
         <ClientDetailsPreview />
       ) : (
         <>
-          {currentStep === 1 && <ClientDetailsFirst />}
+          {currentStep === 1 && (
+            <ClientDetailsFirst
+              ref={childFatherDetailsRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
           {currentStep === 2 && <ClientDetailsSec />}
           {currentStep === 3 && <ClientDetailsThree />}
           {currentStep === 4 && <ClientDetailsForth />}

@@ -47,7 +47,7 @@ import {
   getStatusIdList,
 } from "../../globalFunctions";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 import { handleEditPostDoctor, handlePostDoctor } from "../Slices/doctorSlice";
 import {
   getCityList,
@@ -585,6 +585,7 @@ const DoctorEditForm = () => {
                       id="outlined-adornment-password"
                       placeholder="input text"
                       size="small"
+                      value={formValues?.IMRregisterID}
                       onChange={(e) =>
                         handleOnChange(e.target.value, "IMRregisterID")
                       }

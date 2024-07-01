@@ -27,7 +27,7 @@ const HospitalPage = () => {
   const dispatch = useDispatch();
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
 
-  // console.log("listData", hospitalsList);
+  console.log("listData", hospitalsList);
 
   useEffect(() => {
     dispatch(getHospitalsList(searchQuery));
@@ -54,19 +54,25 @@ const HospitalPage = () => {
     return matchesSearch && matchesStatus && matchesSpecialization;
   });
 
-  const uniqueSpecializationsMap = new Map();
-  hospitalsList.forEach((hospital) => {
-    hospital.specialist.forEach((specialization) => {
-      uniqueSpecializationsMap.set(
-        specialization.specilizationID,
-        specialization.value
-      );
-    });
-  });
+  // const uniqueSpecializationsMap = new Map();
+  // hospitalsList.forEach((hospital) => {
+  //   hospital.specialist.forEach((specialization) => {
+  //     uniqueSpecializationsMap.set(
+  //       specialization.specilizationID,
+  //       specialization.value
+  //     );
+  //   });
+  // });
 
-  const uniqueSpecializations = Array.from(
-    uniqueSpecializationsMap,
-    ([id, value]) => ({ id, value })
+  // const uniqueSpecializations = Array.from(
+  //   uniqueSpecializationsMap,
+  //   ([id, value]) => ({ id, value })
+  // );
+  const allSpecializations = hospitalsList.flatMap((hospital) =>
+    hospital.specialist.map((specialization) => ({
+      id: specialization.specilizationID,
+      value: specialization.value,
+    }))
   );
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
@@ -111,7 +117,12 @@ const HospitalPage = () => {
               <MenuItem value="">
                 <em>specialization</em>
               </MenuItem>
-              {[...uniqueSpecializations].map((specialization, index) => (
+              {/* {[...uniqueSpecializations].map((specialization, index) => (
+                <MenuItem key={index} value={specialization.id}>
+                  {specialization.value}
+                </MenuItem>
+              ))} */}
+              {allSpecializations.map((specialization, index) => (
                 <MenuItem key={index} value={specialization.id}>
                   {specialization.value}
                 </MenuItem>

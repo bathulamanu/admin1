@@ -23,7 +23,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SingleSelect from "../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
-import api from "../../httpRequest";
+import api from "../../api/httpRequest";
 import {
   getQualification,
   getSpecialization,
