@@ -258,7 +258,13 @@ const SettingsTableColumn = () => {
             </Dialog>
             <Button
               variant="contained"
-              color="error"
+              sx={{
+                background: "#f0f0f0",
+                color: "black",
+                "&:hover": {
+                  background: "#f0f0f0",
+                },
+              }}
               onClick={() => handleDelete(params?.row?.masterConfigurationID)}
             >
               <DeleteIcon fontSize="small" /> Delete

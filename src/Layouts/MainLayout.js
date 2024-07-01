@@ -174,10 +174,10 @@ export const MainLayout = () => {
       toast.warning("website is required");
       return;
     } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-      toast.warning("Address Line 1 is required");
+      toast.warning("Address 1 is required");
       return;
     } else if (!addHospitalData.HospitalAddress.addressLine2.trim()) {
-      toast.warning("Address Line 2 is required");
+      toast.warning("Address 2 is required");
       return;
     } else if (
       !addHospitalData.HospitalAddress.country ||
@@ -282,10 +282,10 @@ export const MainLayout = () => {
 
   const handleAddDoctorFormSubmit = () => {
     if (!addDoctorData.doctorFirstName) {
-      toast.warning("doctor's Name is required");
+      toast.warning("Doctor's Name is required");
       return;
     } else if (!addDoctorData.doctorID.trim()) {
-      toast.warning("doctor's ID is required");
+      toast.warning("Doctor's ID is required");
       return;
     } else if (
       !addDoctorData.qualification ||
@@ -818,19 +818,26 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="contained" color="error" size="small">
-                    <DeleteIcon
-                      fontSize="small"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleDeleteHospitalFormSubmit();
-                        // setFormOpen(null);
-                        // setActiveItem("Hospitals");
-                        dispatch(getHospitalsList(searchQuery));
-                        // navigate("/mainPage/hospitals");
-                      }}
-                    />{" "}
-                    Delete
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: "#f0f0f0",
+                      color: "black",
+                      "&:hover": {
+                        background: "#f0f0f0",
+                      },
+                    }}
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteHospitalFormSubmit();
+                      // setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getHospitalsList(searchQuery));
+                      // navigate("/mainPage/hospitals");
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" /> Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -888,7 +895,7 @@ export const MainLayout = () => {
                       // navigate("/mainPage/hospitals");
                     }}
                   >
-                    Save
+                    Update
                   </Button>
                   <Button
                     size="small"
@@ -1085,19 +1092,26 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="contained" color="error" size="small">
-                    <DeleteIcon
-                      fontSize="small"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleDeleteDoctorFormSubmit();
-                        // setFormOpen(null);
-                        // setActiveItem("Hospitals");
-                        dispatch(getDoctorList(searchQuery));
-                        // navigate("/mainPage/doctors");
-                      }}
-                    />{" "}
-                    Delete
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: "#f0f0f0",
+                      color: "black",
+                      "&:hover": {
+                        background: "#f0f0f0",
+                      },
+                    }}
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteDoctorFormSubmit();
+                      // setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      dispatch(getDoctorList(searchQuery));
+                      // navigate("/mainPage/doctors");
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" /> Delete
                   </Button>
                 </Stack>
               </Stack>
