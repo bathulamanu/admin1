@@ -160,9 +160,10 @@ const DoctorAddForm = () => {
     email: "",
     previousExperience: [
       {
+        id: 1,
         country: 352,
-        state: "",
-        city: "",
+        state: null,
+        city: null,
         specialist: [],
         hospitalAddress: "",
         experience: "",
@@ -279,16 +280,19 @@ const DoctorAddForm = () => {
         // break;
 
         case "Exstate":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            state: value,
-          };
+          // temp.previousExperience.map((exp, index) => {
+          //   if (exp.id == 1) {
+          //     temp.previousExperience[index] = { ...exp, state: value }
+          //   }
+          //   else {
+          //     exp = { ...exp }
+          //   }
+          // })
+          temp.previousExperience[0] = { ...temp.previousExperience[0], state: value };
           break;
-        // updatedExperience.state = value;
-        // break;
 
         case "city":
-          temp.previousExperience = { ...temp.previousExperience, city: value };
+          temp.previousExperience[0] = { ...temp.previousExperience[0], city: value };
           break;
 
         case "Exspecialist":
@@ -411,7 +415,8 @@ const DoctorAddForm = () => {
   };
 
   useEffect(() => {
-    dispatch(handlePostDoctor(formValues));
+    console.log("check 111111 add ddcotro ", formValues);
+    // dispatch(handlePostDoctor(formValues));
   }, [formValues]);
   console.log("formvalues", formValues);
 
@@ -714,7 +719,7 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>State</InputLabel>
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
@@ -728,7 +733,7 @@ const DoctorAddForm = () => {
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>City</InputLabel>
                   {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
                     data={cityList}
@@ -814,8 +819,8 @@ const DoctorAddForm = () => {
                         value={
                           formValues?.previousExperience[0]?.startDate
                             ? dayjs(
-                                formValues?.previousExperience[0]?.startDate
-                              )
+                              formValues?.previousExperience[0]?.startDate
+                            )
                             : null
                         }
                         onChange={(e) => {
