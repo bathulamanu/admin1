@@ -708,7 +708,6 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>State</InputLabel>
-                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
                   <CommonSelect
                     placeholder={"Select"}
                     width={"100%"}
