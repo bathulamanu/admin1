@@ -10,8 +10,10 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Container,
   FormControl,
+  FormControlLabel,
   FormHelperText,
   Grid,
   InputLabel,
@@ -245,6 +247,7 @@ const DoctorEditForm = () => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => {
       let temp = { ...prev };
+
       switch (name) {
         case "specialist":
           let res = value?.map((ele) => ({ specializationID: ele }));
@@ -262,70 +265,139 @@ const DoctorEditForm = () => {
           break;
 
         case "country":
-          temp.previousExperience = {
-            ...temp.previousExperience,
+          temp.previousExperience[0] = {
+            ...temp.previousExperience[0],
             country: value,
           };
           break;
+        // updatedExperience.country = value;
+        // break;
 
         case "Exstate":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            state: value,
-          };
+          // temp.previousExperience.map((exp, index) => {
+          //   if (exp.id == 1) {
+          //     temp.previousExperience[index] = { ...exp, state: value }
+          //   }
+          //   else {
+          //     exp = { ...exp }
+          //   }
+          // })
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   state: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, state: value } : exp
+          );
           break;
 
         case "city":
-          temp.previousExperience = { ...temp.previousExperience, city: value };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   city: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, city: value } : exp
+          );
           break;
 
         case "Exspecialist":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            specialist: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   specialist: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? {
+                  ...exp,
+                  specialist: value?.map((ele) => ({ specializationID: ele })),
+                }
+              : exp
+          );
           break;
 
         case "hospitalAddress":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            hospitalAddress: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   hospitalAddress: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, hospitalAddress: value } : exp
+          );
           break;
 
         case "Exexperience":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            experience: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   experience: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, experience: value } : exp
+          );
           break;
 
         case "employmentType":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            employmentType: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   employmentType: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, employmentType: value } : exp
+          );
           break;
 
         case "startDate":
-          temp.previousExperience = {
-            ...temp.previousExperience[0],
-            startDate: value ? dayjs(value).toISOString() : null,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   startDate: value ? dayjs(value).toISOString() : null,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+              : exp
+          );
           break;
 
         case "endDate":
-          temp.previousExperience = {
-            ...temp.previousExperience[0],
-            endDate: value ? dayjs(value).toISOString() : null,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   endDate: value ? dayjs(value).toISOString() : null,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+              : exp
+          );
+          break;
+
+        case "currentlyWorking":
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   currentlyWorking: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, currentlyWorking: value } : exp
+          );
           break;
 
         case "description":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            description: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   description: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, description: value } : exp
+          );
           break;
 
         case "socialF":
@@ -806,6 +878,22 @@ const DoctorEditForm = () => {
                     </DemoContainer>
                   </LocalizationProvider>
                 </Grid>
+              </Grid>
+              <Grid width={"100%"} sx={{ mb: 1 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="currentlyWorking"
+                      checked={
+                        formValues?.previousExperience[0]?.currentlyWorking
+                      }
+                      onChange={(e) =>
+                        handleOnChange(e.target.value, "currentlyWorking")
+                      }
+                    />
+                  }
+                  label="Currently working here"
+                />
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12}>

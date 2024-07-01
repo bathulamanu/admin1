@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../assets/doctor_img.png";
@@ -79,7 +84,7 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const DoctorAddForm = () => {
+const DoctorAddForm = forwardRef((props, ref) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const getSpecializationList = useSelector(
@@ -252,8 +257,7 @@ const DoctorAddForm = () => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => {
       let temp = { ...prev };
-      // let experience = [...temp.previousExperience];
-      // let updatedExperience = { ...experience[index] };
+
       switch (name) {
         case "specialist":
           let res = value?.map((ele) => ({ specializationID: ele }));
@@ -271,8 +275,8 @@ const DoctorAddForm = () => {
           break;
 
         case "country":
-          temp.previousExperience = {
-            ...temp.previousExperience,
+          temp.previousExperience[0] = {
+            ...temp.previousExperience[0],
             country: value,
           };
           break;
@@ -288,67 +292,122 @@ const DoctorAddForm = () => {
           //     exp = { ...exp }
           //   }
           // })
-          temp.previousExperience[0] = { ...temp.previousExperience[0], state: value };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   state: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, state: value } : exp
+          );
           break;
 
         case "city":
-          temp.previousExperience[0] = { ...temp.previousExperience[0], city: value };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   city: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, city: value } : exp
+          );
           break;
 
         case "Exspecialist":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            specialist: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   specialist: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? {
+                  ...exp,
+                  specialist: value?.map((ele) => ({ specializationID: ele })),
+                }
+              : exp
+          );
           break;
 
         case "hospitalAddress":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            hospitalAddress: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   hospitalAddress: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, hospitalAddress: value } : exp
+          );
           break;
 
         case "Exexperience":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            experience: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   experience: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, experience: value } : exp
+          );
           break;
 
         case "employmentType":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            employmentType: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   employmentType: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, employmentType: value } : exp
+          );
           break;
 
         case "startDate":
-          temp.previousExperience = {
-            ...temp.previousExperience[0],
-            startDate: value ? dayjs(value).toISOString() : null,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   startDate: value ? dayjs(value).toISOString() : null,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+              : exp
+          );
           break;
 
         case "endDate":
-          temp.previousExperience = {
-            ...temp.previousExperience[0],
-            endDate: value ? dayjs(value).toISOString() : null,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   endDate: value ? dayjs(value).toISOString() : null,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0
+              ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+              : exp
+          );
           break;
 
         case "currentlyWorking":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            currentlyWorking: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   currentlyWorking: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, currentlyWorking: value } : exp
+          );
           break;
 
         case "description":
-          temp.previousExperience = {
-            ...temp.previousExperience,
-            description: value,
-          };
+          // temp.previousExperience[0] = {
+          //   ...temp.previousExperience[0],
+          //   description: value,
+          // };
+          // break;
+          temp.previousExperience = temp.previousExperience.map((exp, index) =>
+            index === 0 ? { ...exp, description: value } : exp
+          );
           break;
 
         case "socialF":
@@ -413,11 +472,22 @@ const DoctorAddForm = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
-    console.log("check 111111 add ddcotro ", formValues);
-    // dispatch(handlePostDoctor(formValues));
+    // console.log("check 111111 add ddcotro ", formValues);
+    dispatch(handlePostDoctor(formValues));
   }, [formValues]);
+
+  // useImperativeHandle(ref, () => ({
+  //   getDoctorValidationData: () => {
+  //     if (!formValues.doctorFirstName) {
+  //       alert("Please fill the required fields");
+  //       return false;
+  //     }
+  //   },
+  // }));
+
+  dispatch(handlePostDoctor(formValues));
+
   console.log("formvalues", formValues);
 
   return (
@@ -749,7 +819,10 @@ const DoctorAddForm = () => {
                     placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
-                    value={formValues?.previousExperience[0]?.specialist}
+                    // value={formValues?.previousExperience[0]?.specialist}
+                    value={formValues?.previousExperience[0]?.specialist?.map(
+                      (item) => item?.specilizationID
+                    )}
                     onChange={(e) => {
                       handleOnChange(e, "Exspecialist");
                     }}
@@ -767,6 +840,13 @@ const DoctorAddForm = () => {
                     width={"100%"}
                     value={selectedHospital || ""}
                     onChange={handleHospitalChange}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 200, // Adjust this value as needed
+                        },
+                      },
+                    }}
                   >
                     {hospitalsList.map((hospital) => (
                       <MenuItem key={hospital.id} value={hospital.id}>
@@ -784,7 +864,7 @@ const DoctorAddForm = () => {
                     data={experienceList}
                     width={"100%"}
                   /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     data={experienceList}
                     width={"100%"}
@@ -801,7 +881,7 @@ const DoctorAddForm = () => {
                     data={employementTypeList}
                     width={"100%"}
                   /> */}
-                  <CommonSelect
+                  <SingleSelect
                     placeholder={"Select"}
                     data={EmpType}
                     width={"100%"}
@@ -819,8 +899,8 @@ const DoctorAddForm = () => {
                         value={
                           formValues?.previousExperience[0]?.startDate
                             ? dayjs(
-                              formValues?.previousExperience[0]?.startDate
-                            )
+                                formValues?.previousExperience[0]?.startDate
+                              )
                             : null
                         }
                         onChange={(e) => {
@@ -854,7 +934,7 @@ const DoctorAddForm = () => {
                     <Checkbox
                       name="currentlyWorking"
                       checked={
-                        formValues.previousExperience[0].currentlyWorking
+                        formValues?.previousExperience[0]?.currentlyWorking
                       }
                       onChange={(e) =>
                         handleOnChange(e.target.value, "currentlyWorking")
@@ -1178,6 +1258,6 @@ const DoctorAddForm = () => {
       </Box>
     </Container>
   );
-};
+});
 
 export default DoctorAddForm;

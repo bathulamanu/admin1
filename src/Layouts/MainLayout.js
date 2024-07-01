@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Avatar,
   Box,
@@ -280,7 +280,11 @@ export const MainLayout = () => {
     navigate("/mainPage/hospitals");
   };
 
+  const doctorAddRef = useRef(null);
   const handleAddDoctorFormSubmit = () => {
+    // if (doctorAddRef.current) {
+    //   doctorAddRef.current.getDoctorValidationData();
+    // }
     if (!addDoctorData.doctorFirstName) {
       toast.warning("Doctor's Name is required");
       return;
@@ -309,6 +313,7 @@ export const MainLayout = () => {
     navigate("/mainPage/doctors");
     dispatch(addDoctors(addDoctorData));
   };
+
   const handleEditDoctorFormSubmit = () => {
     navigate("/mainPage/doctors");
 
@@ -1012,6 +1017,7 @@ export const MainLayout = () => {
                     size="small"
                     variant="contained"
                     startIcon={<SaveAltIcon />}
+                    ref={doctorAddRef}
                     onClick={(e) => {
                       e.preventDefault();
                       handleAddDoctorFormSubmit();

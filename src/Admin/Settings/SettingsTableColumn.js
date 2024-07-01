@@ -192,7 +192,13 @@ const SettingsTableColumn = () => {
             <Button
               variant="contained"
               size="small"
-              onClick={() => handleOnClick(params)}
+              onClick={() =>
+                // console.log(
+                //   "onClick edit",
+                //   params?.row?.masterConfigurationID
+                // )
+                handleOnClick(params)
+              }
             >
               <EditIcon fontSize="small" /> Edit
             </Button>
@@ -207,7 +213,7 @@ const SettingsTableColumn = () => {
                 />
                 <Box sx={{}}>
                   <Typography sx={{ fontWeight: "bold" }}>
-                    Edit {activeTitle}
+                    Edit {activeTitle} ({params?.row?.masterConfigurationID})
                   </Typography>
                   <Box>
                     <Grid container spacing={2} pt={3} pb={2}>
@@ -265,7 +271,14 @@ const SettingsTableColumn = () => {
                   background: "#f0f0f0",
                 },
               }}
-              onClick={() => handleDelete(params?.row?.masterConfigurationID)}
+              onClick={
+                () =>
+                  console.log(
+                    "onClick deleted",
+                    params?.row?.masterConfigurationID
+                  )
+                // handleDelete(params?.row?.masterConfigurationID)
+              }
             >
               <DeleteIcon fontSize="small" /> Delete
             </Button>
