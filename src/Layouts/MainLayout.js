@@ -818,7 +818,7 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="outlined" size="small">
+                  <Button variant="contained" color="error" size="small">
                     <DeleteIcon
                       fontSize="small"
                       onClick={(e) => {
@@ -1085,7 +1085,7 @@ export const MainLayout = () => {
                   >
                     <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button variant="outlined" size="small">
+                  <Button variant="contained" color="error" size="small">
                     <DeleteIcon
                       fontSize="small"
                       onClick={(e) => {
