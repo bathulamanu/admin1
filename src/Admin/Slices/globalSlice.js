@@ -19,6 +19,7 @@ const initialState = {
   statusList: [],
   typeOfProofData: [],
   SubscribedUserData: [],
+  customerID: null,
   loading: "",
 };
 
@@ -187,9 +188,10 @@ export const GetTypeOfProof = createAsyncThunk(
 
 export const getAnnexureInfo = createAsyncThunk(
   "getAnnexureInfo",
-  async (search, thunkAPI) => {
+  async (customerID, thunkAPI) => {
+    console.log("customerID try", customerID);
     try {
-      const response = await customerapi.get(`/getAnnexureInfo`);
+      const response = await customerapi.get(`/getAnnexureInfo/${customerID}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

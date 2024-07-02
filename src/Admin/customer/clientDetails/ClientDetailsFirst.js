@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
 import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
 import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
+import { getCustomerDetails } from "../../Slices/customerSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -68,6 +69,13 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
     (state) => state.global.SubscribedUserData
   );
   console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+
+  useEffect(() => {
+    dispatch(getCustomerDetails(null));
+  }, []);
+  // console.log("customerDetail", customerDetail);
 
   const [formValues, setFormValues] = useState({
     ExpectantFatherName: "",
@@ -228,6 +236,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
         addOrupdateAnnexureInfo({
           CustomerClientFatherDetails: formValues,
           customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
         })
       );
 
@@ -239,9 +248,11 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
 
   console.log("formvalues", formValues);
 
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
   useEffect(() => {
     dispatch(GetTypeOfProof());
-    dispatch(getAnnexureInfo());
+    dispatch(getAnnexureInfo(customerID));
   }, []);
 
   return (
