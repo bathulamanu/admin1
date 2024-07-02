@@ -113,7 +113,7 @@ const CustomerTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              // dispatch(getCustomerDetails(params?.row?.id));
+              dispatch(getCustomerDetails(params?.row?.customerID));
               navigate("/customerPage/customers/allDetails");
             }}
           >

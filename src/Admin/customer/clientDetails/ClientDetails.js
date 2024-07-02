@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
-
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import ClientDetailsSec from "./ClientDetailsSec";
 import ClientDetailsFirst from "./ClientDetailsFirst";
 import ClientDetailsThree from "./ClientDetailsThree";
@@ -26,14 +26,14 @@ const ClientDetails = () => {
   const childMotherDetailsRef = useRef();
 
   const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    } else if (currentStep === totalSteps) {
-      setShowPreview(true);
-    }
-    // if (childFatherDetailsRef.current) {
-    //   childFatherDetailsRef.current.getFatherData();
+    // if (currentStep < totalSteps) {
+    //   setCurrentStep(currentStep + 1);
+    // } else if (currentStep === totalSteps) {
+    //   setShowPreview(true);
     // }
+    if (childFatherDetailsRef.current) {
+      childFatherDetailsRef.current.getFatherData();
+    }
     // if (childMotherDetailsRef.current) {
     //   childMotherDetailsRef.current.getMotherDetails();
     // }
@@ -56,6 +56,7 @@ const ClientDetails = () => {
         // padding: "8px",
       }}
     >
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}

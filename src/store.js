@@ -7,6 +7,7 @@ import settingSlice from "./Admin/Slices/settingSlice";
 import tabSlice from "./Admin/Slices/tabSlice";
 import customerSlice from "./Admin/Slices/customerSlice";
 import settingLayoutSlice from "./Admin/Slices/settingLayoutSlice";
+import customerClientSlice from "./Admin/Slices/customerClientSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store = configureStore({
     settinglayout: settingLayoutSlice,
     tab: tabSlice,
     customers: customerSlice,
+    customerClient: customerClientSlice,
   },
 });
 

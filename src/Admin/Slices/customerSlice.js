@@ -5,6 +5,7 @@ import adminapi from "../../api/adminhttpRequest";
 const initialState = {
   customersList: [],
   customerDetail: {},
+  customerID: null,
   loading: "",
   CustomerPostData: {},
 };
@@ -23,12 +24,13 @@ export const getCustomersList = createAsyncThunk(
     }
   }
 );
-
+// /flyingbyts/api/admin/getEachCustomerInfo/:customerID
 export const getCustomerDetails = createAsyncThunk(
   "getCustomerDetails",
-  async (id, thunkAPI) => {
+  async (customerID, thunkAPI) => {
+    console.log("customerID", customerID);
     try {
-      const response = await adminapi.get(`getEachHospitalDetails/${id}`);
+      const response = await adminapi.get(`getEachCustomerInfo/${customerID}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(

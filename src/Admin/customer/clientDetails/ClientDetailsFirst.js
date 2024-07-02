@@ -1,4 +1,9 @@
-import React, { forwardRef, useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -8,17 +13,21 @@ import {
   Card,
   CardContent,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
   Stack,
   Typography,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import api from "../../../api/httpRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
 import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -46,23 +55,18 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
     setCurrentStep,
     totalSteps,
   } = props;
+
   const [
     customerAnnexureInformationId,
     setCustomerAnnexureInformationId,
   ] = useState(null);
   const dispatch = useDispatch();
   const IDproofDetails = useSelector((state) => state.global.typeOfProofData);
-  useEffect(() => {
-    dispatch(GetTypeOfProof(null));
-  }, [dispatch]);
   const IDList = getTypeOfProofList(IDproofDetails);
 
   const SubscribedInnerPageData = useSelector(
     (state) => state.global.SubscribedUserData
   );
-  // useEffect(() => {
-  //   dispatch(getAnnexureInfo);
-  // }, [dispatch]);
   console.log("SubscribedInnerPageData", SubscribedInnerPageData);
 
   const [formValues, setFormValues] = useState({
@@ -86,6 +90,12 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
       ...prev,
       [name]: value,
     }));
+
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
   const handleImageUpload = async (e, fieldName) => {
@@ -147,10 +157,96 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
     // e.preventDefault();
     getAnnexureInfo();
   }, [handlePrev]);
+  const [errors, setErrors] = useState({});
+  useImperativeHandle(ref, () => ({
+    getFatherData: () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex = /^\d{10}$/;
+
+      if (!formValues.ExpectantFatherName.trim()) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherName: "Father Name is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherDOB.trim()) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherDOB: "Date of Birth is required",
+        }));
+        return;
+      } else if (!emailRegex.test(formValues.ExpectantFatherEmail)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherEmail: "Invalid email address",
+        }));
+        return;
+      } else if (!phoneRegex.test(formValues.ExpectantFatherMobile)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherMobile: "Phone number must be 10 digits.",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherOccupation) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherOccupation: "Occupation is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherDesignation) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherDesignation: "Designation is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherOrganizationName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherOrganizationName: "Organization Name is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherIDproof) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherIDproof: "IDproof is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherIdproofNo) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherIdproofNo: "IDproof No is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantFatherOtherInfo) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantFatherOtherInfo: "Other IDproof No is required",
+        }));
+        return;
+      }
+      dispatch(
+        addOrupdateAnnexureInfo({
+          CustomerClientFatherDetails: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
 
   console.log("formvalues", formValues);
+
+  useEffect(() => {
+    dispatch(GetTypeOfProof());
+    dispatch(getAnnexureInfo());
+  }, []);
+
   return (
     <Card variant="outlined">
+      <ToastContainer />
       <CardContent
         sx={{
           display: "flex",
@@ -176,7 +272,12 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                   <InputLabel sx={inputLableStyle}>
                     Expectant Father Name <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherName}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="ExpectantFatherName"
@@ -186,21 +287,38 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                       value={formValues?.ExpectantFatherName}
                       onChange={(e) => handleChange(e, "ExpectantFatherName")}
                     />
+                    {!!errors.ExpectantFatherName && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherName}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Date of Birth <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="ExpectantFatherDOB"
-                    name="ExpectantFatherDOB"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.ExpectantFatherDOB}
-                    onChange={(e) => handleChange(e, "ExpectantFatherDOB")}
-                  />
+                    error={!!errors.ExpectantFatherDOB}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantFatherDOB}
+                      onChange={(e) => handleChange(e, "ExpectantFatherDOB")}
+                    />
+                    {!!errors.ExpectantFatherDOB && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherDOB}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -208,7 +326,12 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                   <InputLabel sx={inputLableStyle}>
                     Email Address <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherEmail}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="ExpectantFatherEmail"
@@ -218,21 +341,38 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                       value={formValues?.ExpectantFatherEmail}
                       onChange={(e) => handleChange(e, "ExpectantFatherEmail")}
                     />
+                    {!!errors.ExpectantFatherEmail && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherEmail}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Phone Number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="ExpectantFatherMobile"
-                    name="ExpectantFatherMobile"
-                    placeholder="Input Phone Number"
                     size="small"
-                    value={formValues?.ExpectantFatherMobile}
-                    onChange={(e) => handleChange(e, "ExpectantFatherMobile")}
-                  />
+                    error={!!errors.ExpectantFatherMobile}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherMobile"
+                      name="ExpectantFatherMobile"
+                      placeholder="Input Phone Number"
+                      size="small"
+                      value={formValues?.ExpectantFatherMobile}
+                      onChange={(e) => handleChange(e, "ExpectantFatherMobile")}
+                    />
+                    {!!errors.ExpectantFatherMobile && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherMobile}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -240,7 +380,12 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                   <InputLabel sx={inputLableStyle}>
                     Occupation <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherOccupation}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="ExpectantFatherOccupation"
@@ -252,23 +397,40 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                         handleChange(e, "ExpectantFatherOccupation")
                       }
                     />
+                    {!!errors.ExpectantFatherOccupation && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherOccupation}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Designation <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="ExpectantFatherDesignation"
-                    name="ExpectantFatherDesignation"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.ExpectantFatherDesignation}
-                    onChange={(e) =>
-                      handleChange(e, "ExpectantFatherDesignation")
-                    }
-                  />
+                    error={!!errors.ExpectantFatherDesignation}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDesignation"
+                      name="ExpectantFatherDesignation"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantFatherDesignation}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherDesignation")
+                      }
+                    />
+                    {!!errors.ExpectantFatherOccupation && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherOccupation}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={2}>
@@ -276,7 +438,12 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                   <InputLabel sx={inputLableStyle}>
                     Organization Name<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherOrganizationName}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="ExpectantFatherOrganizationName"
@@ -288,6 +455,11 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                         handleChange(e, "ExpectantFatherOrganizationName")
                       }
                     />
+                    {!!errors.ExpectantFatherOrganizationName && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherOrganizationName}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -296,29 +468,55 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                   <InputLabel sx={inputLableStyle}>
                     ID Proof <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={IDList}
-                    value={formValues?.ExpectantFatherIDproof}
-                    onChange={(e) => handleChange(e, "ExpectantFatherIDproof")}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherIDproof}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={IDList}
+                      value={formValues?.ExpectantFatherIDproof}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherIDproof")
+                      }
+                    />
+                    {!!errors.ExpectantFatherIDproof && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherIDproof}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     ID Proof Number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="ExpectantFatherIdproofNo"
-                    name="ExpectantFatherIdproofNo"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.ExpectantFatherIdproofNo}
-                    onChange={(e) =>
-                      handleChange(e, "ExpectantFatherIdproofNo")
-                    }
-                  />
+                    error={!!errors.ExpectantFatherIdproofNo}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherIdproofNo"
+                      name="ExpectantFatherIdproofNo"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantFatherIdproofNo}
+                      onChange={(e) =>
+                        handleChange(e, "ExpectantFatherIdproofNo")
+                      }
+                    />
+                    {!!errors.ExpectantFatherIdproofNo && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherIdproofNo}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={2}>
@@ -327,18 +525,28 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                     If Other, please Specify
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantFatherOtherInfo}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="ExpectantFatherIdproofNo"
-                      name="ExpectantFatherIdproofNo"
+                      id="ExpectantFatherOtherInfo"
+                      name="ExpectantFatherOtherInfo"
                       placeholder="Input text"
                       size="small"
-                      value={formValues?.ExpectantFatherIdproofNo}
+                      value={formValues?.ExpectantFatherOtherInfo}
                       onChange={(e) =>
-                        handleChange(e, "ExpectantFatherIdproofNo")
+                        handleChange(e, "ExpectantFatherOtherInfo")
                       }
                     />
+                    {!!errors.ExpectantFatherOtherInfo && (
+                      <FormHelperText>
+                        {errors.ExpectantFatherOtherInfo}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>

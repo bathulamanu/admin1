@@ -11,12 +11,13 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import InvoiceColumns from "./invoice/InvoiceTableColumn";
 import CommonDataTable from "../../GlobalComponents/CommonDataTable";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCustomerDetails } from "../Slices/customerSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -24,9 +25,27 @@ const headingStyle = {
 };
 
 const CustomerDetails = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const customerDetail = useSelector((state) => state.customers.customerDetail);
+
+  useEffect(() => {
+    dispatch(getCustomerDetails(null));
+  }, []);
   console.log("customerDetail", customerDetail);
+
+  const firstName = customerDetail?.firstName;
+  const lastName = customerDetail?.lastName;
+  const email = customerDetail?.email;
+  const phoneNumber = customerDetail?.phoneNumber;
+  const registrationCRNid = customerDetail?.registrationCRNid;
+  const address = customerDetail?.address;
+  const addressLine1 = customerDetail?.addressLine1;
+  const addressLine2 = customerDetail?.addressLine2;
+  const cityName = customerDetail?.LocationInfo?.cityName;
+  const stateName = customerDetail?.LocationInfo?.stateName;
+  const countryName = customerDetail?.LocationInfo?.countryName;
+  const pincode = customerDetail?.pincode;
 
   const dummyData = [
     {
@@ -110,7 +129,7 @@ const CustomerDetails = () => {
                         >
                           First Name :
                         </Typography>{" "}
-                        <Typography variant="subtitle2"></Typography>
+                        <Typography variant="subtitle2">{firstName}</Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
                         <Typography
@@ -123,7 +142,7 @@ const CustomerDetails = () => {
                         >
                           Last Name :
                         </Typography>{" "}
-                        <Typography variant="subtitle2"></Typography>
+                        <Typography variant="subtitle2">{lastName}</Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
                         <Typography
@@ -136,7 +155,7 @@ const CustomerDetails = () => {
                         >
                           Email Address :
                         </Typography>{" "}
-                        <Typography variant="subtitle2"></Typography>
+                        <Typography variant="subtitle2">{email}</Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
                         <Typography
@@ -149,7 +168,9 @@ const CustomerDetails = () => {
                         >
                           Phone Number :
                         </Typography>{" "}
-                        <Typography variant="subtitle2"></Typography>
+                        <Typography variant="subtitle2">
+                          {phoneNumber}
+                        </Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
                         <Typography
@@ -162,7 +183,9 @@ const CustomerDetails = () => {
                         >
                           CRN Number :
                         </Typography>{" "}
-                        <Typography variant="subtitle2"></Typography>
+                        <Typography variant="subtitle2">
+                          {registrationCRNid}
+                        </Typography>
                       </Stack>
                     </Stack>
                     <Stack>
@@ -215,8 +238,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            {" "}
-                            Hyderabad
+                            {addressLine1}, {addressLine2}, {address}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -237,7 +259,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            Hyderabad
+                            {cityName}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -258,7 +280,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            Telangana
+                            {stateName}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -279,7 +301,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            India
+                            {countryName}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -300,7 +322,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            500001
+                            {pincode}
                           </Typography>
                         </Stack>
                       </Stack>
