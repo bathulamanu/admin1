@@ -428,7 +428,9 @@ const DoctorEditForm = () => {
           break;
 
         case "OtherLink1":
-          temp.websiteLinks = { ...temp.websiteLinks, link: value };
+          temp.websiteLinks = temp.websiteLinks.map((links, index) =>
+            index === 0 ? { ...links, link: value } : links
+          );
           break;
 
         default:
@@ -878,7 +880,7 @@ const DoctorEditForm = () => {
                         formValues?.previousExperience[0]?.currentlyWorking
                       }
                       onChange={(e) =>
-                        handleOnChange(e.target.value, "currentlyWorking")
+                        handleOnChange(e.target.checked, "currentlyWorking")
                       }
                     />
                   }
@@ -1162,7 +1164,7 @@ const DoctorEditForm = () => {
                       id="outlined-adornment-password"
                       placeholder=""
                       size="small"
-                      value={formValues?.websiteLinks?.link}
+                      value={formValues?.websiteLinks[0]?.link}
                       onChange={(e) => {
                         handleOnChange(e.target.value, "OtherLink1");
                       }}

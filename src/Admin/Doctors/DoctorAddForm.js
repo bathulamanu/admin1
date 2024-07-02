@@ -85,7 +85,7 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const DoctorAddForm = forwardRef((props, ref) => {
+const DoctorAddForm = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const getSpecializationList = useSelector(
@@ -431,7 +431,9 @@ const DoctorAddForm = forwardRef((props, ref) => {
           break;
 
         case "OtherLink1":
-          temp.websiteLinks = { ...temp.websiteLinks, link: value };
+          temp.websiteLinks = temp.websiteLinks.map((links, index) =>
+            index === 0 ? { ...links, link: value } : links
+          );
           break;
 
         default:
@@ -910,7 +912,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                         formValues?.previousExperience[0]?.currentlyWorking
                       }
                       onChange={(e) =>
-                        handleOnChange(e.target.value, "currentlyWorking")
+                        handleOnChange(e.target.checked, "currentlyWorking")
                       }
                     />
                   }
@@ -1199,7 +1201,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                       id="outlined-adornment-password"
                       placeholder=""
                       size="small"
-                      value={formValues?.websiteLinks?.link}
+                      value={formValues?.websiteLinks[0]?.link}
                       onChange={(e) => {
                         handleOnChange(e.target.value, "OtherLink1");
                       }}
@@ -1231,6 +1233,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
       </Box>
     </Container>
   );
-});
+};
 
 export default DoctorAddForm;

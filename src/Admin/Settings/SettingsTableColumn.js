@@ -89,7 +89,7 @@ const SettingsTableColumn = () => {
     setOpenEdit(true);
   };
   const handleSave = async (params) => {
-    // console.log("formvalues", formValues);
+    console.log("formvalues", params?.row?.masterConfigurationID);
     try {
       const response = await api.put(
         `/UpdateMasterConfiguration/${params}`,
@@ -271,13 +271,12 @@ const SettingsTableColumn = () => {
                   background: "#f0f0f0",
                 },
               }}
-              onClick={
-                () =>
-                  console.log(
-                    "onClick deleted",
-                    params?.row?.masterConfigurationID
-                  )
-                // handleDelete(params?.row?.masterConfigurationID)
+              onClick={() =>
+                // console.log(
+                //   "onClick deleted",
+                //   params?.row?.masterConfigurationID
+                // )
+                handleDelete(params?.row?.masterConfigurationID)
               }
             >
               <DeleteIcon fontSize="small" /> Delete
