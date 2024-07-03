@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -8,6 +13,7 @@ import {
   Card,
   CardContent,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
@@ -15,6 +21,11 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
+import { useDispatch, useSelector } from "react-redux";
+import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
+import api from "../../../api/httpRequest";
+import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -46,31 +57,206 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const ClientDetailsSec = () => {
+const ClientDetailsSec = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const IDproofDetails = useSelector((state) => state.global.typeOfProofData);
+  const IDList = getTypeOfProofList(IDproofDetails);
+
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+
   const [formValues, setFormValues] = useState({
-    motherName: "",
-    dob: "",
-    email: "",
-    phoneNumber: "",
-    occupation: "",
-    designation: "",
-    orgName: "",
-    idProof: "",
-    idProofNo: "",
-    otherId: "",
+    ExpectantMotherName: "",
+    ExpectantMotherDOB: "",
+    ExpectantMotherEmail: "",
+    ExpectantMotherMobile: "",
+    ExpectantMotherOccupation: "",
+    ExpectantMotherDesignation: "",
+    ExpectantMotherOrganizationName: "",
+    ExpectantMotherIDproof: "",
+    ExpectantMotherIdproofNo: "",
+    ExpectantMotherOtherInfo: "",
+    ExpectantMotherIDproofPhoto: "",
+    ExpectantMotherProfilePhoto: "",
   });
+
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
     setFormValues((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
+  const handleImageUpload = async (e, fieldName) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "ClientDetails");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        setFormValues((prev) => ({
+          ...prev,
+          [fieldName]: response?.data?.data?.key,
+        }));
+        console.log(formValues[fieldName]);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    async function getCustomerMotherData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerClientMotherDetails
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerClientMotherDetails) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1] =
+                item == "ExpectantFatherDOB"
+                  ? formatDate(
+                      SubscribedInnerPageData.CustomerClientMotherDetails[item]
+                    )
+                  : SubscribedInnerPageData.CustomerClientMotherDetails[item];
+            }
+          }
+          for (let item2 in formValues) {
+            if (item2 == item) {
+              formValues[item2] =
+                SubscribedInnerPageData.CustomerClientMotherDetails[item];
+            }
+          }
+        }
+      }
+    }
+    getCustomerMotherData();
+  }, [SubscribedInnerPageData]);
+
+  useEffect(() => {
+    // e.preventDefault();
+    getAnnexureInfo();
+  }, [handlePrev]);
+  const [errors, setErrors] = useState({});
+  useImperativeHandle(ref, () => ({
+    getMotherData: () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const phoneRegex = /^\d{10}$/;
+      if (!formValues.ExpectantMotherName.trim()) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherName: "Mother Name is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherDOB.trim()) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherDOB: "Date of Birth is required",
+        }));
+        return;
+      } else if (!emailRegex.test(formValues.ExpectantMotherEmail)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherEmail: "Invalid email address",
+        }));
+        return;
+      } else if (!phoneRegex.test(formValues.ExpectantMotherMobile)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherMobile: "Phone number must be 10 digits.",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherOccupation) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherOccupation: "Occupation is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherDesignation) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherDesignation: "Designation is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherOrganizationName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherOrganizationName: "Organization Name is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherIDproof) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherIDproof: "IDproof is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherIdproofNo) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherIdproofNo: "IDproof No is required",
+        }));
+        return;
+      } else if (!formValues.ExpectantMotherOtherInfo) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectantMotherOtherInfo: "Other IDproof No is required",
+        }));
+        return;
+      }
+      dispatch(
+        addOrupdateAnnexureInfo({
+          CustomerClientMotherDetails: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
+  console.log("formValues", formValues);
+
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+  useEffect(() => {
+    dispatch(GetTypeOfProof());
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   return (
     <Card variant="outlined">
       <CardContent
@@ -98,31 +284,57 @@ const ClientDetailsSec = () => {
                   <InputLabel sx={inputLableStyle}>
                     Expectant Mother Name <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherName}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantMotherName"
+                      name="ExpectantMotherName"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.motherName}
+                      value={formValues?.ExpectantMotherName}
                       onChange={(e) =>
-                        handleChange(e.target.value, "motherName")
+                        handleChange(e.target.value, "ExpectantMotherName")
                       }
                     />
+                    {!!errors.ExpectantMotherName && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherName}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Date of Birth <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.dob}
-                    onChange={(e) => handleChange(e.target.value, "dob")}
-                  />
+                    error={!!errors.ExpectantMotherDOB}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantMotherDOB"
+                      name="ExpectantMotherDOB"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantMotherDOB}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "ExpectantMotherDOB")
+                      }
+                    />
+                    {!!errors.ExpectantMotherDOB && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherDOB}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -130,31 +342,57 @@ const ClientDetailsSec = () => {
                   <InputLabel sx={inputLableStyle}>
                     Email Address <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherEmail}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantMotherEmail"
+                      name="ExpectantMotherEmail"
                       placeholder="Input Email"
                       size="small"
-                      value={formValues?.email}
-                      onChange={(e) => handleChange(e.target.value, "email")}
+                      value={formValues?.ExpectantMotherEmail}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "ExpectantMotherEmail")
+                      }
                     />
+                    {!!errors.ExpectantMotherEmail && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherEmail}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Phone Number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Phone Number"
                     size="small"
-                    value={formValues?.phoneNumber}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "phoneNumber")
-                    }
-                  />
+                    error={!!errors.ExpectantMotherMobile}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantMotherMobile"
+                      name="ExpectantMotherMobile"
+                      placeholder="Input Phone Number"
+                      size="small"
+                      value={formValues?.ExpectantMotherMobile}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "ExpectantMotherMobile")
+                      }
+                    />
+                    {!!errors.ExpectantMotherMobile && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherMobile}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -162,33 +400,63 @@ const ClientDetailsSec = () => {
                   <InputLabel sx={inputLableStyle}>
                     Occupation <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherOccupation}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantMotherOccupation"
+                      name="ExpectantMotherOccupation"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.occupation}
+                      value={formValues?.ExpectantMotherOccupation}
                       onChange={(e) =>
-                        handleChange(e.target.value, "occupation")
+                        handleChange(
+                          e.target.value,
+                          "ExpectantMotherOccupation"
+                        )
                       }
                     />
+                    {!!errors.ExpectantMotherOccupation && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherOccupation}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Designation <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.designation}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "designation")
-                    }
-                  />
+                    error={!!errors.ExpectantMotherDesignation}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantMotherDesignation"
+                      name="ExpectantMotherDesignation"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantMotherDesignation}
+                      onChange={(e) =>
+                        handleChange(
+                          e.target.value,
+                          "ExpectantMotherDesignation"
+                        )
+                      }
+                    />
+                    {!!errors.ExpectantMotherDesignation && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherDesignation}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={2}>
@@ -196,15 +464,30 @@ const ClientDetailsSec = () => {
                   <InputLabel sx={inputLableStyle}>
                     Organization Name<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherOrganizationName}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantMotherOrganizationName"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e.target.value, "orgName")}
+                      value={formValues?.ExpectantMotherOrganizationName}
+                      onChange={(e) =>
+                        handleChange(
+                          e.target.value,
+                          "ExpectantMotherOrganizationName"
+                        )
+                      }
                     />
+                    {!!errors.ExpectantMotherOrganizationName && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherOrganizationName}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -213,28 +496,55 @@ const ClientDetailsSec = () => {
                   <InputLabel sx={inputLableStyle}>
                     ID Proof <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "idProof");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherIDproof}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={IDList}
+                      value={formValues?.ExpectantMotherIDproof}
+                      onChange={(e) => {
+                        handleChange(e, "ExpectantMotherIDproof");
+                      }}
+                    />
+                    {!!errors.ExpectantMotherIDproof && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherIDproof}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     ID Proof Number <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
                     size="small"
-                    value={formValues?.idProofNo}
-                    onChange={(e) => handleChange(e.target.value, "idProofNo")}
-                  />
+                    error={!!errors.ExpectantMotherIdproofNo}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantMotherIdproofNo"
+                      name="ExpectantMotherIdproofNo"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.ExpectantMotherIdproofNo}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "ExpectantMotherIdproofNo")
+                      }
+                    />
+                    {!!errors.ExpectantMotherIdproofNo && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherIdproofNo}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={2}>
@@ -243,15 +553,28 @@ const ClientDetailsSec = () => {
                     If Other, please Specify
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectantMotherOtherInfo}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectantMotherOtherInfo"
+                      name="ExpectantMotherOtherInfo"
                       placeholder="Input text"
                       size="small"
-                      value={formValues?.otherId}
-                      onChange={(e) => handleChange(e.target.value, "otherId")}
+                      value={formValues?.ExpectantMotherOtherInfo}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "ExpectantMotherOtherInfo")
+                      }
                     />
+                    {!!errors.ExpectantMotherOtherInfo && (
+                      <FormHelperText>
+                        {errors.ExpectantMotherOtherInfo}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -281,7 +604,10 @@ const ClientDetailsSec = () => {
                       width: "100%",
                     }}
                   >
-                    <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
+                    <Avatar
+                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.ExpectantMotherProfilePhoto}`}
+                      sx={{ width: 150, height: 150, marginRight: 2 }}
+                    />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
                         variant="h5"
@@ -337,7 +663,14 @@ const ClientDetailsSec = () => {
                   sx={{ marginTop: "10px" }}
                 >
                   Upload Image
-                  <VisuallyHiddenInput type="file" />
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/svg+xml"
+                    hidden
+                    onChange={(e) =>
+                      handleImageUpload(e, "ExpectantMotherProfilePhoto")
+                    }
+                  />
                 </Button>
               </Stack>
               <Typography variant="h5" sx={headingStyle}>
@@ -353,7 +686,10 @@ const ClientDetailsSec = () => {
                       width: "100%",
                     }}
                   >
-                    <Avatar sx={{ width: 150, height: 150, marginRight: 2 }} />
+                    <Avatar
+                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.ExpectantMotherIDproofPhoto}`}
+                      sx={{ width: 150, height: 150, marginRight: 2 }}
+                    />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>
                       <Typography
                         variant="h5"
@@ -413,7 +749,14 @@ const ClientDetailsSec = () => {
                   sx={{ marginTop: "10px" }}
                 >
                   Upload Image
-                  <VisuallyHiddenInput type="file" />
+                  <input
+                    type="file"
+                    accept="image/jpeg, image/png, image/svg+xml"
+                    hidden
+                    onChange={(e) =>
+                      handleImageUpload(e, "ExpectantMotherIDproofPhoto")
+                    }
+                  />
                 </Button>
               </Stack>
             </CardContent>
@@ -422,6 +765,6 @@ const ClientDetailsSec = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsSec;

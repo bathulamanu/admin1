@@ -34,9 +34,9 @@ const ClientDetails = () => {
     if (childFatherDetailsRef.current) {
       childFatherDetailsRef.current.getFatherData();
     }
-    // if (childMotherDetailsRef.current) {
-    //   childMotherDetailsRef.current.getMotherDetails();
-    // }
+    if (childMotherDetailsRef.current) {
+      childMotherDetailsRef.current.getMotherData();
+    }
   };
 
   const handlePrevious = () => {
@@ -97,7 +97,16 @@ const ClientDetails = () => {
               totalSteps={totalSteps}
             />
           )}
-          {currentStep === 2 && <ClientDetailsSec />}
+          {currentStep === 2 && (
+            <ClientDetailsSec
+              ref={childMotherDetailsRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
           {currentStep === 3 && <ClientDetailsThree />}
           {currentStep === 4 && <ClientDetailsForth />}
           {currentStep === 5 && <ClientDetailsFive />}
