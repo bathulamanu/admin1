@@ -13,14 +13,11 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import CommonSelect from "../../GlobalComponents/CommonSelect";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import column from "../Doctors/DoctorsTableColumn";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getSpecialization } from "../Slices/globalSlice";
-import { getByIdList } from "../../globalFunctions";
 
 const DoctorsPage = () => {
   const dispatch = useDispatch();
@@ -92,7 +89,6 @@ const DoctorsPage = () => {
               }
             />
           </FormControl>
-          {/* <CommonSelect data={specialiList} Placeholder={"Spacialist"} /> */}
           <FormControl sx={{ width: "50%" }}>
             <Select
               sx={{ height: "40px" }}

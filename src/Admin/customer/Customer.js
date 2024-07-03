@@ -27,7 +27,7 @@ const Customers = () => {
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
-  const filteredList = customersList.filter((item) => {
+  const filteredList = customersList?.filter((item) => {
     const matchesSearch =
       item?.firstName &&
       item.firstName.toLowerCase().includes(searchValue.toLowerCase());
