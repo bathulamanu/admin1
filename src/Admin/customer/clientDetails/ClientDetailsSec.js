@@ -146,7 +146,7 @@ const ClientDetailsSec = forwardRef((props, ref) => {
           for (let item1 in formValues) {
             if (item1 == item) {
               formValues[item1] =
-                item == "ExpectantFatherDOB"
+                item == "ExpectantMotherDOB"
                   ? formatDate(
                       SubscribedInnerPageData.CustomerClientMotherDetails[item]
                     )

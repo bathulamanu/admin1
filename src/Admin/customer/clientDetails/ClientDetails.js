@@ -24,6 +24,8 @@ const ClientDetails = () => {
   const dispatch = useDispatch();
   const childFatherDetailsRef = useRef();
   const childMotherDetailsRef = useRef();
+  const childCommunicationDetailsRef = useRef();
+  const childHospitalDetailsRef = useRef();
 
   const handleNext = () => {
     // if (currentStep < totalSteps) {
@@ -36,6 +38,12 @@ const ClientDetails = () => {
     }
     if (childMotherDetailsRef.current) {
       childMotherDetailsRef.current.getMotherData();
+    }
+    if (childCommunicationDetailsRef.current) {
+      childCommunicationDetailsRef.current.getCommunicationDetailsChildData();
+    }
+    if (childHospitalDetailsRef.current) {
+      childHospitalDetailsRef.current.getHospitalDetailsChildData();
     }
   };
 
@@ -107,8 +115,26 @@ const ClientDetails = () => {
               totalSteps={totalSteps}
             />
           )}
-          {currentStep === 3 && <ClientDetailsThree />}
-          {currentStep === 4 && <ClientDetailsForth />}
+          {currentStep === 3 && (
+            <ClientDetailsThree
+              ref={childCommunicationDetailsRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
+          {currentStep === 4 && (
+            <ClientDetailsForth
+              ref={childHospitalDetailsRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
           {currentStep === 5 && <ClientDetailsFive />}
           {currentStep === 6 && <ClientDetailsSix />}
           {currentStep === 7 && <ClientDetailsSeven />}

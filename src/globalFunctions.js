@@ -153,3 +153,13 @@ export function getHospitalNameById(arr) {
 export function formatDate(dateString) {
   return moment(dateString).format("DD-MM-YYYY");
 }
+
+export function getTypeOfPregnancyList(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.masterConfigurationID,
+      name: item?.value,
+    }));
+    return result;
+  }
+}

@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -10,6 +15,7 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
@@ -19,10 +25,20 @@ import {
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  formatDate,
   getCityIdList,
   getNamesIdList,
   getStateIdList,
+  getTypeOfPregnancyList,
 } from "../../../globalFunctions";
+import {
+  getAnnexureInfo,
+  getCityList,
+  getCountryList,
+  getStateList,
+  GetTypeOfPregnancy,
+} from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -44,42 +60,253 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const ClientDetailsForth = () => {
-  const getStateList = useSelector((state) => state.global.stateList);
+const ClientDetailsForth = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const NoofChildres = [
+    { id: 1, name: "1" },
+    { id: 2, name: "2" },
+    { id: 3, name: "3" },
+    { id: 4, name: "4" },
+    { id: 5, name: "5" },
+    { id: 6, name: "6" },
+  ];
+  const typeOfPreganacyData = useSelector(
+    (state) => state.global.typeOfPreganacyData
+  );
+  const typeOfPreganacyDataList = getTypeOfPregnancyList(typeOfPreganacyData);
+  // console.log("typeOfPreganacyDataList", typeOfPreganacyDataList);
+
+  const allStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
   const cityList = getCityIdList(getCitiesList);
-  const stateList = getStateIdList(getStateList);
-
+  const stateList = getStateIdList(allStateList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
+
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(GetTypeOfPregnancy(null));
+    dispatch(getCountryList());
+    dispatch(getStateList(352));
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   const [formValues, setFormValues] = useState({
-    expectedDate: "",
-    pregnancy: "",
-    childrens: "",
-    gynaecologist: "",
-    constHospitals: "",
-    HospitalAddress: {
-      addressLine1: "",
-      country: 352,
-      state: "",
-      city: "",
-      pincode: "",
-    },
-    DeliveringAddress: {
-      addressLine2: "",
-      country: 352,
-      state: "",
-      city: "",
-      pincode: "",
-    },
+    ExpectedDateOfDelivery: "",
+    TypeOfpregnancy: "",
+    HowManyChildrensDoYouHaveAlready: "",
+    ConsultingGynocologist: "",
+    ConsultingHospital: "",
+    ConsultingHospitalAddress: "",
+    ConsultingHospitalCountry: 352,
+    ConsultingHospitalState: "",
+    ConsultingHosptalCity: "",
+    ConsultingHospitalPinCode: "",
+    IsDeliveringHospitalSameAsConsultingHospotal: false,
+    DeliveringHospitalAddress: "",
+    DeliveringHospitalCountry: 352,
+    DeliveringHospitalState: "",
+    DeliveringHosptalCity: "",
+    DeliveringHospitalPinCode: "",
   });
-  const handleChange = (e, name) => {
-    const value = e.target ? e.target.value : e;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleChange = (value, name) => {
+    setFormValues((prev) => {
+      const newValues = { ...prev, [name]: value };
+
+      if (name === "IsDeliveringHospitalSameAsConsultingHospotal") {
+        if (value) {
+          newValues.DeliveringHospitalAddress =
+            newValues.ConsultingHospitalAddress;
+          newValues.DeliveringHospitalCountry =
+            newValues.ConsultingHospitalCountry;
+          newValues.DeliveringHospitalState = newValues.ConsultingHospitalState;
+          newValues.DeliveringHosptalCity = newValues.ConsultingHosptalCity;
+          newValues.DeliveringHospitalPinCode =
+            newValues.ConsultingHospitalPinCode;
+        } else {
+          newValues.DeliveringHospitalAddress = "";
+          newValues.DeliveringHospitalCountry = 352;
+          newValues.DeliveringHospitalState = "";
+          newValues.DeliveringHosptalCity = "";
+          newValues.DeliveringHospitalPinCode = "";
+        }
+      }
+
+      return newValues;
+    });
+
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
+
+  useEffect(() => {
+    async function getCommunicationData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerHospitalBirthingdetails
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerHospitalBirthingdetails) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1] =
+                item == "ExpectedDateOfDelivery"
+                  ? formatDate(
+                      SubscribedInnerPageData.CustomerHospitalBirthingdetails[
+                        item
+                      ]
+                    )
+                  : SubscribedInnerPageData.CustomerHospitalBirthingdetails[
+                      item
+                    ];
+            }
+          }
+        }
+      }
+    }
+    getCommunicationData();
+  }, [SubscribedInnerPageData]);
+
+  useEffect(() => {
+    // e.preventDefault();
+    getAnnexureInfo();
+  }, [handlePrev]);
+
+  const [errors, setErrors] = useState({});
+  useImperativeHandle(ref, () => ({
+    getHospitalDetailsChildData: () => {
+      if (!formValues.ExpectedDateOfDelivery.trim()) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExpectedDateOfDelivery: "Expected Date Of Delivery is required",
+        }));
+        return;
+      } else if (!formValues.TypeOfpregnancy) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          TypeOfpregnancy: "Type Of pregnancy is required",
+        }));
+        return;
+      } else if (!formValues.HowManyChildrensDoYouHaveAlready) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          HowManyChildrensDoYouHaveAlready: "No of Childrens is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingGynocologist) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingGynocologist: "Consulting Gynocologist is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHospital) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHospital: "Consulting Hospital is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHospitalCountry) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHospitalCountry: "Country is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHospitalState) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHospitalState: "State is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHosptalCity) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHosptalCity: "City is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHospitalPinCode) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHospitalPinCode: "PinCode is required",
+        }));
+        return;
+      } else if (!formValues.ConsultingHospitalAddress) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ConsultingHospitalAddress: "Consulting Hospital Address is required",
+        }));
+        return;
+      } else if (!formValues.DeliveringHospitalCountry) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveringHospitalCountry: "Country is required",
+        }));
+        return;
+      } else if (!formValues.DeliveringHospitalState) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveringHospitalState: "State is required",
+        }));
+        return;
+      } else if (!formValues.DeliveringHosptalCity) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveringHosptalCity: "City is required",
+        }));
+        return;
+      } else if (!formValues.DeliveringHospitalPinCode) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveringHospitalPinCode: "PinCode is required",
+        }));
+        return;
+      } else if (!formValues.DeliveringHospitalAddress) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveringHospitalAddress: "Delivering Hospital Address is required",
+        }));
+        return;
+      }
+
+      dispatch(
+        addOrupdateAnnexureInfo({
+          CustomerHospitalBirthingdetails: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
+
+  console.log("formValues", formValues);
 
   return (
     <Card variant="outlined">
@@ -104,17 +331,28 @@ const ClientDetailsForth = () => {
                     Expected date of delivery{" "}
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExpectedDateOfDelivery}
+                  >
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExpectedDateOfDelivery"
+                      name="ExpectedDateOfDelivery"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.expectedDate}
+                      value={formValues?.ExpectedDateOfDelivery}
                       onChange={(e) =>
-                        handleChange(e.target.value, "expectedDate")
+                        handleChange(e.target.value, "ExpectedDateOfDelivery")
                       }
                     />
+                    {!!errors.ExpectedDateOfDelivery && (
+                      <FormHelperText>
+                        {errors.ExpectedDateOfDelivery}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -123,66 +361,109 @@ const ClientDetailsForth = () => {
                   <InputLabel sx={inputLableStyle}>
                     Type of pregnancy <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={cityList}
-                    value={formValues?.pregnancy}
-                    onChange={(e) => {
-                      handleChange(e, "pregnancy");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.TypeOfpregnancy}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={typeOfPreganacyDataList}
+                      value={formValues?.TypeOfpregnancy}
+                      onChange={(e) => {
+                        handleChange(e, "TypeOfpregnancy");
+                      }}
+                    />
+                    {!!errors.TypeOfpregnancy && (
+                      <FormHelperText>{errors.TypeOfpregnancy}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     How many childrens do you have alredy{" "}
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={stateList}
-                    value={formValues?.childrens}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "childrens");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.HowManyChildrensDoYouHaveAlready}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={NoofChildres}
+                      value={formValues?.HowManyChildrensDoYouHaveAlready}
+                      onChange={(e) => {
+                        handleChange(e, "HowManyChildrensDoYouHaveAlready");
+                      }}
+                    />
+                    {!!errors.HowManyChildrensDoYouHaveAlready && (
+                      <FormHelperText>
+                        {errors.HowManyChildrensDoYouHaveAlready}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Consulting Gynaecologist <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.ConsultingGynocologist}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="ConsultingGynocologist"
+                      name="ConsultingGynocologist"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.gynaecologist}
+                      value={formValues?.ConsultingGynocologist}
                       onChange={(e) =>
-                        handleChange(e.target.value, "gynaecologist")
+                        handleChange(e.target.value, "ConsultingGynocologist")
                       }
                     />
+                    {!!errors.ConsultingGynocologist && (
+                      <FormHelperText>
+                        {errors.ConsultingGynocologist}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Consulting Hospitals <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.ConsultingHospital}
+                  >
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="ConsultingHospital"
+                      name="ConsultingHospital"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.constHospitals}
+                      value={formValues?.ConsultingHospital}
                       onChange={(e) =>
-                        handleChange(e.target.value, "constHospitals")
+                        handleChange(e.target.value, "ConsultingHospital")
                       }
                     />
+                    {!!errors.ConsultingHospital && (
+                      <FormHelperText>
+                        {errors.ConsultingHospital}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -209,64 +490,115 @@ const ClientDetailsForth = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
-                      City <span style={redStarStyle}>*</span>
+                      Country <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      data={cityList}
-                      value={formValues?.HospitalAddress?.city}
-                      onChange={(e) => {
-                        handleChange(e, "city");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.ConsultingHospitalCountry}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        // disabled={true}
+                        data={upDatedCountryList}
+                        value={formValues?.ConsultingHospitalCountry}
+                        onChange={(e) => {
+                          handleChange(e, "ConsultingHospitalCountry");
+                        }}
+                      />
+                      {!!errors.ConsultingHospitalCountry && (
+                        <FormHelperText>
+                          {errors.ConsultingHospitalCountry}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
+
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       State <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      data={stateList}
-                      value={formValues?.HospitalAddress?.state}
-                      onChange={(e) => {
-                        // dispatch(getCityList(e))
-                        handleChange(e, "state");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.ConsultingHospitalState}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        data={stateList}
+                        value={formValues?.ConsultingHospitalState}
+                        onChange={(e) => {
+                          dispatch(getCityList(e));
+                          handleChange(e, "ConsultingHospitalState");
+                        }}
+                      />
+                      {!!errors.ConsultingHospitalState && (
+                        <FormHelperText>
+                          {errors.ConsultingHospitalState}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
-                      Country <span style={redStarStyle}>*</span>
+                      City <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      disabled={true}
-                      data={upDatedCountryList}
-                      value={formValues?.HospitalAddress?.country}
-                      onChange={(e) => {
-                        handleChange(e, "country");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.ConsultingHosptalCity}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        data={cityList}
+                        value={formValues?.ConsultingHosptalCity}
+                        onChange={(e) => {
+                          handleChange(e, "ConsultingHosptalCity");
+                        }}
+                      />
+                      {!!errors.ConsultingHosptalCity && (
+                        <FormHelperText>
+                          {errors.ConsultingHosptalCity}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Pincode <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" size="small" fullWidth>
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.ConsultingHospitalPinCode}
+                    >
                       <OutlinedInput
                         fullWidth
                         type="number"
-                        id="pincode"
+                        id="ConsultingHospitalPinCode"
+                        name="ConsultingHospitalPinCode"
                         placeholder="pincode"
                         size="small"
-                        value={formValues?.HospitalAddress?.pincode}
+                        value={formValues?.ConsultingHospitalPinCode}
                         onChange={(e) =>
-                          handleChange(e.target.value, "pincode")
+                          handleChange(
+                            e.target.value,
+                            "ConsultingHospitalPinCode"
+                          )
                         }
                       />
+                      {!!errors.ConsultingHospitalPinCode && (
+                        <FormHelperText>
+                          {errors.ConsultingHospitalPinCode}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -275,17 +607,31 @@ const ClientDetailsForth = () => {
                     <InputLabel sx={inputLableStyle}>
                       Hospital Address <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.ConsultingHospitalAddress}
+                    >
                       <OutlinedInput
                         fullWidth
-                        id="outlined-adornment-password"
+                        id="ConsultingHospitalAddress"
+                        name="ConsultingHospitalAddress"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.HospitalAddress?.addressLine1}
+                        value={formValues?.ConsultingHospitalAddress}
                         onChange={(e) =>
-                          handleChange(e.target.value, "addressLine1")
+                          handleChange(
+                            e.target.value,
+                            "ConsultingHospitalAddress"
+                          )
                         }
                       />
+                      {!!errors.ConsultingHospitalAddress && (
+                        <FormHelperText>
+                          {errors.ConsultingHospitalAddress}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -294,8 +640,16 @@ const ClientDetailsForth = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                        // checked={sameAddress}
-                        // onChange={handleCheckboxChange}
+                          name="IsDeliveringHospitalSameAsConsultingHospotal"
+                          checked={
+                            formValues?.IsDeliveringHospitalSameAsConsultingHospotal
+                          }
+                          onChange={(e) =>
+                            handleChange(
+                              e.target.checked,
+                              "IsDeliveringHospitalSameAsConsultingHospotal"
+                            )
+                          }
                         />
                       }
                       label="If  delivering hospital address is same as Current hospital address"
@@ -318,64 +672,115 @@ const ClientDetailsForth = () => {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
-                      City <span style={redStarStyle}>*</span>
+                      Country <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      data={cityList}
-                      value={formValues?.DeliveringAddress?.city}
-                      onChange={(e) => {
-                        handleChange(e, "city");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DeliveringHospitalCountry}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        // disabled={true}
+                        data={upDatedCountryList}
+                        value={formValues?.DeliveringHospitalCountry}
+                        onChange={(e) => {
+                          handleChange(e, "DeliveringHospitalCountry");
+                        }}
+                      />
+                      {!!errors.DeliveringHospitalCountry && (
+                        <FormHelperText>
+                          {errors.DeliveringHospitalCountry}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       State <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      data={stateList}
-                      value={formValues?.DeliveringAddress?.state}
-                      onChange={(e) => {
-                        // dispatch(getCityList(e))
-                        handleChange(e, "state");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DeliveringHospitalState}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        data={stateList}
+                        value={formValues?.DeliveringHospitalState}
+                        onChange={(e) => {
+                          dispatch(getCityList(e));
+                          handleChange(e, "DeliveringHospitalState");
+                        }}
+                      />
+                      {!!errors.DeliveringHospitalState && (
+                        <FormHelperText>
+                          {errors.DeliveringHospitalState}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
+
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
-                      Country <span style={redStarStyle}>*</span>
+                      City <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      disabled={true}
-                      data={upDatedCountryList}
-                      value={formValues?.DeliveringAddress?.country}
-                      onChange={(e) => {
-                        handleChange(e, "country");
-                      }}
-                    />
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DeliveringHosptalCity}
+                    >
+                      <SingleSelect
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        data={cityList}
+                        value={formValues?.DeliveringHosptalCity}
+                        onChange={(e) => {
+                          handleChange(e, "DeliveringHosptalCity");
+                        }}
+                      />
+                      {!!errors.DeliveringHosptalCity && (
+                        <FormHelperText>
+                          {errors.DeliveringHosptalCity}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Pincode <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" size="small" fullWidth>
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.DeliveringHospitalPinCode}
+                    >
                       <OutlinedInput
                         fullWidth
                         type="number"
-                        id="pincode"
+                        id="DeliveringHospitalPinCode"
+                        name="DeliveringHospitalPinCode"
                         placeholder="pincode"
                         size="small"
-                        value={formValues?.DeliveringAddress?.pincode}
+                        value={formValues?.DeliveringHospitalPinCode}
                         onChange={(e) =>
-                          handleChange(e.target.value, "pincode")
+                          handleChange(
+                            e.target.value,
+                            "DeliveringHospitalPinCode"
+                          )
                         }
                       />
+                      {!!errors.DeliveringHospitalPinCode && (
+                        <FormHelperText>
+                          {errors.DeliveringHospitalPinCode}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -386,17 +791,31 @@ const ClientDetailsForth = () => {
                       gynaecologist)
                       <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DeliveringHospitalAddress}
+                    >
                       <OutlinedInput
                         fullWidth
-                        id="outlined-adornment-password"
+                        id="DeliveringHospitalAddress"
+                        name="DeliveringHospitalAddress"
                         placeholder="Input text"
                         size="small"
-                        value={formValues?.DeliveringAddress?.addressLine2}
+                        value={formValues?.DeliveringHospitalAddress}
                         onChange={(e) =>
-                          handleChange(e.target.value, "otherId")
+                          handleChange(
+                            e.target.value,
+                            "DeliveringHospitalAddress"
+                          )
                         }
                       />
+                      {!!errors.DeliveringHospitalAddress && (
+                        <FormHelperText>
+                          {errors.DeliveringHospitalAddress}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -407,6 +826,6 @@ const ClientDetailsForth = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsForth;

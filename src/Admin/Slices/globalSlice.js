@@ -20,6 +20,7 @@ const initialState = {
   typeOfProofData: [],
   SubscribedUserData: [],
   customerID: null,
+  typeOfPreganacyData: [],
   loading: "",
 };
 
@@ -201,6 +202,22 @@ export const getAnnexureInfo = createAsyncThunk(
   }
 );
 
+export const GetTypeOfPregnancy = createAsyncThunk(
+  "GetTypeOfPregnancy",
+  async (search, thunkAPI) => {
+    try {
+      const response = await api.get(
+        `getMasterConfiguration/Type of Pregnancy/${search}`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const globalSlice = createSlice({
   name: "global",
   initialState,
@@ -338,6 +355,17 @@ const globalSlice = createSlice({
     builder.addCase(getAnnexureInfo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
+    });
+
+    builder.addCase(GetTypeOfPregnancy.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(GetTypeOfPregnancy.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.typeOfPreganacyData = action.payload.data;
+    });
+    builder.addCase(GetTypeOfPregnancy.rejected, (state, action) => {
+      state.authLoading = "complete_failure";
     });
   },
 });
