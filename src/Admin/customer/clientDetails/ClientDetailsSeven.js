@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -14,6 +19,10 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnnexureInfo } from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
+import { formatDateYYYYMMDD } from "../../../globalFunctions";
 
 const headingStyle = {
   fontSize: "18px",
@@ -30,15 +39,41 @@ const inputLableStyle = {
   alignItems: "center",
 };
 
-const ClientDetailsSeven = () => {
+const ClientDetailsSeven = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   const [formValues, setFormValues] = useState({
-    executiveName: "",
-    employeeCode: "",
-    managerName: "",
-    area: "",
-    date: "",
-    excutiveSign: "",
-    excutivename: "",
+    NameOfExcutive: "",
+    EmployeeCode: "",
+    NameOfManager: "",
+    AreaOrRegion: "",
+    Date: "",
+    ExcutiveSignature: "",
+    Name: "",
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -48,10 +83,56 @@ const ClientDetailsSeven = () => {
     }));
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
-  };
+  useEffect(() => {
+    async function getCommunicationData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerData &&
+        SubscribedInnerPageData.CustomerData.length != 0 &&
+        SubscribedInnerPageData.CustomerData[0].ExcutiveInfoForbankUse
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerData[0]
+          .ExcutiveInfoForbankUse) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1] =
+                item == "Date"
+                  ? formatDateYYYYMMDD(
+                      SubscribedInnerPageData.CustomerData[0]
+                        .ExcutiveInfoForbankUse[item]
+                    )
+                  : SubscribedInnerPageData.CustomerData[0]
+                      .ExcutiveInfoForbankUse[item];
+            }
+          }
+        }
+      }
+    }
+    getCommunicationData();
+  }, [SubscribedInnerPageData]);
+  useEffect(() => {
+    getAnnexureInfo();
+  }, [handlePrev]);
+
+  useImperativeHandle(ref, () => ({
+    getForbankUseChildData: () => {
+      dispatch(
+        addOrupdateAnnexureInfo({
+          ExcutiveInfoForbankUse: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
+  console.log("formvalues", formValues);
 
   return (
     <Card variant="outlined">
@@ -65,11 +146,12 @@ const ClientDetailsSeven = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="NameOfExcutive"
+                name="NameOfExcutive"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.executiveName}
-                onChange={(e) => handleChange(e.target.value, "executiveName")}
+                value={formValues?.NameOfExcutive}
+                onChange={(e) => handleChange(e.target.value, "NameOfExcutive")}
               />
             </FormControl>
           </Grid>
@@ -78,11 +160,12 @@ const ClientDetailsSeven = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="EmployeeCode"
+                name="EmployeeCode"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.employeeCode}
-                onChange={(e) => handleChange(e.target.value, "employeeCode")}
+                value={formValues?.EmployeeCode}
+                onChange={(e) => handleChange(e.target.value, "EmployeeCode")}
               />
             </FormControl>
           </Grid>
@@ -93,11 +176,11 @@ const ClientDetailsSeven = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="NameOfManager"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.managerName}
-                onChange={(e) => handleChange(e.target.value, "managerName")}
+                value={formValues?.NameOfManager}
+                onChange={(e) => handleChange(e.target.value, "NameOfManager")}
               />
             </FormControl>
           </Grid>
@@ -106,11 +189,12 @@ const ClientDetailsSeven = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="AreaOrRegion"
+                name="AreaOrRegion"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.area}
-                onChange={(e) => handleChange(e.target.value, "area")}
+                value={formValues?.AreaOrRegion}
+                onChange={(e) => handleChange(e.target.value, "AreaOrRegion")}
               />
             </FormControl>
           </Grid>
@@ -119,11 +203,12 @@ const ClientDetailsSeven = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="Date"
                 placeholder="Input text"
+                type="date"
                 size="small"
-                value={formValues?.date}
-                onChange={(e) => handleChange(e.target.value, "date")}
+                value={formValues?.Date}
+                onChange={(e) => handleChange(e.target.value, "Date")}
               />
             </FormControl>
           </Grid>
@@ -156,11 +241,12 @@ const ClientDetailsSeven = () => {
                 <FormControl variant="outlined" fullWidth size="small">
                   <TextareaAutosize
                     minRows={4}
-                    id="outlined-adornment-password"
+                    id="ExcutiveSignature"
+                    name="ExcutiveSignature"
                     size="small"
-                    value={formValues?.excutiveSign}
+                    value={formValues?.ExcutiveSignature}
                     onChange={(e) =>
-                      handleChange(e.target.value, "excutiveSign")
+                      handleChange(e.target.value, "ExcutiveSignature")
                     }
                   />
                 </FormControl>
@@ -172,13 +258,12 @@ const ClientDetailsSeven = () => {
                 <FormControl variant="outlined" fullWidth size="small">
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="Name"
+                    name="Name"
                     placeholder="Input text"
                     size="small"
-                    value={formValues?.excutiveName}
-                    onChange={(e) =>
-                      handleChange(e.target.value, "excutiveName")
-                    }
+                    value={formValues?.Name}
+                    onChange={(e) => handleChange(e.target.value, "Name")}
                   />
                 </FormControl>
               </Grid>
@@ -188,6 +273,6 @@ const ClientDetailsSeven = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsSeven;

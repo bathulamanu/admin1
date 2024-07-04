@@ -28,6 +28,8 @@ const ClientDetails = () => {
   const childHospitalDetailsRef = useRef();
   const childReferenceIformationRef = useRef();
   const childSignatureRef = useRef();
+  const childForbankUseRef = useRef();
+  const childHealthHistoryRef = useRef();
 
   const handleNext = () => {
     // if (currentStep < totalSteps) {
@@ -52,6 +54,12 @@ const ClientDetails = () => {
     }
     if (childSignatureRef.current) {
       childSignatureRef.current.getSignatureChildData();
+    }
+    if (childForbankUseRef.current) {
+      childForbankUseRef.current.getForbankUseChildData();
+    }
+    if (childHealthHistoryRef.current) {
+      childHealthHistoryRef.current.getHealthHistoryChildData();
     }
   };
 
@@ -163,8 +171,26 @@ const ClientDetails = () => {
               totalSteps={totalSteps}
             />
           )}
-          {currentStep === 7 && <ClientDetailsSeven />}
-          {currentStep === 8 && <ClientDetailsEight />}
+          {currentStep === 7 && (
+            <ClientDetailsSeven
+              ref={childForbankUseRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
+          {currentStep === 8 && (
+            <ClientDetailsEight
+              ref={childHealthHistoryRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
         </>
       )}
 
