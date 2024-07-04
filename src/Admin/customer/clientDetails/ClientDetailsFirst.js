@@ -25,7 +25,11 @@ import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import api from "../../../api/httpRequest";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
+import {
+  formatDate,
+  formatDateYYYYMMDD,
+  getTypeOfProofList,
+} from "../../../globalFunctions";
 import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
 import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 import { getCustomerDetails } from "../../Slices/customerSlice";
@@ -139,20 +143,24 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
         SubscribedInnerPageData.CustomerClientFatherDetails
       ) {
         for (let item in SubscribedInnerPageData.CustomerClientFatherDetails) {
-          for (let item1 in formValues) {
-            if (item1 === item) {
-              formValues[item1] =
-                item === "ExpectantFatherDOB"
-                  ? formatDate(
-                      SubscribedInnerPageData.CustomerClientFatherDetails[item]
-                    )
-                  : SubscribedInnerPageData.CustomerClientFatherDetails[item];
-            }
-          }
+          // for (let item1 in formValues) {
+          //   if (item1 === item) {
+          //     formValues[item1] =
+          //       item === "ExpectantFatherDOB"
+          //         ? formatDate(
+          //             SubscribedInnerPageData.CustomerClientFatherDetails[item]
+          //           )
+          //         : SubscribedInnerPageData.CustomerClientFatherDetails[item];
+          //   }
+          // }
           for (let item2 in formValues) {
             if (item2 == item) {
               formValues[item2] =
-                SubscribedInnerPageData.CustomerClientFatherDetails[item];
+                item === "ExpectantFatherDOB"
+                  ? formatDateYYYYMMDD(
+                      SubscribedInnerPageData.CustomerClientFatherDetails[item]
+                    )
+                  : SubscribedInnerPageData.CustomerClientFatherDetails[item];
             }
           }
         }
