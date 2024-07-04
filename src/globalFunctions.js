@@ -154,6 +154,10 @@ export function formatDate(dateString) {
   return moment(dateString).format("DD-MM-YYYY");
 }
 
+export function formatDateYYYYMMDD(date) {
+  return moment(date, "DD-MM-YYYY").format("YYYY-MM-DD");
+}
+
 export function getTypeOfPregnancyList(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({

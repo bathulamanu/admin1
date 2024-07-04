@@ -20,7 +20,7 @@ const Customers = () => {
   const dispatch = useDispatch();
   const customersList = useSelector((state) => state.customers.customersList);
 
-  // console.log("listData", customersList);
+  console.log("listData", customersList);
 
   useEffect(() => {
     dispatch(getCustomersList(null));

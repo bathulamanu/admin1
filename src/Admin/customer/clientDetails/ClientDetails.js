@@ -26,6 +26,7 @@ const ClientDetails = () => {
   const childMotherDetailsRef = useRef();
   const childCommunicationDetailsRef = useRef();
   const childHospitalDetailsRef = useRef();
+  const childReferenceIformationRef = useRef();
 
   const handleNext = () => {
     // if (currentStep < totalSteps) {
@@ -44,6 +45,9 @@ const ClientDetails = () => {
     }
     if (childHospitalDetailsRef.current) {
       childHospitalDetailsRef.current.getHospitalDetailsChildData();
+    }
+    if (childReferenceIformationRef.current) {
+      childReferenceIformationRef.current.getReferenceIformationChildData();
     }
   };
 
@@ -135,7 +139,16 @@ const ClientDetails = () => {
               totalSteps={totalSteps}
             />
           )}
-          {currentStep === 5 && <ClientDetailsFive />}
+          {currentStep === 5 && (
+            <ClientDetailsFive
+              ref={childReferenceIformationRef}
+              handleNext={handleNext}
+              handlePrev={handlePrevious}
+              currentStep={currentStep}
+              setCurrentStep={setCurrentStep}
+              totalSteps={totalSteps}
+            />
+          )}
           {currentStep === 6 && <ClientDetailsSix />}
           {currentStep === 7 && <ClientDetailsSeven />}
           {currentStep === 8 && <ClientDetailsEight />}

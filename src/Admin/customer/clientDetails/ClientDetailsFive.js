@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import {
   Box,
   Button,
@@ -14,6 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
+import { useDispatch } from "react-redux";
 
 const headingStyle = {
   fontSize: "18px",
@@ -35,17 +36,40 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const ClientDetailsFive = () => {
+const ClientDetailsFive = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const Shipment = [
+    { id: 1, name: "Shipment 1" },
+    { id: 2, name: "Shipment 2" },
+    { id: 3, name: "Shipment 3" },
+    { id: 4, name: "Shipment 4" },
+    { id: 5, name: "Shipment 5" },
+    { id: 6, name: "Shipment 6" },
+  ];
   const [formValues, setFormValues] = useState({
-    uin: "",
-    refferClient: "",
-    mobile1: "",
-    mobile2: "",
-    shipment: "",
-    name: "",
-    relationship: "",
-    emgMobile1: "",
-    emgMobile2: "",
+    ExisitingCryovaultClientUIN: "",
+    IfReferredByExisitingClientName: "",
+    Mobile1: "",
+    Mobile2: "",
+    shipmentDetails: "",
+    Name: "",
+    RelationShip: "",
+    EmergencyMobile1: "",
+    EmergencyMobile2: "",
+    meternalSampleAndUmbilicalBleed: false,
+    phledopomist: false,
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -53,11 +77,12 @@ const ClientDetailsFive = () => {
       ...prev,
       [name]: value,
     }));
-  };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
+    // Clear the error message when the user starts typing
+    // setErrors({
+    //   ...errors,
+    //   [name]: "",
+    // });
   };
 
   return (
@@ -98,11 +123,17 @@ const ClientDetailsFive = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="ExisitingCryovaultClientUIN"
+                      name="ExisitingCryovaultClientUIN"
                       placeholder="Input text"
                       size="small"
-                      value={formValues?.uin}
-                      onChange={(e) => handleChange(e.target.value, "uin")}
+                      value={formValues?.ExisitingCryovaultClientUIN}
+                      onChange={(e) =>
+                        handleChange(
+                          e.target.value,
+                          "ExisitingCryovaultClientUIN"
+                        )
+                      }
                     />
                   </FormControl>
                 </Grid>
@@ -114,7 +145,6 @@ const ClientDetailsFive = () => {
                 If referred by an existing client, please provide details as
                 below
                 <span style={redStarStyle}>*</span>
-                below<span style={redStarStyle}>*</span>
               </Typography>
               <Grid container spacing={2} pt={1} pb={2}>
                 <Grid item style={{ width: "100%" }}>
@@ -125,12 +155,16 @@ const ClientDetailsFive = () => {
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
-                      id="outlined-adornment-password"
+                      id="IfReferredByExisitingClientName"
+                      name="IfReferredByExisitingClientName"
                       placeholder="Input text"
                       size="small"
-                      value={formValues?.refferClient}
+                      value={formValues?.IfReferredByExisitingClientName}
                       onChange={(e) =>
-                        handleChange(e.target.value, "refferClient")
+                        handleChange(
+                          e.target.value,
+                          "IfReferredByExisitingClientName"
+                        )
                       }
                     />
                   </FormControl>
@@ -141,22 +175,24 @@ const ClientDetailsFive = () => {
                   <InputLabel sx={inputLableStyle}>Mobile-1</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="Mobile1"
+                    name="Mobile1"
                     placeholder="Select"
                     size="small"
-                    value={formValues?.mobile1}
-                    onChange={(e) => handleChange(e, "mobile1")}
+                    value={formValues?.Mobile1}
+                    onChange={(e) => handleChange(e, "Mobile1")}
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Mobile-2</InputLabel>
                   <OutlinedInput
                     fullWidth
-                    id="outlined-adornment-password"
+                    id="Mobile2"
+                    name="Mobile2"
                     placeholder="Select"
                     size="small"
-                    value={formValues?.mobile2}
-                    onChange={(e) => handleChange(e, "mobile2")}
+                    value={formValues?.Mobile2}
+                    onChange={(e) => handleChange(e, "Mobile2")}
                   />
                 </Grid>
               </Grid>
@@ -184,8 +220,9 @@ const ClientDetailsFive = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.shipment}
-                    onChange={(e) => handleChange(e, "shipment")}
+                    data={Shipment}
+                    value={formValues?.shipmentDetails}
+                    onChange={(e) => handleChange(e, "shipmentDetails")}
                   />
                 </Grid>
               </Grid>
@@ -203,11 +240,12 @@ const ClientDetailsFive = () => {
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="Name"
+                      name="Name"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.name}
-                      onChange={(e) => handleChange(e.target.value, "name")}
+                      value={formValues?.Name}
+                      onChange={(e) => handleChange(e.target.value, "Name")}
                     />
                   </FormControl>
                 </Grid>
@@ -217,12 +255,13 @@ const ClientDetailsFive = () => {
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="RelationShip"
+                      name="RelationShip"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.relationship}
+                      value={formValues?.RelationShip}
                       onChange={(e) =>
-                        handleChange(e.target.value, "relationship")
+                        handleChange(e.target.value, "RelationShip")
                       }
                     />
                   </FormControl>
@@ -233,12 +272,13 @@ const ClientDetailsFive = () => {
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="EmergencyMobile1"
+                      name="EmergencyMobile1"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.emgMobile1}
+                      value={formValues?.EmergencyMobile1}
                       onChange={(e) =>
-                        handleChange(e.target.value, "emgMobile1")
+                        handleChange(e.target.value, "EmergencyMobile1")
                       }
                     />
                   </FormControl>
@@ -249,12 +289,13 @@ const ClientDetailsFive = () => {
                     <OutlinedInput
                       fullWidth
                       type="number"
-                      id="pincode"
+                      id="EmergencyMobile2"
+                      name="EmergencyMobile2"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.emgMobile2}
+                      value={formValues?.EmergencyMobile2}
                       onChange={(e) =>
-                        handleChange(e.target.value, "emgMobile2")
+                        handleChange(e.target.value, "EmergencyMobile2")
                       }
                     />
                   </FormControl>
@@ -274,8 +315,14 @@ const ClientDetailsFive = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                  // checked={sameAddress}
-                  // onChange={handleCheckboxChange}
+                    name="meternalSampleAndUmbilicalBleed"
+                    checked={formValues?.meternalSampleAndUmbilicalBleed}
+                    onChange={(e) =>
+                      handleChange(
+                        e.target.checked,
+                        "meternalSampleAndUmbilicalBleed"
+                      )
+                    }
                   />
                 }
                 label="Requesting bank to arrange for pickup of meternal sample & Umbilical cord bleed"
@@ -287,8 +334,11 @@ const ClientDetailsFive = () => {
               <FormControlLabel
                 control={
                   <Checkbox
-                  // checked={sameAddress}
-                  // onChange={handleCheckboxChange}
+                    name="phledopomist"
+                    checked={formValues?.phledopomist}
+                    onChange={(e) =>
+                      handleChange(e.target.checked, "phledopomist")
+                    }
                   />
                 }
                 label="Requesting bank to oranise for Phledopomist"
@@ -305,6 +355,6 @@ const ClientDetailsFive = () => {
       </Card>
     </Stack>
   );
-};
+});
 
 export default ClientDetailsFive;

@@ -228,12 +228,6 @@ const ClientDetailsSec = forwardRef((props, ref) => {
           ExpectantMotherIdproofNo: "IDproof No is required",
         }));
         return;
-      } else if (!formValues.ExpectantMotherOtherInfo) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          ExpectantMotherOtherInfo: "Other IDproof No is required",
-        }));
-        return;
       }
       dispatch(
         addOrupdateAnnexureInfo({
@@ -322,6 +316,7 @@ const ClientDetailsSec = forwardRef((props, ref) => {
                       fullWidth
                       id="ExpectantMotherDOB"
                       name="ExpectantMotherDOB"
+                      type="date"
                       placeholder="Input Text"
                       size="small"
                       value={formValues?.ExpectantMotherDOB}
@@ -551,14 +546,8 @@ const ClientDetailsSec = forwardRef((props, ref) => {
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     If Other, please Specify
-                    <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                    error={!!errors.ExpectantMotherOtherInfo}
-                  >
+                  <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
                       id="ExpectantMotherOtherInfo"
@@ -570,11 +559,6 @@ const ClientDetailsSec = forwardRef((props, ref) => {
                         handleChange(e.target.value, "ExpectantMotherOtherInfo")
                       }
                     />
-                    {!!errors.ExpectantMotherOtherInfo && (
-                      <FormHelperText>
-                        {errors.ExpectantMotherOtherInfo}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                 </Grid>
               </Grid>

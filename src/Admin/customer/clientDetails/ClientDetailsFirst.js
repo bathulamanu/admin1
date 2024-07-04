@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { styled } from "@mui/material/styles";
+import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -106,7 +106,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
     });
   };
 
-  const handleImageUpload = async (e, fieldName) => {
+  const handleFatherImageUpload = async (e, fieldName) => {
     const headers = {
       "Content-Type": "multipart/form-data",
     };
@@ -140,9 +140,9 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
       ) {
         for (let item in SubscribedInnerPageData.CustomerClientFatherDetails) {
           for (let item1 in formValues) {
-            if (item1 == item) {
+            if (item1 === item) {
               formValues[item1] =
-                item == "ExpectantFatherDOB"
+                item === "ExpectantFatherDOB"
                   ? formatDate(
                       SubscribedInnerPageData.CustomerClientFatherDetails[item]
                     )
@@ -224,13 +224,6 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
           ...prevErrors,
           ExpectantFatherIdproofNo: "IDproof No is required",
         }));
-        return;
-      } else if (!formValues.ExpectantFatherOtherInfo) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          ExpectantFatherOtherInfo: "Other IDproof No is required",
-        }));
-        return;
       }
       dispatch(
         addOrupdateAnnexureInfo({
@@ -319,6 +312,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                       fullWidth
                       id="ExpectantFatherDOB"
                       name="ExpectantFatherDOB"
+                      type="date"
                       placeholder="Input Text"
                       size="small"
                       value={formValues?.ExpectantFatherDOB}
@@ -534,14 +528,8 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     If Other, please Specify
-                    <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                    error={!!errors.ExpectantFatherOtherInfo}
-                  >
+                  <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
                       fullWidth
                       id="ExpectantFatherOtherInfo"
@@ -553,11 +541,6 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                         handleChange(e, "ExpectantFatherOtherInfo")
                       }
                     />
-                    {!!errors.ExpectantFatherOtherInfo && (
-                      <FormHelperText>
-                        {errors.ExpectantFatherOtherInfo}
-                      </FormHelperText>
-                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -651,7 +634,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                     accept="image/jpeg, image/png, image/svg+xml"
                     hidden
                     onChange={(e) =>
-                      handleImageUpload(e, "ExpectantFatherProfilePhoto")
+                      handleFatherImageUpload(e, "ExpectantFatherProfilePhoto")
                     }
                   />
                 </Button>
@@ -741,7 +724,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
                     accept="image/jpeg, image/png, image/svg+xml"
                     hidden
                     onChange={(e) =>
-                      handleImageUpload(e, "ExpectantFatherIDproofPhoto")
+                      handleFatherImageUpload(e, "ExpectantFatherIDproofPhoto")
                     }
                   />
                 </Button>

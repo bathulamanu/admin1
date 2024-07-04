@@ -175,15 +175,14 @@ const ClientDetailsForth = forwardRef((props, ref) => {
           for (let item1 in formValues) {
             if (item1 == item) {
               formValues[item1] =
-                item == "ExpectedDateOfDelivery"
-                  ? formatDate(
-                      SubscribedInnerPageData.CustomerHospitalBirthingdetails[
-                        item
-                      ]
-                    )
-                  : SubscribedInnerPageData.CustomerHospitalBirthingdetails[
-                      item
-                    ];
+                // item == "ExpectedDateOfDelivery"
+                //   ? formatDate(
+                //       SubscribedInnerPageData.CustomerHospitalBirthingdetails[
+                //         item
+                //       ]
+                //     )
+                //   :
+                SubscribedInnerPageData.CustomerHospitalBirthingdetails[item];
             }
           }
         }
@@ -342,6 +341,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                       id="ExpectedDateOfDelivery"
                       name="ExpectedDateOfDelivery"
                       placeholder="Input Text"
+                      type="date"
                       size="small"
                       value={formValues?.ExpectedDateOfDelivery}
                       onChange={(e) =>

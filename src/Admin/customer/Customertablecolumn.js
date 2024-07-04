@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import { getCustomerDetails } from "../Slices/customerSlice";
+import { formatDate } from "../../globalFunctions";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -50,7 +51,7 @@ const CustomerTableColumn = () => {
       disableColumnMenu: true,
       sortable: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.registrationCRNid),
+      valueGetter: (_, row) => formatDate(row?.createdTime),
     },
     {
       field: "crnNo",

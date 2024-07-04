@@ -34,6 +34,7 @@ const CustomerDetails = () => {
   }, []);
   console.log("customerDetail", customerDetail);
 
+  const customerID = customerDetail?.customerID;
   const firstName = customerDetail?.firstName;
   const lastName = customerDetail?.lastName;
   const email = customerDetail?.email;
@@ -97,7 +98,7 @@ const CustomerDetails = () => {
                     }}
                     color="primary"
                   >
-                    001 Customer
+                    {customerID} Customer
                   </Typography>
                 </Stack>
               </Box>
