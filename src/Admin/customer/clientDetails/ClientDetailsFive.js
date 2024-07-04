@@ -1,4 +1,9 @@
-import React, { forwardRef, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -7,6 +12,7 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Grid,
   InputLabel,
   OutlinedInput,
@@ -14,7 +20,9 @@ import {
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnnexureInfo } from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -58,6 +66,20 @@ const ClientDetailsFive = forwardRef((props, ref) => {
     { id: 5, name: "Shipment 5" },
     { id: 6, name: "Shipment 6" },
   ];
+
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   const [formValues, setFormValues] = useState({
     ExisitingCryovaultClientUIN: "",
     IfReferredByExisitingClientName: "",
@@ -71,19 +93,106 @@ const ClientDetailsFive = forwardRef((props, ref) => {
     meternalSampleAndUmbilicalBleed: false,
     phledopomist: false,
   });
+
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    let isValid = true;
+    let errorMsg = "";
 
-    // Clear the error message when the user starts typing
-    // setErrors({
-    //   ...errors,
-    //   [name]: "",
-    // });
+    if (
+      name === "Mobile1" ||
+      name === "Mobile2" ||
+      name === "EmergencyMobile1" ||
+      name === "EmergencyMobile2"
+    ) {
+      const regex = /^[0-9]*$/;
+      if (!regex.test(value)) {
+        isValid = false;
+        errorMsg = "Only numbers are allowed";
+      } else if (value.length > 10) {
+        isValid = false;
+        errorMsg = "Maximum 10 digits are allowed";
+      }
+    }
+
+    if (isValid) {
+      setFormValues((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: "",
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: errorMsg,
+      }));
+    }
   };
+
+  useEffect(() => {
+    async function getCommunicationData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerData &&
+        SubscribedInnerPageData.CustomerData.length != 0 &&
+        SubscribedInnerPageData.CustomerData[0].ReferenceDetails
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerData[0]
+          .ReferenceDetails) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1] =
+                SubscribedInnerPageData.CustomerData[0].ReferenceDetails[item];
+            }
+          }
+        }
+      }
+    }
+    getCommunicationData();
+  }, [SubscribedInnerPageData]);
+
+  useEffect(() => {
+    // e.preventDefault();
+    getAnnexureInfo();
+  }, [handlePrev]);
+
+  const [errors, setErrors] = useState({});
+  useImperativeHandle(ref, () => ({
+    getReferenceIformationChildData: () => {
+      if (!formValues.ExisitingCryovaultClientUIN) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ExisitingCryovaultClientUIN: "UIN is required",
+        }));
+        return;
+      } else if (!formValues.IfReferredByExisitingClientName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          IfReferredByExisitingClientName: "Name is required",
+        }));
+        return;
+      }
+      dispatch(
+        addOrupdateAnnexureInfo({
+          ReferenceDetails: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
+
+  console.log("formValues", formValues);
 
   return (
     <Stack sx={{ gap: 4 }}>
@@ -120,7 +229,12 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                     UIN
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.ExisitingCryovaultClientUIN}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="ExisitingCryovaultClientUIN"
@@ -135,6 +249,11 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                         )
                       }
                     />
+                    {!!errors.ExisitingCryovaultClientUIN && (
+                      <FormHelperText>
+                        {errors.ExisitingCryovaultClientUIN}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -152,7 +271,12 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                     Referring clients name
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.IfReferredByExisitingClientName}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="IfReferredByExisitingClientName"
@@ -167,33 +291,58 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                         )
                       }
                     />
+                    {!!errors.IfReferredByExisitingClientName && (
+                      <FormHelperText>
+                        {errors.IfReferredByExisitingClientName}
+                      </FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Mobile-1</InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="Mobile1"
-                    name="Mobile1"
-                    placeholder="Select"
                     size="small"
-                    value={formValues?.Mobile1}
-                    onChange={(e) => handleChange(e, "Mobile1")}
-                  />
+                    error={!!errors.Mobile1}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="Mobile1"
+                      name="Mobile1"
+                      placeholder="Select"
+                      size="small"
+                      value={formValues?.Mobile1}
+                      onChange={(e) => handleChange(e, "Mobile1")}
+                    />
+                    {!!errors.Mobile1 && (
+                      <FormHelperText>{errors.Mobile1}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Mobile-2</InputLabel>
-                  <OutlinedInput
+                  <FormControl
+                    variant="outlined"
                     fullWidth
-                    id="Mobile2"
-                    name="Mobile2"
-                    placeholder="Select"
                     size="small"
-                    value={formValues?.Mobile2}
-                    onChange={(e) => handleChange(e, "Mobile2")}
-                  />
+                    error={!!errors.Mobile2}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="Mobile2"
+                      name="Mobile2"
+                      placeholder="Select"
+                      size="small"
+                      value={formValues?.Mobile2}
+                      onChange={(e) => handleChange(e, "Mobile2")}
+                    />
+                    {!!errors.Mobile2 && (
+                      <FormHelperText>{errors.Mobile2}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
             </CardContent>
@@ -236,10 +385,15 @@ const ClientDetailsFive = forwardRef((props, ref) => {
               <Grid container spacing={2} pt={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Name</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.Name}
+                  >
                     <OutlinedInput
                       fullWidth
-                      type="number"
+                      type="text"
                       id="Name"
                       name="Name"
                       placeholder="Input Text"
@@ -247,14 +401,22 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                       value={formValues?.Name}
                       onChange={(e) => handleChange(e.target.value, "Name")}
                     />
+                    {!!errors.Name && (
+                      <FormHelperText>{errors.Name}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Relationship</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.RelationShip}
+                  >
                     <OutlinedInput
                       fullWidth
-                      type="number"
+                      type="text"
                       id="RelationShip"
                       name="RelationShip"
                       placeholder="Input Text"
@@ -264,14 +426,22 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                         handleChange(e.target.value, "RelationShip")
                       }
                     />
+                    {!!errors.RelationShip && (
+                      <FormHelperText>{errors.RelationShip}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Mobile-1</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.EmergencyMobile1}
+                  >
                     <OutlinedInput
                       fullWidth
-                      type="number"
+                      type="text"
                       id="EmergencyMobile1"
                       name="EmergencyMobile1"
                       placeholder="Input Text"
@@ -281,14 +451,22 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                         handleChange(e.target.value, "EmergencyMobile1")
                       }
                     />
+                    {!!errors.EmergencyMobile1 && (
+                      <FormHelperText>{errors.EmergencyMobile1}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Mobile-2</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.EmergencyMobile2}
+                  >
                     <OutlinedInput
                       fullWidth
-                      type="number"
+                      type="text"
                       id="EmergencyMobile2"
                       name="EmergencyMobile2"
                       placeholder="Input Text"
@@ -298,6 +476,9 @@ const ClientDetailsFive = forwardRef((props, ref) => {
                         handleChange(e.target.value, "EmergencyMobile2")
                       }
                     />
+                    {!!errors.EmergencyMobile2 && (
+                      <FormHelperText>{errors.EmergencyMobile2}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>

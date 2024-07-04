@@ -26,6 +26,7 @@ import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   formatDate,
+  formatDateYYYYMMDD,
   getCityIdList,
   getNamesIdList,
   getStateIdList,
@@ -175,14 +176,15 @@ const ClientDetailsForth = forwardRef((props, ref) => {
           for (let item1 in formValues) {
             if (item1 == item) {
               formValues[item1] =
-                // item == "ExpectedDateOfDelivery"
-                //   ? formatDate(
-                //       SubscribedInnerPageData.CustomerHospitalBirthingdetails[
-                //         item
-                //       ]
-                //     )
-                //   :
-                SubscribedInnerPageData.CustomerHospitalBirthingdetails[item];
+                item == "ExpectedDateOfDelivery"
+                  ? formatDateYYYYMMDD(
+                      SubscribedInnerPageData.CustomerHospitalBirthingdetails[
+                        item
+                      ]
+                    )
+                  : SubscribedInnerPageData.CustomerHospitalBirthingdetails[
+                      item
+                    ];
             }
           }
         }

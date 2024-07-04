@@ -10,6 +10,7 @@ const initialState = {
   countryList: [],
   stateList: [],
   cityList: [],
+  parmanentAddressCityList: [],
   specializationList: [],
   genderList: [],
   qualificationList: [],
@@ -54,6 +55,20 @@ export const getStateList = createAsyncThunk(
 
 export const getCityList = createAsyncThunk(
   "getCityList",
+  async (id, thunkAPI) => {
+    try {
+      const response = await api.get(`/getCityName/${id}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const getParmanentAddressCityList = createAsyncThunk(
+  "getParmanentAddressCityList",
   async (id, thunkAPI) => {
     try {
       const response = await api.get(`/getCityName/${id}`);
@@ -253,6 +268,17 @@ const globalSlice = createSlice({
       state.cityList = action.payload.data;
     });
     builder.addCase(getCityList.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getParmanentAddressCityList.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getParmanentAddressCityList.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.parmanentAddressCityList = action.payload.data;
+    });
+    builder.addCase(getParmanentAddressCityList.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
 
