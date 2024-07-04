@@ -189,6 +189,7 @@ const ClientDetails = () => {
               currentStep={currentStep}
               setCurrentStep={setCurrentStep}
               totalSteps={totalSteps}
+              setShowPreview={setShowPreview}
             />
           )}
         </>

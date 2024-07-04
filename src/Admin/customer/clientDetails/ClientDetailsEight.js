@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -8,6 +13,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { getAnnexureInfo } from "../../Slices/globalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "24px",
@@ -16,7 +24,34 @@ const headingStyle = {
   marginLeft: "5px",
 };
 
-const ClientDetailsEight = () => {
+const ClientDetailsEight = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+    setShowPreview,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   const [formValues, setFormValues] = useState({
     question1: "",
     question2: "",
@@ -51,10 +86,28 @@ const ClientDetailsEight = () => {
     }));
   };
 
-  const handleSave = (e) => {
-    e.preventDefault();
-    console.log(formValues);
-  };
+  useEffect(() => {
+    getAnnexureInfo();
+  }, [handlePrev]);
+
+  useImperativeHandle(ref, () => ({
+    getHealthHistoryChildData: () => {
+      // dispatch(
+      //   addOrupdateAnnexureInfo({
+      //     HealthHistoryQuestionnaire: formValues,
+      //     customerAnnexureInformationId: customerAnnexureInformationId,
+      //     customerID: customerID,
+      //   })
+      // );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      } else if (currentStep === totalSteps) {
+        setShowPreview(true);
+      }
+    },
+  }));
+  console.log("formvalues", formValues);
 
   return (
     <Card variant="outlined">
@@ -1087,6 +1140,6 @@ const ClientDetailsEight = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsEight;
