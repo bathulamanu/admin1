@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Box,
   Button,
@@ -14,6 +19,9 @@ import {
   TextareaAutosize,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnnexureInfo } from "../../Slices/globalSlice";
+import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -30,14 +38,40 @@ const inputLableStyle = {
   alignItems: "center",
 };
 
-const ClientDetailsSix = () => {
+const ClientDetailsSix = forwardRef((props, ref) => {
+  var {
+    handleNext,
+    handlePrev,
+    currentStep,
+    setCurrentStep,
+    totalSteps,
+  } = props;
+
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
+  const dispatch = useDispatch();
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
   const [formValues, setFormValues] = useState({
-    fatherSign: "",
-    motherSign: "",
-    medicalDirectorSign: "",
-    fatherName: "",
-    motherName: "",
-    medicalDirectorName: "",
+    MotherOrGuardianSignature: "",
+    FatherOrGuardianSignature: "",
+    MedicalDirectorSignature: "",
+    FatherOrGuardianName: "",
+    MotherOrGuardianName: "",
+    MedicalDirectorName: "",
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -47,6 +81,50 @@ const ClientDetailsSix = () => {
     }));
   };
 
+  useEffect(() => {
+    async function getSignatureData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerData &&
+        SubscribedInnerPageData.CustomerData.length != 0 &&
+        SubscribedInnerPageData.CustomerData[0].AllSignature
+      ) {
+        for (let item in SubscribedInnerPageData.CustomerData[0].AllSignature) {
+          for (let item1 in formValues) {
+            if (item1 == item) {
+              formValues[item1] =
+                SubscribedInnerPageData.CustomerData[0].AllSignature[item];
+            }
+          }
+        }
+      }
+    }
+    getSignatureData();
+  }, [SubscribedInnerPageData]);
+
+  useEffect(() => {
+    getAnnexureInfo();
+  }, [handlePrev]);
+
+  useImperativeHandle(ref, () => ({
+    getSignatureChildData: () => {
+      dispatch(
+        addOrupdateAnnexureInfo({
+          AllSignature: formValues,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
+
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      }
+    },
+  }));
+  console.log("formValues", formValues);
   return (
     <Card variant="outlined">
       <CardContent>
@@ -61,10 +139,13 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <TextareaAutosize
                 minRows={4}
-                id="outlined-adornment-password"
+                id="FatherOrGuardianSignature"
+                name="FatherOrGuardianSignature"
                 size="small"
-                value={formValues?.fatherSign}
-                onChange={(e) => handleChange(e.target.value, "fatherSign")}
+                value={formValues?.FatherOrGuardianSignature}
+                onChange={(e) =>
+                  handleChange(e.target.value, "FatherOrGuardianSignature")
+                }
               />
             </FormControl>
           </Grid>
@@ -75,10 +156,13 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <TextareaAutosize
                 minRows={4}
-                id="outlined-adornment-password"
+                id="MotherOrGuardianSignature"
+                name="MotherOrGuardianSignature"
                 size="small"
-                value={formValues?.motherSign}
-                onChange={(e) => handleChange(e.target.value, "motherSign")}
+                value={formValues?.MotherOrGuardianSignature}
+                onChange={(e) =>
+                  handleChange(e.target.value, "MotherOrGuardianSignature")
+                }
               />
             </FormControl>
           </Grid>
@@ -89,11 +173,12 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <TextareaAutosize
                 minRows={4}
-                id="outlined-adornment-password"
+                id="MedicalDirectorSignature"
+                name="MedicalDirectorSignature"
                 size="small"
-                value={formValues?.medicalDirectorSign}
+                value={formValues?.MedicalDirectorSignature}
                 onChange={(e) =>
-                  handleChange(e.target.value, "medicalDirectorSign")
+                  handleChange(e.target.value, "MedicalDirectorSignature")
                 }
               />
             </FormControl>
@@ -107,11 +192,14 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="FatherOrGuardianName"
+                name="FatherOrGuardianName"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.fatherName}
-                onChange={(e) => handleChange(e.target.value, "fatherName")}
+                value={formValues?.FatherOrGuardianName}
+                onChange={(e) =>
+                  handleChange(e.target.value, "FatherOrGuardianName")
+                }
               />
             </FormControl>
           </Grid>
@@ -122,11 +210,14 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="MotherOrGuardianName"
+                name="MotherOrGuardianName"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.motherName}
-                onChange={(e) => handleChange(e.target.value, "motherName")}
+                value={formValues?.MotherOrGuardianName}
+                onChange={(e) =>
+                  handleChange(e.target.value, "MotherOrGuardianName")
+                }
               />
             </FormControl>
           </Grid>
@@ -137,12 +228,13 @@ const ClientDetailsSix = () => {
             <FormControl variant="outlined" fullWidth size="small">
               <OutlinedInput
                 fullWidth
-                id="outlined-adornment-password"
+                id="MedicalDirectorName"
+                name="MedicalDirectorName"
                 placeholder="Input text"
                 size="small"
-                value={formValues?.medicalDirectorName}
+                value={formValues?.MedicalDirectorName}
                 onChange={(e) =>
-                  handleChange(e.target.value, "medicalDirectorName")
+                  handleChange(e.target.value, "MedicalDirectorName")
                 }
               />
             </FormControl>
@@ -151,6 +243,6 @@ const ClientDetailsSix = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default ClientDetailsSix;
