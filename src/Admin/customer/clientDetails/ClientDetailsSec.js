@@ -22,7 +22,11 @@ import {
 } from "@mui/material";
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
-import { formatDate, getTypeOfProofList } from "../../../globalFunctions";
+import {
+  formatDate,
+  formatDateYYYYMMDD,
+  getTypeOfProofList,
+} from "../../../globalFunctions";
 import api from "../../../api/httpRequest";
 import { getAnnexureInfo, GetTypeOfProof } from "../../Slices/globalSlice";
 import { addOrupdateAnnexureInfo } from "../../Slices/customerClientSlice";
@@ -143,20 +147,14 @@ const ClientDetailsSec = forwardRef((props, ref) => {
         SubscribedInnerPageData.CustomerClientMotherDetails
       ) {
         for (let item in SubscribedInnerPageData.CustomerClientMotherDetails) {
-          for (let item1 in formValues) {
-            if (item1 == item) {
-              formValues[item1] =
-                item == "ExpectantMotherDOB"
-                  ? formatDate(
-                      SubscribedInnerPageData.CustomerClientMotherDetails[item]
-                    )
-                  : SubscribedInnerPageData.CustomerClientMotherDetails[item];
-            }
-          }
           for (let item2 in formValues) {
             if (item2 == item) {
               formValues[item2] =
-                SubscribedInnerPageData.CustomerClientMotherDetails[item];
+                item === "ExpectantMotherDOB"
+                  ? formatDateYYYYMMDD(
+                      SubscribedInnerPageData.CustomerClientMotherDetails[item]
+                    )
+                  : SubscribedInnerPageData.CustomerClientMotherDetails[item];
             }
           }
         }
