@@ -104,11 +104,6 @@ const StyledCard = styled(Card)(({ highlight }) => ({
 
 const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const allPlansList = useSelector((state) => state.plan.planList);
-  useEffect(() => {
-    dispatch(getSubscriptionPlan());
-  }, []);
 
   return (
     <StyledCard highlight={highlight}>
@@ -200,6 +195,13 @@ const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
 };
 
 const DetailsPlan = () => {
+  const dispatch = useDispatch();
+  const allPlansList = useSelector((state) => state.plan.planList);
+  console.log("cehck allPlansList allPlansList ", allPlansList);
+  useEffect(() => {
+    dispatch(getSubscriptionPlan());
+  }, []);
+
   return (
     <Container
       maxWidth="xxl"
@@ -250,7 +252,18 @@ const DetailsPlan = () => {
           <ChevronLeftIcon />
         </IconButton>
         <Grid container justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
+          {allPlansList?.map((x) => {
+            <Grid item xs={12} sm={6} md={4}>
+              <PlanCard
+                title={x.title}
+                subheader={x.durationYear}
+                price={x.price}
+                storageFee={x.EMI}
+                highlight={x.ribben}
+              />
+            </Grid>
+          })}
+          {/* <Grid item xs={12} sm={6} md={4}>
             <PlanCard
               title="BASIC"
               subheader="ANNUAL STORAGE"
@@ -258,8 +271,8 @@ const DetailsPlan = () => {
               storageFee="4500"
               highlight="bestValue"
             />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid> */}
+          {/* <Grid item xs={12} sm={6} md={4}>
             <PlanCard
               title="PREMIUM"
               subheader="21 YEARS STORAGE"
@@ -275,7 +288,7 @@ const DetailsPlan = () => {
               price="85,000"
               storageFee="4500"
             />
-          </Grid>
+          </Grid> */}
         </Grid>
         <IconButton
           sx={{
