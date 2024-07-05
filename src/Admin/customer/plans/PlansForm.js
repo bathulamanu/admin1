@@ -94,7 +94,8 @@ const PlansForm = () => {
           ['title']: "Title is required",
         }));
         return;
-      }
+      } 
+      
       if (!formValues.subTitle) {
         setErrorformValues((prev) => ({
           ...prev,
