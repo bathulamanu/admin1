@@ -9,10 +9,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { getAnnexureInfo } from "../../Slices/globalSlice";
+import { useNavigate } from "react-router-dom";
 
 const headingStyle = {
   fontSize: "24px",
@@ -22,8 +22,14 @@ const headingStyle = {
   textAlign: "center",
 };
 
-const ClientDetailsPreview = () => {
+const ClientDetailsPreview = (props) => {
+  var { setCurrentStep } = props;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [
+    customerAnnexureInformationId,
+    setCustomerAnnexureInformationId,
+  ] = useState(null);
   const SubscribedInnerPageData = useSelector(
     (state) => state.global.SubscribedUserData
   );
@@ -235,6 +241,27 @@ const ClientDetailsPreview = () => {
     }));
   };
 
+  const SaveInnerPage = () => {
+    toast.success("Saved Information Successfully");
+    navigate("/customerPage/customerDashboard");
+  };
+
+  const GoToFirstPage = () => {
+    setCurrentStep(1);
+  };
+
+  useEffect(() => {
+    async function getCustomerFatherData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageData?.customerAnnexureInformationId
+      );
+      if (SubscribedInnerPageData) {
+        setData(SubscribedInnerPageData);
+      }
+    }
+    getCustomerFatherData();
+  }, [SubscribedInnerPageData]);
+
   return (
     <Card variant="outlined">
       <CardContent>
@@ -277,7 +304,9 @@ const ClientDetailsPreview = () => {
                       >
                         Expected Father Name :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data.CustomerClientFatherDetails?.ExpectantFatherName}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -289,7 +318,11 @@ const ClientDetailsPreview = () => {
                       >
                         Date of Birth :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {" "}
+                        formatDateYYYYMMDD{" "}
+                        {data.CustomerClientFatherDetails?.ExpectantFatherDOB}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -301,7 +334,9 @@ const ClientDetailsPreview = () => {
                       >
                         Email Address :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data.CustomerClientFatherDetails?.ExpectantFatherEmail}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -313,7 +348,12 @@ const ClientDetailsPreview = () => {
                       >
                         Phone number :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherMobile
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -325,7 +365,12 @@ const ClientDetailsPreview = () => {
                       >
                         Occupation :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherOccupation
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -337,7 +382,12 @@ const ClientDetailsPreview = () => {
                       >
                         Designation :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherDesignation
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -349,7 +399,12 @@ const ClientDetailsPreview = () => {
                       >
                         Organization Name :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherOrganizationName
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -361,7 +416,12 @@ const ClientDetailsPreview = () => {
                       >
                         ID Proof :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherIDproofValue
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -373,7 +433,12 @@ const ClientDetailsPreview = () => {
                       >
                         ID Proof Number :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherIdproofNo
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -385,27 +450,49 @@ const ClientDetailsPreview = () => {
                       >
                         If other, please specify :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherOtherInfo
+                        }
+                      </Typography>
                     </Stack>
                   </Stack>
                   <Stack
                     direction="column"
                     sx={{ marginRight: "30px", gap: 4 }}
                   >
-                    <Avatar sx={{ width: 100, height: 100, marginLeft: 4 }} />
-                    <Box
-                      sx={{
-                        width: 150,
-                        height: 100,
-                        backgroundColor: "lightgray",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginRight: 4,
-                      }}
-                    >
-                      {/* Content inside the Box */}
-                    </Box>
+                    <Avatar
+                      src={
+                        "https://flyingbyts.s3.ap-south-2.amazonaws.com/" +
+                        data.CustomerClientFatherDetails
+                          ?.ExpectantFatherProfilePhoto
+                      }
+                      sx={{ width: 100, height: 100, marginLeft: 4 }}
+                    />
+                    {data.CustomerClientFatherDetails
+                      ?.ExpectantFatherIDproofPhoto ? (
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 100,
+                          backgroundColor: "lightgray",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: 4,
+                        }}
+                        component="img"
+                        src={
+                          "https://flyingbyts.s3.ap-south-2.amazonaws.com/" +
+                          data.CustomerClientFatherDetails
+                            ?.ExpectantFatherIDproofPhoto
+                        }
+                        alt="father ID Proof"
+                      />
+                    ) : (
+                      <></>
+                    )}
                   </Stack>
                 </Stack>
               </CardContent>
@@ -2873,8 +2960,12 @@ const ClientDetailsPreview = () => {
             padding: "20px",
           }}
         >
-          <Button variant="outlined">Edit</Button>
-          <Button variant="contained">Save</Button>
+          <Button variant="outlined" onClick={GoToFirstPage}>
+            Edit
+          </Button>
+          <Button variant="contained" onClick={SaveInnerPage}>
+            Save
+          </Button>
         </Stack>
       </CardContent>
     </Card>

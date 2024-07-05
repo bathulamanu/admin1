@@ -108,7 +108,7 @@ const ClientDetails = () => {
       </Box>
 
       {showPreview ? (
-        <ClientDetailsPreview />
+        <ClientDetailsPreview setCurrentStep={setCurrentStep} />
       ) : (
         <>
           {currentStep === 1 && (

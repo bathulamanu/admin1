@@ -17,6 +17,8 @@ import {
   InputAdornment,
   Divider,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import PeopleIcon from "@mui/icons-material/People";
 import StorageIcon from "@mui/icons-material/Storage";
@@ -43,6 +45,7 @@ const CustomerDashboard = () => {
         flexDirection: "column",
       }}
     >
+      <ToastContainer />
       <Box sx={{ flexGrow: 1, border: "1px solid #CFD4DB" }}>
         <AppBar position="static" sx={{ background: "#F3F8FF" }}>
           <Toolbar>
