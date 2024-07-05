@@ -253,7 +253,7 @@ const DetailsPlan = () => {
         </IconButton>
         <Grid container justifyContent="center">
           {allPlansList?.map((x) => {
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} >
               <PlanCard
                 title={x.title}
                 subheader={x.durationYear}

@@ -30,18 +30,46 @@ const redStarStyle = {
 
 const PlansForm = () => {
   const [formValues, setFormValues] = useState({
-    fatherName: "",
-    dob: "",
-    email: "",
-    phoneNumber: "",
-    occupation: "",
-    designation: "",
-    orgName: "",
-    idProof: "",
-    idProofNo: "",
-    otherId: "",
-    desc: "",
+    title: "",
+    subTitle: "",
+    price: "",
+    offerPrice: "",
+    eventOfferPrice: "",
+    EMI: "",
+    EMItext: "",
+    Icon: "",
+    currencySymbol: "",
+    ribben: "",
+    ribbenStatus: null,
+    btnText: "",
+    status: null,
+    description: "",
     additionalInfo: "",
+    durationYear: "",
+    durationYearText: "",
+    customText: "",
+    offerTiming: null
+  });
+  const [ErrorformValues, setErrorformValues] = useState({
+    title: "",
+    subTitle: "",
+    price: "",
+    offerPrice: "",
+    eventOfferPrice: "",
+    EMI: "",
+    EMItext: "",
+    Icon: "",
+    currencySymbol: "",
+    ribben: "",
+    ribbenStatus: null,
+    btnText: "",
+    status: null,
+    // description: "",
+    // additionalInfo: "",
+    durationYear: "",
+    durationYearText: "",
+    customText: "",
+    offerTiming: null
   });
 
   const handleChange = (e, name) => {
@@ -49,6 +77,10 @@ const PlansForm = () => {
     setFormValues((prev) => ({
       ...prev,
       [name]: value,
+    }));
+    setErrorformValues((prev) => ({
+      ...prev,
+      [name]: "",
     }));
   };
 
@@ -119,9 +151,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.title}
+                      onChange={(e) => handleChange(e, "title")}
                     />
+                    {ErrorformValues?.title ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.title}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -136,9 +170,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.subTitle}
+                      onChange={(e) => handleChange(e, "subTitle")}
                     />
+                    {ErrorformValues?.subTitle ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.subTitle}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -153,9 +189,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.subTitle}
+                      onChange={(e) => handleChange(e, "subTitle")}
                     />
+                    {ErrorformValues?.subTitle ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.subTitle}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -170,9 +208,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.Icon}
+                      onChange={(e) => handleChange(e, "Icon")}
                     />
+                    {ErrorformValues?.Icon ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.Icon}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -187,9 +227,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.currencySymbol}
+                      onChange={(e) => handleChange(e, "currencySymbol")}
                     />
+                    {ErrorformValues?.currencySymbol ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.currencySymbol}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -208,9 +250,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.EMI}
+                      onChange={(e) => handleChange(e, "EMI")}
                     />
+                    {ErrorformValues?.EMI ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.EMI}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -225,9 +269,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.EMItext}
+                      onChange={(e) => handleChange(e, "EMItext")}
                     />
+                    {ErrorformValues?.EMItext ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.EMItext}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -258,9 +304,11 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
+                    value={formValues?.btnText}
+                    onChange={(e) => handleChange(e, "btnText")}
                   />
+                  {ErrorformValues?.btnText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.btnText}</Typography> : null}
+
                 </Grid>
               </Grid>
             </CardContent>
@@ -275,9 +323,11 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
+                    value={formValues?.status}
+                    onChange={(e) => handleChange(e, "status")}
                   />
+                  {ErrorformValues?.status ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.status}</Typography> : null}
+
                 </Grid>
               </Grid>
             </CardContent>
@@ -304,9 +354,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.price}
+                      onChange={(e) => handleChange(e, "price")}
                     />
+                    {ErrorformValues?.price ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.price}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -321,9 +373,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.offerPrice}
+                      onChange={(e) => handleChange(e, "offerPrice")}
                     />
+                    {ErrorformValues?.offerPrice ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.offerPrice}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -338,9 +392,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.eventOfferPrice}
+                      onChange={(e) => handleChange(e, "eventOfferPrice")}
                     />
+                    {ErrorformValues?.eventOfferPrice ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.eventOfferPrice}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -359,9 +415,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.ribben}
+                      onChange={(e) => handleChange(e, "ribben")}
                     />
+                    {ErrorformValues?.ribben ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.ribben}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -373,9 +431,11 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
+                    value={formValues?.ribbenStatus}
+                    onChange={(e) => handleChange(e, "ribbenStatus")}
                   />
+                  {ErrorformValues?.ribbenStatus ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.ribbenStatus}</Typography> : null}
+
                 </Grid>
               </Grid>
             </CardContent>
@@ -409,9 +469,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.durationYear}
+                      onChange={(e) => handleChange(e, "durationYear")}
                     />
+                    {ErrorformValues?.durationYear ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.durationYear}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -426,9 +488,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.durationYearText}
+                      onChange={(e) => handleChange(e, "durationYearText")}
                     />
+                    {ErrorformValues?.durationYearText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.durationYearText}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -443,9 +507,11 @@ const PlansForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.orgName}
-                      onChange={(e) => handleChange(e, "orgName")}
+                      value={formValues?.customText}
+                      onChange={(e) => handleChange(e, "customText")}
                     />
+                    {ErrorformValues?.customText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.customText}</Typography> : null}
+
                   </FormControl>
                 </Grid>
               </Grid>
@@ -462,9 +528,11 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
-                    value={formValues?.idProof}
-                    onChange={(e) => handleChange(e, "idProof")}
+                    value={formValues?.offerTiming}
+                    onChange={(e) => handleChange(e, "offerTiming")}
                   />
+                  {ErrorformValues?.offerTiming ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.offerTiming}</Typography> : null}
+
                 </Grid>
               </Grid>
             </CardContent>
