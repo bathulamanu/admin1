@@ -1,3 +1,4 @@
+import React, { useEffect, useRef, useState } from "react";
 import {
   Card,
   CardContent,
@@ -14,6 +15,8 @@ import { styled } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getSubscriptionPlan } from "../../Slices/planSlice"
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
@@ -24,8 +27,8 @@ const HighlightLabel = styled("div")(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-      ? "#651fff"
-      : "inherit",
+        ? "#651fff"
+        : "inherit",
   color: "white",
   fontWeight: "bold",
   borderRadius: "5px",
@@ -52,8 +55,8 @@ const SubHeaderTitle = styled(Typography)(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-      ? "#651fff"
-      : "inherit",
+        ? "#651fff"
+        : "inherit",
   fontWeight: "bold",
   textTransform: "uppercase",
   width: "430px",
@@ -93,12 +96,20 @@ const StyledCard = styled(Card)(({ highlight }) => ({
     highlight === "bestValue"
       ? "#FFEFF8"
       : highlight === "mostPopular"
-      ? "#E2E5E9"
-      : "#C9DFFF",
+        ? "#E2E5E9"
+        : "#C9DFFF",
 }));
+
+
 
 const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const allPlansList = useSelector((state) => state.plan.planList);
+  useEffect(() => {
+    dispatch(getSubscriptionPlan());
+  }, []);
+
   return (
     <StyledCard highlight={highlight}>
       {highlight === "bestValue" && (
