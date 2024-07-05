@@ -39,10 +39,10 @@ const ClientDetailsEight = forwardRef((props, ref) => {
     setCustomerAnnexureInformationId,
   ] = useState(null);
   const dispatch = useDispatch();
-  const SubscribedInnerPageData = useSelector(
-    (state) => state.global.SubscribedUserData
+  const SubscribedInnerPageformValues = useSelector(
+    (state) => state.global.SubscribedUserformValues
   );
-  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+  console.log("SubscribedInnerPageformValues", SubscribedInnerPageformValues);
 
   const customerDetail = useSelector((state) => state.customers.customerDetail);
   const customerID = customerDetail?.customerID;
@@ -53,30 +53,32 @@ const ClientDetailsEight = forwardRef((props, ref) => {
   }, []);
 
   const [formValues, setFormValues] = useState({
-    question1: "",
-    question2: "",
-    question3: "",
-    question4: "",
-    question5: "",
-    question6: "",
-    question7: "",
-    question8: "",
-    question9: "",
-    question10: "",
-    question11: "",
-    question12: "",
-    question13: "",
-    question14: "",
-    question15: "",
-    question16: "",
-    question17: "",
-    question18: "",
-    question19: "",
-    question20: "",
-    question21: "",
-    chooseValue: "",
-    question22: "",
-    question23: "",
+    cancerDiabetesHepatitisBloodDisease: null,
+    HIVAIDS: null,
+    strokeLungSclerosis: null,
+    anyTypeInfection: null,
+    DementiaDegenerativeDisease: null,
+    biteFromAnimal: null,
+    sexuallyTransmittedDisease: null,
+    immunisationsTattoosBodypiercing: null,
+    juvenileDetentionLockupJail: null,
+    livedWithApersonWhoHasHepatitis: null,
+    compensationForSex: null,
+    receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation: null,
+    IntimateContactWithWhoHasHIVAIDS: null,
+    SARSavianFluH1N1: null,
+    spent3MonthsOrMoreCumulativelyInTheUnitedKingdom: null,
+    ResidedAtaUSmilitaryBaseinEurope: null,
+    sufferedFromMalariaChikungunyaDengueandWestNileFever: null,
+    visitedOrlivedOutsideofIndia: null,
+    AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives: null,
+    pregnancyResultFromDonorEggSpermSurrogate: null,
+    everHadAbnormalPregnancy: null,
+    chooseValue: "F",
+    relativesWithCancerleukemiaBefore20: null,
+    RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor: null,
+    relativesWithCancerleukemiaBefore20WHO: "",
+    RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseorWHO: "",
   });
 
   const handleChange = (name, value) => {
@@ -86,19 +88,114 @@ const ClientDetailsEight = forwardRef((props, ref) => {
     }));
   };
 
+  function isObject(value) {
+    return value !== null && typeof value === "object" && !Array.isArray(value);
+  }
+  useEffect(() => {
+    async function getHelathHistoryData() {
+      setCustomerAnnexureInformationId(
+        SubscribedInnerPageformValues?.customerAnnexureInformationId
+      );
+      if (
+        SubscribedInnerPageformValues &&
+        SubscribedInnerPageformValues.CustomerData &&
+        SubscribedInnerPageformValues.CustomerData.length != 0 &&
+        SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire
+      ) {
+        for (let item in SubscribedInnerPageformValues.CustomerData[0]
+          .HealthHistoryQuestionnaire) {
+          for (let item1 in formValues) {
+            if (
+              isObject(
+                SubscribedInnerPageformValues.CustomerData[0]
+                  .HealthHistoryQuestionnaire[item]
+              )
+            ) {
+              for (let item2 in SubscribedInnerPageformValues.CustomerData[0]
+                .HealthHistoryQuestionnaire[item]) {
+                if (item1 == item2) {
+                  formValues[item1] =
+                    SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire[
+                      item
+                    ][item2];
+                }
+              }
+            } else {
+              if (item1 == item) {
+                formValues[item1] =
+                  SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire[
+                    item
+                  ];
+              }
+            }
+          }
+        }
+      }
+    }
+    getHelathHistoryData();
+  }, [SubscribedInnerPageformValues]);
   useEffect(() => {
     getAnnexureInfo();
   }, [handlePrev]);
 
   useImperativeHandle(ref, () => ({
     getHealthHistoryChildData: () => {
-      // dispatch(
-      //   addOrupdateAnnexureInfo({
-      //     HealthHistoryQuestionnaire: formValues,
-      //     customerAnnexureInformationId: customerAnnexureInformationId,
-      //     customerID: customerID,
-      //   })
-      // );
+      const formValuesToSend = {
+        medicalCondition: {
+          cancerDiabetesHepatitisBloodDisease:
+            formValues.cancerDiabetesHepatitisBloodDisease,
+          HIVAIDS: formValues.HIVAIDS,
+          strokeLungSclerosis: formValues.strokeLungSclerosis,
+        },
+        anyTypeInfection: formValues.anyTypeInfection,
+        DementiaDegenerativeDisease: formValues.DementiaDegenerativeDisease,
+        biteFromAnimal: formValues.biteFromAnimal,
+        sexuallyTransmittedDisease: formValues.sexuallyTransmittedDisease,
+        immunisationsTattoosBodypiercing:
+          formValues.immunisationsTattoosBodypiercing,
+        juvenileDetentionLockupJail: formValues.juvenileDetentionLockupJail,
+        livedWithApersonWhoHasHepatitis:
+          formValues.livedWithApersonWhoHasHepatitis,
+        compensationForSex: formValues.compensationForSex,
+        receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation:
+          formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation,
+        IntimateContactWithWhoHasHIVAIDS:
+          formValues.IntimateContactWithWhoHasHIVAIDS,
+        SARSavianFluH1N1: formValues.SARSavianFluH1N1,
+        from1980Through1986: {
+          spent3MonthsOrMoreCumulativelyInTheUnitedKingdom:
+            formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom,
+          ResidedAtaUSmilitaryBaseinEurope:
+            formValues.ResidedAtaUSmilitaryBaseinEurope,
+        },
+        sufferedFromMalariaChikungunyaDengueandWestNileFever:
+          formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever,
+        visitedOrlivedOutsideofIndia: formValues.visitedOrlivedOutsideofIndia,
+        PersonalHistory: {
+          AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives:
+            formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives,
+          pregnancyResultFromDonorEggSpermSurrogate:
+            formValues.pregnancyResultFromDonorEggSpermSurrogate,
+          everHadAbnormalPregnancy: formValues.everHadAbnormalPregnancy,
+        },
+        FamilyHistory: {
+          relativesWithCancerleukemiaBefore20:
+            formValues.relativesWithCancerleukemiaBefore20,
+          RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor:
+            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor,
+          relativesWithCancerleukemiaBefore20WHO:
+            formValues.relativesWithCancerleukemiaBefore20WHO,
+          RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseorWHO:
+            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseorWHO,
+        },
+      };
+      dispatch(
+        addOrupdateAnnexureInfo({
+          HealthHistoryQuestionnaire: formValuesToSend,
+          customerAnnexureInformationId: customerAnnexureInformationId,
+          customerID: customerID,
+        })
+      );
 
       if (currentStep < totalSteps) {
         setCurrentStep(currentStep + 1);
@@ -107,6 +204,7 @@ const ClientDetailsEight = forwardRef((props, ref) => {
       }
     },
   }));
+
   console.log("formvalues", formValues);
 
   return (
@@ -149,18 +247,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question1 === "yes" ? "contained" : "outlined"
+                      formValues.cancerDiabetesHepatitisBloodDisease === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question1", "yes")}
+                    onClick={() =>
+                      handleChange("cancerDiabetesHepatitisBloodDisease", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question1 === "no" ? "contained" : "outlined"
+                      formValues.cancerDiabetesHepatitisBloodDisease === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question1", "no")}
+                    onClick={() =>
+                      handleChange("cancerDiabetesHepatitisBloodDisease", false)
+                    }
                   >
                     No
                   </Button>
@@ -181,18 +287,18 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question2 === "yes" ? "contained" : "outlined"
+                      formValues.HIVAIDS === true ? "contained" : "outlined"
                     }
-                    onClick={() => handleChange("question2", "yes")}
+                    onClick={() => handleChange("HIVAIDS", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question2 === "no" ? "contained" : "outlined"
+                      formValues.HIVAIDS === false ? "contained" : "outlined"
                     }
-                    onClick={() => handleChange("question2", "no")}
+                    onClick={() => handleChange("HIVAIDS", false)}
                   >
                     No
                   </Button>
@@ -213,18 +319,22 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question3 === "yes" ? "contained" : "outlined"
+                      formValues.strokeLungSclerosis === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question3", "yes")}
+                    onClick={() => handleChange("strokeLungSclerosis", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question3 === "no" ? "contained" : "outlined"
+                      formValues.strokeLungSclerosis === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question3", "no")}
+                    onClick={() => handleChange("strokeLungSclerosis", false)}
                   >
                     No
                   </Button>
@@ -251,18 +361,22 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question4 === "yes" ? "contained" : "outlined"
+                      formValues.anyTypeInfection === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question4", "yes")}
+                    onClick={() => handleChange("anyTypeInfection", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question4 === "no" ? "contained" : "outlined"
+                      formValues.anyTypeInfection === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question4", "no")}
+                    onClick={() => handleChange("anyTypeInfection", false)}
                   >
                     No
                   </Button>
@@ -291,18 +405,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question5 === "yes" ? "contained" : "outlined"
+                      formValues.DementiaDegenerativeDisease === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question5", "yes")}
+                    onClick={() =>
+                      handleChange("DementiaDegenerativeDisease", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question5 === "no" ? "contained" : "outlined"
+                      formValues.DementiaDegenerativeDisease === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question5", "no")}
+                    onClick={() =>
+                      handleChange("DementiaDegenerativeDisease", false)
+                    }
                   >
                     No
                   </Button>
@@ -330,18 +452,22 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question6 === "yes" ? "contained" : "outlined"
+                      formValues.biteFromAnimal === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question6", "yes")}
+                    onClick={() => handleChange("biteFromAnimal", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question6 === "no" ? "contained" : "outlined"
+                      formValues.biteFromAnimal === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question6", "no")}
+                    onClick={() => handleChange("biteFromAnimal", false)}
                   >
                     No
                   </Button>
@@ -368,18 +494,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question7 === "yes" ? "contained" : "outlined"
+                      formValues.sexuallyTransmittedDisease === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question7", "yes")}
+                    onClick={() =>
+                      handleChange("sexuallyTransmittedDisease", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question7 === "no" ? "contained" : "outlined"
+                      formValues.sexuallyTransmittedDisease === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question7", "no")}
+                    onClick={() =>
+                      handleChange("sexuallyTransmittedDisease", false)
+                    }
                   >
                     No
                   </Button>
@@ -408,18 +542,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question8 === "yes" ? "contained" : "outlined"
+                      formValues.immunisationsTattoosBodypiercing === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question8", "yes")}
+                    onClick={() =>
+                      handleChange("immunisationsTattoosBodypiercing", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question8 === "no" ? "contained" : "outlined"
+                      formValues.immunisationsTattoosBodypiercing === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question8", "no")}
+                    onClick={() =>
+                      handleChange("immunisationsTattoosBodypiercing", false)
+                    }
                   >
                     No
                   </Button>
@@ -446,18 +588,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question9 === "yes" ? "contained" : "outlined"
+                      formValues.juvenileDetentionLockupJail === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question9", "yes")}
+                    onClick={() =>
+                      handleChange("juvenileDetentionLockupJail", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question9 === "no" ? "contained" : "outlined"
+                      formValues.juvenileDetentionLockupJail === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question9", "no")}
+                    onClick={() =>
+                      handleChange("juvenileDetentionLockupJail", false)
+                    }
                   >
                     No
                   </Button>
@@ -484,18 +634,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question10 === "yes" ? "contained" : "outlined"
+                      formValues.livedWithApersonWhoHasHepatitis === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question10", "yes")}
+                    onClick={() =>
+                      handleChange("livedWithApersonWhoHasHepatitis", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question10 === "no" ? "contained" : "outlined"
+                      formValues.livedWithApersonWhoHasHepatitis === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question10", "no")}
+                    onClick={() =>
+                      handleChange("livedWithApersonWhoHasHepatitis", false)
+                    }
                   >
                     No
                   </Button>
@@ -521,18 +679,22 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question11 === "yes" ? "contained" : "outlined"
+                      formValues.compensationForSex === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question11", "yes")}
+                    onClick={() => handleChange("compensationForSex", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question11 === "no" ? "contained" : "outlined"
+                      formValues.compensationForSex === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question11", "no")}
+                    onClick={() => handleChange("compensationForSex", false)}
                   >
                     No
                   </Button>
@@ -562,18 +724,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question12 === "yes" ? "contained" : "outlined"
+                      formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question12", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question12 === "no" ? "contained" : "outlined"
+                      formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question12", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
@@ -600,18 +778,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question13 === "yes" ? "contained" : "outlined"
+                      formValues.IntimateContactWithWhoHasHIVAIDS === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question13", "yes")}
+                    onClick={() =>
+                      handleChange("IntimateContactWithWhoHasHIVAIDS", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question13 === "no" ? "contained" : "outlined"
+                      formValues.IntimateContactWithWhoHasHIVAIDS === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question13", "no")}
+                    onClick={() =>
+                      handleChange("IntimateContactWithWhoHasHIVAIDS", false)
+                    }
                   >
                     No
                   </Button>
@@ -639,18 +825,22 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question14 === "yes" ? "contained" : "outlined"
+                      formValues.SARSavianFluH1N1 === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question14", "yes")}
+                    onClick={() => handleChange("SARSavianFluH1N1", true)}
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question14 === "no" ? "contained" : "outlined"
+                      formValues.SARSavianFluH1N1 === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question14", "no")}
+                    onClick={() => handleChange("SARSavianFluH1N1", false)}
                   >
                     No
                   </Button>
@@ -683,18 +873,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question15 === "yes" ? "contained" : "outlined"
+                      formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question15", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question15 === "no" ? "contained" : "outlined"
+                      formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question15", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
@@ -715,18 +921,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question16 === "yes" ? "contained" : "outlined"
+                      formValues.ResidedAtaUSmilitaryBaseinEurope === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question16", "yes")}
+                    onClick={() =>
+                      handleChange("ResidedAtaUSmilitaryBaseinEurope", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question16 === "no" ? "contained" : "outlined"
+                      formValues.ResidedAtaUSmilitaryBaseinEurope === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question16", "no")}
+                    onClick={() =>
+                      handleChange("ResidedAtaUSmilitaryBaseinEurope", false)
+                    }
                   >
                     No
                   </Button>
@@ -753,18 +967,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question17 === "yes" ? "contained" : "outlined"
+                      formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question17", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question17 === "no" ? "contained" : "outlined"
+                      formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question17", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
@@ -792,18 +1022,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question18 === "yes" ? "contained" : "outlined"
+                      formValues.visitedOrlivedOutsideofIndia === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question18", "yes")}
+                    onClick={() =>
+                      handleChange("visitedOrlivedOutsideofIndia", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question18 === "no" ? "contained" : "outlined"
+                      formValues.visitedOrlivedOutsideofIndia === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question18", "no")}
+                    onClick={() =>
+                      handleChange("visitedOrlivedOutsideofIndia", false)
+                    }
                   >
                     No
                   </Button>
@@ -836,18 +1074,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question19 === "yes" ? "contained" : "outlined"
+                      formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question19", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question19 === "no" ? "contained" : "outlined"
+                      formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question19", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
@@ -867,18 +1121,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question20 === "yes" ? "contained" : "outlined"
+                      formValues.pregnancyResultFromDonorEggSpermSurrogate ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question20", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "pregnancyResultFromDonorEggSpermSurrogate",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question20 === "no" ? "contained" : "outlined"
+                      formValues.pregnancyResultFromDonorEggSpermSurrogate ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question20", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "pregnancyResultFromDonorEggSpermSurrogate",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
@@ -898,18 +1168,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question21 === "yes" ? "contained" : "outlined"
+                      formValues.everHadAbnormalPregnancy === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question21", "yes")}
+                    onClick={() =>
+                      handleChange("everHadAbnormalPregnancy", true)
+                    }
                   >
                     Yes
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question21 === "no" ? "contained" : "outlined"
+                      formValues.everHadAbnormalPregnancy === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question21", "no")}
+                    onClick={() =>
+                      handleChange("everHadAbnormalPregnancy", false)
+                    }
                   >
                     No
                   </Button>
@@ -1064,9 +1342,13 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question22 === "yes" ? "contained" : "outlined"
+                      formValues.relativesWithCancerleukemiaBefore20 === true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question22", "yes")}
+                    onClick={() =>
+                      handleChange("relativesWithCancerleukemiaBefore20", true)
+                    }
                   >
                     Yes
                   </Button>
@@ -1074,18 +1356,26 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question22 === "no" ? "contained" : "outlined"
+                      formValues.relativesWithCancerleukemiaBefore20 === false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question22", "no")}
+                    onClick={() =>
+                      handleChange("relativesWithCancerleukemiaBefore20", false)
+                    }
                   >
                     No
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question22 === "who" ? "contained" : "outlined"
+                      formValues.relativesWithCancerleukemiaBefore20 === "who"
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question22", "who")}
+                    onClick={() =>
+                      handleChange("relativesWithCancerleukemiaBefore20", "who")
+                    }
                   >
                     Who
                   </Button>
@@ -1107,9 +1397,17 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question23 === "yes" ? "contained" : "outlined"
+                      formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                      true
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question23", "yes")}
+                    onClick={() =>
+                      handleChange(
+                        "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                        true
+                      )
+                    }
                   >
                     Yes
                   </Button>
@@ -1117,18 +1415,34 @@ const ClientDetailsEight = forwardRef((props, ref) => {
                     size="small"
                     sx={{ marginRight: "10px" }}
                     variant={
-                      formValues.question23 === "no" ? "contained" : "outlined"
+                      formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                      false
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question23", "no")}
+                    onClick={() =>
+                      handleChange(
+                        "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                        false
+                      )
+                    }
                   >
                     No
                   </Button>
                   <Button
                     size="small"
                     variant={
-                      formValues.question23 === "who" ? "contained" : "outlined"
+                      formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                      "who"
+                        ? "contained"
+                        : "outlined"
                     }
-                    onClick={() => handleChange("question23", "who")}
+                    onClick={() =>
+                      handleChange(
+                        "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                        "who"
+                      )
+                    }
                   >
                     Who
                   </Button>
