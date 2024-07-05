@@ -39,10 +39,10 @@ const ClientDetailsEight = forwardRef((props, ref) => {
     setCustomerAnnexureInformationId,
   ] = useState(null);
   const dispatch = useDispatch();
-  const SubscribedInnerPageformValues = useSelector(
-    (state) => state.global.SubscribedUserformValues
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
   );
-  console.log("SubscribedInnerPageformValues", SubscribedInnerPageformValues);
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
 
   const customerDetail = useSelector((state) => state.customers.customerDetail);
   const customerID = customerDetail?.customerID;
@@ -91,31 +91,32 @@ const ClientDetailsEight = forwardRef((props, ref) => {
   function isObject(value) {
     return value !== null && typeof value === "object" && !Array.isArray(value);
   }
+
   useEffect(() => {
     async function getHelathHistoryData() {
       setCustomerAnnexureInformationId(
-        SubscribedInnerPageformValues?.customerAnnexureInformationId
+        SubscribedInnerPageData?.customerAnnexureInformationId
       );
       if (
-        SubscribedInnerPageformValues &&
-        SubscribedInnerPageformValues.CustomerData &&
-        SubscribedInnerPageformValues.CustomerData.length != 0 &&
-        SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire
+        SubscribedInnerPageData &&
+        SubscribedInnerPageData.CustomerData &&
+        SubscribedInnerPageData.CustomerData.length != 0 &&
+        SubscribedInnerPageData.CustomerData[0].HealthHistoryQuestionnaire
       ) {
-        for (let item in SubscribedInnerPageformValues.CustomerData[0]
+        for (let item in SubscribedInnerPageData.CustomerData[0]
           .HealthHistoryQuestionnaire) {
           for (let item1 in formValues) {
             if (
               isObject(
-                SubscribedInnerPageformValues.CustomerData[0]
+                SubscribedInnerPageData.CustomerData[0]
                   .HealthHistoryQuestionnaire[item]
               )
             ) {
-              for (let item2 in SubscribedInnerPageformValues.CustomerData[0]
+              for (let item2 in SubscribedInnerPageData.CustomerData[0]
                 .HealthHistoryQuestionnaire[item]) {
                 if (item1 == item2) {
                   formValues[item1] =
-                    SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire[
+                    SubscribedInnerPageData.CustomerData[0].HealthHistoryQuestionnaire[
                       item
                     ][item2];
                 }
@@ -123,7 +124,7 @@ const ClientDetailsEight = forwardRef((props, ref) => {
             } else {
               if (item1 == item) {
                 formValues[item1] =
-                  SubscribedInnerPageformValues.CustomerData[0].HealthHistoryQuestionnaire[
+                  SubscribedInnerPageData.CustomerData[0].HealthHistoryQuestionnaire[
                     item
                   ];
               }
@@ -133,7 +134,8 @@ const ClientDetailsEight = forwardRef((props, ref) => {
       }
     }
     getHelathHistoryData();
-  }, [SubscribedInnerPageformValues]);
+  }, [SubscribedInnerPageData]);
+
   useEffect(() => {
     getAnnexureInfo();
   }, [handlePrev]);
