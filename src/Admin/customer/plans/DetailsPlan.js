@@ -16,7 +16,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubscriptionPlan } from "../../Slices/planSlice"
+import { getSubscriptionPlan } from "../../Slices/planSlice";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
@@ -27,8 +27,8 @@ const HighlightLabel = styled("div")(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-        ? "#651fff"
-        : "inherit",
+      ? "#651fff"
+      : "inherit",
   color: "white",
   fontWeight: "bold",
   borderRadius: "5px",
@@ -55,8 +55,8 @@ const SubHeaderTitle = styled(Typography)(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-        ? "#651fff"
-        : "inherit",
+      ? "#651fff"
+      : "inherit",
   fontWeight: "bold",
   textTransform: "uppercase",
   width: "430px",
@@ -93,24 +93,22 @@ const StyledCard = styled(Card)(({ highlight }) => ({
   borderRadius: "30px",
   position: "relative",
   backgroundColor:
-    highlight === "bestValue"
+    highlight === "Best value"
       ? "#FFEFF8"
-      : highlight === "mostPopular"
-        ? "#E2E5E9"
-        : "#C9DFFF",
+      : highlight === "MOST POPULAR"
+      ? "#E2E5E9"
+      : "#C9DFFF",
 }));
-
-
 
 const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
   const navigate = useNavigate();
 
   return (
     <StyledCard highlight={highlight}>
-      {highlight === "bestValue" && (
+      {highlight === "Best value" && (
         <HighlightLabel type="bestValue">BEST VALUE</HighlightLabel>
       )}
-      {highlight === "mostPopular" && (
+      {highlight === "MOST POPULAR" && (
         <HighlightLabel type="mostPopular">MOST POPULAR</HighlightLabel>
       )}
       <CardHeader>
@@ -252,8 +250,8 @@ const DetailsPlan = () => {
           <ChevronLeftIcon />
         </IconButton>
         <Grid container justifyContent="center">
-          {allPlansList?.map((x) => {
-            <Grid item xs={12} sm={6} md={4}>
+          {allPlansList?.map((x) => (
+            <Grid item key={x._id} xs={12} sm={6} md={4}>
               <PlanCard
                 title={x.title}
                 subheader={x.durationYear}
@@ -262,7 +260,8 @@ const DetailsPlan = () => {
                 highlight={x.ribben}
               />
             </Grid>
-          })}
+          ))}
+
           {/* <Grid item xs={12} sm={6} md={4}>
             <PlanCard
               title="BASIC"
