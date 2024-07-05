@@ -1,10 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import customerapi from "../../api/customerhttpRequest";
+import { ToastContainer, toast } from "react-toastify";
 
-const initialState = {
-    planList: [],
-    loading: ""
-};
 
 export const getSubscriptionPlan = createAsyncThunk(
     "getSubscriptionPlan",
@@ -24,6 +21,30 @@ export const getSubscriptionPlan = createAsyncThunk(
         }
     }
 );
+
+export const UpdateSubscriptionPlan = createAsyncThunk(
+    "UpdateSubscriptionPlan",
+    async ({ subscriptionID, editSubscriptionPlan }, thunkAPI) => {
+        try {
+            const response = await customerapi.put(
+                `UpdateSubscriptionPlan/${subscriptionID}`,editSubscriptionPlan
+            );
+            toast.success(response.data.message);
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(
+                error.response ? error.response.data : error.message
+            );
+        }
+    }
+);
+
+
+const initialState = {
+    planList: [],
+    loading: ""    
+};
+
 const planSlice = createSlice({
     name: "plan",
     initialState,
@@ -37,6 +58,15 @@ const planSlice = createSlice({
             state.planList = action.payload.data;
         });
         builder.addCase(getSubscriptionPlan.rejected, (state) => {
+            state.authLoading = "complete_failure";
+        });
+        builder.addCase(UpdateSubscriptionPlan.pending, (state) => {
+            state.loading = "pending";
+        });
+        builder.addCase(UpdateSubscriptionPlan.fulfilled, (state, action) => {
+            state.loading = "complete_success";
+        });
+        builder.addCase(UpdateSubscriptionPlan.rejected, (state) => {
             state.authLoading = "complete_failure";
         });
     },

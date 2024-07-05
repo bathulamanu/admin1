@@ -105,7 +105,7 @@ const StyledCard = styled(Card)(({ highlight }) => ({
 const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const allPlansList = useSelector((state) => state.plan.planList);
+  const allPlansList = useSelector((state) => state.plan.planList);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
