@@ -16,7 +16,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubscriptionPlan } from "../../Slices/planSlice"
+import { getSubscriptionPlan } from "../../Slices/planSlice";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
@@ -93,24 +93,22 @@ const StyledCard = styled(Card)(({ highlight }) => ({
   borderRadius: "30px",
   position: "relative",
   backgroundColor:
-    highlight === "bestValue"
+    highlight === "Best value"
       ? "#FFEFF8"
-      : highlight === "mostPopular"
+      : highlight === "MOST POPULAR"
         ? "#E2E5E9"
         : "#C9DFFF",
 }));
 
-
-
-const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
+const PlanCard = ({ title, subheader, price, storageFee, highlight, ribbenStatus }) => {
   const navigate = useNavigate();
 
   return (
     <StyledCard highlight={highlight}>
-      {highlight === "bestValue" && (
+      {ribbenStatus == 46 && highlight === "Best value" && (
         <HighlightLabel type="bestValue">BEST VALUE</HighlightLabel>
       )}
-      {highlight === "mostPopular" && (
+      {ribbenStatus == 46 && highlight === "MOST POPULAR" && (
         <HighlightLabel type="mostPopular">MOST POPULAR</HighlightLabel>
       )}
       <CardHeader>
@@ -252,43 +250,18 @@ const DetailsPlan = () => {
           <ChevronLeftIcon />
         </IconButton>
         <Grid container justifyContent="center">
-          {allPlansList?.map((x) => {
-            <Grid item xs={12} sm={6} md={4} >
+          {allPlansList?.map((x) => (
+            <Grid item key={x._id} xs={12} sm={6} md={4}>
               <PlanCard
                 title={x.title}
                 subheader={x.durationYear}
                 price={x.price}
                 storageFee={x.EMI}
                 highlight={x.ribben}
+                ribbenStatus={x.ribbenStatus}
               />
             </Grid>
-          })}
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="BASIC"
-              subheader="ANNUAL STORAGE"
-              price="29,999"
-              storageFee="4500"
-              highlight="bestValue"
-            />
-          </Grid> */}
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="PREMIUM"
-              subheader="21 YEARS STORAGE"
-              price="60,000"
-              storageFee="4500"
-              highlight="mostPopular"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="ELITE"
-              subheader="21 YEARS STORAGE"
-              price="85,000"
-              storageFee="4500"
-            />
-          </Grid> */}
+          ))}
         </Grid>
         <IconButton
           sx={{

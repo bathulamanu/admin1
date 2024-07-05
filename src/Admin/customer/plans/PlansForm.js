@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Card,
   CardContent,
@@ -14,6 +14,12 @@ import {
 import SingleSelect from "../../../GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
+import { handleCreatePlan } from "../../Slices/planSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppContext } from '../../../ContextProvider';
+import { createSubscriptionPlan } from "../../Slices/planSlice"
+import { useLocation } from "react-router-dom";
+
 
 const inputLableStyle = {
   color: "black",
@@ -29,6 +35,7 @@ const redStarStyle = {
 };
 
 const PlansForm = () => {
+  const dispatch = useDispatch();
   const [formValues, setFormValues] = useState({
     title: "",
     subTitle: "",
@@ -71,6 +78,45 @@ const PlansForm = () => {
     customText: "",
     offerTiming: null
   });
+  const { trigger } = useContext(AppContext);
+  const { triggerChildUpdate } = useContext(AppContext);
+  const location = useLocation();
+  useEffect(() => {
+    // This will run every time the `trigger` changes
+    if (trigger) {
+      // triggerChildUpdate();
+      // if (location.pathname === "/customerPage/plans/plansForm") {
+      alert("ok ok ")
+      // console.log('Parent triggered an update');
+      if (!formValues.title) {
+        setErrorformValues((prev) => ({
+          ...prev,
+          ['title']: "Title is required",
+        }));
+        return;
+      }
+      if (!formValues.subTitle) {
+        setErrorformValues((prev) => ({
+          ...prev,
+          ['subTitle']: "subTitle is required",
+        }));
+        return;
+      }
+      dispatch(createSubscriptionPlan(formValues))
+    }
+  }, [trigger]);
+
+  // useEffect(() => {
+  // if (!formValues.title) {
+  //   setErrorformValues((prev) => ({
+  //     ...prev,
+  //     ['title']: "Title is required",
+  //   }));
+  //   return;
+  // }
+
+  // dispatch(handleCreatePlan(formValues));
+  // }, [formValues]);
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;

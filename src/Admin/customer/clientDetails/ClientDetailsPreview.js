@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch, useSelector } from "react-redux";
+import { getAnnexureInfo } from "../../Slices/globalSlice";
 
 const headingStyle = {
   fontSize: "24px",
@@ -21,31 +23,209 @@ const headingStyle = {
 };
 
 const ClientDetailsPreview = () => {
+  const dispatch = useDispatch();
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
+  console.log("SubscribedInnerPageData", SubscribedInnerPageData);
+
+  const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const customerID = customerDetail?.customerID;
+  console.log("customerDetail customerID", customerID);
+
+  useEffect(() => {
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
+  const [data, setData] = useState({
+    customerAnnexureInformationId: null,
+    customerID: null,
+    CustomerClientMotherDetails: {
+      ExpectantMotherName: "",
+      ExpectantMotherDOB: "",
+      ExpectantMotherEmail: "",
+      ExpectantMotherMobile: "",
+      ExpectantMotherOccupation: "",
+      ExpectantMotherDesignation: "",
+      ExpectantMotherOrganizationName: "",
+      ExpectantMotherIDproof: null,
+      ExpectantMotherIdproofNo: "",
+      ExpectantMotherOtherInfo: "",
+      ExpectantMotherIDproofPhoto: "",
+      ExpectantMotherProfilePhoto: "",
+      ExpectantMotherIDproofValue: "",
+    },
+    CustomerClientFatherDetails: {
+      ExpectantFatherName: "",
+      ExpectantFatherDOB: "",
+      ExpectantFatherEmail: "",
+      ExpectantFatherMobile: "",
+      ExpectantFatherOccupation: "",
+      ExpectantFatherDesignation: "",
+      ExpectantFatherOrganizationName: "",
+      ExpectantFatherIDproof: null,
+      ExpectantFatherIdproofNo: "",
+      ExpectantFatherOtherInfo: "",
+      ExpectantFatherIDproofPhoto: "",
+      ExpectantFatherProfilePhoto: "",
+      ExpectantFatherIDproofValue: "",
+    },
+    CustomerCommunicationDetails: {
+      Address: "",
+      City: null,
+      State: null,
+      Country: null,
+      PinCode: "",
+      permanentAddressIsSameAsCorrespondenceAddress: null,
+      PermanentAddress: "",
+      PermanentAddressCity: null,
+      PermanentAddressState: null,
+      PermanentAddressCountry: null,
+      PermanentAddressPinCode: "",
+      StateValue: "",
+      CityValue: "",
+      PermanentStateValue: "",
+      PermanentCityValue: "",
+    },
+    BabyDetails: {
+      babyName: "",
+      babyProfile: "",
+      DOB: null,
+      TimeOfBirth: "",
+      Weight: "",
+      DeliveryDoctorName: "",
+      PlaceOfBirth: "",
+      NomineeName: "",
+      NomineeRelationShip: "",
+    },
+    DoctorDetails: {
+      doctorName: null,
+      hospitalName: null,
+      hospitalAddressLine1: "",
+      hospitalAddressLine2: "",
+    },
+    CustomerHospitalBirthingdetails: {
+      ExpectedDateOfDelivery: "",
+      TypeOfpregnancy: null,
+      HowManyChildrensDoYouHaveAlready: "",
+      ConsultingGynocologist: "",
+      ConsultingHospital: "",
+      ConsultingHospitalAddress: "",
+      ConsultingHospitalCountry: null,
+      ConsultingHospitalState: null,
+      ConsultingHosptalCity: null,
+      ConsultingHospitalPinCode: "",
+      IsDeliveringHospitalSameAsConsultingHospotal: null,
+      DeliveringHospitalAddress: "",
+      DeliveringHospitalCountry: null,
+      DeliveringHospitalState: null,
+      DeliveringHosptalCity: null,
+      DeliveringHospitalPinCode: "",
+      ConsultingHospitalStateValue: "",
+      ConsultingHospitalCityValue: "",
+      DeliveringHospitalStateValue: "",
+      DeliveringHosptalCityValue: "",
+      TypeOfpregnancyValue: "",
+    },
+    CustomerData: [
+      {
+        customerID: null,
+        customerAnnexureInformationId: null,
+        ReferenceDetails: {
+          ExisitingCryovaultClientUIN: "",
+          IfReferredByExisitingClientName: "",
+          Mobile1: "",
+          Mobile2: "",
+          shipmentDetails: "",
+          Name: "",
+          RelationShip: "",
+          EmergencyMobile1: "",
+          EmergencyMobile2: "",
+          meternalSampleAndUmbilicalBleed: null,
+          phledopomist: null,
+        },
+        ExcutiveInfoForbankUse: {
+          NameOfExcutive: "",
+          EmployeeCode: "",
+          NameOfManager: "",
+          AreaOrRegion: "",
+          Date: "",
+          ExcutiveSignature: "",
+          Name: "",
+        },
+        AllSignature: {
+          MotherOrGuardianSignature: "",
+          FatherOrGuardianSignature: "",
+          MedicalDirectorSignature: "",
+          MotherOrGuardianName: "",
+          FatherOrGuardianName: "",
+          MedicalDirectorName: "",
+        },
+        customerAnnexureSubInformationId: null,
+
+        HealthHistoryQuestionnaire: {
+          "medicalCondition?": {
+            cancerDiabetesHepatitisBloodDisease: null,
+            HIVAIDS: null,
+            strokeLungSclerosis: null,
+          },
+          anyTypeInfection: null,
+          DementiaDegenerativeDisease: null,
+          biteFromAnimal: null,
+          sexuallyTransmittedDisease: null,
+          immunisationsTattoosBodypiercing: null,
+          juvenileDetentionLockupJail: null,
+          livedWithApersonWhoHasHepatitis: null,
+          compensationForSex: null,
+          receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation: null,
+          IntimateContactWithWhoHasHIVAIDS: null,
+          SARSavianFluH1N1: null,
+          from1980Through1986: {
+            spent3MonthsOrMoreCumulativelyInTheUnitedKingdom: null,
+            ResidedAtaUSmilitaryBaseinEurope: null,
+          },
+          sufferedFromMalariaChikungunyaDengueandWestNileFever: null,
+          visitedOrlivedOutsideofIndia: null,
+          PersonalHistory: {
+            AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives: null,
+            pregnancyResultFromDonorEggSpermSurrogate: null,
+            everHadAbnormalPregnancy: null,
+          },
+          FamilyHistory: {
+            relativesWithCancerleukemiaBefore20: null,
+            RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor: null,
+            relativesWithCancerleukemiaBefore20WHO: "",
+            RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseorWHO: "",
+          },
+        },
+      },
+    ],
+  });
   const [formValues, setFormValues] = useState({
-    question1: "no",
-    question2: "no",
-    question3: "no",
-    question4: "no",
-    question5: "no",
-    question6: "no",
-    question7: "no",
-    question8: "no",
-    question9: "no",
-    question10: "no",
-    question11: "no",
-    question12: "",
-    question13: "",
-    question14: "",
-    question15: "yes",
-    question16: "no",
-    question17: "no",
-    question18: "",
-    question19: "",
-    question20: "",
-    question21: "no",
+    cancerDiabetesHepatitisBloodDisease: false,
+    HIVAIDS: false,
+    strokeLungSclerosis: false,
+    anyTypeInfection: false,
+    DementiaDegenerativeDisease: false,
+    biteFromAnimal: false,
+    sexuallyTransmittedDisease: false,
+    immunisationsTattoosBodypiercing: false,
+    juvenileDetentionLockupJail: false,
+    livedWithApersonWhoHasHepatitis: false,
+    compensationForSex: false,
+    receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation: "",
+    IntimateContactWithWhoHasHIVAIDS: "",
+    SARSavianFluH1N1: "",
+    spent3MonthsOrMoreCumulativelyInTheUnitedKingdom: true,
+    ResidedAtaUSmilitaryBaseinEurope: false,
+    sufferedFromMalariaChikungunyaDengueandWestNileFever: false,
+    visitedOrlivedOutsideofIndia: "",
+    AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives: "",
+    pregnancyResultFromDonorEggSpermSurrogate: "",
+    everHadAbnormalPregnancy: false,
     chooseValue: "",
-    question22: "",
-    question23: "",
+    relativesWithCancerleukemiaBefore20: "",
+    RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor: "",
   });
 
   const handleChange = (name, value) => {
@@ -1279,29 +1459,43 @@ const ClientDetailsPreview = () => {
                         Problem, Heart Disease, Drug or Alcohol abuse.
                       </Typography>
                       <Box>
-                        {formValues.question1 !== "no" && (
+                        {formValues.cancerDiabetesHepatitisBloodDisease !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question1 === "yes"
+                              formValues.cancerDiabetesHepatitisBloodDisease ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question1", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                "cancerDiabetesHepatitisBloodDisease",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question1 !== "yes" && (
+                        {formValues.cancerDiabetesHepatitisBloodDisease !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question1 === "no"
+                              formValues.cancerDiabetesHepatitisBloodDisease ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question1", "no")}
+                            onClick={() =>
+                              handleChange(
+                                "cancerDiabetesHepatitisBloodDisease",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1319,29 +1513,29 @@ const ClientDetailsPreview = () => {
                         HTLV, Malaria, Hepatitis?
                       </Typography>
                       <Box>
-                        {formValues.question2 !== "no" && (
+                        {formValues.HIVAIDS !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question2 === "yes"
+                              formValues.HIVAIDS === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question2", "yes")}
+                            onClick={() => handleChange("HIVAIDS", true)}
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question2 !== "yes" && (
+                        {formValues.HIVAIDS !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question2 === "no"
+                              formValues.HIVAIDS === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question2", "no")}
+                            onClick={() => handleChange("HIVAIDS", false)}
                           >
                             No
                           </Button>
@@ -1360,29 +1554,33 @@ const ClientDetailsPreview = () => {
                         Disorder?
                       </Typography>
                       <Box>
-                        {formValues.question3 !== "no" && (
+                        {formValues.strokeLungSclerosis !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question3 === "yes"
+                              formValues.strokeLungSclerosis === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question3", "yes")}
+                            onClick={() =>
+                              handleChange("strokeLungSclerosis", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question3 !== "yes" && (
+                        {formValues.strokeLungSclerosis !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question3 === "no"
+                              formValues.strokeLungSclerosis === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question3", "no")}
+                            onClick={() =>
+                              handleChange("strokeLungSclerosis", false)
+                            }
                           >
                             No
                           </Button>
@@ -1406,29 +1604,33 @@ const ClientDetailsPreview = () => {
                         type of inection?
                       </Typography>
                       <Box>
-                        {formValues.question4 !== "no" && (
+                        {formValues.anyTypeInfection !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question4 === "yes"
+                              formValues.anyTypeInfection === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question4", "yes")}
+                            onClick={() =>
+                              handleChange("anyTypeInfection", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question4 !== "yes" && (
+                        {formValues.anyTypeInfection !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question4 === "no"
+                              formValues.anyTypeInfection === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question4", "no")}
+                            onClick={() =>
+                              handleChange("anyTypeInfection", false)
+                            }
                           >
                             No
                           </Button>
@@ -1454,29 +1656,33 @@ const ClientDetailsPreview = () => {
                         CreutzfeldtJakob Disease?
                       </Typography>
                       <Box>
-                        {formValues.question5 !== "no" && (
+                        {formValues.DementiaDegenerativeDisease !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question5 === "yes"
+                              formValues.DementiaDegenerativeDisease === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question5", "yes")}
+                            onClick={() =>
+                              handleChange("DementiaDegenerativeDisease", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question5 !== "yes" && (
+                        {formValues.DementiaDegenerativeDisease !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question5 === "no"
+                              formValues.DementiaDegenerativeDisease === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question5", "no")}
+                            onClick={() =>
+                              handleChange("DementiaDegenerativeDisease", false)
+                            }
                           >
                             No
                           </Button>
@@ -1501,29 +1707,31 @@ const ClientDetailsPreview = () => {
                         (shots) for the same?
                       </Typography>
                       <Box>
-                        {formValues.question6 !== "no" && (
+                        {formValues.biteFromAnimal !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question6 === "yes"
+                              formValues.biteFromAnimal === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question6", "yes")}
+                            onClick={() => handleChange("biteFromAnimal", true)}
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question6 !== "yes" && (
+                        {formValues.biteFromAnimal !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question6 === "no"
+                              formValues.biteFromAnimal === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question6", "no")}
+                            onClick={() =>
+                              handleChange("biteFromAnimal", false)
+                            }
                           >
                             No
                           </Button>
@@ -1547,29 +1755,33 @@ const ClientDetailsPreview = () => {
                         diseasein the last 12 months?
                       </Typography>
                       <Box>
-                        {formValues.question7 !== "no" && (
+                        {formValues.sexuallyTransmittedDisease !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question7 === "yes"
+                              formValues.sexuallyTransmittedDisease === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question7", "yes")}
+                            onClick={() =>
+                              handleChange("sexuallyTransmittedDisease", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question7 !== "yes" && (
+                        {formValues.sexuallyTransmittedDisease !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question7 === "no"
+                              formValues.sexuallyTransmittedDisease === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question7", "no")}
+                            onClick={() =>
+                              handleChange("sexuallyTransmittedDisease", false)
+                            }
                           >
                             No
                           </Button>
@@ -1595,29 +1807,43 @@ const ClientDetailsPreview = () => {
                         small pox vaccination site and /or bandage?
                       </Typography>
                       <Box>
-                        {formValues.question8 !== "no" && (
+                        {formValues.immunisationsTattoosBodypiercing !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question8 === "yes"
+                              formValues.immunisationsTattoosBodypiercing ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question8", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                "immunisationsTattoosBodypiercing",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question8 !== "yes" && (
+                        {formValues.immunisationsTattoosBodypiercing !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question8 === "no"
+                              formValues.immunisationsTattoosBodypiercing ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question8", "no")}
+                            onClick={() =>
+                              handleChange(
+                                "immunisationsTattoosBodypiercing",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1642,29 +1868,34 @@ const ClientDetailsPreview = () => {
                         hours?
                       </Typography>
                       <Box>
-                        {formValues.question9 !== "no" && (
+                        {formValues.juvenileDetentionLockupJail !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question9 === "yes"
+                              formValues.juvenileDetentionLockupJail === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question9", "yes")}
+                            onClick={() =>
+                              handleChange("juvenileDetentionLockupJail", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question1 !== "yes" && (
+                        {formValues.cancerDiabetesHepatitisBloodDisease !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question9 === "no"
+                              formValues.juvenileDetentionLockupJail === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question9", "no")}
+                            onClick={() =>
+                              handleChange("juvenileDetentionLockupJail", false)
+                            }
                           >
                             No
                           </Button>
@@ -1688,29 +1919,43 @@ const ClientDetailsPreview = () => {
                         has Hepatitis?
                       </Typography>
                       <Box>
-                        {formValues.question10 !== "no" && (
+                        {formValues.livedWithApersonWhoHasHepatitis !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question10 === "yes"
+                              formValues.livedWithApersonWhoHasHepatitis ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question10", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                "livedWithApersonWhoHasHepatitis",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question10 !== "yes" && (
+                        {formValues.livedWithApersonWhoHasHepatitis !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question10 === "no"
+                              formValues.livedWithApersonWhoHasHepatitis ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question10", "no")}
+                            onClick={() =>
+                              handleChange(
+                                "livedWithApersonWhoHasHepatitis",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1734,29 +1979,33 @@ const ClientDetailsPreview = () => {
                         sex?
                       </Typography>
                       <Box>
-                        {formValues.question11 !== "no" && (
+                        {formValues.compensationForSex !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question11 === "yes"
+                              formValues.compensationForSex === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question11", "yes")}
+                            onClick={() =>
+                              handleChange("compensationForSex", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question11 !== "yes" && (
+                        {formValues.compensationForSex !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question11 === "no"
+                              formValues.compensationForSex === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question11", "no")}
+                            onClick={() =>
+                              handleChange("compensationForSex", false)
+                            }
                           >
                             No
                           </Button>
@@ -1783,29 +2032,43 @@ const ClientDetailsPreview = () => {
                         dura mater or bone marrow traspiantation?
                       </Typography>
                       <Box>
-                        {formValues.question12 !== "no" && (
+                        {formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question12 === "yes"
+                              formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question12", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question12 !== "yes" && (
+                        {formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question12 === "no"
+                              formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question12", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1829,29 +2092,43 @@ const ClientDetailsPreview = () => {
                         who has HIVIAIDS or Hepatitis B/C
                       </Typography>
                       <Box>
-                        {formValues.question13 !== "no" && (
+                        {formValues.IntimateContactWithWhoHasHIVAIDS !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question13 === "yes"
+                              formValues.IntimateContactWithWhoHasHIVAIDS ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question13", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " IntimateContactWithWhoHasHIVAIDS",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question13 !== "yes" && (
+                        {formValues.IntimateContactWithWhoHasHIVAIDS !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question13 === "no"
+                              formValues.IntimateContactWithWhoHasHIVAIDS ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question13", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " IntimateContactWithWhoHasHIVAIDS",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1876,29 +2153,33 @@ const ClientDetailsPreview = () => {
                         some one having risk factors?
                       </Typography>
                       <Box>
-                        {formValues.question14 !== "no" && (
+                        {formValues.SARSavianFluH1N1 !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question14 === "yes"
+                              formValues.SARSavianFluH1N1 === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question14", "yes")}
+                            onClick={() =>
+                              handleChange(" SARSavianFluH1N1", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question14 !== "yes" && (
+                        {formValues.SARSavianFluH1N1 !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question14 === "no"
+                              formValues.SARSavianFluH1N1 === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question14", "no")}
+                            onClick={() =>
+                              handleChange(" SARSavianFluH1N1", false)
+                            }
                           >
                             No
                           </Button>
@@ -1928,29 +2209,43 @@ const ClientDetailsPreview = () => {
                         Kingdom? If so, what city and country?
                       </Typography>
                       <Box>
-                        {formValues.question15 !== "no" && (
+                        {formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question15 === "yes"
+                              formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question15", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question15 !== "yes" && (
+                        {formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question15 === "no"
+                              formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question15", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -1968,29 +2263,43 @@ const ClientDetailsPreview = () => {
                         more cumulatively? If so, what city and country?
                       </Typography>
                       <Box>
-                        {formValues.question16 !== "no" && (
+                        {formValues.ResidedAtaUSmilitaryBaseinEurope !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question16 === "yes"
+                              formValues.ResidedAtaUSmilitaryBaseinEurope ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question16", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " ResidedAtaUSmilitaryBaseinEurope",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question16 !== "yes" && (
+                        {formValues.ResidedAtaUSmilitaryBaseinEurope !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question16 === "no"
+                              formValues.ResidedAtaUSmilitaryBaseinEurope ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question16", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " ResidedAtaUSmilitaryBaseinEurope",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -2015,29 +2324,43 @@ const ClientDetailsPreview = () => {
                         West Nile Fever?
                       </Typography>
                       <Box>
-                        {formValues.question17 !== "no" && (
+                        {formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question17 === "yes"
+                              formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question17", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question17 !== "yes" && (
+                        {formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question17 === "no"
+                              formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question17", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -2062,29 +2385,39 @@ const ClientDetailsPreview = () => {
                         duration of your stay(s)
                       </Typography>
                       <Box>
-                        {formValues.question18 !== "no" && (
+                        {formValues.visitedOrlivedOutsideofIndia !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question18 === "yes"
+                              formValues.visitedOrlivedOutsideofIndia === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question18", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " visitedOrlivedOutsideofIndia",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question18 !== "yes" && (
+                        {formValues.visitedOrlivedOutsideofIndia !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question18 === "no"
+                              formValues.visitedOrlivedOutsideofIndia === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question18", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " visitedOrlivedOutsideofIndia",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -2114,29 +2447,43 @@ const ClientDetailsPreview = () => {
                         relatives?
                       </Typography>
                       <Box>
-                        {formValues.question19 !== "no" && (
+                        {formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question19 === "yes"
+                              formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question19", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question19 !== "yes" && (
+                        {formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question19 === "no"
+                              formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question19", "no")}
+                            onClick={() =>
+                              handleChange(
+                                " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -2154,29 +2501,43 @@ const ClientDetailsPreview = () => {
                         Egg/Sperm/Surrogate?
                       </Typography>
                       <Box>
-                        {formValues.question20 !== "no" && (
+                        {formValues.pregnancyResultFromDonorEggSpermSurrogate !==
+                          false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question20 === "yes"
+                              formValues.pregnancyResultFromDonorEggSpermSurrogate ===
+                              true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question20", "yes")}
+                            onClick={() =>
+                              handleChange(
+                                "pregnancyResultFromDonorEggSpermSurrogate",
+                                true
+                              )
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question20 !== "yes" && (
+                        {formValues.pregnancyResultFromDonorEggSpermSurrogate !==
+                          true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question20 === "no"
+                              formValues.pregnancyResultFromDonorEggSpermSurrogate ===
+                              false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question20", "no")}
+                            onClick={() =>
+                              handleChange(
+                                "pregnancyResultFromDonorEggSpermSurrogate",
+                                false
+                              )
+                            }
                           >
                             No
                           </Button>
@@ -2193,29 +2554,33 @@ const ClientDetailsPreview = () => {
                         C) Haveyou ever had abnormal pregnancy?
                       </Typography>
                       <Box>
-                        {formValues.question21 !== "no" && (
+                        {formValues.everHadAbnormalPregnancy !== false && (
                           <Button
                             size="small"
                             sx={{ marginRight: "10px" }}
                             variant={
-                              formValues.question21 === "yes"
+                              formValues.everHadAbnormalPregnancy === true
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question21", "yes")}
+                            onClick={() =>
+                              handleChange("everHadAbnormalPregnancy", true)
+                            }
                           >
                             Yes
                           </Button>
                         )}
-                        {formValues.question21 !== "yes" && (
+                        {formValues.everHadAbnormalPregnancy !== true && (
                           <Button
                             size="small"
                             variant={
-                              formValues.question21 === "no"
+                              formValues.everHadAbnormalPregnancy === false
                                 ? "contained"
                                 : "outlined"
                             }
-                            onClick={() => handleChange("question21", "no")}
+                            onClick={() =>
+                              handleChange("everHadAbnormalPregnancy", false)
+                            }
                           >
                             No
                           </Button>
@@ -2376,11 +2741,17 @@ const ClientDetailsPreview = () => {
                           size="small"
                           sx={{ marginRight: "10px" }}
                           variant={
-                            formValues.question22 === "yes"
+                            formValues.relativesWithCancerleukemiaBefore20 ===
+                            true
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question22", "yes")}
+                          onClick={() =>
+                            handleChange(
+                              "relativesWithCancerleukemiaBefore20",
+                              true
+                            )
+                          }
                         >
                           Yes
                         </Button>
@@ -2388,22 +2759,34 @@ const ClientDetailsPreview = () => {
                           size="small"
                           sx={{ marginRight: "10px" }}
                           variant={
-                            formValues.question22 === "no"
+                            formValues.relativesWithCancerleukemiaBefore20 ===
+                            false
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question22", "no")}
+                          onClick={() =>
+                            handleChange(
+                              "relativesWithCancerleukemiaBefore20",
+                              false
+                            )
+                          }
                         >
                           No
                         </Button>
                         <Button
                           size="small"
                           variant={
-                            formValues.question22 === "who"
+                            formValues.relativesWithCancerleukemiaBefore20 ===
+                            "who"
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question22", "who")}
+                          onClick={() =>
+                            handleChange(
+                              "relativesWithCancerleukemiaBefore20",
+                              "who"
+                            )
+                          }
                         >
                           Who
                         </Button>
@@ -2425,11 +2808,17 @@ const ClientDetailsPreview = () => {
                           size="small"
                           sx={{ marginRight: "10px" }}
                           variant={
-                            formValues.question23 === "yes"
+                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                            true
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question23", "yes")}
+                          onClick={() =>
+                            handleChange(
+                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                              true
+                            )
+                          }
                         >
                           Yes
                         </Button>
@@ -2437,22 +2826,34 @@ const ClientDetailsPreview = () => {
                           size="small"
                           sx={{ marginRight: "10px" }}
                           variant={
-                            formValues.question23 === "no"
+                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                            false
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question23", "no")}
+                          onClick={() =>
+                            handleChange(
+                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                              false
+                            )
+                          }
                         >
                           No
                         </Button>
                         <Button
                           size="small"
                           variant={
-                            formValues.question23 === "who"
+                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
+                            "who"
                               ? "contained"
                               : "outlined"
                           }
-                          onClick={() => handleChange("question23", "who")}
+                          onClick={() =>
+                            handleChange(
+                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                              "who"
+                            )
+                          }
                         >
                           Who
                         </Button>
