@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   Avatar,
   Box,
@@ -36,7 +36,8 @@ import {
   getStateList,
 } from "../Admin/Slices/globalSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import { createSubscriptionPlan } from "../Admin/Slices/planSlice"
+import { AppContext } from '../ContextProvider';
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -47,6 +48,7 @@ const StyledLink = styled(Link)`
 `;
 
 export const CustomerLayout = () => {
+  const { triggerChildUpdate } = useContext(AppContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -60,6 +62,12 @@ export const CustomerLayout = () => {
   const [searchQuery, setSearchQuery] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
+
+  const createPlanData = useSelector((state) => state.plan.createPlan);
+
+  const handlePlanAddForm = () => {
+    triggerChildUpdate();
+  };
 
   useEffect(() => {
     setPathname(location.pathname);
@@ -1153,6 +1161,14 @@ export const CustomerLayout = () => {
                     size="small"
                     variant="contained"
                     startIcon={<SaveAltIcon />}
+                    ///check kkk 
+                    // onClick={(e) => {
+                    //   e.preventDefault();
+                    //   handlePlanAddForm
+                    //   // dispatch(createSubscriptionPlan(createPlanData));
+                    //   // navigate("/plans");
+                    // }}
+                    onClick={handlePlanAddForm}
                   >
                     Save
                   </Button>
@@ -1160,6 +1176,10 @@ export const CustomerLayout = () => {
                     size="small"
                     variant="outlined"
                     startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/plans");
+                    }}
                   >
                     Cancel
                   </Button>

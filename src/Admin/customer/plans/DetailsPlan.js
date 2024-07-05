@@ -27,8 +27,8 @@ const HighlightLabel = styled("div")(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-      ? "#651fff"
-      : "inherit",
+        ? "#651fff"
+        : "inherit",
   color: "white",
   fontWeight: "bold",
   borderRadius: "5px",
@@ -55,8 +55,8 @@ const SubHeaderTitle = styled(Typography)(({ type }) => ({
     type === "bestValue"
       ? "#F71E93"
       : type === "mostPopular"
-      ? "#651fff"
-      : "inherit",
+        ? "#651fff"
+        : "inherit",
   fontWeight: "bold",
   textTransform: "uppercase",
   width: "430px",
@@ -96,19 +96,19 @@ const StyledCard = styled(Card)(({ highlight }) => ({
     highlight === "Best value"
       ? "#FFEFF8"
       : highlight === "MOST POPULAR"
-      ? "#E2E5E9"
-      : "#C9DFFF",
+        ? "#E2E5E9"
+        : "#C9DFFF",
 }));
 
-const PlanCard = ({ title, subheader, price, storageFee, highlight }) => {
+const PlanCard = ({ title, subheader, price, storageFee, highlight, ribbenStatus }) => {
   const navigate = useNavigate();
 
   return (
     <StyledCard highlight={highlight}>
-      {highlight === "Best value" && (
+      {ribbenStatus == 46 && highlight === "Best value" && (
         <HighlightLabel type="bestValue">BEST VALUE</HighlightLabel>
       )}
-      {highlight === "MOST POPULAR" && (
+      {ribbenStatus == 46 && highlight === "MOST POPULAR" && (
         <HighlightLabel type="mostPopular">MOST POPULAR</HighlightLabel>
       )}
       <CardHeader>
@@ -258,36 +258,10 @@ const DetailsPlan = () => {
                 price={x.price}
                 storageFee={x.EMI}
                 highlight={x.ribben}
+                ribbenStatus={x.ribbenStatus}
               />
             </Grid>
           ))}
-
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="BASIC"
-              subheader="ANNUAL STORAGE"
-              price="29,999"
-              storageFee="4500"
-              highlight="bestValue"
-            />
-          </Grid> */}
-          {/* <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="PREMIUM"
-              subheader="21 YEARS STORAGE"
-              price="60,000"
-              storageFee="4500"
-              highlight="mostPopular"
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <PlanCard
-              title="ELITE"
-              subheader="21 YEARS STORAGE"
-              price="85,000"
-              storageFee="4500"
-            />
-          </Grid> */}
         </Grid>
         <IconButton
           sx={{
