@@ -7,7 +7,7 @@ export const AppProvider = ({ children }) => {
     const [trigger, setTrigger] = useState(false);
 
     const triggerChildUpdate = () => {
-        setTrigger(true); 
+        setTrigger(prev => !prev);
     };
 
     return (
