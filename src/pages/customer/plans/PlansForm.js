@@ -19,6 +19,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppContext } from "../../../context/ContextProvider";
 import { createSubscriptionPlan } from "../../../redux/Slices/planSlice";
 import { useLocation } from "react-router-dom";
+import { GetButtonText, getStatus } from "../../../redux/Slices/globalSlice";
+import {
+  getButtonTexListById,
+  getStatusIdList,
+} from "../../../service/globalFunctions";
 
 const inputLableStyle = {
   color: "black",
@@ -35,6 +40,17 @@ const redStarStyle = {
 
 const PlansForm = () => {
   const dispatch = useDispatch();
+  const getStatusList = useSelector((state) => state.global.statusList);
+  const statuses = getStatusIdList(getStatusList);
+
+  const getButtonTextList = useSelector((state) => state.global.buttonTextData);
+  const ButtonTexts = getButtonTexListById(getButtonTextList);
+
+  useEffect(() => {
+    dispatch(GetButtonText(null));
+    dispatch(getStatus(null));
+  }, [dispatch]);
+
   const [formValues, setFormValues] = useState({
     title: "",
     subTitle: "",
@@ -129,6 +145,8 @@ const PlansForm = () => {
       [name]: "",
     }));
   };
+
+  console.log("formValues", formValues);
 
   const modules = {
     toolbar: [
@@ -368,6 +386,7 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
+                    data={ButtonTexts}
                     value={formValues?.btnText}
                     onChange={(e) => handleChange(e, "btnText")}
                   />
@@ -390,6 +409,7 @@ const PlansForm = () => {
                   <SingleSelect
                     Placeholder={"Select"}
                     width={"100%"}
+                    data={statuses}
                     value={formValues?.status}
                     onChange={(e) => handleChange(e, "status")}
                   />
