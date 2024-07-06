@@ -16,10 +16,9 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { handleCreatePlan } from "../../Slices/planSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppContext } from '../../../ContextProvider';
-import { createSubscriptionPlan } from "../../Slices/planSlice"
+import { AppContext } from "../../../ContextProvider";
+import { createSubscriptionPlan } from "../../Slices/planSlice";
 import { useLocation } from "react-router-dom";
-
 
 const inputLableStyle = {
   color: "black",
@@ -55,7 +54,7 @@ const PlansForm = () => {
     durationYear: "",
     durationYearText: "",
     customText: "",
-    offerTiming: null
+    offerTiming: null,
   });
   const [ErrorformValues, setErrorformValues] = useState({
     title: "",
@@ -76,7 +75,7 @@ const PlansForm = () => {
     durationYear: "",
     durationYearText: "",
     customText: "",
-    offerTiming: null
+    offerTiming: null,
   });
   const { trigger } = useContext(AppContext);
   const { triggerChildUpdate } = useContext(AppContext);
@@ -86,24 +85,22 @@ const PlansForm = () => {
     if (trigger) {
       // triggerChildUpdate();
       // if (location.pathname === "/customerPage/plans/plansForm") {
-      alert("ok ok ")
+      alert("ok ok ");
       // console.log('Parent triggered an update');
       if (!formValues.title) {
         setErrorformValues((prev) => ({
           ...prev,
-          ['title']: "Title is required",
+          ["title"]: "Title is required",
         }));
         return;
-      } 
-      
-      if (!formValues.subTitle) {
+      } else if (!formValues.subTitle) {
         setErrorformValues((prev) => ({
           ...prev,
-          ['subTitle']: "subTitle is required",
+          ["subTitle"]: "subTitle is required",
         }));
         return;
       }
-      dispatch(createSubscriptionPlan(formValues))
+      dispatch(createSubscriptionPlan(formValues));
     }
   }, [trigger]);
 
@@ -201,8 +198,11 @@ const PlansForm = () => {
                       value={formValues?.title}
                       onChange={(e) => handleChange(e, "title")}
                     />
-                    {ErrorformValues?.title ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.title}</Typography> : null}
-
+                    {ErrorformValues?.title ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.title}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -220,8 +220,11 @@ const PlansForm = () => {
                       value={formValues?.subTitle}
                       onChange={(e) => handleChange(e, "subTitle")}
                     />
-                    {ErrorformValues?.subTitle ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.subTitle}</Typography> : null}
-
+                    {ErrorformValues?.subTitle ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.subTitle}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -239,8 +242,11 @@ const PlansForm = () => {
                       value={formValues?.subTitle}
                       onChange={(e) => handleChange(e, "subTitle")}
                     />
-                    {ErrorformValues?.subTitle ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.subTitle}</Typography> : null}
-
+                    {ErrorformValues?.subTitle ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.subTitle}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -258,8 +264,11 @@ const PlansForm = () => {
                       value={formValues?.Icon}
                       onChange={(e) => handleChange(e, "Icon")}
                     />
-                    {ErrorformValues?.Icon ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.Icon}</Typography> : null}
-
+                    {ErrorformValues?.Icon ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.Icon}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -277,8 +286,11 @@ const PlansForm = () => {
                       value={formValues?.currencySymbol}
                       onChange={(e) => handleChange(e, "currencySymbol")}
                     />
-                    {ErrorformValues?.currencySymbol ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.currencySymbol}</Typography> : null}
-
+                    {ErrorformValues?.currencySymbol ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.currencySymbol}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -300,8 +312,11 @@ const PlansForm = () => {
                       value={formValues?.EMI}
                       onChange={(e) => handleChange(e, "EMI")}
                     />
-                    {ErrorformValues?.EMI ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.EMI}</Typography> : null}
-
+                    {ErrorformValues?.EMI ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.EMI}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -319,8 +334,11 @@ const PlansForm = () => {
                       value={formValues?.EMItext}
                       onChange={(e) => handleChange(e, "EMItext")}
                     />
-                    {ErrorformValues?.EMItext ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.EMItext}</Typography> : null}
-
+                    {ErrorformValues?.EMItext ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.EMItext}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -354,8 +372,11 @@ const PlansForm = () => {
                     value={formValues?.btnText}
                     onChange={(e) => handleChange(e, "btnText")}
                   />
-                  {ErrorformValues?.btnText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.btnText}</Typography> : null}
-
+                  {ErrorformValues?.btnText ? (
+                    <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                      {ErrorformValues?.btnText}
+                    </Typography>
+                  ) : null}
                 </Grid>
               </Grid>
             </CardContent>
@@ -373,8 +394,11 @@ const PlansForm = () => {
                     value={formValues?.status}
                     onChange={(e) => handleChange(e, "status")}
                   />
-                  {ErrorformValues?.status ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.status}</Typography> : null}
-
+                  {ErrorformValues?.status ? (
+                    <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                      {ErrorformValues?.status}
+                    </Typography>
+                  ) : null}
                 </Grid>
               </Grid>
             </CardContent>
@@ -404,8 +428,11 @@ const PlansForm = () => {
                       value={formValues?.price}
                       onChange={(e) => handleChange(e, "price")}
                     />
-                    {ErrorformValues?.price ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.price}</Typography> : null}
-
+                    {ErrorformValues?.price ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.price}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -423,8 +450,11 @@ const PlansForm = () => {
                       value={formValues?.offerPrice}
                       onChange={(e) => handleChange(e, "offerPrice")}
                     />
-                    {ErrorformValues?.offerPrice ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.offerPrice}</Typography> : null}
-
+                    {ErrorformValues?.offerPrice ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.offerPrice}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -442,8 +472,11 @@ const PlansForm = () => {
                       value={formValues?.eventOfferPrice}
                       onChange={(e) => handleChange(e, "eventOfferPrice")}
                     />
-                    {ErrorformValues?.eventOfferPrice ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.eventOfferPrice}</Typography> : null}
-
+                    {ErrorformValues?.eventOfferPrice ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.eventOfferPrice}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -465,8 +498,11 @@ const PlansForm = () => {
                       value={formValues?.ribben}
                       onChange={(e) => handleChange(e, "ribben")}
                     />
-                    {ErrorformValues?.ribben ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.ribben}</Typography> : null}
-
+                    {ErrorformValues?.ribben ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.ribben}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -481,8 +517,11 @@ const PlansForm = () => {
                     value={formValues?.ribbenStatus}
                     onChange={(e) => handleChange(e, "ribbenStatus")}
                   />
-                  {ErrorformValues?.ribbenStatus ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.ribbenStatus}</Typography> : null}
-
+                  {ErrorformValues?.ribbenStatus ? (
+                    <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                      {ErrorformValues?.ribbenStatus}
+                    </Typography>
+                  ) : null}
                 </Grid>
               </Grid>
             </CardContent>
@@ -519,8 +558,11 @@ const PlansForm = () => {
                       value={formValues?.durationYear}
                       onChange={(e) => handleChange(e, "durationYear")}
                     />
-                    {ErrorformValues?.durationYear ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.durationYear}</Typography> : null}
-
+                    {ErrorformValues?.durationYear ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.durationYear}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -538,8 +580,11 @@ const PlansForm = () => {
                       value={formValues?.durationYearText}
                       onChange={(e) => handleChange(e, "durationYearText")}
                     />
-                    {ErrorformValues?.durationYearText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.durationYearText}</Typography> : null}
-
+                    {ErrorformValues?.durationYearText ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.durationYearText}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -557,8 +602,11 @@ const PlansForm = () => {
                       value={formValues?.customText}
                       onChange={(e) => handleChange(e, "customText")}
                     />
-                    {ErrorformValues?.customText ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.customText}</Typography> : null}
-
+                    {ErrorformValues?.customText ? (
+                      <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                        {ErrorformValues?.customText}
+                      </Typography>
+                    ) : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -578,8 +626,11 @@ const PlansForm = () => {
                     value={formValues?.offerTiming}
                     onChange={(e) => handleChange(e, "offerTiming")}
                   />
-                  {ErrorformValues?.offerTiming ? <Typography sx={{ fontSize: "1.75rem", color: "red" }}>{ErrorformValues?.offerTiming}</Typography> : null}
-
+                  {ErrorformValues?.offerTiming ? (
+                    <Typography sx={{ fontSize: "1.75rem", color: "red" }}>
+                      {ErrorformValues?.offerTiming}
+                    </Typography>
+                  ) : null}
                 </Grid>
               </Grid>
             </CardContent>

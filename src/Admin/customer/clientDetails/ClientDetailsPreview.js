@@ -5,6 +5,7 @@ import {
   Button,
   Card,
   CardContent,
+  Checkbox,
   Grid,
   Stack,
   Typography,
@@ -526,7 +527,9 @@ const ClientDetailsPreview = (props) => {
                       >
                         Expected Mother Name :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data.CustomerClientMotherDetails?.ExpectantMotherName}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -538,7 +541,9 @@ const ClientDetailsPreview = (props) => {
                       >
                         Date of Birth :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data.CustomerClientMotherDetails?.ExpectantMotherDOB}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -550,7 +555,9 @@ const ClientDetailsPreview = (props) => {
                       >
                         Email Address :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data.CustomerClientMotherDetails?.ExpectantMotherEmail}
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -562,7 +569,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         Phone number :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherMobile
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -574,7 +586,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         Occupation :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherOccupation
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -586,7 +603,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         Designation :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherDesignation
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -598,7 +620,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         Organization Name :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherOrganizationName
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -610,7 +637,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         ID Proof :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherIDproofValue
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -622,7 +654,12 @@ const ClientDetailsPreview = (props) => {
                       >
                         ID Proof Number :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherIdproofNo
+                        }
+                      </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -634,27 +671,49 @@ const ClientDetailsPreview = (props) => {
                       >
                         If other, please specify :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherOtherInfo
+                        }
+                      </Typography>
                     </Stack>
                   </Stack>
                   <Stack
                     direction="column"
                     sx={{ marginRight: "30px", gap: 4 }}
                   >
-                    <Avatar sx={{ width: 100, height: 100, marginLeft: 4 }} />
-                    <Box
-                      sx={{
-                        width: 150,
-                        height: 100,
-                        backgroundColor: "lightgray",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        marginRight: 4,
-                      }}
-                    >
-                      {/* Content inside the Box */}
-                    </Box>
+                    <Avatar
+                      src={
+                        "https://flyingbyts.s3.ap-south-2.amazonaws.com/" +
+                        data.CustomerClientMotherDetails
+                          ?.ExpectantMotherProfilePhoto
+                      }
+                      sx={{ width: 100, height: 100, marginLeft: 4 }}
+                    />
+                    {data.CustomerClientMotherDetails
+                      ?.ExpectantMotherIDproofPhoto ? (
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 100,
+                          backgroundColor: "lightgray",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: 4,
+                        }}
+                        component="img"
+                        src={
+                          "https://flyingbyts.s3.ap-south-2.amazonaws.com/" +
+                          data.CustomerClientMotherDetails
+                            ?.ExpectantMotherIDproofPhoto
+                        }
+                        alt="father ID Proof"
+                      />
+                    ) : (
+                      <></>
+                    )}
                   </Stack>
                 </Stack>
               </CardContent>
@@ -694,7 +753,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Current Address :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.Address}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -706,7 +767,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       City :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.CityValue}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -718,7 +781,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       State :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.StateValue}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -730,7 +795,7 @@ const ClientDetailsPreview = (props) => {
                     >
                       country :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">India</Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -742,7 +807,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Pin code :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.PinCode}
+                    </Typography>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -772,7 +839,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Current Address :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.PermanentAddress}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -784,7 +853,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       City :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.PermanentCityValue}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -796,7 +867,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       State :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data.CustomerCommunicationDetails?.PermanentStateValue}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -808,7 +881,7 @@ const ClientDetailsPreview = (props) => {
                     >
                       country :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">India</Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -820,7 +893,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Pin code :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerCommunicationDetails
+                          ?.PermanentAddressPinCode
+                      }
+                    </Typography>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -844,7 +922,12 @@ const ClientDetailsPreview = (props) => {
                   >
                     Expected date of deilvery :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {
+                      data.CustomerHospitalBirthingdetails
+                        ?.ExpectedDateOfDelivery
+                    }
+                  </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
                   <Typography
@@ -856,7 +939,9 @@ const ClientDetailsPreview = (props) => {
                   >
                     Type of Pregnancy :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {data.CustomerHospitalBirthingdetails?.TypeOfpregnancyValue}
+                  </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
                   <Typography
@@ -868,7 +953,12 @@ const ClientDetailsPreview = (props) => {
                   >
                     How many children's do you have already :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {
+                      data.CustomerHospitalBirthingdetails
+                        ?.HowManyChildrensDoYouHaveAlready
+                    }
+                  </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
                   <Typography
@@ -880,7 +970,12 @@ const ClientDetailsPreview = (props) => {
                   >
                     Consulting Gynocologist:
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {
+                      data.CustomerHospitalBirthingdetails
+                        ?.ConsultingGynocologist
+                    }
+                  </Typography>
                 </Stack>
                 <Stack direction={"row"} spacing={2}>
                   <Typography
@@ -892,7 +987,9 @@ const ClientDetailsPreview = (props) => {
                   >
                     Consulting Hospital :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {data.CustomerHospitalBirthingdetails?.ConsultingHospital}
+                  </Typography>
                 </Stack>
               </Stack>
             </CardContent>
@@ -930,7 +1027,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Current Address :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.ConsultingHospitalAddress
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -942,7 +1044,13 @@ const ClientDetailsPreview = (props) => {
                     >
                       City :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {" "}
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.ConsultingHospitalCityValue
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -954,7 +1062,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       State :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.ConsultingHospitalStateValue
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -966,7 +1079,7 @@ const ClientDetailsPreview = (props) => {
                     >
                       country :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">India</Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -978,7 +1091,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Pin code :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.ConsultingHospitalPinCode
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1032,7 +1150,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Current Address :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.DeliveringHospitalAddress
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1044,7 +1167,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       City :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.DeliveringHosptalCityValue
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1056,7 +1184,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       State :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.DeliveringHospitalStateValue
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1068,7 +1201,7 @@ const ClientDetailsPreview = (props) => {
                     >
                       country :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">India</Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1080,7 +1213,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Pin code :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data.CustomerHospitalBirthingdetails
+                          ?.DeliveringHospitalPinCode
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1143,7 +1281,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       UIN :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ReferenceDetails
+                          ?.ExisitingCryovaultClientUIN
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1155,7 +1298,13 @@ const ClientDetailsPreview = (props) => {
                     >
                       Referring Client Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {" "}
+                      {
+                        data?.CustomerData[0]?.ReferenceDetails
+                          ?.IfReferredByExisitingClientName
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1167,7 +1316,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Mobile-1 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data?.CustomerData[0]?.ReferenceDetails?.Mobile1}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1179,7 +1330,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Mobile-2 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data?.CustomerData[0]?.ReferenceDetails?.Mobile2}
+                    </Typography>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -1209,7 +1362,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Send collection kit to :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data?.CustomerData[0]?.ReferenceDetails?.shipmentDetails}
+                    </Typography>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -1248,7 +1403,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data?.CustomerData[0]?.ReferenceDetails?.Name}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1260,7 +1417,9 @@ const ClientDetailsPreview = (props) => {
                     >
                       Relationship :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {data?.CustomerData[0]?.ReferenceDetails?.RelationShip}
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1272,7 +1431,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Mobile-1 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ReferenceDetails
+                          ?.EmergencyMobile1
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1284,7 +1448,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Mobile-2 :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ReferenceDetails
+                          ?.EmergencyMobile2
+                      }
+                    </Typography>
                   </Stack>
                 </Stack>
               </CardContent>
@@ -1307,6 +1476,12 @@ const ClientDetailsPreview = (props) => {
                   variant="h5"
                   sx={{ marginTop: "15px", maxWidth: "500px" }}
                 >
+                  <Checkbox
+                    checked={
+                      data?.CustomerData[0]?.ReferenceDetails
+                        ?.meternalSampleAndUmbilicalBleed
+                    }
+                  />
                   Requesting bank to arrange for pickup of meternal sample &
                   Umbilical cord bleed
                 </Typography>
@@ -1314,6 +1489,11 @@ const ClientDetailsPreview = (props) => {
                   variant="h5"
                   sx={{ marginTop: "15px", maxWidth: "500px" }}
                 >
+                  <Checkbox
+                    checked={
+                      data?.CustomerData[0]?.ReferenceDetails?.phledopomist
+                    }
+                  />
                   Requesting bank to organise for Phiedopomist
                 </Typography>
               </CardContent>
@@ -1337,7 +1517,7 @@ const ClientDetailsPreview = (props) => {
                 Signature of Father / Legal Gurardian
               </Typography>
               <Typography variant="h5" sx={{ marginTop: "10px" }}>
-                Signature of Father
+                {data?.CustomerData[0]?.AllSignature?.FatherOrGuardianSignature}
               </Typography>
               <Stack spacing={2} mt={2}>
                 <Stack direction={"row"} spacing={2}>
@@ -1350,7 +1530,9 @@ const ClientDetailsPreview = (props) => {
                   >
                     Name :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {data?.CustomerData[0]?.AllSignature?.FatherOrGuardianName}
+                  </Typography>
                 </Stack>
               </Stack>
             </CardContent>
@@ -1364,7 +1546,7 @@ const ClientDetailsPreview = (props) => {
                 Signature of Mother / Legal Gurardian
               </Typography>
               <Typography variant="h5" sx={{ marginTop: "10px" }}>
-                Signature of Mother
+                {data?.CustomerData[0]?.AllSignature?.MotherOrGuardianSignature}
               </Typography>
               <Stack spacing={2} mt={2}>
                 <Stack direction={"row"} spacing={2}>
@@ -1377,7 +1559,9 @@ const ClientDetailsPreview = (props) => {
                   >
                     Name :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {data?.CustomerData[0]?.AllSignature?.MotherOrGuardianName}
+                  </Typography>
                 </Stack>
               </Stack>
             </CardContent>
@@ -1391,7 +1575,7 @@ const ClientDetailsPreview = (props) => {
                 Signature of Medical Director CBIPL
               </Typography>
               <Typography variant="h5" sx={{ marginTop: "10px" }}>
-                Signature of CBIPL
+                {data?.CustomerData[0]?.AllSignature?.MedicalDirectorSignature}
               </Typography>
               <Stack spacing={2} mt={2}>
                 <Stack direction={"row"} spacing={2}>
@@ -1404,7 +1588,9 @@ const ClientDetailsPreview = (props) => {
                   >
                     Name :
                   </Typography>{" "}
-                  <Typography variant="subtitle2"></Typography>
+                  <Typography variant="subtitle2">
+                    {data?.CustomerData[0]?.AllSignature?.MedicalDirectorName}
+                  </Typography>
                 </Stack>
               </Stack>
             </CardContent>
@@ -1434,7 +1620,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Name of excutive :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ExcutiveInfoForbankUse
+                          ?.NameOfExcutive
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1446,7 +1637,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Employee code :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ExcutiveInfoForbankUse
+                          ?.EmployeeCode
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1458,7 +1654,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Name of the Manager :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ExcutiveInfoForbankUse
+                          ?.NameOfManager
+                      }
+                    </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -1470,7 +1671,12 @@ const ClientDetailsPreview = (props) => {
                     >
                       Area/Region :
                     </Typography>{" "}
-                    <Typography variant="subtitle2"></Typography>
+                    <Typography variant="subtitle2">
+                      {
+                        data?.CustomerData[0]?.ExcutiveInfoForbankUse
+                          ?.AreaOrRegion
+                      }
+                    </Typography>
                   </Stack>
                 </Stack>
               </Stack>
@@ -1483,7 +1689,10 @@ const ClientDetailsPreview = (props) => {
                     Signature of Excutive
                   </Typography>
                   <Typography variant="h5" sx={{ marginTop: "10px" }}>
-                    Signature of Excutive
+                    {
+                      data?.CustomerData[0]?.ExcutiveInfoForbankUse
+                        ?.ExcutiveSignature
+                    }
                   </Typography>
                   <Stack spacing={2} mt={2}>
                     <Stack direction={"row"} spacing={2}>
@@ -1496,7 +1705,9 @@ const ClientDetailsPreview = (props) => {
                       >
                         Name :
                       </Typography>{" "}
-                      <Typography variant="subtitle2"></Typography>
+                      <Typography variant="subtitle2">
+                        {data?.CustomerData[0]?.ExcutiveInfoForbankUse?.Name}
+                      </Typography>
                     </Stack>
                   </Stack>
                 </CardContent>
