@@ -127,7 +127,7 @@ export const baseRoutes = createBrowserRouter([
         element: <PlansForm />,
       },
       {
-        path: "plans/plansDetailsPreview",
+        path: "plans/plansDetailsPreview/:id",
         element: <PlanDataPreview />,
       },
       {

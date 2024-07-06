@@ -8,8 +8,32 @@ import {
   Divider,
   Box,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const PlanDataPreview = () => {
+  const subscriptionPanDetails = useSelector(
+    (state) => state.plan.subscriptionPanDetails
+  );
+  // console.log(subscriptionPanDetails);
+  const title = subscriptionPanDetails?.title;
+  const subTitle = subscriptionPanDetails?.subTitle;
+  const Icon = subscriptionPanDetails?.Icon;
+  const currencySymbol = subscriptionPanDetails?.currencySymbol;
+  const price = subscriptionPanDetails?.price;
+  const offerPrice = subscriptionPanDetails?.offerPrice;
+  const eventOfferPrice = subscriptionPanDetails?.eventOfferPrice;
+  const EMI = subscriptionPanDetails?.EMI;
+  const EMItext = subscriptionPanDetails?.EMItext;
+  const ribben = subscriptionPanDetails?.ribben;
+  const ribbenStatus = subscriptionPanDetails?.ribbenStatus;
+  const description = subscriptionPanDetails?.description;
+  const additionalInfo = subscriptionPanDetails?.additionalInfo;
+  const durationYear = subscriptionPanDetails?.durationYear;
+  const durationYearText = subscriptionPanDetails?.durationYearText;
+  const customText = subscriptionPanDetails?.customText;
+  const offerTiming = subscriptionPanDetails?.offerTiming;
+  const status = subscriptionPanDetails?.status;
+
   return (
     <Container
       maxWidth="xxl"
@@ -70,7 +94,7 @@ const PlanDataPreview = () => {
                         Title :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Suraj{" "}
+                        {title}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -85,7 +109,7 @@ const PlanDataPreview = () => {
                         Sub - Title :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Reddy
+                        {subTitle}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -100,7 +124,7 @@ const PlanDataPreview = () => {
                         Icon :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Icon 1
+                        {Icon}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -115,7 +139,7 @@ const PlanDataPreview = () => {
                         Currency Symbol :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Rupees
+                        {currencySymbol}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -144,7 +168,7 @@ const PlanDataPreview = () => {
                         Price :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        25000
+                        {price}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -159,7 +183,7 @@ const PlanDataPreview = () => {
                         Offer Price :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        26000
+                        {offerPrice}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -174,7 +198,7 @@ const PlanDataPreview = () => {
                         Event Offer Price :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        15000
+                        {eventOfferPrice}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -211,7 +235,7 @@ const PlanDataPreview = () => {
                         EMI Amount :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        700
+                        {EMI}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -226,7 +250,7 @@ const PlanDataPreview = () => {
                         EMI Text :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Know
+                        {EMItext}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -254,7 +278,7 @@ const PlanDataPreview = () => {
                         Ribbon :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        No
+                        {ribben}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -268,9 +292,21 @@ const PlanDataPreview = () => {
                       >
                         Ribbon Status :
                       </Typography>{" "}
-                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        True
-                      </Typography>
+                      {ribbenStatus === 46 ? (
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          true
+                        </Typography>
+                      ) : (
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          false
+                        </Typography>
+                      )}
                     </Stack>
                   </Stack>
                 </Stack>
@@ -309,14 +345,7 @@ const PlanDataPreview = () => {
                         fontSize: "14px",
                       }}
                     >
-                      It is a long established fact that a reader will be
-                      distracted by the readable content of a page when looking
-                      at its layout. The point of using Lorem Ipsum is that it
-                      has a more-or-less normal distribution of letters, as
-                      opposed to using 'Content here, content here', making it
-                      look like readable English. Many desktop publishing
-                      packages and web page editors now use Lorem Ipsum as their
-                      default model text, and a search for 'lorem ipsum'.
+                      {description}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -343,12 +372,7 @@ const PlanDataPreview = () => {
                         Additional Info :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        It is a long established fact that a reader will be
-                        distracted by the readable content of a page when
-                        looking at its layout. The point of using Lorem Ipsum is
-                        that it has a more-or-less normal distribution of
-                        letters, as opposed to using 'Content here, content
-                        here', making it look like readable English.
+                        {additionalInfo}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -385,7 +409,7 @@ const PlanDataPreview = () => {
                         Duration Year :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        2024-26
+                        {durationYear}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -400,7 +424,7 @@ const PlanDataPreview = () => {
                         Duration Year Text :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Start
+                        {durationYearText}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -415,7 +439,7 @@ const PlanDataPreview = () => {
                         Custom Text :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        NA
+                        {customText}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -450,7 +474,7 @@ const PlanDataPreview = () => {
                         Offer Timing (Date & Time) :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        12/04/24 - 12:00 PM
+                        {offerTiming}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -475,9 +499,21 @@ const PlanDataPreview = () => {
                       >
                         Status :
                       </Typography>{" "}
-                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Success
-                      </Typography>
+                      {status === 47 ? (
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          Active
+                        </Typography>
+                      ) : (
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          InActive
+                        </Typography>
+                      )}
                     </Stack>
                   </Stack>
                 </Stack>

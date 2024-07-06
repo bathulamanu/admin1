@@ -17,6 +17,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSubscriptionPlan } from "../../../redux/Slices/planSlice";
+import { getSubscriptionPlanDetails } from "../../../redux/Slices/planSlice";
 
 const HighlightLabel = styled("div")(({ type }) => ({
   position: "absolute",
@@ -107,8 +108,10 @@ const PlanCard = ({
   storageFee,
   highlight,
   ribbenStatus,
+  subscriptionID,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   return (
     <StyledCard highlight={highlight}>
@@ -157,7 +160,10 @@ const PlanCard = ({
             sx={{ width: "148px", height: "38px" }}
             onClick={(e) => {
               e.preventDefault();
-              navigate("/customerPage/plans/plansDetailsPreview");
+              dispatch(getSubscriptionPlanDetails(subscriptionID));
+              navigate(
+                `/customerPage/plans/plansDetailsPreview/${subscriptionID}`
+              );
             }}
           >
             View
@@ -266,6 +272,7 @@ const DetailsPlan = () => {
                 storageFee={x.EMI}
                 highlight={x.ribben}
                 ribbenStatus={x.ribbenStatus}
+                subscriptionID={x.subscriptionID}
               />
             </Grid>
           ))}

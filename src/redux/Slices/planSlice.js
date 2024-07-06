@@ -19,6 +19,22 @@ export const getSubscriptionPlan = createAsyncThunk(
   }
 );
 
+export const getSubscriptionPlanDetails = createAsyncThunk(
+  "getSubscriptionPlanDetails",
+  async (subscriptionID, thunkAPI) => {
+    try {
+      const response = await customerapi.get(
+        `getEachSubscriptionPlan/${subscriptionID}`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 export const createSubscriptionPlan = createAsyncThunk(
   "createSubscriptionPlan",
   async (addSubscriptionPlan, thunkAPI) => {
@@ -55,6 +71,7 @@ export const UpdateSubscriptionPlan = createAsyncThunk(
 
 const initialState = {
   planList: [],
+  subscriptionPanDetails: {},
   loading: "",
   createPlan: {},
 };
@@ -78,6 +95,19 @@ const planSlice = createSlice({
     builder.addCase(getSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
+
+    builder.addCase(getSubscriptionPlanDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getSubscriptionPlanDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      // console.log("jksakgujcfjdhbk", action.payload);
+      state.subscriptionPanDetails = action?.payload?.data;
+    });
+    builder.addCase(getSubscriptionPlanDetails.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
     builder.addCase(UpdateSubscriptionPlan.pending, (state) => {
       state.loading = "pending";
     });
