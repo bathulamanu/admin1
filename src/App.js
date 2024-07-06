@@ -4,8 +4,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import store from "./store";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import { baseRoutes } from "./Admin/Routings/Routings";
-import { AppProvider } from './ContextProvider';
+import { baseRoutes } from "../src/utils/Routings/Routings";
+import { AppProvider } from "../src/context/ContextProvider";
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -48,10 +48,10 @@ const theme = createTheme({
       fontWeight: "bold",
     },
     h5: {
-      fontSize: '17px',
+      fontSize: "17px",
       margin: 0,
-      fontWeight: 500
-    }
+      fontWeight: 500,
+    },
   },
 });
 

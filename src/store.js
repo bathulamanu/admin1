@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import adminSlice from "./Admin/Slices/adminSlice";
-import doctorSlice from "./Admin/Slices/doctorSlice";
-import hospitalSlice from "./Admin/Slices/hospitalSlice";
-import globalSlice from "./Admin/Slices/globalSlice";
-import settingSlice from "./Admin/Slices/settingSlice";
-import tabSlice from "./Admin/Slices/tabSlice";
-import customerSlice from "./Admin/Slices/customerSlice";
-import settingLayoutSlice from "./Admin/Slices/settingLayoutSlice";
-import customerClientSlice from "./Admin/Slices/customerClientSlice";
-import planSlice from "./Admin/Slices/planSlice";
+import adminSlice from "./redux/Slices/adminSlice";
+import doctorSlice from "./redux/Slices/doctorSlice";
+import hospitalSlice from "./redux/Slices/hospitalSlice";
+import globalSlice from "./redux/Slices/globalSlice";
+import settingSlice from "./redux/Slices/settingSlice";
+import tabSlice from "./redux/Slices/tabSlice";
+import customerSlice from "./redux/Slices/customerSlice";
+import settingLayoutSlice from "./redux/Slices/settingLayoutSlice";
+import customerClientSlice from "./redux/Slices/customerClientSlice";
+import planSlice from "./redux/Slices/planSlice";
 
 export const store = configureStore({
   reducer: {
