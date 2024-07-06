@@ -230,7 +230,7 @@ const ClientDetailsPreview = (props) => {
     AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives: "",
     pregnancyResultFromDonorEggSpermSurrogate: "",
     everHadAbnormalPregnancy: false,
-    chooseValue: "",
+    chooseValue: "F",
     relativesWithCancerleukemiaBefore20: "",
     RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor: "",
   });
@@ -477,7 +477,8 @@ const ClientDetailsPreview = (props) => {
                         sx={{
                           width: 150,
                           height: 100,
-                          backgroundColor: "lightgray",
+                          // backgroundColor: "lightgray",
+                          border: "1px solid lightgray",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -492,7 +493,17 @@ const ClientDetailsPreview = (props) => {
                         alt="father ID Proof"
                       />
                     ) : (
-                      <></>
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 100,
+                          backgroundColor: "lightgray",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: 4,
+                        }}
+                      />
                     )}
                   </Stack>
                 </Stack>
@@ -697,7 +708,8 @@ const ClientDetailsPreview = (props) => {
                         sx={{
                           width: 150,
                           height: 100,
-                          backgroundColor: "lightgray",
+                          // backgroundColor: "lightgray",
+                          border: "1px solid lightgray",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
@@ -712,7 +724,17 @@ const ClientDetailsPreview = (props) => {
                         alt="father ID Proof"
                       />
                     ) : (
-                      <></>
+                      <Box
+                        sx={{
+                          width: 150,
+                          height: 100,
+                          backgroundColor: "lightgray",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          marginRight: 4,
+                        }}
+                      />
                     )}
                   </Stack>
                 </Stack>
@@ -1756,49 +1778,59 @@ const ClientDetailsPreview = (props) => {
                         A) Cancer, Diabetes, Hepatitis, Blood Disease, Bleeding
                         Problem, Heart Disease, Drug or Alcohol abuse.
                       </Typography>
-                      <Box>
-                        {formValues.cancerDiabetesHepatitisBloodDisease !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.cancerDiabetesHepatitisBloodDisease ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "cancerDiabetesHepatitisBloodDisease",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.cancerDiabetesHepatitisBloodDisease !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.cancerDiabetesHepatitisBloodDisease ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "cancerDiabetesHepatitisBloodDisease",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.medicalCondition
+                        ?.cancerDiabetesHepatitisBloodDisease != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition
+                            ?.cancerDiabetesHepatitisBloodDisease !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.cancerDiabetesHepatitisBloodDisease === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "cancerDiabetesHepatitisBloodDisease",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition
+                            ?.cancerDiabetesHepatitisBloodDisease !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.cancerDiabetesHepatitisBloodDisease ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "cancerDiabetesHepatitisBloodDisease",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -1810,35 +1842,45 @@ const ClientDetailsPreview = (props) => {
                         B) HIVIAIDS ora positive test for the HIVIAIDS virus,
                         HTLV, Malaria, Hepatitis?
                       </Typography>
-                      <Box>
-                        {formValues.HIVAIDS !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.HIVAIDS === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() => handleChange("HIVAIDS", true)}
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.HIVAIDS !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.HIVAIDS === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() => handleChange("HIVAIDS", false)}
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.medicalCondition?.HIVAIDS != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition?.HIVAIDS !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.HIVAIDS === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() => handleChange("HIVAIDS", true)}
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition?.HIVAIDS !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.HIVAIDS === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() => handleChange("HIVAIDS", false)}
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -1851,39 +1893,51 @@ const ClientDetailsPreview = (props) => {
                         Kident Disease, Liver Disease, Babesiosis, Genetic
                         Disorder?
                       </Typography>
-                      <Box>
-                        {formValues.strokeLungSclerosis !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.strokeLungSclerosis === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("strokeLungSclerosis", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.strokeLungSclerosis !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.strokeLungSclerosis === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("strokeLungSclerosis", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.medicalCondition?.strokeLungSclerosis != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition?.strokeLungSclerosis !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.strokeLungSclerosis === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("strokeLungSclerosis", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.medicalCondition?.strokeLungSclerosis !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.medicalCondition
+                                  ?.strokeLungSclerosis === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("strokeLungSclerosis", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -1901,39 +1955,49 @@ const ClientDetailsPreview = (props) => {
                         Do you currently have or are you being treated for any
                         type of inection?
                       </Typography>
-                      <Box>
-                        {formValues.anyTypeInfection !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.anyTypeInfection === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("anyTypeInfection", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.anyTypeInfection !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.anyTypeInfection === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("anyTypeInfection", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.anyTypeInfection != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.anyTypeInfection !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.anyTypeInfection === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("anyTypeInfection", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.anyTypeInfection !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.anyTypeInfection === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("anyTypeInfection", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -1953,39 +2017,55 @@ const ClientDetailsPreview = (props) => {
                         Degenerative or Neurological Disease, or
                         CreutzfeldtJakob Disease?
                       </Typography>
-                      <Box>
-                        {formValues.DementiaDegenerativeDisease !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.DementiaDegenerativeDisease === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("DementiaDegenerativeDisease", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.DementiaDegenerativeDisease !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.DementiaDegenerativeDisease === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("DementiaDegenerativeDisease", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.DementiaDegenerativeDisease != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.DementiaDegenerativeDisease !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.DementiaDegenerativeDisease === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "DementiaDegenerativeDisease",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.DementiaDegenerativeDisease !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.DementiaDegenerativeDisease === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "DementiaDegenerativeDisease",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2004,37 +2084,49 @@ const ClientDetailsPreview = (props) => {
                         animal suspected of Rabies or takken any vaccinations
                         (shots) for the same?
                       </Typography>
-                      <Box>
-                        {formValues.biteFromAnimal !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.biteFromAnimal === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() => handleChange("biteFromAnimal", true)}
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.biteFromAnimal !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.biteFromAnimal === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("biteFromAnimal", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.biteFromAnimal != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.biteFromAnimal !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.biteFromAnimal === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("biteFromAnimal", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.biteFromAnimal !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.biteFromAnimal === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("biteFromAnimal", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2052,39 +2144,52 @@ const ClientDetailsPreview = (props) => {
                         Have you been treated for a sexually trasmitted
                         diseasein the last 12 months?
                       </Typography>
-                      <Box>
-                        {formValues.sexuallyTransmittedDisease !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.sexuallyTransmittedDisease === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("sexuallyTransmittedDisease", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.sexuallyTransmittedDisease !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.sexuallyTransmittedDisease === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("sexuallyTransmittedDisease", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.sexuallyTransmittedDisease != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.sexuallyTransmittedDisease !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.sexuallyTransmittedDisease === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("sexuallyTransmittedDisease", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.sexuallyTransmittedDisease !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.sexuallyTransmittedDisease === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "sexuallyTransmittedDisease",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2104,49 +2209,55 @@ const ClientDetailsPreview = (props) => {
                         come into contact with someone’s blood, open wound, or
                         small pox vaccination site and /or bandage?
                       </Typography>
-                      <Box>
-                        {formValues.immunisationsTattoosBodypiercing !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.immunisationsTattoosBodypiercing ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "immunisationsTattoosBodypiercing",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.immunisationsTattoosBodypiercing !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.immunisationsTattoosBodypiercing ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "immunisationsTattoosBodypiercing",
-                                false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.immunisationsTattoosBodypiercing != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.immunisationsTattoosBodypiercing !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.immunisationsTattoosBodypiercing === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "immunisationsTattoosBodypiercing",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.immunisationsTattoosBodypiercing !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.immunisationsTattoosBodypiercing === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "immunisationsTattoosBodypiercing",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2165,40 +2276,55 @@ const ClientDetailsPreview = (props) => {
                         detention, lock-up, jail or prison for more than 72
                         hours?
                       </Typography>
-                      <Box>
-                        {formValues.juvenileDetentionLockupJail !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.juvenileDetentionLockupJail === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("juvenileDetentionLockupJail", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.cancerDiabetesHepatitisBloodDisease !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.juvenileDetentionLockupJail === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("juvenileDetentionLockupJail", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.juvenileDetentionLockupJail != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.juvenileDetentionLockupJail !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.juvenileDetentionLockupJail === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "juvenileDetentionLockupJail",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.juvenileDetentionLockupJail !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.juvenileDetentionLockupJail === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "juvenileDetentionLockupJail",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2216,49 +2342,55 @@ const ClientDetailsPreview = (props) => {
                         In the past 12 months, have you lived with a person who
                         has Hepatitis?
                       </Typography>
-                      <Box>
-                        {formValues.livedWithApersonWhoHasHepatitis !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.livedWithApersonWhoHasHepatitis ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "livedWithApersonWhoHasHepatitis",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.livedWithApersonWhoHasHepatitis !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.livedWithApersonWhoHasHepatitis ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "livedWithApersonWhoHasHepatitis",
-                                false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.livedWithApersonWhoHasHepatitis != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.livedWithApersonWhoHasHepatitis !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.livedWithApersonWhoHasHepatitis === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "livedWithApersonWhoHasHepatitis",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.livedWithApersonWhoHasHepatitis !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.livedWithApersonWhoHasHepatitis === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "livedWithApersonWhoHasHepatitis",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2276,39 +2408,49 @@ const ClientDetailsPreview = (props) => {
                         Have you in the past 5 years received compensation for
                         sex?
                       </Typography>
-                      <Box>
-                        {formValues.compensationForSex !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.compensationForSex === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("compensationForSex", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.compensationForSex !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.compensationForSex === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("compensationForSex", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.compensationForSex != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.compensationForSex !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.compensationForSex === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("compensationForSex", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.compensationForSex !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.compensationForSex === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("compensationForSex", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2329,49 +2471,60 @@ const ClientDetailsPreview = (props) => {
                         skin graft, or a tissue, organ (either human or animal),
                         dura mater or bone marrow traspiantation?
                       </Typography>
-                      <Box>
-                        {formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !=
+                      null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
                                 true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " receivedWholeBloodBloodFactorProductsBoneMarrowTransplantation",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2389,49 +2542,55 @@ const ClientDetailsPreview = (props) => {
                         Have you in the Past 12 Months had Intimate contact with
                         who has HIVIAIDS or Hepatitis B/C
                       </Typography>
-                      <Box>
-                        {formValues.IntimateContactWithWhoHasHIVAIDS !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.IntimateContactWithWhoHasHIVAIDS ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " IntimateContactWithWhoHasHIVAIDS",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.IntimateContactWithWhoHasHIVAIDS !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.IntimateContactWithWhoHasHIVAIDS ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " IntimateContactWithWhoHasHIVAIDS",
-                                false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.IntimateContactWithWhoHasHIVAIDS != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.IntimateContactWithWhoHasHIVAIDS !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.IntimateContactWithWhoHasHIVAIDS === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " IntimateContactWithWhoHasHIVAIDS",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.IntimateContactWithWhoHasHIVAIDS !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.IntimateContactWithWhoHasHIVAIDS === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " IntimateContactWithWhoHasHIVAIDS",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2450,39 +2609,49 @@ const ClientDetailsPreview = (props) => {
                         AvianFlu, H1N1, (Swine) Flu or had intimate contact with
                         some one having risk factors?
                       </Typography>
-                      <Box>
-                        {formValues.SARSavianFluH1N1 !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.SARSavianFluH1N1 === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(" SARSavianFluH1N1", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.SARSavianFluH1N1 !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.SARSavianFluH1N1 === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(" SARSavianFluH1N1", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.SARSavianFluH1N1 != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.SARSavianFluH1N1 !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.SARSavianFluH1N1 === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(" SARSavianFluH1N1", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.SARSavianFluH1N1 !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.SARSavianFluH1N1 === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(" SARSavianFluH1N1", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2506,49 +2675,65 @@ const ClientDetailsPreview = (props) => {
                         A) Spent 3 months or more cumulatively in the United
                         Kingdom? If so, what city and country?
                       </Typography>
-                      <Box>
-                        {formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.from1980Through1986
+                        .spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !=
+                      null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.from1980Through1986
+                            .spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.from1980Through1986
+                                  .spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
                                 true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.from1980Through1986
+                            .spent3MonthsOrMoreCumulativelyInTheUnitedKingdom !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.from1980Through1986
+                                  .spent3MonthsOrMoreCumulativelyInTheUnitedKingdom ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " spent3MonthsOrMoreCumulativelyInTheUnitedKingdom",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -2560,49 +2745,61 @@ const ClientDetailsPreview = (props) => {
                         B) Resided at a US military basein Europe for 6months or
                         more cumulatively? If so, what city and country?
                       </Typography>
-                      <Box>
-                        {formValues.ResidedAtaUSmilitaryBaseinEurope !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.ResidedAtaUSmilitaryBaseinEurope ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " ResidedAtaUSmilitaryBaseinEurope",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.ResidedAtaUSmilitaryBaseinEurope !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.ResidedAtaUSmilitaryBaseinEurope ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " ResidedAtaUSmilitaryBaseinEurope",
-                                false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.from1980Through1986
+                        ?.ResidedAtaUSmilitaryBaseinEurope != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.from1980Through1986
+                            ?.ResidedAtaUSmilitaryBaseinEurope !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.from1980Through1986
+                                  ?.ResidedAtaUSmilitaryBaseinEurope === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " ResidedAtaUSmilitaryBaseinEurope",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.from1980Through1986
+                            ?.ResidedAtaUSmilitaryBaseinEurope !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.from1980Through1986
+                                  ?.ResidedAtaUSmilitaryBaseinEurope === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " ResidedAtaUSmilitaryBaseinEurope",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2621,49 +2818,60 @@ const ClientDetailsPreview = (props) => {
                         and/or suffered from Malaria, Chikungunya, Dengueand
                         West Nile Fever?
                       </Typography>
-                      <Box>
-                        {formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.sufferedFromMalariaChikungunyaDengueandWestNileFever !=
+                      null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
                                 true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.sufferedFromMalariaChikungunyaDengueandWestNileFever !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.sufferedFromMalariaChikungunyaDengueandWestNileFever ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " sufferedFromMalariaChikungunyaDengueandWestNileFever",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2682,45 +2890,55 @@ const ClientDetailsPreview = (props) => {
                         of India? Pleaselist the countries, cities and the
                         duration of your stay(s)
                       </Typography>
-                      <Box>
-                        {formValues.visitedOrlivedOutsideofIndia !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.visitedOrlivedOutsideofIndia === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " visitedOrlivedOutsideofIndia",
-                                true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.visitedOrlivedOutsideofIndia !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.visitedOrlivedOutsideofIndia === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " visitedOrlivedOutsideofIndia",
-                                false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.visitedOrlivedOutsideofIndia != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.visitedOrlivedOutsideofIndia !== false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.visitedOrlivedOutsideofIndia === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " visitedOrlivedOutsideofIndia",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.visitedOrlivedOutsideofIndia !== true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire
+                                  ?.visitedOrlivedOutsideofIndia === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " visitedOrlivedOutsideofIndia",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -2744,49 +2962,63 @@ const ClientDetailsPreview = (props) => {
                         A) Are you and the would-be baby’s genetic father, blood
                         relatives?
                       </Typography>
-                      <Box>
-                        {formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.PersonalHistory
+                        .AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !=
+                      null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory
+                            .AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
                                 true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory
+                            .AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  " AreyouAndTheWouldbeBabysGeneticFatherBloodRelatives",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -2798,49 +3030,62 @@ const ClientDetailsPreview = (props) => {
                         B) Did this pregnancy result from Donor
                         Egg/Sperm/Surrogate?
                       </Typography>
-                      <Box>
-                        {formValues.pregnancyResultFromDonorEggSpermSurrogate !==
-                          false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.pregnancyResultFromDonorEggSpermSurrogate ===
-                              true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "pregnancyResultFromDonorEggSpermSurrogate",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.PersonalHistory
+                        .pregnancyResultFromDonorEggSpermSurrogate != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory
+                            .pregnancyResultFromDonorEggSpermSurrogate !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .pregnancyResultFromDonorEggSpermSurrogate ===
                                 true
-                              )
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.pregnancyResultFromDonorEggSpermSurrogate !==
-                          true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.pregnancyResultFromDonorEggSpermSurrogate ===
-                              false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange(
-                                "pregnancyResultFromDonorEggSpermSurrogate",
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "pregnancyResultFromDonorEggSpermSurrogate",
+                                  true
+                                )
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory
+                            .pregnancyResultFromDonorEggSpermSurrogate !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .pregnancyResultFromDonorEggSpermSurrogate ===
                                 false
-                              )
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange(
+                                  "pregnancyResultFromDonorEggSpermSurrogate",
+                                  false
+                                )
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -2851,39 +3096,51 @@ const ClientDetailsPreview = (props) => {
                       <Typography variant="h5">
                         C) Haveyou ever had abnormal pregnancy?
                       </Typography>
-                      <Box>
-                        {formValues.everHadAbnormalPregnancy !== false && (
-                          <Button
-                            size="small"
-                            sx={{ marginRight: "10px" }}
-                            variant={
-                              formValues.everHadAbnormalPregnancy === true
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("everHadAbnormalPregnancy", true)
-                            }
-                          >
-                            Yes
-                          </Button>
-                        )}
-                        {formValues.everHadAbnormalPregnancy !== true && (
-                          <Button
-                            size="small"
-                            variant={
-                              formValues.everHadAbnormalPregnancy === false
-                                ? "contained"
-                                : "outlined"
-                            }
-                            onClick={() =>
-                              handleChange("everHadAbnormalPregnancy", false)
-                            }
-                          >
-                            No
-                          </Button>
-                        )}
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.PersonalHistory.everHadAbnormalPregnancy != null ? (
+                        <Box>
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory.everHadAbnormalPregnancy !==
+                            false && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .everHadAbnormalPregnancy === true
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("everHadAbnormalPregnancy", true)
+                              }
+                            >
+                              Yes
+                            </Button>
+                          )}
+                          {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                            ?.PersonalHistory.everHadAbnormalPregnancy !==
+                            true && (
+                            <Button
+                              size="small"
+                              variant={
+                                data?.CustomerData[0]
+                                  ?.HealthHistoryQuestionnaire?.PersonalHistory
+                                  .everHadAbnormalPregnancy === false
+                                  ? "contained"
+                                  : "outlined"
+                              }
+                              onClick={() =>
+                                handleChange("everHadAbnormalPregnancy", false)
+                              }
+                            >
+                              No
+                            </Button>
+                          )}
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
@@ -3034,61 +3291,70 @@ const ClientDetailsPreview = (props) => {
                         A) Anyblood relatives with cancer/leukemia before 20
                         years of age?
                       </Typography>
-                      <Box>
-                        <Button
-                          size="small"
-                          sx={{ marginRight: "10px" }}
-                          variant={
-                            formValues.relativesWithCancerleukemiaBefore20 ===
-                            true
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "relativesWithCancerleukemiaBefore20",
-                              true
-                            )
-                          }
-                        >
-                          Yes
-                        </Button>
-                        <Button
-                          size="small"
-                          sx={{ marginRight: "10px" }}
-                          variant={
-                            formValues.relativesWithCancerleukemiaBefore20 ===
-                            false
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "relativesWithCancerleukemiaBefore20",
-                              false
-                            )
-                          }
-                        >
-                          No
-                        </Button>
-                        <Button
-                          size="small"
-                          variant={
-                            formValues.relativesWithCancerleukemiaBefore20 ===
-                            "who"
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "relativesWithCancerleukemiaBefore20",
-                              "who"
-                            )
-                          }
-                        >
-                          Who
-                        </Button>
-                      </Box>
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.FamilyHistory.relativesWithCancerleukemiaBefore20 !=
+                      null ? (
+                        <Box>
+                          <Button
+                            size="small"
+                            sx={{ marginRight: "10px" }}
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .relativesWithCancerleukemiaBefore20 === true
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "relativesWithCancerleukemiaBefore20",
+                                true
+                              )
+                            }
+                          >
+                            Yes
+                          </Button>
+                          <Button
+                            size="small"
+                            sx={{ marginRight: "10px" }}
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .relativesWithCancerleukemiaBefore20 === false
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "relativesWithCancerleukemiaBefore20",
+                                false
+                              )
+                            }
+                          >
+                            No
+                          </Button>
+                          <Button
+                            size="small"
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .relativesWithCancerleukemiaBefore20 === "who"
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "relativesWithCancerleukemiaBefore20",
+                                "who"
+                              )
+                            }
+                          >
+                            Who
+                          </Button>
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                     <Stack
                       direction="row"
@@ -3101,61 +3367,74 @@ const ClientDetailsPreview = (props) => {
                         Diseaseor any diseasesof Immune Deficiency or Genetic
                         Diseases? If yes, please list the details asbelow.
                       </Typography>
-                      <Box>
-                        <Button
-                          size="small"
-                          sx={{ marginRight: "10px" }}
-                          variant={
-                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
-                            true
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                      {data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                        ?.FamilyHistory
+                        .RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor !=
+                      null ? (
+                        <Box>
+                          <Button
+                            size="small"
+                            sx={{ marginRight: "10px" }}
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
                               true
-                            )
-                          }
-                        >
-                          Yes
-                        </Button>
-                        <Button
-                          size="small"
-                          sx={{ marginRight: "10px" }}
-                          variant={
-                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
-                            false
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                                true
+                              )
+                            }
+                          >
+                            Yes
+                          </Button>
+                          <Button
+                            size="small"
+                            sx={{ marginRight: "10px" }}
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
                               false
-                            )
-                          }
-                        >
-                          No
-                        </Button>
-                        <Button
-                          size="small"
-                          variant={
-                            formValues.RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
-                            "who"
-                              ? "contained"
-                              : "outlined"
-                          }
-                          onClick={() =>
-                            handleChange(
-                              "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                                false
+                              )
+                            }
+                          >
+                            No
+                          </Button>
+                          <Button
+                            size="small"
+                            variant={
+                              data?.CustomerData[0]?.HealthHistoryQuestionnaire
+                                ?.FamilyHistory
+                                .RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor ===
                               "who"
-                            )
-                          }
-                        >
-                          Who
-                        </Button>
-                      </Box>
+                                ? "contained"
+                                : "outlined"
+                            }
+                            onClick={() =>
+                              handleChange(
+                                "RedCellRelatedDiseaseorAnyMetabolicStorageDiseaseor",
+                                "who"
+                              )
+                            }
+                          >
+                            Who
+                          </Button>
+                        </Box>
+                      ) : (
+                        <></>
+                      )}
                     </Stack>
                   </Stack>
                 </CardContent>
