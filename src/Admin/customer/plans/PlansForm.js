@@ -47,7 +47,7 @@ const PlansForm = () => {
     currencySymbol: "",
     ribben: "",
     ribbenStatus: null,
-    btnText: "",
+    btnText: null,
     status: null,
     description: "",
     additionalInfo: "",
@@ -68,7 +68,7 @@ const PlansForm = () => {
     currencySymbol: "",
     ribben: "",
     ribbenStatus: null,
-    btnText: "",
+    btnText: null,
     status: null,
     // description: "",
     // additionalInfo: "",
@@ -80,29 +80,6 @@ const PlansForm = () => {
   const { trigger } = useContext(AppContext);
   const { triggerChildUpdate } = useContext(AppContext);
   const location = useLocation();
-  useEffect(() => {
-    // This will run every time the `trigger` changes
-    if (trigger) {
-      // triggerChildUpdate();
-      // if (location.pathname === "/customerPage/plans/plansForm") {
-      alert("ok ok ");
-      // console.log('Parent triggered an update');
-      if (!formValues.title) {
-        setErrorformValues((prev) => ({
-          ...prev,
-          ["title"]: "Title is required",
-        }));
-        return;
-      } else if (!formValues.subTitle) {
-        setErrorformValues((prev) => ({
-          ...prev,
-          ["subTitle"]: "subTitle is required",
-        }));
-        return;
-      }
-      dispatch(createSubscriptionPlan(formValues));
-    }
-  }, [trigger]);
 
   // useEffect(() => {
   // if (!formValues.title) {
@@ -228,7 +205,7 @@ const PlansForm = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Grid container spacing={2} pt={1} pb={1}>
+              {/* <Grid container spacing={2} pt={1} pb={1}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Organization Name<span style={redStarStyle}>*</span>
@@ -249,7 +226,7 @@ const PlansForm = () => {
                     ) : null}
                   </FormControl>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid container spacing={2} pt={1} pb={1}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>

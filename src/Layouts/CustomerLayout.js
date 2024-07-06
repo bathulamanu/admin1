@@ -64,7 +64,7 @@ export const CustomerLayout = () => {
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
   const createPlanData = useSelector((state) => state.plan.createPlan);
-
+  // var count = 0;
   const handlePlanAddForm = () => {
     triggerChildUpdate();
   };
