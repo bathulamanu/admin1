@@ -45,7 +45,28 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const PlansForm = forwardRef((props, ref) => {
+function deepCopyFormValues(hospitalDetails, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === "object") {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]];
+        } else {
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
+        }
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, hospitalDetails);
+  return copiedFormValue;
+}
+
+const PlansEdit = forwardRef((props, ref) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getStatusList = useSelector((state) => state.global.statusList);
@@ -58,6 +79,10 @@ const PlansForm = forwardRef((props, ref) => {
     dispatch(GetButtonText(null));
     dispatch(getStatus(null));
   }, [dispatch]);
+
+  const subscriptionPanDetails = useSelector(
+    (state) => state.plan.subscriptionPanDetails
+  );
 
   const [formValues, setFormValues] = useState({
     title: "",
@@ -175,6 +200,18 @@ const PlansForm = forwardRef((props, ref) => {
 
   console.log("formValues", formValues);
 
+  const updatedFormValues = deepCopyFormValues(
+    subscriptionPanDetails,
+    formValues
+  );
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }));
+  }, [subscriptionPanDetails]);
+
   const modules = {
     toolbar: [
       ["bold", "italic", "underline"],
@@ -282,24 +319,24 @@ const PlansForm = forwardRef((props, ref) => {
                 </Grid>
               </Grid>
               {/* <Grid container spacing={2} pt={1} pb={1}>
-                <Grid item style={{ width: "100%" }}>
-                  <InputLabel sx={inputLableStyle}>
-                    Organization Name<span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.subTitle}
-                      onChange={(e) => handleChange(e, "subTitle")}
-                    />
-                    {ErrorformValues?.subTitle ? <FormHelperText>{ErrorformValues?.subTitle}</Typography> : null}
-
-                  </FormControl>
-                </Grid>
-              </Grid> */}
+                  <Grid item style={{ width: "100%" }}>
+                    <InputLabel sx={inputLableStyle}>
+                      Organization Name<span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl variant="outlined" fullWidth size="small">
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.subTitle}
+                        onChange={(e) => handleChange(e, "subTitle")}
+                      />
+                      {ErrorformValues?.subTitle ? <FormHelperText>{ErrorformValues?.subTitle}</Typography> : null}
+  
+                    </FormControl>
+                  </Grid>
+                </Grid> */}
               <Grid container spacing={2} pt={1} pb={1}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
@@ -407,7 +444,7 @@ const PlansForm = forwardRef((props, ref) => {
             </CardContent>
           </Card>
           {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent> */}
+              <CardContent> */}
           <Grid container spacing={2} pt={1} pb={1}>
             <Grid item style={{ width: "100%" }}>
               <ReactQuill
@@ -420,7 +457,7 @@ const PlansForm = forwardRef((props, ref) => {
             </Grid>
           </Grid>
           {/* </CardContent>
-          </Card> */}
+            </Card> */}
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardContent>
               <Grid container spacing={2} pt={1} pb={1}>
@@ -619,7 +656,7 @@ const PlansForm = forwardRef((props, ref) => {
           </Card>
           {/* Additional info */}
           {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-            <CardContent> */}
+              <CardContent> */}
           <Grid container spacing={2} pt={1} pb={1}>
             <Grid item style={{ width: "100%" }}>
               <ReactQuill
@@ -632,7 +669,7 @@ const PlansForm = forwardRef((props, ref) => {
             </Grid>
           </Grid>
           {/* </CardContent>
-          </Card> */}
+            </Card> */}
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardContent>
               <Grid container spacing={2} pt={1} pb={1}>
@@ -737,11 +774,11 @@ const PlansForm = forwardRef((props, ref) => {
                       onChange={(e) => handleChange(e, "offerTiming")}
                     />
                     {/* <SingleSelect
-                      Placeholder={"Select"}
-                      width={"100%"}
-                      value={formValues?.offerTiming}
-                      onChange={(e) => handleChange(e, "offerTiming")}
-                    /> */}
+                        Placeholder={"Select"}
+                        width={"100%"}
+                        value={formValues?.offerTiming}
+                        onChange={(e) => handleChange(e, "offerTiming")}
+                      /> */}
                     {!!errors?.offerTiming && (
                       <FormHelperText>{errors?.offerTiming}</FormHelperText>
                     )}
@@ -756,4 +793,4 @@ const PlansForm = forwardRef((props, ref) => {
   );
 });
 
-export default PlansForm;
+export default PlansEdit;

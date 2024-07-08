@@ -40,9 +40,12 @@ export const createSubscriptionPlan = createAsyncThunk(
   async (addSubscriptionPlan, thunkAPI) => {
     try {
       console.log("cehck payload", addSubscriptionPlan);
-      // const response = await customerapi.post( `createSubscriptionPlan`, addSubscriptionPlan );
-      // toast.success(response.data.message);
-      // return response.data;
+      const response = await customerapi.post(
+        `createSubscriptionPlan`,
+        addSubscriptionPlan
+      );
+      toast.success(response.data.message);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response ? error.response.data : error.message
@@ -59,6 +62,25 @@ export const UpdateSubscriptionPlan = createAsyncThunk(
         `UpdateSubscriptionPlan/${subscriptionID}`,
         editSubscriptionPlan
       );
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const deleteSubscriptionPlan = createAsyncThunk(
+  "deleteSubscriptionPlan",
+  async ({ subscriptionID }, thunkAPI) => {
+    // console.log("data when we are posting", subscriptionID);
+    try {
+      const response = await customerapi.delete(
+        `/deleteSubscriptionPlan/${subscriptionID}`
+      );
+      console.log("Deleted successfully", response.data);
       toast.success(response.data.message);
       return response.data;
     } catch (error) {
@@ -124,6 +146,19 @@ const planSlice = createSlice({
       state.loading = "complete_success";
     });
     builder.addCase(createSubscriptionPlan.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(deleteSubscriptionPlan.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(deleteSubscriptionPlan.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.planList = state.planList.filter(
+        (plan) => plan.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

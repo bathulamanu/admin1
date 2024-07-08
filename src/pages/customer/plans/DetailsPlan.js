@@ -16,7 +16,10 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getSubscriptionPlan } from "../../../redux/Slices/planSlice";
+import {
+  deleteSubscriptionPlan,
+  getSubscriptionPlan,
+} from "../../../redux/Slices/planSlice";
 import { getSubscriptionPlanDetails } from "../../../redux/Slices/planSlice";
 
 const HighlightLabel = styled("div")(({ type }) => ({
@@ -151,6 +154,11 @@ const PlanCard = ({
                 color: "black",
               },
             }}
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(getSubscriptionPlanDetails(subscriptionID));
+              navigate(`/customerPage/plans/Edit`);
+            }}
           >
             Edit
           </Button>
@@ -196,6 +204,10 @@ const PlanCard = ({
                 background: "#FA4040",
               },
             }}
+            onClick={(e) => {
+              e.preventDefault();
+              dispatch(deleteSubscriptionPlan({ subscriptionID }));
+            }}
           >
             Delete
           </Button>
@@ -206,12 +218,22 @@ const PlanCard = ({
 };
 
 const DetailsPlan = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
   const allPlansList = useSelector((state) => state.plan.planList);
   console.log("cehck allPlansList allPlansList ", allPlansList);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % allPlansList.length);
+  };
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + allPlansList.length - 1) % allPlansList.length
+    );
+  };
 
   return (
     <Container
@@ -259,11 +281,12 @@ const DetailsPlan = () => {
             background: "white",
             border: "1px solid",
           }}
+          onClick={handlePrev}
         >
           <ChevronLeftIcon />
         </IconButton>
         <Grid container justifyContent="center">
-          {allPlansList?.map((x) => (
+          {allPlansList?.slice(currentIndex, currentIndex + 3).map((x) => (
             <Grid item key={x._id} xs={12} sm={6} md={4}>
               <PlanCard
                 title={x.title}
@@ -285,6 +308,7 @@ const DetailsPlan = () => {
             background: "white",
             border: "1px solid",
           }}
+          onClick={handleNext}
         >
           <ChevronRightIcon />
         </IconButton>

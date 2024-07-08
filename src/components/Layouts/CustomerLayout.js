@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import {
   Avatar,
   Box,
@@ -41,6 +41,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { createSubscriptionPlan } from "../../redux/Slices/planSlice";
 import { AppContext } from "../../context/ContextProvider";
+import PlansForm from "../../pages/customer/plans/PlansForm";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -69,8 +70,23 @@ export const CustomerLayout = () => {
   const createPlanData = useSelector((state) => state.plan.createPlan);
   // var count = 0;
   const handlePlanAddForm = () => {
-    triggerChildUpdate();
+    navigate("/customerPage/plans");
+    dispatch(createSubscriptionPlan(createPlanData));
   };
+  // const formRef = useRef();
+  // const handlePlanAddForm = () => {
+  //   if (formRef.current) {
+  //     formRef.current.validateForm();
+  //   }
+  // };
+  // const handlePlanAddForm = () => {
+  //   // Add your condition here
+  //   const conditionMet = true; // Replace this with your actual condition
+
+  //   if (conditionMet) {
+  //     triggerChildUpdate();
+  //   }
+  // };
 
   useEffect(() => {
     setPathname(location.pathname);
@@ -1163,14 +1179,8 @@ export const CustomerLayout = () => {
                   <Button
                     size="small"
                     variant="contained"
+                    // ref={formRef}
                     startIcon={<SaveAltIcon />}
-                    ///check kkk
-                    // onClick={(e) => {
-                    //   e.preventDefault();
-                    //   handlePlanAddForm
-                    //   // dispatch(createSubscriptionPlan(createPlanData));
-                    //   // navigate("/plans");
-                    // }}
                     onClick={handlePlanAddForm}
                   >
                     Save
@@ -1187,6 +1197,72 @@ export const CustomerLayout = () => {
                     Cancel
                   </Button>
                 </Stack>
+
+                {/* <PlansForm ref={formRef} /> */}
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/plans/Edit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                  <Button
+                    // variant="contained"
+                    size="small"
+                    sx={{
+                      background: "inherit",
+                      color: "black",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/plans");
+                    }}
+                  >
+                    <ArrowBackIosIcon
+                      sx={{ height: 16, width: 16 }}
+                      fontSize="small"
+                    />{" "}
+                    Back
+                  </Button>
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    spacing={1}
+                    marginLeft={2}
+                  >
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    // ref={formRef}
+                    startIcon={<SaveAltIcon />}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<CloseIcon />}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/customerPage/plans");
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+
+                {/* <PlansForm ref={formRef} /> */}
               </Stack>
             )}
             {pathname &&

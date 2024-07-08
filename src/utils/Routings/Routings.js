@@ -30,6 +30,7 @@ import BabyDetailsFormData from "../../pages/customer/babyDetails/BabyDetailsFor
 import CustomerDashboard from "../../pages/customer/dashboard/Dashboard";
 import HospitalEditForm from "../../pages/hospitalManagement/Hospitals/HospitalEditForm";
 import DoctorEditForm from "../../pages/hospitalManagement/Doctors/DoctorEditForm";
+import PlansEdit from "../../pages/customer/plans/plansEdit";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -125,6 +126,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "plans/plansForm",
         element: <PlansForm />,
+      },
+      {
+        path: "plans/Edit",
+        element: <PlansEdit />,
       },
       {
         path: "plans/plansDetailsPreview/:id",
