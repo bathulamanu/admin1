@@ -5,7 +5,6 @@ import store from "./store";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import { baseRoutes } from "../src/utils/Routings/Routings";
-import { AppProvider } from "../src/context/ContextProvider";
 const theme = createTheme({
   components: {
     MuiButton: {
@@ -58,14 +57,12 @@ const theme = createTheme({
 function App() {
   return (
     <>
-      <AppProvider>
-        <Provider store={store}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <RouterProvider router={baseRoutes} />
-          </ThemeProvider>
-        </Provider>
-      </AppProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={baseRoutes} />
+        </ThemeProvider>
+      </Provider>
     </>
   );
 }

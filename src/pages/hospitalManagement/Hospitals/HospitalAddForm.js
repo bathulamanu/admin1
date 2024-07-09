@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
@@ -49,10 +54,12 @@ import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { getCityList } from "../../../redux/Slices/globalSlice";
 import {
   addHospitals,
+  getHospitalsList,
   handlePostHospital,
 } from "../../../redux/Slices/hospitalSlice";
 import mapIcon from "../../../assets/map.png";
 import api from "../../../utils/api/httpRequest";
+import { useNavigate } from "react-router-dom";
 
 const socialMediaLogoSize = 24;
 
@@ -72,29 +79,9 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-function deepCopyFormValues(hospitalDetails, formValues) {
-  function deepCopy(target, source) {
-    for (let key in source) {
-      if (source[key] && typeof source[key] === "object") {
-        if (Array.isArray(source[key])) {
-          target[key] = [...source[key]];
-        } else {
-          if (!target[key]) target[key] = {};
-          deepCopy(target[key], source[key]);
-        }
-      } else {
-        target[key] = source[key];
-      }
-    }
-  }
-
-  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
-  deepCopy(copiedFormValue, hospitalDetails);
-  return copiedFormValue;
-}
-
-const HospitalAddForm = () => {
+const HospitalAddForm = forwardRef((props, ref) => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
@@ -109,11 +96,6 @@ const HospitalAddForm = () => {
   const stateList = getStateIdList(getStateList);
   const specializationList = getByIdList(getSpecializationList);
 
-  const hospitalDetails = useSelector(
-    (state) => state.hospitals.hospitalDetail
-  );
-
-  // console.log('hospitalDetail', hospitalDetails)
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     hospitalName: "",
@@ -156,42 +138,109 @@ const HospitalAddForm = () => {
       longitude: "",
     },
   });
+  useImperativeHandle(ref, () => ({
+    hospitalAddFormData: () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+      // const phoneRegex = /^\d{10}$/;
 
-  const validateField = (name, value, updatedValues) => {
-    let tempErrors = { ...errors };
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-
-    switch (name) {
-      case "hospitalName":
-        tempErrors.hospitalName =
-          value.length >= 3
-            ? ""
-            : "Hospital name must be at least 3 characters .";
-        break;
-      case "email":
-        tempErrors.email = emailRegex.test(value)
-          ? ""
-          : "Invalid email address.";
-        break;
-      case "website":
-        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-        break;
-      case "phoneNumber":
-        tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number must be 10 digits.";
-        break;
-      case "pincode":
-        tempErrors.pincode =
-          value.length === 6 ? "" : "Pincode must be 6 digits.";
-        break;
-      default:
-        break;
-    }
-
-    setErrors(tempErrors);
-  };
+      if (!formValues.hospitalName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          hospitalName: "Hospital Name is required",
+        }));
+        return;
+      } else if (!formValues.specialist || formValues.specialist.length === 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          specialist: "Specialist is required",
+        }));
+        return;
+      } else if (!formValues.LicenseNumber) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          LicenseNumber: "License Number is required",
+        }));
+        return;
+      } else if (!formValues.validity.from) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          validityfrom: "validity from is required",
+        }));
+        return;
+      } else if (!formValues.validity.to) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          validityTo: "validity to is required",
+        }));
+        return;
+      } else if (!emailRegex.test(formValues.email)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          email: "Email is Invalid",
+        }));
+        return;
+      } else if (!urlRegex.test(formValues.website)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          website: "Website URL is Invalid",
+        }));
+        return;
+      } else if (!formValues.HospitalAddress.addressLine1) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          addressLine1: "Address 1 is required",
+        }));
+        return;
+      } else if (!formValues.HospitalAddress.addressLine2) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          addressLine2: "Address 2 is required",
+        }));
+        return;
+      } else if (
+        !formValues.HospitalAddress.state ||
+        formValues.HospitalAddress.state.length === 0
+      ) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          state: "State is required",
+        }));
+        return;
+      } else if (
+        !formValues.HospitalAddress.city ||
+        formValues.HospitalAddress.city.length === 0
+      ) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          city: "City is required",
+        }));
+        return;
+      } else if (!formValues.HospitalAddress.nearLandMark) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          nearLandMark: "Near LandMark is required",
+        }));
+        return;
+      } else if (!formValues.HospitalAddress.pincode) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          pincode: "Pincode is required",
+        }));
+        return;
+      } else if (!formValues.contact.phoneNumber) {
+        // } else if (!phoneRegex.test(!formValues.contact.phoneNumber)) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          phoneNumber: "Phone Number is Invalid",
+        }));
+        return;
+      }
+      dispatch(addHospitals(formValues));
+      navigate("/mainPage/hospitals");
+      dispatch(getHospitalsList(null));
+    },
+  }));
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -285,13 +334,15 @@ const HospitalAddForm = () => {
         case "validity_from":
           temp.validity = {
             ...temp.validity,
-            from: value ? dayjs(value).toISOString() : null,
+            from: value,
+            // from: value ? dayjs(value).toISOString() : null,
           };
           break;
         case "validity_to":
           temp.validity = {
             ...temp.validity,
-            to: value ? dayjs(value).toISOString() : null,
+            to: value,
+            // to: value ? dayjs(value).toISOString() : null,
           };
           break;
 
@@ -299,8 +350,23 @@ const HospitalAddForm = () => {
           temp[name] = value;
           break;
       }
-      validateField(name, value, temp);
+      // validateField(name, value, temp);
       return temp;
+    });
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+      validityfrom: "",
+      validityTo: "",
+      addressLine1: "",
+      addressLine2: "",
+      country: "",
+      state: "",
+      city: "",
+      nearLandMark: "",
+      pincode: "",
+      phoneNumber: "",
     });
   };
 
@@ -328,11 +394,9 @@ const HospitalAddForm = () => {
     }
   };
 
-  useEffect(() => {
-    dispatch(handlePostHospital(formValues));
-  }, [formValues]);
-
-  // console.log('formvalues', formValues)
+  // useEffect(() => {
+  //   dispatch(handlePostHospital(formValues));
+  // }, [formValues]);
 
   const fetchingLocation = (formValues, getCitiesList) => {
     const cityId = formValues.HospitalAddress.city;
@@ -363,16 +427,6 @@ const HospitalAddForm = () => {
     }
   }, [formValues.HospitalAddress.city]);
 
-  // const updatedFormValues = deepCopyFormValues(hospitalDetails, formValues);
-
-  // useEffect(() => {
-  //   setFormValues((prevValue) => ({
-  //     ...prevValue,
-  //     ...updatedFormValues,
-  //   }));
-  // }, [hospitalDetails]);
-
-  console.log("hospitalDetails", hospitalDetails);
   console.log("formvalues", formValues);
 
   return (
@@ -380,10 +434,11 @@ const HospitalAddForm = () => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "85%",
+        maxHeight: "45%",
         overflow: "auto",
         background: "#fff",
         // padding: "8px",
+        marginBottom: "30px",
       }}
     >
       <ToastContainer
@@ -414,7 +469,12 @@ const HospitalAddForm = () => {
           <MoreVertIcon />
         </Stack>
       </Box>
-      <Box display={"flex"} justifyContent={"space-between"} gap={2}>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        gap={2}
+        padding={2}
+      >
         <Box
           sx={{
             width: "60%",
@@ -460,15 +520,25 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Specialist <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <CommonSelect
-                    Placeholder={"Select"}
-                    data={specializationList}
-                    value={formValues?.specialist?.map(
-                      (item) => item?.specializationID
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.specialist}
+                  >
+                    <CommonSelect
+                      Placeholder={"Select"}
+                      data={specializationList}
+                      value={formValues?.specialist?.map(
+                        (item) => item?.specializationID
+                      )}
+                      width={"100%"}
+                      onChange={(e) => handleChange(e, "specialist")}
+                    />
+                    {!!errors.specialist && (
+                      <FormHelperText>{errors.specialist}</FormHelperText>
                     )}
-                    width={"100%"}
-                    onChange={(e) => handleChange(e, "specialist")}
-                  />
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -500,7 +570,27 @@ const HospitalAddForm = () => {
                     Recongnition Validity from{" "}
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.validityfrom}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.validity.from}
+                      onChange={(e) => handleChange(e, "validity_from")}
+                    />
+                    {!!errors.validityfrom && (
+                      <FormHelperText>{errors.validityfrom}</FormHelperText>
+                    )}
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -513,13 +603,33 @@ const HospitalAddForm = () => {
                         }
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Recongnition Validity to<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.validityTo}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.validity.to}
+                      onChange={(e) => handleChange(e, "validity_to")}
+                    />
+                    {!!errors.validityTo && (
+                      <FormHelperText>{errors.validityTo}</FormHelperText>
+                    )}
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -532,7 +642,7 @@ const HospitalAddForm = () => {
                         }
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -602,7 +712,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Address 1<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.addressLine1}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -613,6 +728,9 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "HospitalAddress1");
                       }}
                     />
+                    {!!errors.addressLine1 && (
+                      <FormHelperText>{errors.addressLine1}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -621,7 +739,12 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Address 2<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" fullWidth size="small">
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
+                    error={!!errors.addressLine2}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -632,6 +755,9 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "HospitalAddress2")
                       }
                     />
+                    {!!errors.addressLine2 && (
+                      <FormHelperText>{errors.addressLine2}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -641,52 +767,87 @@ const HospitalAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Country <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    disabled={true}
-                    data={upDatedCountryList}
-                    value={formValues?.HospitalAddress?.country}
-                    onChange={(e) => {
-                      handleChange(e, "country");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.country}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      disabled={true}
+                      data={upDatedCountryList}
+                      value={formValues?.HospitalAddress?.country}
+                      onChange={(e) => {
+                        handleChange(e, "country");
+                      }}
+                    />
+                    {!!errors.country && (
+                      <FormHelperText>{errors.country}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     State <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={stateList}
-                    value={formValues?.HospitalAddress?.state}
-                    onChange={(e) => {
-                      dispatch(getCityList(e));
-                      handleChange(e, "state");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.state}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={stateList}
+                      value={formValues?.HospitalAddress?.state}
+                      onChange={(e) => {
+                        dispatch(getCityList(e));
+                        handleChange(e, "state");
+                      }}
+                    />
+                    {!!errors.state && (
+                      <FormHelperText>{errors.state}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     City <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={cityList}
-                    value={formValues?.HospitalAddress?.city}
-                    onChange={(e) => {
-                      handleChange(e, "city");
-                    }}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.city}
+                  >
+                    <SingleSelect
+                      Placeholder={"Select"}
+                      width={"100%"}
+                      data={cityList}
+                      value={formValues?.HospitalAddress?.city}
+                      onChange={(e) => {
+                        handleChange(e, "city");
+                      }}
+                    />
+                    {!!errors.city && (
+                      <FormHelperText>{errors.city}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
 
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Near LandMark <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.nearLandMark}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -697,6 +858,9 @@ const HospitalAddForm = () => {
                         handleChange(e.target.value, "nearLandMark")
                       }
                     />
+                    {!!errors.nearLandMark && (
+                      <FormHelperText>{errors.nearLandMark}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -737,14 +901,17 @@ const HospitalAddForm = () => {
                   >
                     <OutlinedInput
                       fullWidth
-                      type="number"
-                      id="outlined-adornment-password"
-                      placeholder="phone number"
+                      type="text"
+                      id="outlined-adornment-phone"
+                      placeholder="Phone number"
                       size="small"
                       inputProps={{ maxLength: 10 }}
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
-                        handleChange(e.target.value, "phoneNumber");
+                        const { value } = e.target;
+                        // Remove non-numeric characters
+                        const numericValue = value.replace(/\D/g, "");
+                        handleChange(numericValue, "phoneNumber");
                       }}
                     />
                     {!!errors.phoneNumber && (
@@ -785,7 +952,7 @@ const HospitalAddForm = () => {
               </Grid>
             </CardContent>
           </Card>
-          <Card>
+          <Card sx={{ marginBottom: "20px" }}>
             <CardContent>
               <Stack pt={2} pb={2}>
                 <Typography sx={headingStyle}>SOCIAL LINKS</Typography>
@@ -1054,6 +1221,6 @@ const HospitalAddForm = () => {
       </Box>
     </Container>
   );
-};
+});
 
 export default HospitalAddForm;
