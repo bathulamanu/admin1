@@ -13,7 +13,7 @@ import {
   Tabs,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +22,8 @@ import CustomerDetails from "./CustomerDetails";
 import { setSelectedTab } from "../../redux/Slices/tabSlice";
 import BabyDetailsForm from "./babyDetails/BabyDetailsForm";
 import Lists from "./report/lists";
+import { getAnnexureInfo } from "../../redux/Slices/globalSlice";
+import { getCustomerDetails } from "../../redux/Slices/customerSlice";
 
 const Details = () => {
   const navigate = useNavigate();
@@ -32,9 +34,24 @@ const Details = () => {
   const [showClientDetails, setShowClientDetails] = useState(false);
   const [showBabyDetailsForm, setShowBabyDetailsForm] = useState(false);
 
+  // const customerDetail = useSelector((state) => state.customers.customerDetail);
+  const SubscribedInnerPageData = useSelector((state) => state.global.SubscribedUserData);
+
   const handleChange = (event, newValue) => {
     dispatch(setSelectedTab(newValue));
   };
+
+  useEffect(() => {
+    const customerID = localStorage.getItem("selectedCustomerId")
+    dispatch(getAnnexureInfo(customerID));
+  }, []);
+
+  useEffect(() => {
+    SubscribedInnerPageData?.customerAnnexureInformationId ? setShowClientDetails(true) : setShowClientDetails(false)
+  }, [SubscribedInnerPageData]);
+
+
+
 
   const getHeaderText = () => {
     switch (selectedTab) {
@@ -163,13 +180,14 @@ const Details = () => {
                       <Button
                         variant="contained"
                         size="small"
-                        onClick={() => setShowClientDetails(!showClientDetails)}
+                        onClick={() => setShowClientDetails(true)}
                       >
                         <AddIcon fontSize="small" /> Add Details
                       </Button>
                     </Box>
                   </Box>
-                ))}
+                ))
+              }
               {selectedTab === 2 &&
                 (showBabyDetailsForm ? (
                   <BabyDetailsForm />

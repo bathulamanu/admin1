@@ -30,11 +30,12 @@ const CustomerDetails = () => {
   const customerDetail = useSelector((state) => state.customers.customerDetail);
 
   useEffect(() => {
-    dispatch(getCustomerDetails(null));
+    const customerID = localStorage.getItem("selectedCustomerId");
+    dispatch(getCustomerDetails(customerID));
   }, []);
   console.log("customerDetail", customerDetail);
 
-  const customerID = customerDetail?.customerID;
+  const customerID = localStorage.getItem("selectedCustomerId"); //customerDetail?.customerID;
   const firstName = customerDetail?.firstName;
   const lastName = customerDetail?.lastName;
   const email = customerDetail?.email;

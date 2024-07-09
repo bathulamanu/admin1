@@ -114,6 +114,7 @@ const CustomerTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
+              localStorage.setItem("selectedCustomerId",params?.row?.customerID)
               dispatch(getCustomerDetails(params?.row?.customerID));
               navigate("/customerPage/customers/allDetails");
             }}
