@@ -250,6 +250,7 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
   }, []);
 
   return (
+   
     <Card variant="outlined">
       <ToastContainer />
       <CardContent
