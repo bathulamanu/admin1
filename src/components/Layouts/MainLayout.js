@@ -355,7 +355,7 @@ export const MainLayout = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "2px 12px",
+          padding: "25px 12px",
           zIndex: 100,
           position: "sticky",
           top: 0,
@@ -363,7 +363,7 @@ export const MainLayout = () => {
       >
         <img
           src={logo}
-          height={isMobile ? "24px" : "30px"}
+          height={isMobile ? "24px" : "40px"}
           width={"auto"}
           alt="Logo"
         />

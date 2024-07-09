@@ -156,7 +156,7 @@ export const CustomerLayout = () => {
         <Link to="/dashboard">
           <img
             src={logo}
-            height={isMobile ? "24px" : "30px"}
+            height={isMobile ? "24px" : "40px"}
             width={"170px"}
             alt="Logo"
           />
