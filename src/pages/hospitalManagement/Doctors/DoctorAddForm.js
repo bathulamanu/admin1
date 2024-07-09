@@ -534,7 +534,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "55%",
+        maxHeight: "45%",
         overflow: "auto",
         background: "#fff",
         padding: "15px",
