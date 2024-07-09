@@ -104,9 +104,6 @@ export const MainLayout = () => {
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
-  const addHospitalData = useSelector(
-    (state) => state.hospitals.hospitalPostData
-  );
   const editHospitalData = useSelector(
     (state) => state.hospitals.hospitalEditPostData
   );
@@ -114,7 +111,6 @@ export const MainLayout = () => {
     (state) => state.hospitals.hospitalDetail
   );
 
-  const addDoctorData = useSelector((state) => state.doctor.doctorPostData);
   const editDoctorData = useSelector(
     (state) => state.doctor.doctorEditPostData
   );
@@ -977,6 +973,7 @@ export const MainLayout = () => {
                       startIcon={<SaveAltIcon />}
                       onClick={(e) => {
                         e.preventDefault();
+                        handleAddDoctorFormSubmit();
                       }}
                     >
                       Save
