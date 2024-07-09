@@ -421,7 +421,7 @@ export const MainLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", width: "20%" }}>
+        <Box sx={{ height: "100%", width: "17%" }}>
           <Stack spacing={0}>
             <Typography
               sx={{
@@ -437,14 +437,14 @@ export const MainLayout = () => {
               onClick={() => navigate("/dashboard")}
             >
               <Box>
-                <KeyboardBackspaceIcon sx={{ marginLeft: "35px" }} />
+                <KeyboardBackspaceIcon sx={{ marginLeft: "15px" }} />
               </Box>
               <Box sx={{ marginLeft: "12px" }}>Back to Menu</Box>
             </Typography>
             <Box sx={{ background: "#327CF3", color: "white" }}>
               <Typography
                 sx={{
-                  marginLeft: "71px",
+                  marginLeft: "52px",
                   padding: "7px",
                 }}
               >
@@ -466,7 +466,7 @@ export const MainLayout = () => {
           </Stack>
           <MenuList
             variant="selectedMenu"
-            sx={{ marginLeft: "60px", fontWeight: 500 }}
+            sx={{ marginLeft: "42px", fontWeight: 500 }}
           >
             <MenuItem
               onClick={() => {
@@ -573,7 +573,7 @@ export const MainLayout = () => {
           sx={{
             background: "#F4F5F9",
             padding: "15px",
-            width: "80%",
+            width: "83%",
           }}
         >
           <Stack
