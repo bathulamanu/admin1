@@ -211,7 +211,7 @@ const ClientDetails = () => {
             </Button>
           </Box>
           <Box>
-            <Typography sx={{ fontSize: "24px", fontWeight: "bold" }}>
+            <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
               <NavigateBeforeIcon sx={{ fontSize: "large" }} /> 0{currentStep} /
               0{totalSteps} <NavigateNextIcon sx={{ fontSize: "large" }} />
             </Typography>

@@ -57,7 +57,11 @@ import {
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import api from "../../../utils/api/httpRequest";
-import { handlePostDoctor } from "../../../redux/Slices/doctorSlice";
+import {
+  addDoctors,
+  getDoctorList,
+  handlePostDoctor,
+} from "../../../redux/Slices/doctorSlice";
 import {
   getCityList,
   getCityNameByCountry,
@@ -66,6 +70,7 @@ import {
 } from "../../../redux/Slices/globalSlice";
 import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
 import { getQualification } from "../../../redux/Slices/globalSlice";
+import { useNavigate } from "react-router-dom";
 
 const socialMediaLogoSize = 24;
 
@@ -85,9 +90,10 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const DoctorAddForm = () => {
+const DoctorAddForm = forwardRef((props, ref) => {
   const theme = useTheme();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const getSpecializationList = useSelector(
     (state) => state.global.specializationList
   );
@@ -196,58 +202,104 @@ const DoctorAddForm = () => {
     },
     websiteLinks: [{ link: "" }],
   });
-  const validateField = (name, value, updatedValues) => {
-    let tempErrors = { ...errors };
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+  useImperativeHandle(ref, () => ({
+    getDoctorAddFormData: () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+      // const phoneRegex = /^\d{10}$/;
 
-    switch (name) {
-      case "doctorFirstName":
-        tempErrors.doctorFirstName =
-          value.length >= 3
-            ? ""
-            : "Doctor's name must be at least 3 characters .";
-        break;
-      case "doctorID":
-        tempErrors.doctorID =
-          value.length >= 5 ? "" : "Doctor ID must be at least 5 characters.";
-        break;
-      case "qualification":
-        tempErrors.qualification = updatedValues.qualification.length
-          ? ""
-          : "Qualification is required.";
-        break;
-      case "specialist":
-        tempErrors.specialist = updatedValues.specialist.length
-          ? ""
-          : "Specialist is required.";
-        break;
-      case "experience":
-        tempErrors.experience = value ? "" : "Experience is required.";
-        break;
-      case "email":
-        tempErrors.email = emailRegex.test(value)
-          ? ""
-          : "Invalid email address.";
-        break;
-      case "website":
-        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-        break;
-      case "phoneNumber":
-        tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number must be 10 digits.";
-        break;
-      case "pincode":
-        tempErrors.pincode =
-          value.length === 6 ? "" : "Pincode must be 6 digits.";
-        break;
-      default:
-        break;
-    }
+      if (!formValues.doctorFirstName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          doctorFirstName: "Doctor Name is required",
+        }));
+        return;
+      } else if (!formValues.doctorID) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          doctorID: "Doctor ID is required",
+        }));
+        return;
+      } else if (
+        !formValues.qualification ||
+        formValues.qualification.length === 0
+      ) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          qualification: "Qualification is required",
+        }));
+        return;
+      } else if (!formValues.specialist || formValues.specialist.length === 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          specialist: "Specialist is required",
+        }));
+        return;
+      } else if (!formValues.experience || formValues.experience.length === 0) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          experience: "Experience is required",
+        }));
+        return;
+      }
+      dispatch(addDoctors(formValues));
+      navigate("/mainPage/doctors");
+      dispatch(getDoctorList(null));
+    },
+  }));
+  // const validateField = (name, value, updatedValues) => {
+  //   let tempErrors = { ...errors };
 
-    setErrors(tempErrors);
-  };
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
+  //   switch (name) {
+  //     case "doctorFirstName":
+  //       tempErrors.doctorFirstName =
+  //         value.length >= 3
+  //           ? ""
+  //           : "Doctor's name must be at least 3 characters .";
+  //       break;
+  //     case "doctorID":
+  //       tempErrors.doctorID =
+  //         value.length >= 5 ? "" : "Doctor ID must be at least 5 characters.";
+  //       break;
+  //     case "qualification":
+  //       tempErrors.qualification = updatedValues.qualification.length
+  //         ? ""
+  //         : "Qualification is required.";
+  //       break;
+  //     case "specialist":
+  //       tempErrors.specialist = updatedValues.specialist.length
+  //         ? ""
+  //         : "Specialist is required.";
+  //       break;
+  //     case "experience":
+  //       tempErrors.experience = value ? "" : "Experience is required.";
+  //       break;
+  //     case "email":
+  //       tempErrors.email = emailRegex.test(value)
+  //         ? ""
+  //         : "Invalid email address.";
+  //       break;
+  //     case "website":
+  //       tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+  //       break;
+  //     case "phoneNumber":
+  //       tempErrors.phoneNumber =
+  //         value.length === 10 ? "" : "Phone number must be 10 digits.";
+  //       break;
+  //     case "pincode":
+  //       tempErrors.pincode =
+  //         value.length === 6 ? "" : "Pincode must be 6 digits.";
+  //       break;
+  //     default:
+  //       break;
+  //   }
+
+  //   setErrors(tempErrors);
+  // };
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -265,10 +317,10 @@ const DoctorAddForm = () => {
           temp.qualification = qul;
           break;
 
-        case "DOB":
-          let dob = value ? dayjs(value).toISOString() : null;
-          temp.DOB = dob;
-          break;
+        // case "DOB":
+        //   // let dob = value ? dayjs(value).toISOString() : null;
+        //   temp.DOB = dob;
+        //   break;
 
         case "country":
           temp.previousExperience[0] = {
@@ -366,7 +418,8 @@ const DoctorAddForm = () => {
           // break;
           temp.previousExperience = temp.previousExperience.map((exp, index) =>
             index === 0
-              ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+              ? // ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+                { ...exp, startDate: value }
               : exp
           );
           break;
@@ -379,7 +432,8 @@ const DoctorAddForm = () => {
           // break;
           temp.previousExperience = temp.previousExperience.map((exp, index) =>
             index === 0
-              ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+              ? // ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+                { ...exp, endDate: value }
               : exp
           );
           break;
@@ -440,12 +494,14 @@ const DoctorAddForm = () => {
           temp[name] = value;
           break;
       }
-      validateField(name, value, temp);
+
       return temp;
     });
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
-
-  // console.log("dhkjshdgjshcjs", formValues);
 
   const handleImageUpload = async (e) => {
     const headers = {
@@ -470,21 +526,6 @@ const DoctorAddForm = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    // console.log("check 111111 add ddcotro ", formValues);
-    dispatch(handlePostDoctor(formValues));
-  }, [formValues]);
-
-  // useImperativeHandle(ref, () => ({
-  //   getDoctorValidationData: () => {
-  //     if (!formValues.doctorFirstName) {
-  //       alert("Please fill the required fields");
-  //       return false;
-  //     }
-  //   },
-  // }));
-
-  dispatch(handlePostDoctor(formValues));
 
   console.log("formvalues", formValues);
 
@@ -493,10 +534,10 @@ const DoctorAddForm = () => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "85%",
+        maxHeight: "55%",
         overflow: "auto",
         background: "#fff",
-        padding: "8px",
+        padding: "15px",
       }}
     >
       <ToastContainer
@@ -516,9 +557,9 @@ const DoctorAddForm = () => {
         alignItems={"center"}
         justifyContent={"space-between"}
         height={"40px"}
-        pt={5}
+        pt={3}
         pb={5}
-        pl={1}
+        // pl={1}
         gap={6}
       >
         <Stack>
@@ -596,53 +637,74 @@ const DoctorAddForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Qualification<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <CommonSelect
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.qualification?.map(
-                      (item) => item?.qualificationId
-                    )}
-                    data={getQualif}
-                    onChange={(e) => handleOnChange(e, "qualification")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.qualification}
-                  />
-                  {!!errors.qualification && (
-                    <FormHelperText>{errors.qualification}</FormHelperText>
-                  )}
+                  >
+                    <CommonSelect
+                      placeholder={"Select"}
+                      width={"100%"}
+                      value={formValues?.qualification?.map(
+                        (item) => item?.qualificationId
+                      )}
+                      data={getQualif}
+                      onChange={(e) => handleOnChange(e, "qualification")}
+                      error={!!errors.qualification}
+                    />
+                    {!!errors.qualification && (
+                      <FormHelperText>{errors.qualification}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Specialist<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <CommonSelect
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.specialist?.map(
-                      (item) => item?.specilizationID
-                    )}
-                    data={specializationList}
-                    onChange={(e) => handleOnChange(e, "specialist")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.specialist}
-                  />
-                  {!!errors.specialist && (
-                    <FormHelperText>{errors.specialist}</FormHelperText>
-                  )}
+                  >
+                    <CommonSelect
+                      placeholder={"Select"}
+                      width={"100%"}
+                      value={formValues?.specialist?.map(
+                        (item) => item?.specilizationID
+                      )}
+                      data={specializationList}
+                      onChange={(e) => handleOnChange(e, "specialist")}
+                      error={!!errors.specialist}
+                    />
+                    {!!errors.specialist && (
+                      <FormHelperText>{errors.specialist}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Experience<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    placeholder={"Select"}
-                    value={formValues?.experience}
-                    data={experienceList}
-                    width={"100%"}
-                    onChange={(e) => handleOnChange(e, "experience")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.experience}
-                  />
-                  {!!errors.experience && (
-                    <FormHelperText>{errors.experience}</FormHelperText>
-                  )}
+                  >
+                    <SingleSelect
+                      placeholder={"Select"}
+                      value={formValues?.experience}
+                      data={experienceList}
+                      width={"100%"}
+                      onChange={(e) => handleOnChange(e, "experience")}
+                      error={!!errors.experience}
+                    />
+                    {!!errors.experience && (
+                      <FormHelperText>{errors.experience}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Status</InputLabel>
@@ -688,7 +750,19 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>DOB</InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.DOB}
+                      onChange={(e) => handleOnChange(e, "DOB")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={formValues.DOB ? dayjs(formValues.DOB) : null}
@@ -697,7 +771,7 @@ const DoctorAddForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Gender</InputLabel>
@@ -868,7 +942,19 @@ const DoctorAddForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Start date </InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.previousExperience[0]?.startDate}
+                      onChange={(e) => handleOnChange(e, "startDate")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -883,11 +969,23 @@ const DoctorAddForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>End Date</InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.previousExperience[0]?.endDate}
+                      onChange={(e) => handleOnChange(e, "endDate")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -900,7 +998,7 @@ const DoctorAddForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mb: 1 }}>
@@ -1233,6 +1331,6 @@ const DoctorAddForm = () => {
       </Box>
     </Container>
   );
-};
+});
 
 export default DoctorAddForm;

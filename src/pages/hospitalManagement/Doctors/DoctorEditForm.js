@@ -54,6 +54,7 @@ import {
   getStatusIdList,
   getEmpTypeIdList,
   getHospitalNameById,
+  formatDateYYYYMMDD,
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import api from "../../../utils/api/httpRequest";
@@ -270,10 +271,10 @@ const DoctorEditForm = () => {
           temp.qualification = qul;
           break;
 
-        case "DOB":
-          let dob = value ? dayjs(value).toISOString() : null;
-          temp.DOB = dob;
-          break;
+        // case "DOB":
+        //   let dob = value ? dayjs(value).toISOString() : null;
+        //   temp.DOB = dob;
+        //   break;
 
         case "country":
           temp.previousExperience[0] = {
@@ -371,7 +372,8 @@ const DoctorEditForm = () => {
           // break;
           temp.previousExperience = temp.previousExperience.map((exp, index) =>
             index === 0
-              ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+              ? // ? { ...exp, startDate: value ? dayjs(value).toISOString() : null }
+                { ...exp, startDate: value }
               : exp
           );
           break;
@@ -384,7 +386,8 @@ const DoctorEditForm = () => {
           // break;
           temp.previousExperience = temp.previousExperience.map((exp, index) =>
             index === 0
-              ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+              ? // ? { ...exp, endDate: value ? dayjs(value).toISOString() : null }
+                { ...exp, endDate: value }
               : exp
           );
           break;
@@ -502,22 +505,33 @@ const DoctorEditForm = () => {
         maxHeight: "85%",
         overflow: "auto",
         background: "#fff",
-        padding: "8px",
+        padding: "15px",
       }}
     >
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Box
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-between"}
         height={"40px"}
-        pt={5}
+        pt={3}
         pb={5}
-        pl={1}
+        // pl={1}
         gap={6}
       >
         <Stack>
-          <Typography>Add doctor</Typography>
+          <Typography>Edit doctor</Typography>
         </Stack>
         <Stack>
           <MoreVertIcon />
@@ -591,53 +605,74 @@ const DoctorEditForm = () => {
                   <InputLabel sx={inputLableStyle}>
                     Qualification<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <CommonSelect
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.qualification?.map(
-                      (item) => item?.qualificationId
-                    )}
-                    data={getQualif}
-                    onChange={(e) => handleOnChange(e, "qualification")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.qualification}
-                  />
-                  {!!errors.qualification && (
-                    <FormHelperText>{errors.qualification}</FormHelperText>
-                  )}
+                  >
+                    <CommonSelect
+                      placeholder={"Select"}
+                      width={"100%"}
+                      value={formValues?.qualification?.map(
+                        (item) => item?.qualificationId
+                      )}
+                      data={getQualif}
+                      onChange={(e) => handleOnChange(e, "qualification")}
+                      error={!!errors.qualification}
+                    />
+                    {!!errors.qualification && (
+                      <FormHelperText>{errors.qualification}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Specialist<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <CommonSelect
-                    placeholder={"Select"}
-                    width={"100%"}
-                    value={formValues?.specialist?.map(
-                      (item) => item?.specilizationID
-                    )}
-                    data={specializationList}
-                    onChange={(e) => handleOnChange(e, "specialist")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.specialist}
-                  />
-                  {!!errors.specialist && (
-                    <FormHelperText>{errors.specialist}</FormHelperText>
-                  )}
+                  >
+                    <CommonSelect
+                      placeholder={"Select"}
+                      width={"100%"}
+                      value={formValues?.specialist?.map(
+                        (item) => item?.specilizationID
+                      )}
+                      data={specializationList}
+                      onChange={(e) => handleOnChange(e, "specialist")}
+                      error={!!errors.specialist}
+                    />
+                    {!!errors.specialist && (
+                      <FormHelperText>{errors.specialist}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Experience<span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <SingleSelect
-                    placeholder={"Select"}
-                    value={formValues?.experience}
-                    data={experienceList}
-                    width={"100%"}
-                    onChange={(e) => handleOnChange(e, "experience")}
+                  <FormControl
+                    variant="outlined"
+                    fullWidth
+                    size="small"
                     error={!!errors.experience}
-                  />
-                  {!!errors.experience && (
-                    <FormHelperText>{errors.experience}</FormHelperText>
-                  )}
+                  >
+                    <SingleSelect
+                      placeholder={"Select"}
+                      value={formValues?.experience}
+                      data={experienceList}
+                      width={"100%"}
+                      onChange={(e) => handleOnChange(e, "experience")}
+                      error={!!errors.experience}
+                    />
+                    {!!errors.experience && (
+                      <FormHelperText>{errors.experience}</FormHelperText>
+                    )}
+                  </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Status</InputLabel>
@@ -646,6 +681,10 @@ const DoctorEditForm = () => {
                     width={"100%"}
                     value={formValues?.IsActive}
                     data={statuses}
+                    // data={[
+                    //   { id: 47, name: "Active" },
+                    //   { id: 48, name: "InActive" },
+                    // ]}
                     onChange={(e) => handleOnChange(e, "IsActive")}
                   />
                 </Grid>
@@ -661,7 +700,7 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    IMr Registration ID
+                    IMR Registration ID
                   </InputLabel>
                   <FormControl variant="outlined" size="small" fullWidth>
                     <OutlinedInput
@@ -679,7 +718,19 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>DOB</InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formatDateYYYYMMDD(formValues?.DOB)}
+                      onChange={(e) => handleOnChange(e, "DOB")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={formValues.DOB ? dayjs(formValues.DOB) : null}
@@ -688,7 +739,7 @@ const DoctorEditForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Gender</InputLabel>
@@ -704,7 +755,12 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Phone number</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.phoneNumber}
+                  >
                     <OutlinedInput
                       name="phoneNumber"
                       fullWidth
@@ -716,11 +772,19 @@ const DoctorEditForm = () => {
                         handleOnChange(e.target.value, "phoneNumber")
                       }
                     />
+                    {!!errors.phoneNumber && (
+                      <FormHelperText>{errors.phoneNumber}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Email Address</InputLabel>
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.email}
+                  >
                     <OutlinedInput
                       fullWidth
                       name="email"
@@ -730,6 +794,9 @@ const DoctorEditForm = () => {
                       placeholder="email"
                       size="small"
                     />
+                    {!!errors.email && (
+                      <FormHelperText>{errors.email}</FormHelperText>
+                    )}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -775,7 +842,6 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>City</InputLabel>
-                  {/* <CommonSelect Placeholder={"Select"} width={"100%"} /> */}
                   <SingleSelect
                     placeholder={"Select"}
                     width={"100%"}
@@ -844,7 +910,21 @@ const DoctorEditForm = () => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Start date </InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formatDateYYYYMMDD(
+                        formValues?.previousExperience[0]?.startDate
+                      )}
+                      onChange={(e) => handleOnChange(e, "startDate")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -859,11 +939,25 @@ const DoctorEditForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>End Date</InputLabel>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="ExpectantFatherDOB"
+                      name="ExpectantFatherDOB"
+                      type="date"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formatDateYYYYMMDD(
+                        formValues?.previousExperience[0]?.endDate
+                      )}
+                      onChange={(e) => handleOnChange(e, "endDate")}
+                    />
+                  </FormControl>
+                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DemoContainer components={["DatePicker"]}>
                       <DatePicker
                         value={
@@ -876,7 +970,7 @@ const DoctorEditForm = () => {
                         }}
                       />
                     </DemoContainer>
-                  </LocalizationProvider>
+                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mb: 1 }}>
@@ -1166,7 +1260,12 @@ const DoctorEditForm = () => {
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.website}
+                  >
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
@@ -1177,6 +1276,9 @@ const DoctorEditForm = () => {
                         handleOnChange(e.target.value, "OtherLink1");
                       }}
                     />
+                    {!!errors.website && (
+                      <FormHelperText>{errors.website}</FormHelperText>
+                    )}
                   </FormControl>
                 </Stack>
                 {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>

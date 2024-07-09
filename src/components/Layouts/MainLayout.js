@@ -67,6 +67,8 @@ import {
 } from "../../redux/Slices/doctorSlice";
 import SingleSelect from "../../components/GlobalComponents/SingleSelect";
 import api from "../../utils/api/httpRequest";
+import HospitalAddForm from "../../pages/hospitalManagement/Hospitals/HospitalAddForm";
+import DoctorAddForm from "../../pages/hospitalManagement/Doctors/DoctorAddForm";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -142,68 +144,14 @@ export const MainLayout = () => {
     setActiveItem(value);
     setFormOpen(null);
   };
-
+  const hospitalAddFormRef = useRef();
+  const hospitalEditFormRef = useRef();
+  const doctorAddFormRef = useRef();
+  const doctorEditFormRef = useRef();
   const handleAddHospitalFormSubmit = () => {
-    if (!addHospitalData.hospitalName.trim()) {
-      toast.warning("Hospital Name is required");
-      return;
-    } else if (
-      !addHospitalData.specialist ||
-      addHospitalData.specialist.length === 0
-    ) {
-      toast.warning("At least one Specialist is required");
-      return;
-    } else if (!addHospitalData.LicenseNumber.trim()) {
-      toast.warning("License Number is required");
-      return;
-    } else if (!addHospitalData.validity.from) {
-      toast.warning("Validity start date is required");
-      return;
-    } else if (!addHospitalData.validity.to) {
-      toast.warning("Validity end date is required");
-      return;
-    } else if (!addHospitalData.email.trim()) {
-      toast.warning("Email is required");
-      return;
-    } else if (!addHospitalData.website.trim()) {
-      toast.warning("website is required");
-      return;
-    } else if (!addHospitalData.HospitalAddress.addressLine1.trim()) {
-      toast.warning("Address 1 is required");
-      return;
-    } else if (!addHospitalData.HospitalAddress.addressLine2.trim()) {
-      toast.warning("Address 2 is required");
-      return;
-    } else if (
-      !addHospitalData.HospitalAddress.country ||
-      addHospitalData.HospitalAddress.country === 0
-    ) {
-      toast.warning("Country is required");
-      return;
-    } else if (
-      !addHospitalData.HospitalAddress.state ||
-      addHospitalData.HospitalAddress.state === 0
-    ) {
-      toast.warning("State is required");
-      return;
-    } else if (
-      !addHospitalData.HospitalAddress.city ||
-      addHospitalData.HospitalAddress.city === 0
-    ) {
-      toast.warning("City is required");
-      return;
-    } else if (!addHospitalData.HospitalAddress.nearLandMark.trim()) {
-      toast.warning("Near LandMark is required");
-      return;
-    } else if (!addHospitalData.HospitalAddress.pincode.trim()) {
-      toast.warning("Pincode is required");
-      return;
-    } else if (!addHospitalData.contact.phoneNumber.trim()) {
-      toast.warning("Phone Number is required");
-      return;
+    if (hospitalAddFormRef.current) {
+      hospitalAddFormRef.current.hospitalAddFormData();
     }
-    navigate("/mainPage/hospitals");
-    dispatch(addHospitals(addHospitalData));
   };
 
   const handleEditHospitalFormSubmit = () => {
@@ -275,38 +223,37 @@ export const MainLayout = () => {
     navigate("/mainPage/hospitals");
   };
 
-  const doctorAddRef = useRef(null);
   const handleAddDoctorFormSubmit = () => {
-    // if (doctorAddRef.current) {
-    //   doctorAddRef.current.getDoctorValidationData();
-    // }
-    if (!addDoctorData.doctorFirstName) {
-      toast.warning("Doctor's Name is required");
-      return;
-    } else if (!addDoctorData.doctorID.trim()) {
-      toast.warning("Doctor's ID is required");
-      return;
-    } else if (
-      !addDoctorData.qualification ||
-      addDoctorData.qualification.length === 0
-    ) {
-      toast.warning("At least one qualification is required");
-      return;
-    } else if (
-      !addDoctorData.specialist ||
-      addDoctorData.specialist.length === 0
-    ) {
-      toast.warning("At least one specialist is required");
-      return;
-    } else if (
-      !addDoctorData.experience ||
-      addDoctorData.experience.length === 0
-    ) {
-      toast.warning("At least one experience is required");
-      return;
+    if (doctorAddFormRef.current) {
+      doctorAddFormRef.current.getDoctorAddFormData();
     }
-    navigate("/mainPage/doctors");
-    dispatch(addDoctors(addDoctorData));
+    // if (!addDoctorData.doctorFirstName) {
+    //   toast.warning("Doctor's Name is required");
+    //   return;
+    // } else if (!addDoctorData.doctorID.trim()) {
+    //   toast.warning("Doctor's ID is required");
+    //   return;
+    // } else if (
+    //   !addDoctorData.qualification ||
+    //   addDoctorData.qualification.length === 0
+    // ) {
+    //   toast.warning("At least one qualification is required");
+    //   return;
+    // } else if (
+    //   !addDoctorData.specialist ||
+    //   addDoctorData.specialist.length === 0
+    // ) {
+    //   toast.warning("At least one specialist is required");
+    //   return;
+    // } else if (
+    //   !addDoctorData.experience ||
+    //   addDoctorData.experience.length === 0
+    // ) {
+    //   toast.warning("At least one experience is required");
+    //   return;
+    // }
+    // navigate("/mainPage/doctors");
+    // dispatch(addDoctors(addDoctorData));
   };
 
   const handleEditDoctorFormSubmit = () => {
@@ -698,7 +645,7 @@ export const MainLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -707,63 +654,71 @@ export const MainLayout = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
                   }}
                 >
-                  <Button
-                    // variant="contained"
-                    size="small"
+                  <Stack
                     sx={{
-                      background: "inherit",
-                      color: "black",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/mainPage/hospitals");
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Typography variant="h2">Hospital Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/mainPage/hospitals");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Hospital Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      startIcon={<SaveAltIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleAddHospitalFormSubmit();
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<CloseIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFormOpen(null);
+                        dispatch(getHospitalsList(searchQuery));
+                        setActiveItem("Hospitals");
+                        navigate("/mainPage/hospitals");
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<SaveAltIcon />}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAddHospitalFormSubmit();
-                      setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getHospitalsList(searchQuery));
-                      // navigate("/mainPage/hospitals");
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<CloseIcon />}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setFormOpen(null);
-                      dispatch(getHospitalsList(searchQuery));
-                      setActiveItem("Hospitals");
-                      navigate("/mainPage/hospitals");
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <HospitalAddForm ref={hospitalAddFormRef} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/mainPage/hospitals/view" && (
@@ -889,9 +844,9 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditHospitalFormSubmit();
-                      setFormOpen(null);
-                      setActiveItem("Hospitals");
-                      dispatch(getHospitalsList(searchQuery));
+                      // setFormOpen(null);
+                      // setActiveItem("Hospitals");
+                      // dispatch(getHospitalsList(searchQuery));
                       // navigate("/mainPage/hospitals");
                     }}
                   >
@@ -972,7 +927,7 @@ export const MainLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -981,64 +936,70 @@ export const MainLayout = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
                   }}
                 >
-                  <Button
-                    // variant="contained"
-                    size="small"
+                  <Stack
                     sx={{
-                      background: "inherit",
-                      color: "black",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/mainPage/doctors");
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Typography variant="h2">Hospital Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/mainPage/doctors");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Hospital Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      startIcon={<SaveAltIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<CloseIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setFormOpen(null);
+                        // setActiveItem("Hospitals");
+                        dispatch(getDoctorList(searchQuery));
+                        navigate("/mainPage/doctors");
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<SaveAltIcon />}
-                    ref={doctorAddRef}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleAddDoctorFormSubmit();
-                      // setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getDoctorList(searchQuery));
-                      // navigate("/mainPage/doctors");
-                    }}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<CloseIcon />}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getDoctorList(searchQuery));
-                      navigate("/mainPage/doctors");
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <DoctorAddForm ref={doctorAddFormRef} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/mainPage/doctors/view" && (
