@@ -355,7 +355,7 @@ export const MainLayout = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "2px 12px",
+          padding: "25px 12px",
           zIndex: 100,
           position: "sticky",
           top: 0,
@@ -363,7 +363,7 @@ export const MainLayout = () => {
       >
         <img
           src={logo}
-          height={isMobile ? "24px" : "30px"}
+          height={isMobile ? "24px" : "40px"}
           width={"auto"}
           alt="Logo"
         />
@@ -421,7 +421,7 @@ export const MainLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", width: "17%" }}>
+        <Box sx={{ height: "100%", width: "20%" }}>
           <Stack spacing={0}>
             <Typography
               sx={{
@@ -573,7 +573,7 @@ export const MainLayout = () => {
           sx={{
             background: "#F4F5F9",
             padding: "15px",
-            width: "83%",
+            width: "80%",
           }}
         >
           <Stack

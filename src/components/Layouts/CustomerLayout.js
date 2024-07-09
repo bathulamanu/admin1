@@ -156,7 +156,7 @@ export const CustomerLayout = () => {
         <Link to="/dashboard">
           <img
             src={logo}
-            height={isMobile ? "24px" : "30px"}
+            height={isMobile ? "24px" : "40px"}
             width={"170px"}
             alt="Logo"
           />
@@ -215,7 +215,7 @@ export const CustomerLayout = () => {
         }}
         disableGutters
       >
-        <Box sx={{ height: "100%", width: "17%" }}>
+        <Box sx={{ height: "100%", width: "20%" }}>
           <Stack spacing={0}>
             <Typography
               sx={{
@@ -238,29 +238,17 @@ export const CustomerLayout = () => {
             <Box sx={{ background: "#327CF3", color: "white" }}>
               <Typography
                 sx={{
-                  marginLeft: "70px",
+                  marginLeft: "52px",
                   padding: "7px",
                 }}
               >
                 CUSTOMER MANAGEMENT
               </Typography>
             </Box>
-            {/* <Button
-              variant="contained"
-              fullWidth
-              size="small"
-              sx={{
-                borderRadius: 0,
-                padding: 1,
-                fontSize: "18px",
-              }}
-            >
-              CUSTOMER MANAGEMENT
-            </Button> */}
           </Stack>
           <MenuList
             variant="selectedMenu"
-            sx={{ marginLeft: "60px", fontWeight: 500 }}
+            sx={{ marginLeft: "42px", fontWeight: 500 }}
           >
             <MenuItem
               onClick={() => {
@@ -438,7 +426,7 @@ export const CustomerLayout = () => {
           sx={{
             background: "#F4F5F9",
             padding: "15px",
-            width: "83%",
+            width: "80%",
           }}
         >
           <Stack

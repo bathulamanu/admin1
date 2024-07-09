@@ -526,12 +526,14 @@ const DoctorEditForm = () => {
         justifyContent={"space-between"}
         height={"40px"}
         pt={3}
-        pb={5}
-        // pl={1}
+        pb={3}
+        pl={1}
         gap={6}
       >
         <Stack>
-          <Typography>Edit doctor</Typography>
+          <Typography sx={{ fontSize: "24px", fontWeight: "bold" }}>
+            Edit doctor
+          </Typography>
         </Stack>
         <Stack>
           <MoreVertIcon />

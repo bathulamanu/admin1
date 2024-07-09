@@ -423,12 +423,14 @@ const HospitalEditForm = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
         height={"40px"}
-        pt={5}
-        pb={5}
-        pl={1}
+        pt={3}
+        pb={3}
+        pl={3}
       >
         <Stack>
-          {/* <Typography variant="h5">GENERAL INFORMATION</Typography> */}
+          <Typography sx={{ fontSize: "24px", fontWeight: "bold" }}>
+            Edit Hospital
+          </Typography>
         </Stack>
         <Stack>
           <MoreVertIcon />
