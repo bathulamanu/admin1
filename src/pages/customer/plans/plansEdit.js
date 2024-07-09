@@ -21,7 +21,10 @@ import {
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
-import { handleCreatePlan } from "../../../redux/Slices/planSlice";
+import {
+  handleCreatePlan,
+  UpdateSubscriptionPlan,
+} from "../../../redux/Slices/planSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppContext } from "../../../context/ContextProvider";
 import { createSubscriptionPlan } from "../../../redux/Slices/planSlice";
@@ -71,7 +74,6 @@ const PlansEdit = forwardRef((props, ref) => {
   const navigate = useNavigate();
   const getStatusList = useSelector((state) => state.global.statusList);
   const statuses = getStatusIdList(getStatusList);
-
   const getButtonTextList = useSelector((state) => state.global.buttonTextData);
   const ButtonTexts = getButtonTexListById(getButtonTextList);
 
@@ -83,29 +85,10 @@ const PlansEdit = forwardRef((props, ref) => {
   const subscriptionPanDetails = useSelector(
     (state) => state.plan.subscriptionPanDetails
   );
+  const subscriptionID = subscriptionPanDetails?.subscriptionID;
+  console.log("subscriptionID", subscriptionID);
 
   const [formValues, setFormValues] = useState({
-    title: "",
-    subTitle: "",
-    price: "",
-    offerPrice: "",
-    eventOfferPrice: "",
-    EMI: "",
-    EMItext: "",
-    Icon: "",
-    currencySymbol: "",
-    ribben: "",
-    ribbenStatus: true,
-    btnText: null,
-    status: null,
-    description: "",
-    additionalInfo: "",
-    durationYear: "",
-    durationYearText: "",
-    customText: "",
-    offerTiming: null,
-  });
-  const [ErrorformValues, setErrorformValues] = useState({
     title: "",
     subTitle: "",
     price: "",
@@ -119,68 +102,126 @@ const PlansEdit = forwardRef((props, ref) => {
     ribbenStatus: null,
     btnText: null,
     status: null,
-    // description: "",
-    // additionalInfo: "",
+    description: "",
+    additionalInfo: "",
     durationYear: "",
     durationYearText: "",
     customText: "",
     offerTiming: null,
   });
-  const { trigger } = useContext(AppContext);
-  const { triggerChildUpdate } = useContext(AppContext);
+
   const location = useLocation();
 
   const [errors, setErrors] = useState({});
   useImperativeHandle(ref, () => ({
-    validateForm: () => {
+    validateEditForm: () => {
       if (!formValues.title) {
         setErrors((prevErrors) => ({
           ...prevErrors,
           title: "Title is required",
         }));
         return;
+      } else if (!formValues.subTitle) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          subTitle: "sub Title is required",
+        }));
+        return;
+      } else if (!formValues.price) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          price: "Price is required",
+        }));
+        return;
+      } else if (!formValues.offerPrice) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          offerPrice: "Offer Price is required",
+        }));
+        return;
+      } else if (!formValues.Icon) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          Icon: "Icon is required",
+        }));
+        return;
+      } else if (!formValues.eventOfferPrice) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          eventOfferPrice: "Event Offer Price is required",
+        }));
+        return;
+      } else if (!formValues.currencySymbol) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          currencySymbol: "Currency Symbol is required",
+        }));
+        return;
+      } else if (!formValues.EMI) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          EMI: "EMI is required",
+        }));
+        return;
+      } else if (!formValues.EMItext) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          EMItext: "EMI Text is required",
+        }));
+        return;
+      } else if (!formValues.ribben) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ribben: "Ribben is required",
+        }));
+        return;
+      } else if (!formValues.ribbenStatus) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          ribbenStatus: "Ribben Status is required",
+        }));
+        return;
+      } else if (!formValues.btnText) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          btnText: "Button Text is required",
+        }));
+        return;
+      } else if (!formValues.durationYear) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          durationYear: "Duration Year is required",
+        }));
+        return;
+      } else if (!formValues.durationYearText) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          durationYearText: "Duration Year Text is required",
+        }));
+        return;
+      } else if (!formValues.customText) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          customText: "Custom Text is required",
+        }));
+        return;
+      } else if (!formValues.status) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          status: "Status is required",
+        }));
+        return;
+      } else if (!formValues.offerTiming) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          offerTiming: "Offer Timing is required",
+        }));
+        return;
       }
-      console.log("Form is valid");
+      dispatch(UpdateSubscriptionPlan({ subscriptionID, formValues }));
       navigate("/customerPage/plans");
     },
   }));
-  // useEffect(() => {
-  //   // This will run every time the `trigger` changes
-  //   // if (trigger >= 0) {
-  //   // triggerChildUpdate();
-  //   // if (location.pathname === "/customerPage/plans/plansForm") {
-  //   alert("ok ok ");
-  //   // console.log('Parent triggered an update');
-  //   if (!formValues.title) {
-  //     setErrorformValues((prev) => ({
-  //       ...prev,
-  //       ["title"]: "Title is required",
-  //     }));
-  //     return;
-  //   }
-
-  //   if (!formValues.subTitle) {
-  //     setErrorformValues((prev) => ({
-  //       ...prev,
-  //       ["subTitle"]: "subTitle is required",
-  //     }));
-  //     return;
-  //   }
-  //   dispatch(createSubscriptionPlan(formValues));
-  //   // }
-  // }, [trigger]);
-
-  // useEffect(() => {
-  // if (!formValues.title) {
-  //   setErrorformValues((prev) => ({
-  //     ...prev,
-  //     ['title']: "Title is required",
-  //   }));
-  //   return;
-  // }
-
-  // dispatch(handleCreatePlan(formValues));
-  // }, [formValues]);
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -188,15 +229,12 @@ const PlansEdit = forwardRef((props, ref) => {
       ...prev,
       [name]: value,
     }));
-    setErrorformValues((prev) => ({
-      ...prev,
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
       [name]: "",
-    }));
+    });
   };
-
-  useEffect(() => {
-    dispatch(handleCreatePlan(formValues));
-  }, [formValues]);
 
   console.log("formValues", formValues);
 
@@ -229,10 +267,11 @@ const PlansEdit = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "85%",
+        maxHeight: "65%",
         overflow: "auto",
         background: "#fff",
-        padding: "8px",
+        // padding: "8px",
+        marginBottom: "30px",
       }}
     >
       <Typography
@@ -643,6 +682,7 @@ const PlansEdit = forwardRef((props, ref) => {
                     <SingleSelect
                       Placeholder={"Select"}
                       width={"100%"}
+                      data={statuses}
                       value={formValues?.ribbenStatus}
                       onChange={(e) => handleChange(e, "ribbenStatus")}
                     />

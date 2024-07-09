@@ -118,10 +118,10 @@ const PlanCard = ({
 
   return (
     <StyledCard highlight={highlight}>
-      {ribbenStatus == 46 && highlight === "Best value" && (
+      {ribbenStatus == 47 && highlight === "Best value" && (
         <HighlightLabel type="bestValue">BEST VALUE</HighlightLabel>
       )}
-      {ribbenStatus == 46 && highlight === "MOST POPULAR" && (
+      {ribbenStatus == 47 && highlight === "MOST POPULAR" && (
         <HighlightLabel type="mostPopular">MOST POPULAR</HighlightLabel>
       )}
       <CardHeader>
