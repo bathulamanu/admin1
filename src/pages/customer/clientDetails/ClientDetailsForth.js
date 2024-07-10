@@ -129,6 +129,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     DeliveringHospitalState: "",
     DeliveringHosptalCity: "",
     DeliveringHospitalPinCode: "",
+    DeliveryGynocologist: "",
   });
   const handleChange = (value, name) => {
     setFormValues((prev) => {
@@ -138,6 +139,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
         if (value) {
           newValues.DeliveringHospitalAddress =
             newValues.ConsultingHospitalAddress;
+          newValues.DeliveryGynocologist = newValues.ConsultingGynocologist;
           newValues.DeliveringHospitalCountry =
             newValues.ConsultingHospitalCountry;
           newValues.DeliveringHospitalState = newValues.ConsultingHospitalState;
@@ -146,6 +148,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
             newValues.ConsultingHospitalPinCode;
         } else {
           newValues.DeliveringHospitalAddress = "";
+          newValues.DeliveryGynocologist = "";
           newValues.DeliveringHospitalCountry = 352;
           newValues.DeliveringHospitalState = "";
           newValues.DeliveringHosptalCity = "";
@@ -225,12 +228,12 @@ const ClientDetailsForth = forwardRef((props, ref) => {
           ConsultingGynocologist: "Consulting Gynocologist is required",
         }));
         return;
-      } else if (!formValues.ConsultingHospital) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          ConsultingHospital: "Consulting Hospital is required",
-        }));
-        return;
+        // } else if (!formValues.ConsultingHospital) {
+        //   setErrors((prevErrors) => ({
+        //     ...prevErrors,
+        //     ConsultingHospital: "Consulting Hospital is required",
+        //   }));
+        //   return;
       } else if (!formValues.ConsultingHospitalCountry) {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -289,6 +292,12 @@ const ClientDetailsForth = forwardRef((props, ref) => {
         setErrors((prevErrors) => ({
           ...prevErrors,
           DeliveringHospitalAddress: "Delivering Hospital Address is required",
+        }));
+        return;
+      } else if (!formValues.DeliveryGynocologist) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DeliveryGynocologist: "Delivery Gynocologist Address is required",
         }));
         return;
       }
@@ -410,14 +419,14 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                     )}
                   </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Consulting Gynaecologist <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl
                     variant="outlined"
                     size="small"
-                    fullWidth
+                    fullWidth 
                     error={!!errors.ConsultingGynocologist}
                   >
                     <OutlinedInput
@@ -467,7 +476,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                       </FormHelperText>
                     )}
                   </FormControl>
-                </Grid>
+                </Grid> */}
               </Grid>
             </CardContent>
           </Card>
@@ -484,10 +493,19 @@ const ClientDetailsForth = forwardRef((props, ref) => {
               width: "49%",
               display: "flex",
               flexDirection: "column",
-              gap: 4,
+              // gap: 4,
             }}
           >
             <Card variant="outlined">
+              <Typography
+                sx={{
+                  paddingLeft: "10px",
+                  paddingTop: "5px",
+                  fontWeight: "bold",
+                }}
+              >
+                Consulting Hospital Address
+              </Typography>
               <CardContent>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -637,6 +655,38 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                     </FormControl>
                   </Grid>
                 </Grid>
+                <Grid container spacing={2} pt={3} pb={2}>
+                  <Grid item style={{ width: "100%" }}>
+                    <InputLabel sx={inputLableStyle}>
+                      Consulting Gynaecologist{" "}
+                      <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.ConsultingGynocologist}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        // type="number"
+                        id="ConsultingGynocologist"
+                        name="ConsultingGynocologist"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.ConsultingGynocologist}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "ConsultingGynocologist")
+                        }
+                      />
+                      {!!errors.ConsultingGynocologist && (
+                        <FormHelperText>
+                          {errors.ConsultingGynocologist}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                </Grid>
                 <Grid container spacing={2}>
                   <Grid item style={{ width: "100%", color: "black" }}>
                     <FormControlLabel
@@ -666,11 +716,20 @@ const ClientDetailsForth = forwardRef((props, ref) => {
               width: "49%",
               display: "flex",
               flexDirection: "column",
-              gap: 4,
+              // gap: 4,
             }}
           >
             <Card variant="outlined">
-              <CardContent sx={{ height: "315px" }}>
+              <Typography
+                sx={{
+                  paddingLeft: "10px",
+                  paddingTop: "5px",
+                  fontWeight: "bold",
+                }}
+              >
+                Delivering Hospital Address
+              </Typography>
+              <CardContent sx={{ height: "422px" }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
@@ -816,6 +875,38 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                       {!!errors.DeliveringHospitalAddress && (
                         <FormHelperText>
                           {errors.DeliveringHospitalAddress}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <Grid container spacing={2} pt={3} pb={2}>
+                  <Grid item style={{ width: "100%" }}>
+                    <InputLabel sx={inputLableStyle}>
+                      Delivering Gynaecologist{" "}
+                      <span style={redStarStyle}>*</span>
+                    </InputLabel>
+                    <FormControl
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.DeliveryGynocologist}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        // type="number"
+                        id="ConsultingGynocologist"
+                        name="ConsultingGynocologist"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.DeliveryGynocologist}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "DeliveryGynocologist")
+                        }
+                      />
+                      {!!errors.DeliveryGynocologist && (
+                        <FormHelperText>
+                          {errors.DeliveryGynocologist}
                         </FormHelperText>
                       )}
                     </FormControl>

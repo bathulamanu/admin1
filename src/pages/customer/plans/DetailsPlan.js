@@ -169,9 +169,7 @@ const PlanCard = ({
             onClick={(e) => {
               e.preventDefault();
               dispatch(getSubscriptionPlanDetails(subscriptionID));
-              navigate(
-                `/customerPage/plans/plansDetailsPreview/${subscriptionID}`
-              );
+              navigate(`/customerPage/plans/plansDetailsPreview`);
             }}
           >
             View

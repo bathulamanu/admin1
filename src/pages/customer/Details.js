@@ -35,23 +35,24 @@ const Details = () => {
   const [showBabyDetailsForm, setShowBabyDetailsForm] = useState(false);
 
   // const customerDetail = useSelector((state) => state.customers.customerDetail);
-  const SubscribedInnerPageData = useSelector((state) => state.global.SubscribedUserData);
+  const SubscribedInnerPageData = useSelector(
+    (state) => state.global.SubscribedUserData
+  );
 
   const handleChange = (event, newValue) => {
     dispatch(setSelectedTab(newValue));
   };
 
   useEffect(() => {
-    const customerID = localStorage.getItem("selectedCustomerId")
+    const customerID = localStorage.getItem("selectedCustomerId");
     dispatch(getAnnexureInfo(customerID));
   }, []);
 
   useEffect(() => {
-    SubscribedInnerPageData?.customerAnnexureInformationId ? setShowClientDetails(true) : setShowClientDetails(false)
+    SubscribedInnerPageData?.customerAnnexureInformationId
+      ? setShowClientDetails(true)
+      : setShowClientDetails(false);
   }, [SubscribedInnerPageData]);
-
-
-
 
   const getHeaderText = () => {
     switch (selectedTab) {
@@ -186,8 +187,7 @@ const Details = () => {
                       </Button>
                     </Box>
                   </Box>
-                ))
-              }
+                ))}
               {selectedTab === 2 &&
                 (showBabyDetailsForm ? (
                   <BabyDetailsForm />

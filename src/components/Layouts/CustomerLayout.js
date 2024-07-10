@@ -24,6 +24,7 @@ import AddIcon from "@mui/icons-material/Add";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   capitalizeFirstLetter,
@@ -503,8 +504,12 @@ export const CustomerLayout = () => {
                   </Button>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Typography variant="subtitle1" sx={{}}>
+                      /
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{}}>
+                      {activeItem}
+                    </Typography>
                   </Stack>
                 </Stack>
                 <Button
@@ -1216,6 +1221,83 @@ export const CustomerLayout = () => {
                 </Box>
               </Stack>
             )}
+            {pathname &&
+              pathname === "/customerPage/plans/plansDetailsPreview" && (
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/plans");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack
+                      direction={"row"}
+                      alignItems={"center"}
+                      spacing={1}
+                      marginLeft={2}
+                    >
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // setFormOpen("Hospitals");
+                        // dispatch(getHospitalDetails(searchQuery));
+                        // navigate("/mainPage/hospitals/Edit");
+                      }}
+                    >
+                      <EditIcon fontSize="small" /> Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background: "#f0f0f0",
+                        color: "black",
+                        "&:hover": {
+                          background: "#f0f0f0",
+                        },
+                      }}
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // handleDeleteHospitalFormSubmit();
+                        // // setFormOpen(null);
+                        // // setActiveItem("Hospitals");
+                        // dispatch(getHospitalsList(searchQuery));
+                        // navigate("/mainPage/hospitals");
+                      }}
+                    >
+                      <DeleteIcon fontSize="small" /> Delete
+                    </Button>
+                  </Stack>
+                </Stack>
+              )}
             {pathname && pathname === "/customerPage/plans/Edit" && (
               <Stack
                 sx={{
@@ -1290,56 +1372,6 @@ export const CustomerLayout = () => {
                 </Box>
               </Stack>
             )}
-            {pathname &&
-              pathname === "/customerPage/plans/plansDetailsPreview" && (
-                <Stack
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
-                    <Button
-                      // variant="contained"
-                      size="small"
-                      sx={{
-                        background: "inherit",
-                        color: "black",
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate("/customerPage/plans");
-                      }}
-                    >
-                      <ArrowBackIosIcon
-                        sx={{ height: 16, width: 16 }}
-                        fontSize="small"
-                      />{" "}
-                      Back
-                    </Button>
-                    <Stack
-                      direction={"row"}
-                      alignItems={"center"}
-                      spacing={1}
-                      marginLeft={2}
-                    >
-                      <Typography variant="h2">Customer Management</Typography>{" "}
-                      <Typography variant="subtitle1">/</Typography>
-                      <Typography variant="subtitle1">{activeItem}</Typography>
-                    </Stack>
-                  </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
-                    <Button size="small" variant="contained" color="error">
-                      Delete
-                    </Button>
-                    <Button size="small" variant="contained">
-                      Edit
-                    </Button>
-                  </Stack>
-                </Stack>
-              )}
           </Stack>
           <Outlet />
         </Box>

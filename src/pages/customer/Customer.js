@@ -66,7 +66,7 @@ const Customers = () => {
             }}
             color="primary"
           >
-            256 Customer
+            {customersList?.length} Customer
           </Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>

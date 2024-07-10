@@ -22,6 +22,7 @@ import {
   FormHelperText,
   Grid,
   InputLabel,
+  ListItemText,
   MenuItem,
   OutlinedInput,
   Select,
@@ -875,7 +876,46 @@ const DoctorEditForm = () => {
                   {" "}
                   Hospital and Address
                 </InputLabel>
-                <SingleSelect
+                <FormControl sx={{ width: "100%" }}>
+                  <Select
+                    sx={{ height: "40px" }}
+                    width={"100%"}
+                    labelId="hospital-select-label"
+                    id="hospital-select"
+                    value={formValues?.previousExperience[0]?.hospitalAddress}
+                    onChange={(e) => {
+                      handleOnChange(e, "hospitalAddress");
+                    }}
+                    renderValue={(selected) => {
+                      const selectedHospital = hospitalsList.find(
+                        (hospital) => hospital.HospitalID === selected
+                      );
+                      return selectedHospital
+                        ? `${selectedHospital.hospitalName} - ${selectedHospital.LocationInfo?.cityName}`
+                        : "";
+                    }}
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 200,
+                        },
+                      },
+                    }}
+                  >
+                    {hospitalsList.map((hospital) => (
+                      <MenuItem
+                        key={hospital.HospitalID}
+                        value={hospital.HospitalID}
+                      >
+                        <ListItemText
+                          primary={`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
+                          secondary={`${hospital.hospitalAddress.addressLine1} , ${hospital.hospitalAddress.addressLine1}`}
+                        />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                {/* <SingleSelect
                   placeholder={"Select"}
                   data={getHospitalnames}
                   width={"100%"}
@@ -883,7 +923,7 @@ const DoctorEditForm = () => {
                   onChange={(e) => {
                     handleOnChange(e, "hospitalAddress");
                   }}
-                />
+                /> */}
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
