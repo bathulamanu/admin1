@@ -31,6 +31,7 @@ import { createSubscriptionPlan } from "../../../redux/Slices/planSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetButtonText, getStatus } from "../../../redux/Slices/globalSlice";
 import {
+  formatDateYYYYMMDD,
   getButtonTexListById,
   getStatusIdList,
 } from "../../../service/globalFunctions";
@@ -107,7 +108,8 @@ const PlansEdit = forwardRef((props, ref) => {
     durationYear: "",
     durationYearText: "",
     customText: "",
-    offerTiming: null,
+    offerTimingFrom: null,
+    offerTimingTo: null,
   });
 
   const location = useLocation();
@@ -211,10 +213,16 @@ const PlansEdit = forwardRef((props, ref) => {
           status: "Status is required",
         }));
         return;
-      } else if (!formValues.offerTiming) {
+      } else if (!formValues.offerTimingFrom) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          offerTiming: "Offer Timing is required",
+          offerTimingFrom: "Offer Timing From is required",
+        }));
+        return;
+      } else if (!formValues.offerTimingTo) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          offerTimingTo: "Offer Timing To is required",
         }));
         return;
       }
@@ -267,7 +275,7 @@ const PlansEdit = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "65%",
+        maxHeight: "47%",
         overflow: "auto",
         background: "#fff",
         // padding: "8px",
@@ -799,30 +807,70 @@ const PlansEdit = forwardRef((props, ref) => {
                     Offer Timing (Date & Time)
                     <span style={redStarStyle}>*</span>
                   </InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                    error={!!errors.offerTiming}
+                  <Grid
+                    item
+                    style={{
+                      marginTop: "10px",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      gap: 4,
+                    }}
                   >
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.offerTiming}
-                      onChange={(e) => handleChange(e, "offerTiming")}
-                    />
-                    {/* <SingleSelect
-                        Placeholder={"Select"}
-                        width={"100%"}
-                        value={formValues?.offerTiming}
-                        onChange={(e) => handleChange(e, "offerTiming")}
-                      /> */}
-                    {!!errors?.offerTiming && (
-                      <FormHelperText>{errors?.offerTiming}</FormHelperText>
-                    )}
-                  </FormControl>
+                    <Grid item xs={6}>
+                      <InputLabel sx={inputLableStyle}>Start date </InputLabel>
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        error={!!errors.offerTimingFrom}
+                      >
+                        <OutlinedInput
+                          fullWidth
+                          type="date"
+                          id="outlined-adornment-password"
+                          placeholder="Input Text"
+                          size="small"
+                          value={formatDateYYYYMMDD(
+                            formValues?.offerTimingFrom
+                          )}
+                          onChange={(e) => handleChange(e, "offerTimingFrom")}
+                        />
+
+                        {!!errors?.offerTimingFrom && (
+                          <FormHelperText>
+                            {errors?.offerTimingFrom}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <InputLabel sx={inputLableStyle}>End date </InputLabel>
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        error={!!errors.offerTimingTo}
+                      >
+                        <OutlinedInput
+                          fullWidth
+                          type="date"
+                          id="outlined-adornment-password"
+                          placeholder="Input Text"
+                          size="small"
+                          value={formatDateYYYYMMDD(formValues?.offerTimingTo)}
+                          onChange={(e) => handleChange(e, "offerTimingTo")}
+                        />
+
+                        {!!errors?.offerTimingTo && (
+                          <FormHelperText>
+                            {errors?.offerTimingTo}
+                          </FormHelperText>
+                        )}
+                      </FormControl>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </CardContent>

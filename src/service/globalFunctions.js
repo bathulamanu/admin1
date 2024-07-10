@@ -144,7 +144,15 @@ export function getHospitalNameById(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
       id: item?.HospitalID,
-      name: item?.hospitalName + " - " + item?.LocationInfo?.cityName,
+      name: `${item?.hospitalName} - ${item?.LocationInfo?.cityName}\n${item?.hospitalAddress?.addressLine1} , ${item?.hospitalAddress?.addressLine2}`,
+      // name:
+      //   item?.hospitalName +
+      //   " - " +
+      //   item?.LocationInfo?.cityName +
+      //   "\n" +
+      //   item?.hospitalAddress?.addressLine1 +
+      //   " , " +
+      //   item?.hospitalAddress?.addressLine2,
     }));
     return result;
   }

@@ -16,6 +16,8 @@ import ClientDetailsSeven from "./ClientDetailsSeven";
 import ClientDetailsEight from "./ClientDetailsEight";
 import ClientDetailsPreview from "./ClientDetailsPreview";
 import { useDispatch } from "react-redux";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -207,7 +209,7 @@ const ClientDetails = () => {
               onClick={handlePrevious}
               disabled={currentStep === 1}
             >
-              <KeyboardBackspaceIcon /> Previous
+              <ArrowBackIcon sx={{ marginRight: "10px" }} /> Previous
             </Button>
           </Box>
           <Box>
@@ -222,7 +224,7 @@ const ClientDetails = () => {
               onClick={handleNext}
               disabled={currentStep === totalSteps && showPreview}
             >
-              Next <KeyboardTabIcon />
+              Next <ArrowForwardIcon sx={{ marginLeft: "10px" }} />
             </Button>
           </Box>
         </Stack>

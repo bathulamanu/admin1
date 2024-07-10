@@ -500,8 +500,12 @@ export const CustomerLayout = () => {
                   </Button>
                   <Stack direction={"row"} alignItems={"center"} spacing={1}>
                     <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Typography variant="subtitle1" sx={{}}>
+                      /
+                    </Typography>
+                    <Typography variant="subtitle1" sx={{}}>
+                      {activeItem}
+                    </Typography>
                   </Stack>
                 </Stack>
                 <Button
