@@ -132,7 +132,7 @@ export const baseRoutes = createBrowserRouter([
         element: <PlansEdit />,
       },
       {
-        path: "plans/plansDetailsPreview/:id",
+        path: "plans/plansDetailsPreview",
         element: <PlanDataPreview />,
       },
       {
