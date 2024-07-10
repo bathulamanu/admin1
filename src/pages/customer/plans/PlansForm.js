@@ -181,18 +181,18 @@ const PlansForm = forwardRef((props, ref) => {
           status: "Status is required",
         }));
         return;
-      } else if (!formValues.offerTimingFrom) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          offerTimingFrom: "Offer Timing From is required",
-        }));
-        return;
-      } else if (!formValues.offerTimingTo) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          offerTimingTo: "Offer Timing To is required",
-        }));
-        return;
+        // } else if (!formValues.offerTimingFrom) {
+        //   setErrors((prevErrors) => ({
+        //     ...prevErrors,
+        //     offerTimingFrom: "Offer Timing From is required",
+        //   }));
+        //   return;
+        // } else if (!formValues.offerTimingTo) {
+        //   setErrors((prevErrors) => ({
+        //     ...prevErrors,
+        //     offerTimingTo: "Offer Timing To is required",
+        //   }));
+        //   return;
       }
       dispatch(createSubscriptionPlan(formValues));
       navigate("/customerPage/plans");
@@ -766,7 +766,6 @@ const PlansForm = forwardRef((props, ref) => {
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Offer Timing (Date & Time)
-                    <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <Grid
                     item
@@ -830,26 +829,6 @@ const PlansForm = forwardRef((props, ref) => {
                       </FormControl>
                     </Grid>
                   </Grid>
-                  {/* <FormControl
-                    variant="outlined"
-                    fullWidth
-                    size="small"
-                    error={!!errors.offerTiming}
-                  >
-                    <OutlinedInput
-                      fullWidth
-                      type="date"
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
-                      size="small"
-                      value={formValues?.offerTiming}
-                      onChange={(e) => handleChange(e, "offerTiming")}
-                    />
-
-                    {!!errors?.offerTiming && (
-                      <FormHelperText>{errors?.offerTiming}</FormHelperText>
-                    )}
-                  </FormControl> */}
                 </Grid>
               </Grid>
             </CardContent>

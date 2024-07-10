@@ -213,18 +213,18 @@ const PlansEdit = forwardRef((props, ref) => {
           status: "Status is required",
         }));
         return;
-      } else if (!formValues.offerTimingFrom) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          offerTimingFrom: "Offer Timing From is required",
-        }));
-        return;
-      } else if (!formValues.offerTimingTo) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          offerTimingTo: "Offer Timing To is required",
-        }));
-        return;
+        // } else if (!formValues.offerTimingFrom) {
+        //   setErrors((prevErrors) => ({
+        //     ...prevErrors,
+        //     offerTimingFrom: "Offer Timing From is required",
+        //   }));
+        //   return;
+        // } else if (!formValues.offerTimingTo) {
+        //   setErrors((prevErrors) => ({
+        //     ...prevErrors,
+        //     offerTimingTo: "Offer Timing To is required",
+        //   }));
+        //   return;
       }
       dispatch(UpdateSubscriptionPlan({ subscriptionID, formValues }));
       navigate("/customerPage/plans");
@@ -805,7 +805,6 @@ const PlansEdit = forwardRef((props, ref) => {
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Offer Timing (Date & Time)
-                    <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <Grid
                     item
