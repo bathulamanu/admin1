@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../utils/api/httpRequest";
+import { ToastContainer, toast } from "react-toastify";
 
 const initialState = {
   adminLogin: {},
@@ -7,7 +8,7 @@ const initialState = {
 };
 
 export const getUserLogin = createAsyncThunk(
-  "getDoctorsList",
+  "employeeOrAdminLogin",
   async (data, thunkAPI) => {
     // console.log('We are inside getUserLogin API')
 
@@ -27,6 +28,27 @@ export const getUserLogin = createAsyncThunk(
   }
 );
 
+
+export const employeeOrAdminForgotPwd = createAsyncThunk(
+  "employeeOrAdminForgotPwd",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await api.post("/employeeOrAdminForgotPwd", payload);
+      const { problem, data } = response;
+      if (data?.status == 200) {
+        if (payload?.callback) payload.callback();
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue({ data, problem });
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: "admin",
   initialState,
@@ -39,14 +61,24 @@ const adminSlice = createSlice({
       state.loading = "complete_success";
       state.adminLogin = action?.payload?.data;
       const user = action?.payload?.data;
-      // console.log("dkjhcksdghljh  ", user);
-      // localStorage.setItem("user", user);
     });
     builder.addCase(getUserLogin.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
+    builder.addCase(employeeOrAdminForgotPwd.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(employeeOrAdminForgotPwd.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      toast.success(action.payload.message);
+    });
+    builder.addCase(employeeOrAdminForgotPwd.rejected, (state,action) => {
+      state.authLoading = "complete_failure";
+      toast.error(action.payload.message);
+    });
+
   },
 });
 
-export const {} = adminSlice.actions;
+export const { } = adminSlice.actions;
 export default adminSlice.reducer;

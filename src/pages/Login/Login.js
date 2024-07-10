@@ -17,8 +17,10 @@ import logo from "../../assets/logo.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserLogin } from "../../redux/Slices/adminSlice";
+import { getUserLogin, employeeOrAdminForgotPwd } from "../../redux/Slices/adminSlice";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -67,6 +69,15 @@ const Login = () => {
     }
   };
 
+
+  const handleForgotPwd = async () => {
+    try {
+      await dispatch(employeeOrAdminForgotPwd({ email: loginData.email }));
+    } catch (error) {
+      console.error("", error);
+    }
+  };
+
   return (
     <Container
       maxWidth="xxl"
@@ -78,6 +89,7 @@ const Login = () => {
         justifyContent: "center",
       }}
     >
+      <ToastContainer />
       <Box
         sx={{ width: "80%", height: "100%" }}
         display={"flex"}
@@ -97,7 +109,7 @@ const Login = () => {
         >
           <img src={logo} height={"auto"} width={"60%"} />
           <form
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             style={{ display: "flex", flexDirection: "column", gap: "18px" }}
           >
             <InputLabel htmlFor="email">Email</InputLabel>
@@ -143,7 +155,7 @@ const Login = () => {
                 <Checkbox {...label} size="small" />
                 <Typography sx={{ fontSize: "12px" }}> Remember me</Typography>
               </Stack>
-              <Stack justifyContent={"center"}>
+              <Stack justifyContent={"center"} onClick={handleForgotPwd}>
                 <Typography
                   sx={{ fontSize: "12px", color: "#219EB9", cursor: "pointer" }}
                 >
@@ -151,7 +163,7 @@ const Login = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <Button type="submit" fullWidth variant="contained" color="primary">
+            <Button type="submit" fullWidth variant="contained" color="primary" onClick={handleSubmit}>
               Log in
             </Button>
           </form>
