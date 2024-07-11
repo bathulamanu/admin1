@@ -57,10 +57,10 @@ const CustomerDetails = () => {
   const PaymentID = customerDetail?.PaymentID;
   const PaymentMode = customerDetail?.PaymentMode;
   const invoiceFile = customerDetail?.invoiceFile;
-  const invoiceFileDownload = customerDetail?.invoiceFile[0]?.invoiceFile;
-
+  
   const handleDownload = () => {
-    if (invoiceFileDownload) {
+    if (customerDetail && customerDetail.invoiceFile.length != 0) {
+      const invoiceFileDownload = customerDetail.invoiceFile[0].invoiceFile;
       const link = document.createElement("a");
       link.href = invoiceFileDownload;
       link.download = invoiceFileDownload;
@@ -558,7 +558,7 @@ const CustomerDetails = () => {
                   </Stack>
                 </CardContent>
               </Card>
-            </Box>
+            </Box> *
           </CardContent>
         </Card>
       </Box>
