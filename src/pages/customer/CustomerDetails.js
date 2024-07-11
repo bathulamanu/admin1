@@ -374,7 +374,7 @@ const CustomerDetails = () => {
                               fontWeight: 500,
                             }}
                           >
-                            Customer Date :
+                            Plan Date :
                           </Typography>{" "}
                           <Typography
                             variant="subtitle2"

@@ -743,7 +743,7 @@ const CustomerForm = forwardRef((props, ref) => {
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    Trasaction Date And Time <span style={redStarStyle}>*</span>
+                    Transaction Date & Time <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
