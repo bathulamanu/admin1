@@ -44,6 +44,7 @@ import { createSubscriptionPlan } from "../../redux/Slices/planSlice";
 import { AppContext } from "../../context/ContextProvider";
 import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
+import CustomerForm from "../../pages/customer/CustomerForm"
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -69,13 +70,15 @@ export const CustomerLayout = () => {
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
   const createPlanData = useSelector((state) => state.plan.createPlan);
-  // var count = 0;
-  // const handlePlanAddForm = () => {
-  //   navigate("/customerPage/plans");
-  //   dispatch(createSubscriptionPlan(createPlanData));
-  // };
+
   const formRef = useRef();
   const formEditRef = useRef();
+  const addCustomerForm = useRef();
+  const handleCustomerAddForm = () => {
+    if (addCustomerForm.current) {
+      addCustomerForm.current.validateCustomerAddForm();
+    }
+  };
   const handlePlanAddForm = () => {
     if (formRef.current) {
       formRef.current.validateForm();
@@ -528,7 +531,7 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -537,48 +540,65 @@ export const CustomerLayout = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
                   }}
                 >
-                  <Button
-                    // variant="contained"
-                    size="small"
+                  <Stack
                     sx={{
-                      background: "inherit",
-                      color: "black",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/customerPage/customers");
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      startIcon={<SaveAltIcon />}
+                      onClick={handleCustomerAddForm}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<CloseIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<SaveAltIcon />}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<CloseIcon />}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
+                <Box  sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <CustomerForm ref={addCustomerForm} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/customerPage/customers/customerEdit" && (
@@ -1178,7 +1198,6 @@ export const CustomerLayout = () => {
                     <Button
                       size="small"
                       variant="contained"
-                      // ref={formRef}
                       startIcon={<SaveAltIcon />}
                       onClick={handlePlanAddForm}
                     >
@@ -1330,7 +1349,6 @@ export const CustomerLayout = () => {
                     <Button
                       size="small"
                       variant="contained"
-                      // ref={formRef}
                       startIcon={<SaveAltIcon />}
                       onClick={handlePlanEditForm}
                     >

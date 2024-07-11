@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import api from "../../httpRequest";
 import adminapi from "../../utils/api/adminhttpRequest";
+import { ToastContainer, toast } from "react-toastify";
 
 const initialState = {
   customersList: [],
@@ -40,6 +41,27 @@ export const getCustomerDetails = createAsyncThunk(
   }
 );
 
+
+export const customerCreateByAdmin = createAsyncThunk(
+  "customerCreateByAdmin",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await adminapi.post("/customerCreateByAdmin", payload);
+      const { problem, data } = response;
+      if (data?.status == 200) {
+        toast.success(data?.message);
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue({ data, problem });
+      }
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const customerSlice = createSlice({
   name: "customers",
   initialState,
@@ -70,6 +92,6 @@ const customerSlice = createSlice({
   },
 });
 
-export const {} = customerSlice.actions;
+export const { } = customerSlice.actions;
 
 export default customerSlice.reducer;

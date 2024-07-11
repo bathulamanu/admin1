@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect, useState, useImperativeHandle,
+  forwardRef
+} from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
@@ -24,6 +27,8 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import SingleSelect from "../../components/GlobalComponents/SingleSelect";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   getCityIdList,
@@ -31,7 +36,8 @@ import {
   getStateIdList,
 } from "../../service/globalFunctions";
 import api from "../../utils/api/httpRequest";
-
+import { customerCreateByAdmin } from "../../redux/Slices/customerSlice"
+import { useNavigate } from "react-router-dom";
 const headingStyle = {
   fontSize: "14px",
   fontWeight: "bold",
@@ -61,7 +67,11 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-const CustomerForm = () => {
+const CustomerForm = forwardRef((props, ref) => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const getStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
   // console.log('All city for a state', getCitiesList)
@@ -75,84 +85,223 @@ const CustomerForm = () => {
     firstName: "",
     lastName: "",
     email: "",
+    countryCode: "+91",
     phoneNumber: "",
-    crnNumber: "",
-    CustomerAddress: {
-      addressLine1: "",
-      country: 352,
-      state: "",
-      city: "",
-      pincode: "",
-    },
-    customerPlan: "",
-    payment: {
-      amount: "",
-      status: "",
-      transactionId: "",
-      paymentMode: "",
-      transactionDate: "",
-      transactionTime: "",
-    },
+    registrationCRNid: "",
+    addressLine1: "",
+    addressLine2: "",
+    nearLandMark: "",
+    country: 352,
+    state: null,
+    city: null,
+    profilePhoto: "",
+    pincode: "",
+    subscriptionPlanId: null,
+    totalAmount: "",
+    offerValue: "",
+    isActive: "",
+    PaymentGatewayID: "",
+    paymentType: "",
+    paymentDate: ""
+
+    // ------------------
+
+    // "countryCode": "+91",
+    // "phoneNumber": "2374192564",
+    // "firstName": "littu",
+    // "lastName": "prasad",
+    // "email": "prasad@gmail.com",
+    // "addressLine1": "H.No:1-3/4, madur nagar",
+    // "addressLine2": "naraynakhed",
+    // "nearLandMark": "Back side of friu market",
+    // "city": 52385,
+    // "state": 1699,
+    // "pincode": "508896",
+    // "country": 352,
+    // "profilePhoto": "",
+    // "registrationCRNid": "CV/HYD/ytgh7",
+    // "subscriptionPlanId": 2,
+    // "totalAmount": "60,000",
+    // "offerPrice": "0.00",
+    // "isActive": 47,
+    // "PaymentGatewayID": "bnjhbrtkeyh4565g",
+    // "paymentType": "Card",
+    // "paymentDate": "2024-07-04T14:27:35.348+0000"
   });
 
-  const handleChange = (e, name) => {
-    const value = e.target ? e.target.value : e;
-    setFormValues((prev) => {
-      let temp = { ...prev };
-      switch (name) {
-        case "CustomerAddress1":
-          temp.CustomerAddress = {
-            ...temp.CustomerAddress,
-            addressLine1: value,
-          };
-          break;
+  const [errorValues, seterrorValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    countryCode: "+91",
+    phoneNumber: "",
+    registrationCRNid: "",
+    addressLine1: "",
+    addressLine2: "",
+    nearLandMark: "",
+    country: null,
+    state: null,
+    city: null,
+    pincode: "",
+    subscriptionPlanId: null,
+    totalAmount: "",
+    offerValue: "",
+    isActive: "",
+    PaymentGatewayID: "",
+    paymentType: "",
+    paymentDate: ""
+  })
 
-        case "country":
-          temp.CustomerAddress = { ...temp.CustomerAddress, country: value };
-          break;
-
-        case "state":
-          temp.CustomerAddress = { ...temp.CustomerAddress, state: value };
-          break;
-
-        case "city":
-          temp.CustomerAddress = { ...temp.CustomerAddress, city: value };
-          break;
-
-        case "pincode":
-          temp.CustomerAddress = { ...temp.CustomerAddress, pincode: value };
-          break;
-
-        case "amount":
-          temp.payment = { ...temp.payment, amount: value };
-          break;
-
-        case "status":
-          temp.payment = { ...temp.payment, status: value };
-          break;
-
-        case "transactionId":
-          temp.payment = { ...temp.payment, transactionId: value };
-          break;
-
-        case "paymentMode":
-          temp.payment = { ...temp.payment, paymentMode: value };
-          break;
-
-        case "transactionDate":
-          temp.payment = { ...temp.payment, transactionDate: value };
-          break;
-
-        case "transactionTime":
-          temp.payment = { ...temp.payment, transactionTime: value };
-          break;
-
-        default:
-          temp[name] = value;
-          break;
+  useImperativeHandle(ref, () => ({
+    validateCustomerAddForm: () => {
+      if (!formValues.firstName) {
+        seterrorValues((data) => ({
+          ...data,
+          ['firstName']: "First Name is required."
+        }))
+        return
       }
-      return temp;
-    });
+      if (!formValues.lastName) {
+        seterrorValues((data) => ({
+          ...data,
+          ['lastName']: "Last Name is required."
+        }))
+        return
+      }
+      if (!formValues.email) {
+        seterrorValues((data) => ({
+          ...data,
+          ['email']: "Email ID is required."
+        }))
+        return
+      }
+      if (!formValues.phoneNumber) {
+        seterrorValues((data) => ({
+          ...data,
+          ['phoneNumber']: "Phone Number is required."
+        }))
+        return
+      }
+      if (!formValues.registrationCRNid) {
+        seterrorValues((data) => ({
+          ...data,
+          ['registrationCRNid']: "CRN Number is required."
+        }))
+        return
+      }
+      if (!formValues.addressLine1) {
+        seterrorValues((data) => ({
+          ...data,
+          ['addressLine1']: "Address 1 is required."
+        }))
+        return
+      }
+      if (!formValues.addressLine2) {
+        seterrorValues((data) => ({
+          ...data,
+          ['addressLine2']: "Address 2 is required."
+        }))
+        return
+      }
+      if (!formValues.nearLandMark) {
+        seterrorValues((data) => ({
+          ...data,
+          ['nearLandMark']: "Near Land Mark is required."
+        }))
+        return
+      }
+      if (!formValues.country) {
+        seterrorValues((data) => ({
+          ...data,
+          ['country']: "Country is required."
+        }))
+        return
+      }
+      if (!formValues.state) {
+        seterrorValues((data) => ({
+          ...data,
+          ['state']: "State is required."
+        }))
+        return
+      }
+      if (!formValues.city) {
+        seterrorValues((data) => ({
+          ...data,
+          ['city']: "City is required."
+        }))
+        return
+      }
+      if (!formValues.pincode) {
+        seterrorValues((data) => ({
+          ...data,
+          ['pincode']: "Pincode is required."
+        }))
+        return
+      }
+      if (!formValues.subscriptionPlanId) {
+        seterrorValues((data) => ({
+          ...data,
+          ['subscriptionPlanId']: "Subscription Plan ID is required."
+        }))
+        return
+      }
+      if (!formValues.totalAmount) {
+        seterrorValues((data) => ({
+          ...data,
+          ['totalAmount']: "Total Amount is required."
+        }))
+        return
+      }
+      if (!formValues.offerValue) {
+        seterrorValues((data) => ({
+          ...data,
+          ['offerValue']: "Offer Value is required."
+        }))
+        return
+      }
+      if (!formValues.isActive) {
+        seterrorValues((data) => ({
+          ...data,
+          ['isActive']: "Status is required."
+        }))
+        return
+      }
+      if (!formValues.PaymentGatewayID) {
+        seterrorValues((data) => ({
+          ...data,
+          ['PaymentGatewayID']: "Trasaction ID is required."
+        }))
+        return
+      }
+      if (!formValues.paymentType) {
+        seterrorValues((data) => ({
+          ...data,
+          ['paymentType']: "Payment Mode is required."
+        }))
+        return
+      }
+      if (!formValues.paymentDate) {
+        seterrorValues((data) => ({
+          ...data,
+          ['paymentDate']: "Trasaction Date And Time is required."
+        }))
+        return
+      }
+      console.log("total payloadv ", formValues);
+      // dispatchEvent(customerCreateByAdmin(formValues))
+
+    }
+  }))
+
+  const handleChange = (e, name) => {
+    setFormValues((data) => ({
+      ...data,
+      [name]: e
+    }))
+    seterrorValues((data) => ({
+      ...data,
+      [name]: ""
+    }))
   };
 
   const handleImageUpload = async (e) => {
@@ -190,6 +339,7 @@ const CustomerForm = () => {
         padding: "8px",
       }}
     >
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -249,6 +399,7 @@ const CustomerForm = () => {
                         handleChange(e.target.value, "firstName")
                       }
                     />
+                    {errorValues?.firstName ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.firstName}</Typography> : null}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -263,6 +414,7 @@ const CustomerForm = () => {
                     value={formValues?.lastName}
                     onChange={(e) => handleChange(e.target.value, "lastName")}
                   />
+                  {errorValues?.lastName ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.lastName}</Typography> : null}
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3}>
@@ -279,6 +431,8 @@ const CustomerForm = () => {
                       value={formValues?.email}
                       onChange={(e) => handleChange(e.target.value, "email")}
                     />
+
+                    {errorValues?.email ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.email}</Typography> : null}
                   </FormControl>
                 </Grid>
                 <Grid item xs={6}>
@@ -295,6 +449,8 @@ const CustomerForm = () => {
                       handleChange(e.target.value, "phoneNumber")
                     }
                   />
+
+                  {errorValues?.phoneNumber ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.phoneNumber}</Typography> : null}
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={2}>
@@ -308,11 +464,12 @@ const CustomerForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input CRN Number"
                       size="small"
-                      value={formValues?.crnNumber}
+                      value={formValues?.registrationCRNid}
                       onChange={(e) =>
-                        handleChange(e.target.value, "crnNumber")
+                        handleChange(e.target.value, "registrationCRNid")
                       }
                     />
+                    {errorValues?.registrationCRNid ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.registrationCRNid}</Typography> : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -338,44 +495,57 @@ const CustomerForm = () => {
                       id="outlined-adornment-password"
                       placeholder=""
                       size="small"
-                      value={formValues?.CustomerAddress?.addressLine1}
+                      value={formValues?.addressLine1}
                       onChange={(e) => {
-                        handleChange(e.target.value, "CustomerAddress1");
+                        handleChange(e.target.value, "addressLine1");
                       }}
                     />
+                    {errorValues?.addressLine1 ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.addressLine1}</Typography> : null}
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={3}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Address 2<span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder=""
+                      size="small"
+                      value={formValues?.addressLine2}
+                      onChange={(e) => {
+                        handleChange(e.target.value, "addressLine2");
+                      }}
+                    />
+                    {errorValues?.addressLine2 ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.addressLine2}</Typography> : null}
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={3}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Near Land mark <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder=""
+                      size="small"
+                      value={formValues?.nearLandMark}
+                      onChange={(e) => {
+                        handleChange(e.target.value, "nearLandMark");
+                      }}
+                    />
+                    {errorValues?.nearLandMark ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.nearLandMark}</Typography> : null}
                   </FormControl>
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    City <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={cityList}
-                    value={formValues?.CustomerAddress?.city}
-                    onChange={(e) => {
-                      handleChange(e, "city");
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    State <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={stateList}
-                    value={formValues?.CustomerAddress?.state}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "state");
-                    }}
-                  />
-                </Grid>
+
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Country <span style={redStarStyle}>*</span>
@@ -385,11 +555,43 @@ const CustomerForm = () => {
                     width={"100%"}
                     disabled={true}
                     data={upDatedCountryList}
-                    value={formValues?.CustomerAddress?.country}
+                    value={formValues?.country}
                     onChange={(e) => {
                       handleChange(e, "country");
                     }}
                   />
+                  {errorValues?.country ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.country}</Typography> : null}
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>
+                    State <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={stateList}
+                    value={formValues?.state}
+                    onChange={(e) => {
+                      // dispatch(getCityList(e))
+                      handleChange(e, "state");
+                    }}
+                  />
+                  {errorValues?.state ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.state}</Typography> : null}
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>
+                    City <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={cityList}
+                    value={formValues?.city}
+                    onChange={(e) => {
+                      handleChange(e, "city");
+                    }}
+                  />
+                  {errorValues?.city ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.city}</Typography> : null}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -402,9 +604,10 @@ const CustomerForm = () => {
                       id="pincode"
                       placeholder="pincode"
                       size="small"
-                      value={formValues?.CustomerAddress?.pincode}
+                      value={formValues?.pincode}
                       onChange={(e) => handleChange(e.target.value, "pincode")}
                     />
+                    {errorValues?.pincode ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.pincode}</Typography> : null}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -428,12 +631,13 @@ const CustomerForm = () => {
                     Placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
-                    value={formValues?.customerPlan}
+                    value={formValues?.subscriptionPlanId}
                     onChange={(e) => {
                       // dispatch(getCityList(e))
-                      handleChange(e, "customerPlan");
+                      handleChange(e, "subscriptionPlanId");
                     }}
                   />
+                  {errorValues?.subscriptionPlanId ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.subscriptionPlanId}</Typography> : null}
                 </Grid>
               </Grid>
             </CardContent>
@@ -458,11 +662,32 @@ const CustomerForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.payment?.amount}
-                      onChange={(e) => handleChange(e.target.value, "amount")}
+                      value={formValues?.totalAmount}
+                      onChange={(e) => handleChange(e.target.value, "totalAmount")}
                     />
+                    {errorValues?.totalAmount ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.totalAmount}</Typography> : null}
                   </FormControl>
                 </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>
+                    offer Value <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl variant="outlined" fullWidth size="small">
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="Input Text"
+                      size="small"
+                      value={formValues?.offerValue}
+                      onChange={(e) => handleChange(e.target.value, "offerValue")}
+                    />
+                    {errorValues?.offerValue ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.offerValue}</Typography> : null}
+                  </FormControl>
+                </Grid>
+
+
+              </Grid>
+              <Grid container spacing={2} pt={3}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Status <span style={redStarStyle}>*</span>
@@ -471,15 +696,14 @@ const CustomerForm = () => {
                     Placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
-                    value={formValues?.payment?.status}
+                    value={formValues?.isActive}
                     onChange={(e) => {
                       // dispatch(getCityList(e))
-                      handleChange(e, "status");
+                      handleChange(e, "isActive");
                     }}
                   />
+                  {errorValues?.isActive ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.isActive}</Typography> : null}
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} pt={3}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Trasaction ID <span style={redStarStyle}>*</span>
@@ -490,13 +714,17 @@ const CustomerForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.payment?.transactionId}
+                      value={formValues?.PaymentGatewayID}
                       onChange={(e) =>
-                        handleChange(e.target.value, "transactionId")
+                        handleChange(e.target.value, "PaymentGatewayID")
                       }
                     />
+                    {errorValues?.PaymentGatewayID ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.PaymentGatewayID}</Typography> : null}
                   </FormControl>
                 </Grid>
+
+              </Grid>
+              <Grid container spacing={2} pt={3}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Payment Mode <span style={redStarStyle}>*</span>
@@ -505,18 +733,17 @@ const CustomerForm = () => {
                     Placeholder={"Select"}
                     width={"100%"}
                     data={stateList}
-                    value={formValues?.payment?.paymentMode}
+                    value={formValues?.paymentType}
                     onChange={(e) => {
                       // dispatch(getCityList(e))
-                      handleChange(e, "paymentMode");
+                      handleChange(e, "paymentType");
                     }}
                   />
+                  {errorValues?.paymentType ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.paymentType}</Typography> : null}
                 </Grid>
-              </Grid>
-              <Grid container spacing={2} pt={3}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
-                    Trasaction Date <span style={redStarStyle}>*</span>
+                    Trasaction Date And Time <span style={redStarStyle}>*</span>
                   </InputLabel>
                   <FormControl variant="outlined" fullWidth size="small">
                     <OutlinedInput
@@ -524,27 +751,13 @@ const CustomerForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.payment?.transactionDate}
+                      value={formValues?.paymentDate}
                       onChange={(e) =>
-                        handleChange(e.target.value, "transactionDate")
+                        handleChange(e.target.value, "paymentDate")
                       }
                     />
+                    {errorValues?.paymentDate ? <Typography sx={{ fontSize: "1rem", color: "red" }}>{errorValues?.paymentDate}</Typography> : null}
                   </FormControl>
-                </Grid>
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Trasaction Time <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <SingleSelect
-                    Placeholder={"Select"}
-                    width={"100%"}
-                    data={stateList}
-                    value={formValues?.payment?.transactionTime}
-                    onChange={(e) => {
-                      // dispatch(getCityList(e))
-                      handleChange(e, "transactionTime");
-                    }}
-                  />
                 </Grid>
               </Grid>
             </CardContent>
@@ -590,52 +803,45 @@ const CustomerForm = () => {
                       <Typography variant="h5" sx={{ marginBottom: "10px" }}>
                         Support Formats: JPG, PNG, SVG
                       </Typography>
-                      <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+
+                      <Stack
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          width: "100%",
+                        }}
+                      >
+                        <Stack></Stack>
                         <Button
                           component="label"
+                          role={undefined}
                           variant="contained"
-                          disabled
-                          sx={{ fontSize: "24px" }}
+                          tabIndex={-1}
+                          startIcon={<CloudUploadIcon />}
+                          sx={{ marginTop: "10px" }}
                         >
-                          Choose File
+                          Upload Image
+                          <input
+                            type="file"
+                            accept="image/jpeg, image/png, image/svg+xml"
+                            hidden
+                            onChange={handleImageUpload}
+                          />
                         </Button>
-                      </Box>
+                      </Stack>
+
                     </Stack>
                   </Stack>
                 </CardContent>
               </Card>
-              <Stack
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <Stack></Stack>
-                <Button
-                  component="label"
-                  role={undefined}
-                  variant="contained"
-                  tabIndex={-1}
-                  startIcon={<CloudUploadIcon />}
-                  sx={{ marginTop: "10px" }}
-                >
-                  Upload Image
-                  <input
-                    type="file"
-                    accept="image/jpeg, image/png, image/svg+xml"
-                    hidden
-                    onChange={handleImageUpload}
-                  />
-                </Button>
-              </Stack>
+
             </CardContent>
           </Card>
         </Box>
       </Box>
     </Container>
   );
-};
+});
 
 export default CustomerForm;
