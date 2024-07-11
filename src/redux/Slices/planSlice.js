@@ -56,11 +56,12 @@ export const createSubscriptionPlan = createAsyncThunk(
 
 export const UpdateSubscriptionPlan = createAsyncThunk(
   "UpdateSubscriptionPlan",
-  async ({ subscriptionID, editSubscriptionPlan }, thunkAPI) => {
+  async ({ subscriptionID, formValues }, thunkAPI) => {
+    console.log("data when we are posting", subscriptionID, formValues);
     try {
       const response = await customerapi.put(
         `UpdateSubscriptionPlan/${subscriptionID}`,
-        editSubscriptionPlan
+        formValues
       );
       toast.success(response.data.message);
       return response.data;

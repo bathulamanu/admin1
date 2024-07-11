@@ -8,13 +8,15 @@ import {
   Divider,
   Box,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 
 const PlanDataPreview = () => {
   const subscriptionPanDetails = useSelector(
     (state) => state.plan.subscriptionPanDetails
   );
-  // console.log(subscriptionPanDetails);
+  console.log(subscriptionPanDetails);
   const title = subscriptionPanDetails?.title;
   const subTitle = subscriptionPanDetails?.subTitle;
   const Icon = subscriptionPanDetails?.Icon;
@@ -45,6 +47,7 @@ const PlanDataPreview = () => {
         marginBottom: "60px",
       }}
     >
+      <ToastContainer />
       <Typography
         sx={{
           fontSize: "24px",

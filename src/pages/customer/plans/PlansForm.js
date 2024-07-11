@@ -18,6 +18,8 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
@@ -242,6 +244,7 @@ const PlansForm = forwardRef((props, ref) => {
         marginBottom: "30px",
       }}
     >
+      <ToastContainer />
       <Typography
         sx={{
           fontSize: "24px",

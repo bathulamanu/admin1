@@ -18,6 +18,8 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
@@ -87,7 +89,7 @@ const PlansEdit = forwardRef((props, ref) => {
     (state) => state.plan.subscriptionPanDetails
   );
   const subscriptionID = subscriptionPanDetails?.subscriptionID;
-  console.log("subscriptionID", subscriptionID);
+  console.log("subscriptionID edit", subscriptionID);
 
   const [formValues, setFormValues] = useState({
     title: "",
@@ -282,6 +284,7 @@ const PlansEdit = forwardRef((props, ref) => {
         marginBottom: "30px",
       }}
     >
+      <ToastContainer />
       <Typography
         sx={{
           fontSize: "24px",
