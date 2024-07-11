@@ -11,6 +11,8 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { styled } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -205,6 +207,7 @@ const PlanCard = ({
             onClick={(e) => {
               e.preventDefault();
               dispatch(deleteSubscriptionPlan({ subscriptionID }));
+              dispatch(getSubscriptionPlan(null));
             }}
           >
             Delete
@@ -244,6 +247,7 @@ const DetailsPlan = () => {
         padding: "8px",
       }}
     >
+      <ToastContainer />
       <Stack
         sx={{
           marginTop: "15px",

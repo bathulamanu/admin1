@@ -12,6 +12,8 @@ import {
   styled,
   useMediaQuery,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -30,21 +32,16 @@ import {
   capitalizeFirstLetter,
   stringAvatar,
 } from "../../service/globalFunctions";
-import {
-  getCityList,
-  getCountryList,
-  getEmploymentType,
-  getExperienceList,
-  getGenderList,
-  getSpecialization,
-  getStateList,
-} from "../../redux/Slices/globalSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { createSubscriptionPlan } from "../../redux/Slices/planSlice";
-import { AppContext } from "../../context/ContextProvider";
+
+import {
+  getSubscriptionPlanDetails,
+  deleteSubscriptionPlan,
+  getSubscriptionPlan,
+} from "../../redux/Slices/planSlice";
 import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
-import CustomerForm from "../../pages/customer/CustomerForm"
+import CustomerForm from "../../pages/customer/CustomerForm";
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: inherit;
@@ -69,7 +66,11 @@ export const CustomerLayout = () => {
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
-  const createPlanData = useSelector((state) => state.plan.createPlan);
+  const subscriptionPanDetails = useSelector(
+    (state) => state.plan.subscriptionPanDetails
+  );
+  const subscriptionID = subscriptionPanDetails?.subscriptionID;
+  console.log("subscriptionID", subscriptionID);
 
   const formRef = useRef();
   const formEditRef = useRef();
@@ -596,7 +597,7 @@ export const CustomerLayout = () => {
                     </Button>
                   </Stack>
                 </Stack>
-                <Box  sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
                   <CustomerForm ref={addCustomerForm} />
                 </Box>
               </Stack>
@@ -1267,9 +1268,8 @@ export const CustomerLayout = () => {
                       size="small"
                       onClick={(e) => {
                         e.preventDefault();
-                        // setFormOpen("Hospitals");
-                        // dispatch(getHospitalDetails(searchQuery));
-                        // navigate("/mainPage/hospitals/Edit");
+                        dispatch(getSubscriptionPlanDetails(subscriptionID));
+                        navigate(`/customerPage/plans/Edit`);
                       }}
                     >
                       <EditIcon fontSize="small" /> Edit
@@ -1286,11 +1286,9 @@ export const CustomerLayout = () => {
                       size="small"
                       onClick={(e) => {
                         e.preventDefault();
-                        // handleDeleteHospitalFormSubmit();
-                        // // setFormOpen(null);
-                        // // setActiveItem("Hospitals");
-                        // dispatch(getHospitalsList(searchQuery));
-                        // navigate("/mainPage/hospitals");
+                        dispatch(deleteSubscriptionPlan({ subscriptionID }));
+                        dispatch(getSubscriptionPlan(searchQuery));
+                        navigate(`/customerPage/plans`);
                       }}
                     >
                       <DeleteIcon fontSize="small" /> Delete

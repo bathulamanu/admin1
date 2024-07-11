@@ -185,3 +185,23 @@ export function getButtonTexListById(arr) {
     return result;
   }
 }
+
+export function getPlanListById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.subscriptionID,
+      name: item?.title + " - " + item?.price,
+    }));
+    return result;
+  }
+}
+
+export function getPaymentModeListById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.masterConfigurationID,
+      name: item?.value,
+    }));
+    return result;
+  }
+}
