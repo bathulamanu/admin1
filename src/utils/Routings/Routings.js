@@ -59,7 +59,7 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "doctorForm",
-        element: <DoctorAddForm />,
+        // element: <DoctorAddForm />,
       },
       {
         path: "hospitals",
@@ -67,7 +67,7 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "hospitalFrom",
-        element: <HospitalAddForm />,
+        // element: <HospitalAddForm />,
       },
       {
         path: "hospitals/view",
@@ -101,7 +101,7 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "customerForm",
-        element: <CustomerForm />,
+        // element: <CustomerForm />,
       },
       {
         path: "customers/customerDetails",
@@ -125,11 +125,11 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "plans/plansForm",
-        element: <PlansForm />,
+        // element: <PlansForm />,
       },
       {
         path: "plans/Edit",
-        element: <PlansEdit />,
+        // element: <PlansEdit />,
       },
       {
         path: "plans/plansDetailsPreview",
