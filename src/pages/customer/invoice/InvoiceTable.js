@@ -7,38 +7,22 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import InvoiceColumns from "./InvoiceTableColumn";
 import CommonDataTable from "../../../components/GlobalComponents/CommonDataTable";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllInvoiceList } from "../../../redux/Slices/invoiceSlice";
 
 const InvoiceTable = () => {
-  const dummyData = [
-    {
-      id: 1,
-      customerName: "john doe",
-      DateTime: "2023-01-01 - 12:56 PM",
-      crnNo: "123456",
-      planAmount: "Besic - 25000",
-      status: "Paid",
-    },
-    {
-      id: 2,
-      customerName: "john doe",
-      DateTime: "2023-01-01 - 12:56 PM",
-      crnNo: "123456",
-      planAmount: "Premium - 25000",
-      status: "Paid",
-    },
-    {
-      id: 3,
-      customerName: "Ram Das",
-      DateTime: "2023-01-01 - 12:56 PM",
-      crnNo: "22345",
-      planAmount: "Besic - 25000",
-      //   status: "Pertial",
-    },
-  ];
+  const dispatch = useDispatch();
+  const invoiceList = useSelector((state) => state.invoice.invoiceList);
+
+  // console.log("listData", invoiceList);
+
+  useEffect(() => {
+    dispatch(getAllInvoiceList());
+  }, []);
 
   return (
     <Container
@@ -59,6 +43,7 @@ const InvoiceTable = () => {
           marginX: "20px",
           border: "1px solid #CFD4DB",
           borderRadius: "10px",
+          marginTop: "15px",
         }}
       >
         <Stack direction={"row"} justifyContent={"center"} spacing={2}>
@@ -98,7 +83,7 @@ const InvoiceTable = () => {
           </FormControl>
         </Stack>
       </Box>
-      <CommonDataTable rows={dummyData || []} columns={InvoiceColumns()} />
+      <CommonDataTable rows={invoiceList || []} columns={InvoiceColumns()} />
     </Container>
   );
 };

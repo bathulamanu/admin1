@@ -3,7 +3,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
 import { getCustomerDetails } from "../../redux/Slices/customerSlice";
 import { formatDate } from "../../service/globalFunctions";
 

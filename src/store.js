@@ -9,6 +9,7 @@ import customerSlice from "./redux/Slices/customerSlice";
 import settingLayoutSlice from "./redux/Slices/settingLayoutSlice";
 import customerClientSlice from "./redux/Slices/customerClientSlice";
 import planSlice from "./redux/Slices/planSlice";
+import invoiceSlice from "./redux/Slices/invoiceSlice";
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ export const store = configureStore({
     customers: customerSlice,
     customerClient: customerClientSlice,
     plan: planSlice,
+    invoice: invoiceSlice,
   },
 });
 
