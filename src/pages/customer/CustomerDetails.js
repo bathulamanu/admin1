@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { getCustomerDetails } from "../../redux/Slices/customerSlice";
+import { formatDate } from "../../service/globalFunctions";
 
 const headingStyle = {
   fontSize: "18px",
@@ -41,6 +42,7 @@ const CustomerDetails = () => {
   const email = customerDetail?.email;
   const phoneNumber = customerDetail?.phoneNumber;
   const registrationCRNid = customerDetail?.registrationCRNid;
+  const profilePhoto = customerDetail?.profilePhoto;
   const address = customerDetail?.address;
   const addressLine1 = customerDetail?.addressLine1;
   const addressLine2 = customerDetail?.addressLine2;
@@ -48,17 +50,26 @@ const CustomerDetails = () => {
   const stateName = customerDetail?.LocationInfo?.stateName;
   const countryName = customerDetail?.LocationInfo?.countryName;
   const pincode = customerDetail?.pincode;
+  const PlanTitle = customerDetail?.PlanTitle;
+  const createdTime = formatDate(customerDetail?.createdTime);
+  const totalAmount = customerDetail?.totalAmount;
+  const paymentStatus = customerDetail?.paymentStatus;
+  const PaymentID = customerDetail?.PaymentID;
+  const PaymentMode = customerDetail?.PaymentMode;
+  const invoiceFile = customerDetail?.invoiceFile;
+  const invoiceFileDownload = customerDetail?.invoiceFile[0]?.invoiceFile;
 
-  const dummyData = [
-    {
-      id: 1,
-      customerName: "john doe",
-      DateTime: "2023-01-01 - 12:56 PM",
-      crnNo: "123456",
-      planAmount: "25000",
-      status: "Paid",
-    },
-  ];
+  const handleDownload = () => {
+    if (invoiceFileDownload) {
+      const link = document.createElement("a");
+      link.href = invoiceFileDownload;
+      link.download = invoiceFileDownload;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <Container
       disableGutters
@@ -192,6 +203,7 @@ const CustomerDetails = () => {
                     </Stack>
                     <Stack>
                       <Avatar
+                        src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${profilePhoto}`}
                         sx={{ width: 200, height: 200, marginRight: 2 }}
                       />
                     </Stack>
@@ -362,7 +374,7 @@ const CustomerDetails = () => {
                             }}
                           >
                             {" "}
-                            Genral Delivary
+                            {PlanTitle}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -383,7 +395,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            25/04/2024
+                            {createdTime}
                           </Typography>
                         </Stack>
                       </Stack>
@@ -420,8 +432,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            {" "}
-                            250000
+                            {totalAmount}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -442,7 +453,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            Paid
+                            {paymentStatus}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -463,8 +474,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            {" "}
-                            123456789
+                            {PaymentID}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -485,8 +495,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            {" "}
-                            Card Payment
+                            {PaymentMode}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -508,7 +517,7 @@ const CustomerDetails = () => {
                             }}
                           >
                             {" "}
-                            25/04/2024 - 11:46 PM
+                            {createdTime}
                           </Typography>
                         </Stack>
                       </Stack>
@@ -524,7 +533,7 @@ const CustomerDetails = () => {
                     INVOICE
                   </Typography>
                   <CommonDataTable
-                    rows={dummyData || []}
+                    rows={invoiceFile || []}
                     columns={InvoiceColumns()}
                   />
                   <Stack
@@ -542,6 +551,7 @@ const CustomerDetails = () => {
                       variant="contained"
                       tabIndex={-1}
                       sx={{ marginTop: "10px" }}
+                      onClick={handleDownload}
                     >
                       Download Invoice
                     </Button>

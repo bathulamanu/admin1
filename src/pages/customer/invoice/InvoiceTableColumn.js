@@ -2,6 +2,7 @@ import { Button, Chip, Stack, styled, Typography } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { formatDate } from "../../../service/globalFunctions";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -24,7 +25,7 @@ const InvoiceTableColumn = () => {
       sortable: false,
       disableColumnFilter: true,
       disableColumnMenu: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.firstName),
     },
     {
       field: "DateTime",
@@ -33,7 +34,7 @@ const InvoiceTableColumn = () => {
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.DateTime),
+      valueGetter: (_, row) => formatDate(row?.createdTime),
     },
     {
       field: "crnNo",
@@ -42,7 +43,7 @@ const InvoiceTableColumn = () => {
       disableColumnMenu: true,
       sortable: false,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.CRNno),
     },
     {
       field: "planAmount",
@@ -51,7 +52,7 @@ const InvoiceTableColumn = () => {
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => row?.planAmount,
+      valueGetter: (_, row) => row?.Plan + " & " + row?.totalAmount,
     },
     {
       field: "status",
@@ -67,14 +68,34 @@ const InvoiceTableColumn = () => {
           height={"100%"}
           width={"100%"}
         >
-          <Chip
-            label={row?.status ? "Paid" : "Pertial"}
+          {row?.paymentStatus === "Completed" && (
+            <Chip
+              label={"Paid"}
+              sx={{
+                borderRadius: "4px",
+                color: "#269254",
+                background: "#fff",
+              }}
+            />
+          )}
+          {row?.paymentStatus === "Partial" && (
+            <Chip
+              label={"Pertial"}
+              sx={{
+                borderRadius: "4px",
+                color: "#EF4646",
+                background: "#fff",
+              }}
+            />
+          )}
+          {/* <Chip
+            label={row?.paymentStatus ? "Paid" : "Pertial"}
             sx={{
               borderRadius: "4px",
-              color: row?.status ? "#269254" : "#EF4646",
-              background: row?.status ? "#fff" : "#fff",
+              color: row?.paymentStatus ? "#269254" : "#EF4646",
+              background: row?.paymentStatus ? "#fff" : "#fff",
             }}
-          />
+          /> */}
         </Stack>
       ),
     },
@@ -97,7 +118,7 @@ const InvoiceTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              //   dispatch(getHospitalDetails(params?.row?.id));
+              //   dispatch(getHospitalDetails(params?.row?.customerPaymentSubId));
               navigate("/customerPage/invoices/invoiceView");
             }}
           >
