@@ -15,6 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import api from "../../../utils/api/httpRequest";
 
 const headingStyle = {
   fontSize: "24px",
@@ -34,30 +35,23 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const BabyDetailsForm = () => {
+  const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
-    motherName: "",
-    dob: "",
-    email: "",
-    phoneNumber: "",
-    occupation: "",
-    designation: "",
-    orgName: "",
-    idProof: "",
-    idProofNo: "",
-    otherId: "",
+    babyName: "",
+    babyDOB: "",
+    timeOfBirth: "",
+    weight: "",
+    DeliveryDoctorName: null,
+    placeOfBirth: "",
+    NomineeName: "",
+    NomineeRelationship: "",
+    babyProfile: "",
+    DoctorProfile: "",
+    DoctorName: null,
+    HospitalName: null,
+    HospitalAddressLine1: "",
+    HospitalAddressLine2: "",
   });
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -65,6 +59,34 @@ const BabyDetailsForm = () => {
       ...prev,
       [name]: value,
     }));
+
+    // Clear the error message when the user starts typing
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
+  };
+  const handleFatherImageUpload = async (e, fieldName) => {
+    const headers = {
+      "Content-Type": "multipart/form-data",
+    };
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("folder", "ClientDetails");
+    try {
+      const response = await api.post("/upload", formData, { headers });
+      if (response?.data?.status === 200) {
+        setFormValues((prev) => ({
+          ...prev,
+          [fieldName]: response?.data?.data?.key,
+        }));
+        console.log(formValues[fieldName]);
+      } else {
+        console.log(response?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -107,9 +129,9 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.motherName}
+                        value={formValues?.babyName}
                         onChange={(e) =>
-                          handleChange(e.target.value, "motherName")
+                          handleChange(e.target.value, "babyName")
                         }
                       />
                     </FormControl>
@@ -123,8 +145,8 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.dob}
-                      onChange={(e) => handleChange(e.target.value, "dob")}
+                      value={formValues?.babyDOB}
+                      onChange={(e) => handleChange(e.target.value, "babyDOB")}
                     />
                   </Grid>
                 </Grid>
@@ -139,8 +161,10 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Time of Birth"
                         size="small"
-                        value={formValues?.email}
-                        onChange={(e) => handleChange(e.target.value, "email")}
+                        value={formValues?.timeOfBirth}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "timeOfBirth")
+                        }
                       />
                     </FormControl>
                   </Grid>
@@ -153,10 +177,8 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Weight"
                       size="small"
-                      value={formValues?.phoneNumber}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "phoneNumber")
-                      }
+                      value={formValues?.weight}
+                      onChange={(e) => handleChange(e.target.value, "weight")}
                     />
                   </Grid>
                 </Grid>
@@ -171,9 +193,9 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.occupation}
+                        value={formValues?.DeliveryDoctorName}
                         onChange={(e) =>
-                          handleChange(e.target.value, "occupation")
+                          handleChange(e.target.value, "DeliveryDoctorName")
                         }
                       />
                     </FormControl>
@@ -187,9 +209,9 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.designation}
+                      value={formValues?.placeOfBirth}
                       onChange={(e) =>
-                        handleChange(e.target.value, "designation")
+                        handleChange(e.target.value, "placeOfBirth")
                       }
                     />
                   </Grid>
@@ -205,9 +227,9 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.idProofNo}
+                      value={formValues?.NomineeName}
                       onChange={(e) =>
-                        handleChange(e.target.value, "idProofNo")
+                        handleChange(e.target.value, "NomineeName")
                       }
                     />
                   </Grid>
@@ -220,9 +242,9 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.idProofNo}
+                      value={formValues?.NomineeRelationship}
                       onChange={(e) =>
-                        handleChange(e.target.value, "idProofNo")
+                        handleChange(e.target.value, "NomineeRelationship")
                       }
                     />
                   </Grid>
@@ -279,41 +301,41 @@ const BabyDetailsForm = () => {
                         >
                           Support Formats: JPG, PNG, SVG
                         </Typography>
-                        <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <Stack></Stack>
                           <Button
                             component="label"
+                            role={undefined}
                             variant="contained"
-                            disabled
-                            sx={{ fontSize: "14px" }}
+                            tabIndex={-1}
+                            startIcon={<CloudUploadIcon />}
+                            sx={{ marginTop: "10px" }}
                           >
-                            Choose File
+                            Upload Image
+                            <input
+                              type="file"
+                              accept="image/jpeg, image/png, image/svg+xml"
+                              hidden
+                              onChange={(e) =>
+                                handleFatherImageUpload(
+                                  e,
+                                  "ExpectantFatherProfilePhoto"
+                                )
+                              }
+                            />
                           </Button>
-                        </Box>
+                        </Stack>
                       </Stack>
                     </Stack>
                   </CardContent>
                 </Card>
-                <Stack
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  <Stack></Stack>
-                  <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                    sx={{ marginTop: "10px" }}
-                  >
-                    Upload Image
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                </Stack>
               </CardContent>
             </Card>
           </Box>
@@ -350,9 +372,9 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.motherName}
+                        value={formValues?.DoctorName}
                         onChange={(e) =>
-                          handleChange(e.target.value, "motherName")
+                          handleChange(e.target.value, "DoctorName")
                         }
                       />
                     </FormControl>
@@ -366,8 +388,10 @@ const BabyDetailsForm = () => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
-                      value={formValues?.dob}
-                      onChange={(e) => handleChange(e.target.value, "dob")}
+                      value={formValues?.HospitalName}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "HospitalName")
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -383,9 +407,9 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.orgName}
+                        value={formValues?.HospitalAddressLine1}
                         onChange={(e) =>
-                          handleChange(e.target.value, "orgName")
+                          handleChange(e.target.value, "HospitalAddressLine1")
                         }
                       />
                     </FormControl>
@@ -403,9 +427,9 @@ const BabyDetailsForm = () => {
                         id="outlined-adornment-password"
                         placeholder="Input Text"
                         size="small"
-                        value={formValues?.orgName}
+                        value={formValues?.HospitalAddressLine2}
                         onChange={(e) =>
-                          handleChange(e.target.value, "orgName")
+                          handleChange(e.target.value, "HospitalAddressLine2")
                         }
                       />
                     </FormControl>
@@ -463,41 +487,41 @@ const BabyDetailsForm = () => {
                         >
                           Support Formats: JPG, PNG, SVG
                         </Typography>
-                        <Box sx={{ alignItems: "center", marginLeft: "50px" }}>
+                        <Stack
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <Stack></Stack>
                           <Button
                             component="label"
+                            role={undefined}
                             variant="contained"
-                            disabled
-                            sx={{ fontSize: "14px" }}
+                            tabIndex={-1}
+                            startIcon={<CloudUploadIcon />}
+                            sx={{ marginTop: "10px" }}
                           >
-                            Choose File
+                            Upload Image
+                            <input
+                              type="file"
+                              accept="image/jpeg, image/png, image/svg+xml"
+                              hidden
+                              onChange={(e) =>
+                                handleFatherImageUpload(
+                                  e,
+                                  "ExpectantFatherProfilePhoto"
+                                )
+                              }
+                            />
                           </Button>
-                        </Box>
+                        </Stack>
                       </Stack>
                     </Stack>
                   </CardContent>
                 </Card>
-                <Stack
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  <Stack></Stack>
-                  <Button
-                    component="label"
-                    role={undefined}
-                    variant="contained"
-                    tabIndex={-1}
-                    startIcon={<CloudUploadIcon />}
-                    sx={{ marginTop: "10px" }}
-                  >
-                    Upload Image
-                    <VisuallyHiddenInput type="file" />
-                  </Button>
-                </Stack>
               </CardContent>
             </Card>
           </Box>

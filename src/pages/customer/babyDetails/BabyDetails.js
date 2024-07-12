@@ -7,12 +7,29 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CommonDataTable from "../../../components/GlobalComponents/CommonDataTable";
 import SearchIcon from "@mui/icons-material/Search";
 import BabyDetailsTableColumn from "./BabyDetailsTableColumn";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBabyList } from "../../../redux/Slices/babySlice";
 
 const BabyDetails = () => {
+  const dispatch = useDispatch();
+  const babyList = useSelector((state) => state.baby.babyList);
+  console.log("listData", babyList);
+  useEffect(() => {
+    dispatch(getAllBabyList());
+  }, []);
+
+  const [searchValue, setSearchValue] = useState("");
+  const filteredList = babyList?.filter((item) => {
+    const matchesSearch =
+      item?.firstName &&
+      item.firstName.toLowerCase().includes(searchValue.toLowerCase());
+
+    return matchesSearch;
+  });
   const dummyData = [
     {
       id: 1,

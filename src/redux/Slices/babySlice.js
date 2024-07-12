@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import customerapi from "../../utils/api/customerhttpRequest";
 import adminapi from "../../utils/api/adminhttpRequest";
 import { ToastContainer, toast } from "react-toastify";
 
-export const getAllInvoiceList = createAsyncThunk(
-  "getAllInvoiceList",
+export const getAllBabyList = createAsyncThunk(
+  "getAllBabyList",
   async (thunkAPI) => {
     try {
-      const response = await adminapi.get(`getAllInvoice`);
+      const response = await adminapi.get(`getAllBabyDetails`);
       console.log("API response", response);
       return response.data;
     } catch (error) {
@@ -19,27 +18,27 @@ export const getAllInvoiceList = createAsyncThunk(
 );
 
 const initialState = {
-  invoiceList: [],
+  babyList: [],
   loading: "",
 };
 
-const invoiceSlice = createSlice({
-  name: "invoice",
+const babySlice = createSlice({
+  name: "baby",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllInvoiceList.pending, (state) => {
+    builder.addCase(getAllBabyList.pending, (state) => {
       state.loading = "pending";
     });
-    builder.addCase(getAllInvoiceList.fulfilled, (state, action) => {
+    builder.addCase(getAllBabyList.fulfilled, (state, action) => {
       state.loading = "complete_success";
-      state.invoiceList = action.payload.data;
+      state.babyList = action.payload.data;
     });
-    builder.addCase(getAllInvoiceList.rejected, (state) => {
+    builder.addCase(getAllBabyList.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
 });
 
-export const {} = invoiceSlice.actions;
-export default invoiceSlice.reducer;
+export const {} = babySlice.actions;
+export default babySlice.reducer;
