@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -8,14 +8,25 @@ import {
   Card,
   CardContent,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
+  ListItemText,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import api from "../../../utils/api/httpRequest";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
+import { getDoctorList } from "../../../redux/Slices/doctorSlice";
+import { getDoctorListById } from "../../../service/globalFunctions";
+import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
+import { toast } from "react-toastify";
 
 const headingStyle = {
   fontSize: "24px",
@@ -36,6 +47,17 @@ const redStarStyle = {
 };
 
 const BabyDetailsForm = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
+  const doctorsList = useSelector((state) => state.doctor.doctorsList);
+  const allDoctor = getDoctorListById(doctorsList);
+
+  useEffect(() => {
+    dispatch(getHospitalsList(null));
+    dispatch(getDoctorList(null));
+  }, []);
+
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     babyName: "",
@@ -53,14 +75,35 @@ const BabyDetailsForm = () => {
     HospitalAddressLine1: "",
     HospitalAddressLine2: "",
   });
+
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
 
-    // Clear the error message when the user starts typing
+    setFormValues((prev) => {
+      let updatedValues = { ...prev, [name]: value };
+
+      if (name === "HospitalName") {
+        const selectedHospital = hospitalsList.find(
+          (hospital) => hospital.HospitalID === value
+        );
+
+        if (selectedHospital) {
+          updatedValues = {
+            ...updatedValues,
+            HospitalAddressLine1: selectedHospital.hospitalAddress.addressLine1,
+            HospitalAddressLine2: selectedHospital.hospitalAddress.addressLine2,
+          };
+        } else {
+          updatedValues = {
+            ...updatedValues,
+            HospitalAddressLine1: "",
+            HospitalAddressLine2: "",
+          };
+        }
+      }
+
+      return updatedValues;
+    });
     setErrors({
       ...errors,
       [name]: "",
@@ -72,7 +115,7 @@ const BabyDetailsForm = () => {
     };
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
-    formData.append("folder", "ClientDetails");
+    formData.append("folder", "babyProfile");
     try {
       const response = await api.post("/upload", formData, { headers });
       if (response?.data?.status === 200) {
@@ -80,14 +123,15 @@ const BabyDetailsForm = () => {
           ...prev,
           [fieldName]: response?.data?.data?.key,
         }));
-        console.log(formValues[fieldName]);
+        toast.success(response?.data?.message);
       } else {
-        console.log(response?.data?.message);
+        toast.error(response?.data?.message);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  console.log("formValues", formValues);
 
   return (
     <Card variant="outlined">
@@ -123,7 +167,12 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Baby Name <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.babyName}
+                    >
                       <OutlinedInput
                         fullWidth
                         id="outlined-adornment-password"
@@ -134,20 +183,36 @@ const BabyDetailsForm = () => {
                           handleChange(e.target.value, "babyName")
                         }
                       />
+                      {!!errors.babyName && (
+                        <FormHelperText>{errors.babyName}</FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Date of Birth <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.babyDOB}
-                      onChange={(e) => handleChange(e.target.value, "babyDOB")}
-                    />
+                      error={!!errors.babyDOB}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        type="date"
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.babyDOB}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "babyDOB")
+                        }
+                      />
+                      {!!errors.babyDOB && (
+                        <FormHelperText>{errors.babyDOB}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} pt={3}>
@@ -155,9 +220,15 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Time of Birth <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.timeOfBirth}
+                    >
                       <OutlinedInput
                         fullWidth
+                        type="time"
                         id="outlined-adornment-password"
                         placeholder="Input Time of Birth"
                         size="small"
@@ -166,20 +237,33 @@ const BabyDetailsForm = () => {
                           handleChange(e.target.value, "timeOfBirth")
                         }
                       />
+                      {!!errors.timeOfBirth && (
+                        <FormHelperText>{errors.timeOfBirth}</FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Weight <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Weight"
                       size="small"
-                      value={formValues?.weight}
-                      onChange={(e) => handleChange(e.target.value, "weight")}
-                    />
+                      error={!!errors.weight}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Weight"
+                        size="small"
+                        value={formValues?.weight}
+                        onChange={(e) => handleChange(e.target.value, "weight")}
+                      />
+                      {!!errors.weight && (
+                        <FormHelperText>{errors.weight}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} pt={3}>
@@ -187,33 +271,50 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Delivery Doctor Name <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
-                      <OutlinedInput
-                        fullWidth
-                        id="outlined-adornment-password"
-                        placeholder="Input Text"
-                        size="small"
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DeliveryDoctorName}
+                    >
+                      <SingleSelect
+                        placeholder={"Select"}
                         value={formValues?.DeliveryDoctorName}
-                        onChange={(e) =>
-                          handleChange(e.target.value, "DeliveryDoctorName")
-                        }
+                        data={allDoctor}
+                        width={"100%"}
+                        onChange={(e) => handleChange(e, "DeliveryDoctorName")}
                       />
+                      {!!errors.DeliveryDoctorName && (
+                        <FormHelperText>
+                          {errors.DeliveryDoctorName}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Place of Birth <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.placeOfBirth}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "placeOfBirth")
-                      }
-                    />
+                      error={!!errors.placeOfBirth}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.placeOfBirth}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "placeOfBirth")
+                        }
+                      />
+                      {!!errors.placeOfBirth && (
+                        <FormHelperText>{errors.placeOfBirth}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                 </Grid>
 
@@ -222,31 +323,53 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Nominee Name <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.NomineeName}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "NomineeName")
-                      }
-                    />
+                      error={!!errors.NomineeName}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.NomineeName}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "NomineeName")
+                        }
+                      />
+                      {!!errors.NomineeName && (
+                        <FormHelperText>{errors.NomineeName}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Nominee Relationship <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.NomineeRelationship}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "NomineeRelationship")
-                      }
-                    />
+                      error={!!errors.NomineeRelationship}
+                    >
+                      <OutlinedInput
+                        fullWidth
+                        id="outlined-adornment-password"
+                        placeholder="Input Text"
+                        size="small"
+                        value={formValues?.NomineeRelationship}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "NomineeRelationship")
+                        }
+                      />
+                      {!!errors.NomineeRelationship && (
+                        <FormHelperText>
+                          {errors.NomineeRelationship}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                 </Grid>
               </CardContent>
@@ -276,6 +399,7 @@ const BabyDetailsForm = () => {
                       }}
                     >
                       <Avatar
+                        src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.babyProfile}`}
                         sx={{ width: 150, height: 150, marginRight: 2 }}
                       />
                       <Stack sx={{ display: "flex", flexDirection: "column" }}>
@@ -324,10 +448,7 @@ const BabyDetailsForm = () => {
                               accept="image/jpeg, image/png, image/svg+xml"
                               hidden
                               onChange={(e) =>
-                                handleFatherImageUpload(
-                                  e,
-                                  "ExpectantFatherProfilePhoto"
-                                )
+                                handleFatherImageUpload(e, "babyProfile")
                               }
                             />
                           </Button>
@@ -366,33 +487,75 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Doctor's Name <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
-                      <OutlinedInput
-                        fullWidth
-                        id="outlined-adornment-password"
-                        placeholder="Input Text"
-                        size="small"
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.DoctorName}
+                    >
+                      <SingleSelect
+                        placeholder={"Select"}
                         value={formValues?.DoctorName}
-                        onChange={(e) =>
-                          handleChange(e.target.value, "DoctorName")
-                        }
+                        data={allDoctor}
+                        width={"100%"}
+                        onChange={(e) => handleChange(e, "DoctorName")}
                       />
+                      {!!errors.DoctorName && (
+                        <FormHelperText>{errors.DoctorName}</FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
                       Hospital Name <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <OutlinedInput
+                    <FormControl
+                      variant="outlined"
                       fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="Input Text"
                       size="small"
-                      value={formValues?.HospitalName}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "HospitalName")
-                      }
-                    />
+                      error={!!errors.HospitalName}
+                    >
+                      <Select
+                        sx={{ height: "40px" }}
+                        width={"100%"}
+                        labelId="hospital-select-label"
+                        id="hospital-select"
+                        value={formValues?.HospitalName}
+                        onChange={(e) => {
+                          handleChange(e, "HospitalName");
+                        }}
+                        renderValue={(selected) => {
+                          const selectedHospital = hospitalsList.find(
+                            (hospital) => hospital.HospitalID === selected
+                          );
+                          return selectedHospital
+                            ? `${selectedHospital.hospitalName} - ${selectedHospital.LocationInfo?.cityName}`
+                            : "";
+                        }}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 200,
+                            },
+                          },
+                        }}
+                      >
+                        {hospitalsList.map((hospital) => (
+                          <MenuItem
+                            key={hospital.HospitalID}
+                            value={hospital.HospitalID}
+                          >
+                            <ListItemText
+                              primary={`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
+                              secondary={`${hospital.hospitalAddress.addressLine1} , ${hospital.hospitalAddress.addressLine1}`}
+                            />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {!!errors.HospitalName && (
+                        <FormHelperText>{errors.HospitalName}</FormHelperText>
+                      )}
+                    </FormControl>
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} pt={3} pb={2}>
@@ -401,7 +564,12 @@ const BabyDetailsForm = () => {
                       Hospital Address Line-1{" "}
                       <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.HospitalAddressLine1}
+                    >
                       <OutlinedInput
                         fullWidth
                         id="outlined-adornment-password"
@@ -412,6 +580,11 @@ const BabyDetailsForm = () => {
                           handleChange(e.target.value, "HospitalAddressLine1")
                         }
                       />
+                      {!!errors.HospitalAddressLine1 && (
+                        <FormHelperText>
+                          {errors.HospitalAddressLine1}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -421,7 +594,12 @@ const BabyDetailsForm = () => {
                       Hospital Address Line-2{" "}
                       <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
+                    <FormControl
+                      variant="outlined"
+                      fullWidth
+                      size="small"
+                      error={!!errors.HospitalAddressLine2}
+                    >
                       <OutlinedInput
                         fullWidth
                         id="outlined-adornment-password"
@@ -432,6 +610,11 @@ const BabyDetailsForm = () => {
                           handleChange(e.target.value, "HospitalAddressLine2")
                         }
                       />
+                      {!!errors.HospitalAddressLine2 && (
+                        <FormHelperText>
+                          {errors.HospitalAddressLine2}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
                 </Grid>
@@ -462,6 +645,7 @@ const BabyDetailsForm = () => {
                       }}
                     >
                       <Avatar
+                        src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.DoctorProfile}`}
                         sx={{ width: 150, height: 150, marginRight: 2 }}
                       />
                       <Stack sx={{ display: "flex", flexDirection: "column" }}>
@@ -510,10 +694,7 @@ const BabyDetailsForm = () => {
                               accept="image/jpeg, image/png, image/svg+xml"
                               hidden
                               onChange={(e) =>
-                                handleFatherImageUpload(
-                                  e,
-                                  "ExpectantFatherProfilePhoto"
-                                )
+                                handleFatherImageUpload(e, "DoctorProfile")
                               }
                             />
                           </Button>
@@ -541,14 +722,7 @@ const BabyDetailsForm = () => {
               Frames
             </Typography>
 
-            <Button
-              variant="contained"
-              size="small"
-              //   onClick={(e) => {
-              //     e.preventDefault();
-              //     navigate("/customerPage/customerForm");
-              //   }}
-            >
+            <Button variant="contained" size="small">
               <AddIcon fontSize="small" /> Add Files
             </Button>
           </CardContent>

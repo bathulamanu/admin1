@@ -205,3 +205,13 @@ export function getPaymentModeListById(arr) {
     return result;
   }
 }
+
+export function getDoctorListById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.doctorDetailsID,
+      name: item?.doctorFirstName,
+    }));
+    return result;
+  }
+}

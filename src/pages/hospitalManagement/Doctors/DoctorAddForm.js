@@ -119,7 +119,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
   }, []);
 
   // const getHospitalnames = getHospitalNameById(hospitalsList);
-  console.log("HospitalsList name", hospitalsList);
+  // console.log("HospitalsList name", hospitalsList);
 
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
