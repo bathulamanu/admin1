@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -27,6 +26,7 @@ import { getDoctorList } from "../../../redux/Slices/doctorSlice";
 import { getDoctorListById } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { toast } from "react-toastify";
+import TimePicker from "react-time-picker";
 
 const headingStyle = {
   fontSize: "24px",
@@ -226,17 +226,37 @@ const BabyDetailsForm = () => {
                       size="small"
                       error={!!errors.timeOfBirth}
                     >
-                      <OutlinedInput
-                        fullWidth
-                        type="time"
-                        id="outlined-adornment-password"
-                        placeholder="Input Time of Birth"
-                        size="small"
-                        value={formValues?.timeOfBirth}
+                      <Box sx={{ display: "flex", flexDirection: "row" }}>
+                        <OutlinedInput
+                          fullWidth
+                          type="time"
+                          id="outlined-adornment-password"
+                          placeholder="Input Time of Birth"
+                          size="small"
+                          value={formValues?.timeOfBirth}
+                          onChange={(e) =>
+                            handleChange(e.target.value, "timeOfBirth")
+                          }
+                        />
+                        {/* <Select
+                          id="outlined-am-pm"
+                          value={formValues?.ampm}
+                          onChange={(e) => handleChange(e.target.value, "ampm")}
+                        >
+                          <MenuItem value="AM">AM</MenuItem>
+                          <MenuItem value="PM">PM</MenuItem>
+                        </Select> */}
+                      </Box>
+                      {/* <TimePicker
+                        disableClock={true}
+                        format="hh:mm a"
+                        hourPlaceholder="hh"
+                        minutePlaceholder="mm"
                         onChange={(e) =>
                           handleChange(e.target.value, "timeOfBirth")
                         }
-                      />
+                        value={formValues?.timeOfBirth}
+                      /> */}
                       {!!errors.timeOfBirth && (
                         <FormHelperText>{errors.timeOfBirth}</FormHelperText>
                       )}

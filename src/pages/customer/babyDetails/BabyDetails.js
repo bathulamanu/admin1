@@ -25,30 +25,12 @@ const BabyDetails = () => {
   const [searchValue, setSearchValue] = useState("");
   const filteredList = babyList?.filter((item) => {
     const matchesSearch =
-      item?.firstName &&
-      item.firstName.toLowerCase().includes(searchValue.toLowerCase());
+      item?.babyName &&
+      item.babyName.toLowerCase().includes(searchValue.toLowerCase());
 
     return matchesSearch;
   });
-  const dummyData = [
-    {
-      id: 1,
-      customerName: "john doe",
-      RegDate: "2023-01-01",
-      crnNo: "123456",
-      contact: { phoneNumber: "123-456-7890" },
-      LocationInfo: { cityName: "new york" },
-    },
-    {
-      id: 2,
-      customerName: "jane smith",
-      RegDate: "2022-12-01",
-      crnNo: "654321",
-      contact: { phoneNumber: "098-765-4321" },
-      LocationInfo: { cityName: "los angeles" },
-    },
-    // Add more dummy records as needed
-  ];
+
   return (
     <Container
       maxWidth="xxl"
@@ -100,6 +82,8 @@ const BabyDetails = () => {
               type={"text"}
               placeholder="Search for Baby"
               size="small"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               startAdornment={
                 <InputAdornment position="start">
                   <SearchIcon />
@@ -110,7 +94,7 @@ const BabyDetails = () => {
         </Stack>
       </Box>
       <CommonDataTable
-        rows={dummyData || []}
+        rows={filteredList || []}
         columns={BabyDetailsTableColumn()}
       />
     </Container>

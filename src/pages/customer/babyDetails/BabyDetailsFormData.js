@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
@@ -13,6 +13,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getBabyDetails } from "../../../redux/Slices/babySlice";
+import { formatDate } from "../../../service/globalFunctions";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -27,6 +30,28 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 const BabyDetailsFormData = () => {
+  const dispatch = useDispatch();
+  const babyDetail = useSelector((state) => state.baby.babyDetail);
+  useEffect(() => {
+    const babyId = localStorage.getItem("selectedbabyId");
+    dispatch(getBabyDetails(babyId));
+  }, []);
+  console.log("babyDetail", babyDetail);
+  const babyName = babyDetail?.babyName;
+  const babyDOB = formatDate(babyDetail?.babyDOB);
+  const timeOfBirth = babyDetail?.timeOfBirth;
+  const weight = babyDetail?.weight;
+  const DeliveryDoctorName = babyDetail?.DeliveryDoctorName;
+  const placeOfBirth = babyDetail?.placeOfBirth;
+  const NomineeName = babyDetail?.NomineeName;
+  const NomineeRelationship = babyDetail?.NomineeRelationship;
+  const DoctorProfile = babyDetail?.DoctorProfile;
+  const DoctorName = babyDetail?.DoctorName;
+  const HospitalName = babyDetail?.HospitalName;
+  const HospitalAddressLine1 = babyDetail?.HospitalAddressLine1;
+  const HospitalAddressLine2 = babyDetail?.HospitalAddressLine2;
+  const babyProfile = babyDetail?.babyProfile;
+
   return (
     <Container
       maxWidth="xxl"
@@ -75,7 +100,7 @@ const BabyDetailsFormData = () => {
                         Baby Name :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Suraj Reddy
+                        {babyName}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -89,7 +114,7 @@ const BabyDetailsFormData = () => {
                         Date of Birth :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        12/04/24
+                        {babyDOB}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -103,7 +128,7 @@ const BabyDetailsFormData = () => {
                         Time of Birth :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        12:00 PM
+                        {timeOfBirth}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -117,7 +142,7 @@ const BabyDetailsFormData = () => {
                         Weight :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        4 KG
+                        {weight}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -131,7 +156,7 @@ const BabyDetailsFormData = () => {
                         Delivery Doctor Name :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        RJ Praven
+                        {DeliveryDoctorName}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -145,7 +170,7 @@ const BabyDetailsFormData = () => {
                         Place of Birth :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Hydrabad
+                        {placeOfBirth}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -159,7 +184,7 @@ const BabyDetailsFormData = () => {
                         Nominee Name :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Raima Reddy
+                        {NomineeName}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -173,11 +198,14 @@ const BabyDetailsFormData = () => {
                         Nominee Relationship :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Mother
+                        {NomineeRelationship}
                       </Typography>
                     </Stack>
                   </Stack>
-                  <Avatar sx={{ width: 150, height: 150, marginRight: 6 }} />
+                  <Avatar
+                    src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${DoctorProfile}`}
+                    sx={{ width: 150, height: 150, marginRight: 6 }}
+                  />
                 </Stack>
               </CardContent>
             </Card>
@@ -211,7 +239,7 @@ const BabyDetailsFormData = () => {
                         Doctor's Name :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        RJ Praven
+                        {DoctorName}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -226,7 +254,7 @@ const BabyDetailsFormData = () => {
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
                         {" "}
-                        Sum co Hospital
+                        {HospitalName}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -240,7 +268,7 @@ const BabyDetailsFormData = () => {
                         Hospital Address Line-1 :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Hydrabad
+                        {HospitalAddressLine1}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -254,11 +282,14 @@ const BabyDetailsFormData = () => {
                         Hospital Address Line-1 :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Hydrabad
+                        {HospitalAddressLine2}
                       </Typography>
                     </Stack>
                   </Stack>
-                  <Avatar sx={{ width: 150, height: 150, marginRight: 6 }} />
+                  <Avatar
+                    src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${babyProfile}`}
+                    sx={{ width: 150, height: 150, marginRight: 6 }}
+                  />
                 </Stack>
               </CardContent>
             </Card>

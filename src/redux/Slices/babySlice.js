@@ -7,7 +7,20 @@ export const getAllBabyList = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const response = await adminapi.get(`getAllBabyDetails`);
-      console.log("API response", response);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const getBabyDetails = createAsyncThunk(
+  "getBabyDetails",
+  async (babyID, thunkAPI) => {
+    try {
+      const response = await adminapi.get(`getEachBabyDetails/${babyID}`);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -19,6 +32,8 @@ export const getAllBabyList = createAsyncThunk(
 
 const initialState = {
   babyList: [],
+  babyDetail: {},
+  babyID: null,
   loading: "",
 };
 
@@ -35,6 +50,17 @@ const babySlice = createSlice({
       state.babyList = action.payload.data;
     });
     builder.addCase(getAllBabyList.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getBabyDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getBabyDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.babyDetail = action?.payload?.data;
+    });
+    builder.addCase(getBabyDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

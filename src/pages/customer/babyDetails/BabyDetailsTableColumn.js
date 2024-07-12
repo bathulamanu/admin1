@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import UnfoldMoreIcon from "@mui/icons-material/UnfoldMore";
+import { formatDate } from "../../../service/globalFunctions";
+import { getBabyDetails } from "../../../redux/Slices/babySlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -30,7 +32,7 @@ const BabyDetailsTableColumn = () => {
       sortable: true,
       disableColumnFilter: true,
       disableColumnMenu: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.customerName),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.babyName),
     },
     {
       field: "RegDate",
@@ -44,7 +46,7 @@ const BabyDetailsTableColumn = () => {
       disableColumnMenu: true,
       sortable: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.RegDate),
+      valueGetter: (_, row) => formatDate(row?.babyDOB),
     },
     {
       field: "crnNo",
@@ -58,7 +60,7 @@ const BabyDetailsTableColumn = () => {
       disableColumnMenu: true,
       sortable: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.crnNo),
+      valueGetter: (_, row) => row?.timeOfBirth,
     },
     {
       field: "contact",
@@ -72,7 +74,7 @@ const BabyDetailsTableColumn = () => {
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => row?.contact?.phoneNumber,
+      valueGetter: (_, row) => row?.weight,
     },
     {
       field: "doctorName",
@@ -86,7 +88,7 @@ const BabyDetailsTableColumn = () => {
       flex: 1,
       disableColumnMenu: true,
       disableColumnFilter: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.doctorName),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.DoctorName),
     },
     {
       field: "location",
@@ -101,6 +103,8 @@ const BabyDetailsTableColumn = () => {
       disableColumnMenu: true,
       disableColumnFilter: true,
       valueGetter: (_, row) =>
+        capitalizeFirstLetter(row?.HospitalName) +
+        " & " +
         capitalizeFirstLetter(row?.LocationInfo?.cityName),
     },
     {
@@ -122,7 +126,8 @@ const BabyDetailsTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              //   dispatch(getHospitalDetails(params?.row?.id));
+              localStorage.setItem("selectedbabyId", params?.row?.babyID);
+              dispatch(getBabyDetails(params?.row?.babyID));
               navigate("/customerPage/baby_details/babyDetailsView");
             }}
           >
