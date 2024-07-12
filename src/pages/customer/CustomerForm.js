@@ -557,7 +557,7 @@ const CustomerForm = forwardRef((props, ref) => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} pt={2}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Country <span style={redStarStyle}>*</span>
