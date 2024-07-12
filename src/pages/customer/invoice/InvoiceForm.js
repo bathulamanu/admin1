@@ -13,10 +13,14 @@ import {
   InputLabel,
   FormControl,
   TextField,
+  IconButton,
 } from "@mui/material";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import AddIcon from "@mui/icons-material/Add";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import CloseIcon from "@mui/icons-material/Close";
 
 const inputLableStyle = {
   color: "black",
@@ -54,7 +58,7 @@ const InvoiceForm = () => {
       [name]: value,
     }));
   };
-
+  const [openView, setOpenView] = useState(false);
   return (
     <Container
       maxWidth="xxl"
@@ -278,10 +282,85 @@ const InvoiceForm = () => {
                 </FormControl>
               </Grid>
             </Grid>
-            <Button color="primary" sx={{ padding: "8px", fontWeight: "bold" }}>
+            <Button
+              color="primary"
+              sx={{ padding: "8px", fontWeight: "bold" }}
+              onClick={() => setOpenView(true)}
+            >
               {" "}
               <AddIcon fontSize="small" /> Add Items
             </Button>
+            <Dialog open={openView} onClose={() => setOpenView(false)}>
+              <DialogContent
+                sx={{
+                  padding: "20px",
+                  position: "relative",
+                  textAlign: "center",
+                  width: "400px",
+                }}
+              >
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                  }}
+                  onClick={() => setOpenView(false)}
+                >
+                  <CloseIcon />
+                </IconButton>
+                <Box>
+                  <Typography sx={{ fontWeight: "bold" }}>Add Items</Typography>
+                  <Grid container spacing={2} pt={2} pb={1}>
+                    <Grid item style={{ width: "100%" }}>
+                      <InputLabel sx={inputLableStyle}>Description</InputLabel>
+                      <FormControl variant="outlined" fullWidth size="small">
+                        <OutlinedInput
+                          fullWidth
+                          id="outlined-adornment-password"
+                          placeholder="Input Text"
+                          size="small"
+                          value={formValues?.orgName}
+                          onChange={(e) => handleChange(e, "orgName")}
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={2} pt={2} pb={1}>
+                    <Grid item style={{ width: "100%" }}>
+                      <InputLabel sx={inputLableStyle}>Price</InputLabel>
+                      <FormControl variant="outlined" fullWidth size="small">
+                        <OutlinedInput
+                          fullWidth
+                          id="outlined-adornment-password"
+                          placeholder="Input Text"
+                          size="small"
+                          value={formValues?.orgName}
+                          onChange={(e) => handleChange(e, "orgName")}
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <Stack
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                    }}
+                  >
+                    <Stack></Stack>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      sx={{ marginTop: "10px", width: "100px" }}
+                    >
+                      Add Item
+                    </Button>
+                  </Stack>
+                </Box>
+              </DialogContent>
+            </Dialog>
             <Grid container spacing={2} pt={2} pb={1}>
               <Grid item style={{ width: "100%" }}>
                 <InputLabel sx={inputLableStyle}>
@@ -313,7 +392,7 @@ const InvoiceForm = () => {
                 size="small"
                 variant="contained"
                 startIcon={<SaveAltIcon />}
-                sx={{ marginLeft: "550px", marginTop: "10px", width: "100px" }}
+                sx={{ marginTop: "10px", width: "100px" }}
               >
                 Save
               </Button>
