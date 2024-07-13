@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -16,6 +16,9 @@ import {
 } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
+import { useDispatch, useSelector } from "react-redux";
+import { getInvoiceDetails } from "../../../redux/Slices/invoiceSlice";
+import { formatDate } from "../../../service/globalFunctions";
 
 const inputLableStyle = {
   color: "black",
@@ -26,6 +29,25 @@ const inputLableStyle = {
 };
 
 const InvoiceView = () => {
+  const dispatch = useDispatch();
+  const invoiceDetail = useSelector((state) => state.invoice.invoiceDetail);
+  useEffect(() => {
+    const customerPaymentSubId = localStorage.getItem("customerPaymentSubId");
+    dispatch(getInvoiceDetails(customerPaymentSubId));
+  }, []);
+  console.log("invoiceDetail", invoiceDetail);
+  const InvoiceID = invoiceDetail?.InvoiceID;
+  const CRNno = invoiceDetail?.CRNno;
+  const CustomerName = invoiceDetail?.CustomerName;
+  const DateOfIssue = formatDate(invoiceDetail?.DateOfIssue);
+  const BillFrom = invoiceDetail?.BillFrom;
+  const billTo = invoiceDetail?.billTo;
+  const Plan = invoiceDetail?.Plan;
+  const totalAmount = invoiceDetail?.totalAmount;
+  const paymentStatus = invoiceDetail?.paymentStatus;
+  const PaymentGatewayID = invoiceDetail?.PaymentGatewayID;
+  const createdTime = formatDate(invoiceDetail?.createdTime);
+
   const [formValues, setFormValues] = useState({
     fatherName: "",
     dob: "",
@@ -144,7 +166,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
                         >
-                          2024-56
+                          {InvoiceID}
                         </Typography>
                       </Stack>
                     </Stack>
@@ -168,7 +190,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
                         >
-                          02021
+                          {CRNno}
                         </Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
@@ -185,7 +207,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
                         >
-                          Raju
+                          {CustomerName}
                         </Typography>
                       </Stack>
                       <Stack direction={"row"} spacing={2}>
@@ -202,7 +224,7 @@ const InvoiceView = () => {
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
                         >
-                          22/06/24
+                          {DateOfIssue}
                         </Typography>
                       </Stack>
                     </Stack>
@@ -231,7 +253,7 @@ const InvoiceView = () => {
                         variant="subtitle2"
                         sx={{ fontSize: "14px", fontWeight: 500 }}
                       >
-                        Cryovault
+                        {BillFrom}
                       </Typography>
                     </Box>
                     <Divider orientation="vertical" flexItem />
@@ -252,7 +274,7 @@ const InvoiceView = () => {
                         variant="subtitle2"
                         sx={{ fontSize: "14px", fontWeight: 500 }}
                       >
-                        suraj
+                        {billTo}
                       </Typography>
                     </Box>
                   </Stack>
@@ -277,7 +299,7 @@ const InvoiceView = () => {
                         Customer Plan :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Premium Plan{" "}
+                        {Plan}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -315,7 +337,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            2456{" "}
+                            {totalAmount}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -332,7 +354,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            Paid{" "}
+                            {paymentStatus}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -368,7 +390,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            256124889745{" "}
+                            {PaymentGatewayID}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -385,7 +407,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            25/05/2024{" "}
+                            {createdTime}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -450,35 +472,47 @@ const InvoiceView = () => {
                       >
                         <Typography sx={{}}>Item Description 1</Typography>
                         <Typography
-                          sx={{ fontSize: "14px", marginRight: "30px" }}
+                          sx={{ fontSize: "14px", marginRight: "75px" }}
                         >
-                          22/05/24 - 11:00Am
+                          {createdTime}
                         </Typography>
                         <Typography sx={{ marginRight: "30px" }}>
-                          Paid
+                          {paymentStatus}
                         </Typography>
-                        <Typography sx={{}}>2456</Typography>
+                        <Typography sx={{}}>{totalAmount}</Typography>
                       </Stack>
                     </Box>
                     <Stack
                       sx={{
                         display: "flex",
                         flexDirection: "row",
-                        marginLeft: "350px",
+                        justifyContent: "space-between",
+                        width: "100%",
+                        // marginLeft: "350px",
                       }}
                     >
-                      <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
-                        Total
-                      </Typography>
-                      <Typography
+                      <Stack></Stack>
+                      <Stack
                         sx={{
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          marginLeft: "85px",
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          width: "30%",
                         }}
                       >
-                        2456
-                      </Typography>
+                        <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                          Total
+                        </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "14px",
+                            fontWeight: 500,
+                            marginRight: "15px",
+                          }}
+                        >
+                          {totalAmount}
+                        </Typography>
+                      </Stack>
                     </Stack>
                   </Stack>
                   <Divider />

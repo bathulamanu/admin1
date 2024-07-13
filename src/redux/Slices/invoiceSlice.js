@@ -8,7 +8,22 @@ export const getAllInvoiceList = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const response = await adminapi.get(`getAllInvoice`);
-      console.log("API response", response);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const getInvoiceDetails = createAsyncThunk(
+  "getInvoiceDetails",
+  async (customerPaymentSubId, thunkAPI) => {
+    try {
+      const response = await adminapi.get(
+        `getEachInvoice/${customerPaymentSubId}`
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -20,6 +35,7 @@ export const getAllInvoiceList = createAsyncThunk(
 
 const initialState = {
   invoiceList: [],
+  invoiceDetail: {},
   loading: "",
 };
 
@@ -36,6 +52,17 @@ const invoiceSlice = createSlice({
       state.invoiceList = action.payload.data;
     });
     builder.addCase(getAllInvoiceList.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getInvoiceDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getInvoiceDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.invoiceDetail = action?.payload?.data;
+    });
+    builder.addCase(getInvoiceDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },

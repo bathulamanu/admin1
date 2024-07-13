@@ -1153,11 +1153,30 @@ export const CustomerLayout = () => {
                   </Stack>
                 </Stack>
                 <Stack direction={"row"} spacing={2} justifyContent={"end"}>
-                  <Button size="small" variant="contained" color="error">
-                    Delete
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <EditIcon fontSize="small" /> Edit
                   </Button>
-                  <Button size="small" variant="contained">
-                    Edit
+                  <Button
+                    variant="contained"
+                    sx={{
+                      background: "#f0f0f0",
+                      color: "black",
+                      "&:hover": {
+                        background: "#f0f0f0",
+                      },
+                    }}
+                    size="small"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <DeleteIcon fontSize="small" /> Delete
                   </Button>
                 </Stack>
               </Stack>

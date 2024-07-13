@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../../service/globalFunctions";
+import { getInvoiceDetails } from "../../../redux/Slices/invoiceSlice";
 
 const StyledHeader = styled("div")({
   display: "flex",
@@ -25,7 +26,7 @@ const InvoiceTableColumn = () => {
       sortable: false,
       disableColumnFilter: true,
       disableColumnMenu: true,
-      valueGetter: (_, row) => capitalizeFirstLetter(row?.firstName),
+      valueGetter: (_, row) => capitalizeFirstLetter(row?.CustomerName),
     },
     {
       field: "DateTime",
@@ -70,7 +71,7 @@ const InvoiceTableColumn = () => {
         >
           {row?.paymentStatus === "Completed" && (
             <Chip
-              label={"Paid"}
+              label={"Completed"}
               sx={{
                 borderRadius: "4px",
                 color: "#269254",
@@ -118,7 +119,11 @@ const InvoiceTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              //   dispatch(getHospitalDetails(params?.row?.customerPaymentSubId));
+              localStorage.setItem(
+                "customerPaymentSubId",
+                params?.row?.customerPaymentSubId
+              );
+              dispatch(getInvoiceDetails(params?.row?.customerPaymentSubId));
               navigate("/customerPage/invoices/invoiceView");
             }}
           >

@@ -31,6 +31,7 @@ import {
   formatDate,
   formatDateYYYYMMDD,
   getCityIdList,
+  getDoctorListById,
   getNamesIdList,
   getStateIdList,
   getTypeOfPregnancyList,
@@ -44,6 +45,7 @@ import {
 } from "../../../redux/Slices/globalSlice";
 import { addOrupdateAnnexureInfo } from "../../../redux/Slices/customerClientSlice";
 import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
+import { getDoctorList } from "../../../redux/Slices/doctorSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -100,7 +102,8 @@ const ClientDetailsForth = forwardRef((props, ref) => {
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
-  // console.log("HospitalsList name", hospitalsList);
+  const doctorsList = useSelector((state) => state.doctor.doctorsList);
+  const allDoctor = getDoctorListById(doctorsList);
 
   const SubscribedInnerPageData = useSelector(
     (state) => state.global.SubscribedUserData
@@ -116,6 +119,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     dispatch(getCountryList());
     dispatch(getStateList(352));
     dispatch(getHospitalsList(null));
+    dispatch(getDoctorList(null));
     dispatch(getAnnexureInfo(customerID));
   }, []);
 
@@ -123,7 +127,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     ExpectedDateOfDelivery: "",
     TypeOfpregnancy: "",
     HowManyChildrensDoYouHaveAlready: "",
-    ConsultingGynocologist: "",
+    ConsultingGynocologist: null,
     ConsultingHospital: "",
     ConsultingHospitalAddress: null,
     ConsultingHospitalCountry: 352,
@@ -136,7 +140,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     DeliveringHospitalState: "",
     DeliveringHosptalCity: "",
     DeliveringHospitalPinCode: "",
-    DeliveryGynocologist: "",
+    DeliveryGynocologist: null,
   });
   const handleChange = (value, name) => {
     setFormValues((prev) => {
@@ -155,7 +159,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
             newValues.ConsultingHospitalPinCode;
         } else {
           newValues.DeliveringHospitalAddress = null;
-          newValues.DeliveryGynocologist = "";
+          newValues.DeliveryGynocologist = null;
           newValues.DeliveringHospitalCountry = 352;
           newValues.DeliveringHospitalState = "";
           newValues.DeliveringHosptalCity = "";
@@ -726,7 +730,16 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                       fullWidth
                       error={!!errors.ConsultingGynocologist}
                     >
-                      <OutlinedInput
+                      <SingleSelect
+                        placeholder={"Select"}
+                        value={formValues?.ConsultingGynocologist}
+                        data={allDoctor}
+                        width={"100%"}
+                        onChange={(e) =>
+                          handleChange(e, "ConsultingGynocologist")
+                        }
+                      />
+                      {/* <OutlinedInput
                         fullWidth
                         // type="number"
                         id="ConsultingGynocologist"
@@ -737,7 +750,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                         onChange={(e) =>
                           handleChange(e.target.value, "ConsultingGynocologist")
                         }
-                      />
+                      /> */}
                       {!!errors.ConsultingGynocologist && (
                         <FormHelperText>
                           {errors.ConsultingGynocologist}
@@ -998,7 +1011,16 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                       fullWidth
                       error={!!errors.DeliveryGynocologist}
                     >
-                      <OutlinedInput
+                      <SingleSelect
+                        placeholder={"Select"}
+                        value={formValues?.DeliveryGynocologist}
+                        data={allDoctor}
+                        width={"100%"}
+                        onChange={(e) =>
+                          handleChange(e, "DeliveryGynocologist")
+                        }
+                      />
+                      {/* <OutlinedInput
                         fullWidth
                         // type="number"
                         id="ConsultingGynocologist"
@@ -1009,7 +1031,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                         onChange={(e) =>
                           handleChange(e.target.value, "DeliveryGynocologist")
                         }
-                      />
+                      /> */}
                       {!!errors.DeliveryGynocologist && (
                         <FormHelperText>
                           {errors.DeliveryGynocologist}

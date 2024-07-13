@@ -25,8 +25,8 @@ const InvoiceTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const filteredList = invoiceList?.filter((item) => {
     const matchesSearch =
-      item?.firstName &&
-      item.firstName.toLowerCase().includes(searchValue.toLowerCase());
+      item?.CustomerName &&
+      item.CustomerName.toLowerCase().includes(searchValue.toLowerCase());
 
     return matchesSearch;
   });
