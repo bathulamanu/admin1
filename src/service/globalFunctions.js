@@ -124,7 +124,7 @@ export function getEmpTypeIdList(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
       id: item?.masterConfigurationID,
-      name: item?.description,
+      name: item?.value,
     }));
     return result;
   }

@@ -1,8 +1,8 @@
 import {
   Box,
   Button,
-  Dialog,
-  DialogContent,
+  // Dialog,
+  // DialogContent,
   FormControl,
   Grid,
   InputLabel,
@@ -14,6 +14,8 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
@@ -28,6 +30,9 @@ import { useDispatch, useSelector } from "react-redux";
 import CloseIcon from "@mui/icons-material/Close";
 import api from "../../../utils/api/httpRequest";
 import {
+  getEmploymentType,
+  getExperienceList,
+  getGenderList,
   getQualification,
   getSpecialization,
   getStatus,
@@ -101,6 +106,9 @@ const SettingsTableColumn = () => {
       toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
+      dispatch(getExperienceList(searchQuery));
+      dispatch(getGenderList(searchQuery));
+      dispatch(getEmploymentType(searchQuery));
       setOpenEdit(!openEdit);
     } catch (error) {
       console.log(error);
@@ -117,6 +125,9 @@ const SettingsTableColumn = () => {
       toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
+      dispatch(getExperienceList(searchQuery));
+      dispatch(getGenderList(searchQuery));
+      dispatch(getEmploymentType(searchQuery));
     } catch (error) {
       console.log(error);
     }
