@@ -113,7 +113,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
-  const [selectedHospital, setSelectedHospital] = useState("");
   useEffect(() => {
     dispatch(getHospitalsList(null));
   }, []);
@@ -908,7 +907,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                   {" "}
                   Hospital and Address
                 </InputLabel>
-                <FormControl sx={{ width: "100%" }}>
+                <FormControl variant="outlined" size="small" fullWidth>
                   <Select
                     sx={{ height: "40px" }}
                     width={"100%"}

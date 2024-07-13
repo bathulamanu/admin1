@@ -18,7 +18,10 @@ import {
   FormHelperText,
   Grid,
   InputLabel,
+  ListItemText,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
@@ -40,6 +43,7 @@ import {
   GetTypeOfPregnancy,
 } from "../../../redux/Slices/globalSlice";
 import { addOrupdateAnnexureInfo } from "../../../redux/Slices/customerClientSlice";
+import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
 
 const headingStyle = {
   fontSize: "18px",
@@ -95,6 +99,8 @@ const ClientDetailsForth = forwardRef((props, ref) => {
   const stateList = getStateIdList(allStateList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
+  const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
+  // console.log("HospitalsList name", hospitalsList);
 
   const SubscribedInnerPageData = useSelector(
     (state) => state.global.SubscribedUserData
@@ -109,6 +115,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     dispatch(GetTypeOfPregnancy(null));
     dispatch(getCountryList());
     dispatch(getStateList(352));
+    dispatch(getHospitalsList(null));
     dispatch(getAnnexureInfo(customerID));
   }, []);
 
@@ -118,13 +125,13 @@ const ClientDetailsForth = forwardRef((props, ref) => {
     HowManyChildrensDoYouHaveAlready: "",
     ConsultingGynocologist: "",
     ConsultingHospital: "",
-    ConsultingHospitalAddress: "",
+    ConsultingHospitalAddress: null,
     ConsultingHospitalCountry: 352,
     ConsultingHospitalState: "",
     ConsultingHosptalCity: "",
     ConsultingHospitalPinCode: "",
     IsDeliveringHospitalSameAsConsultingHospotal: false,
-    DeliveringHospitalAddress: "",
+    DeliveringHospitalAddress: null,
     DeliveringHospitalCountry: 352,
     DeliveringHospitalState: "",
     DeliveringHosptalCity: "",
@@ -147,7 +154,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
           newValues.DeliveringHospitalPinCode =
             newValues.ConsultingHospitalPinCode;
         } else {
-          newValues.DeliveringHospitalAddress = "";
+          newValues.DeliveringHospitalAddress = null;
           newValues.DeliveryGynocologist = "";
           newValues.DeliveringHospitalCountry = 352;
           newValues.DeliveringHospitalState = "";
@@ -629,6 +636,58 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                     </InputLabel>
                     <FormControl
                       variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.ConsultingHospitalAddress}
+                    >
+                      <Select
+                        sx={{ height: "40px" }}
+                        width={"100%"}
+                        labelId="hospital-select-label"
+                        id="hospital-select"
+                        value={formValues?.ConsultingHospitalAddress}
+                        onChange={(e) =>
+                          handleChange(
+                            e.target.value,
+                            "ConsultingHospitalAddress"
+                          )
+                        }
+                        renderValue={(selected) => {
+                          const selectedHospital = hospitalsList.find(
+                            (hospital) => hospital.HospitalID === selected
+                          );
+                          return selectedHospital
+                            ? `${selectedHospital.hospitalName} - ${selectedHospital.LocationInfo?.cityName}`
+                            : "";
+                        }}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 200,
+                            },
+                          },
+                        }}
+                      >
+                        {hospitalsList.map((hospital) => (
+                          <MenuItem
+                            key={hospital.HospitalID}
+                            value={hospital.HospitalID}
+                          >
+                            <ListItemText
+                              primary={`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
+                              secondary={`${hospital.hospitalAddress.addressLine1} , ${hospital.hospitalAddress.addressLine1}`}
+                            />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {!!errors.ConsultingHospitalAddress && (
+                        <FormHelperText>
+                          {errors.ConsultingHospitalAddress}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                    {/* <FormControl
+                      variant="outlined"
                       fullWidth
                       size="small"
                       error={!!errors.ConsultingHospitalAddress}
@@ -652,7 +711,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                           {errors.ConsultingHospitalAddress}
                         </FormHelperText>
                       )}
-                    </FormControl>
+                    </FormControl> */}
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} pt={3} pb={2}>
@@ -854,6 +913,53 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                     </InputLabel>
                     <FormControl
                       variant="outlined"
+                      size="small"
+                      fullWidth
+                      error={!!errors.DeliveringHospitalAddress}
+                    >
+                      <Select
+                        sx={{ height: "40px" }}
+                        width={"100%"}
+                        labelId="hospital-select-label"
+                        id="hospital-select"
+                        value={formValues?.DeliveringHospitalAddress}
+                        onChange={(e) =>
+                          handleChange(
+                            e.target.value,
+                            "DeliveringHospitalAddress"
+                          )
+                        }
+                        renderValue={(selected) => {
+                          const selectedHospital = hospitalsList.find(
+                            (hospital) => hospital.HospitalID === selected
+                          );
+                          return selectedHospital
+                            ? `${selectedHospital.hospitalName} - ${selectedHospital.LocationInfo?.cityName}`
+                            : "";
+                        }}
+                        MenuProps={{
+                          PaperProps: {
+                            style: {
+                              maxHeight: 200,
+                            },
+                          },
+                        }}
+                      >
+                        {hospitalsList.map((hospital) => (
+                          <MenuItem
+                            key={hospital.HospitalID}
+                            value={hospital.HospitalID}
+                          >
+                            <ListItemText
+                              primary={`${hospital.hospitalName} - ${hospital.LocationInfo?.cityName}`}
+                              secondary={`${hospital.hospitalAddress.addressLine1} , ${hospital.hospitalAddress.addressLine1}`}
+                            />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    {/* <FormControl
+                      variant="outlined"
                       fullWidth
                       size="small"
                       error={!!errors.DeliveringHospitalAddress}
@@ -877,7 +983,7 @@ const ClientDetailsForth = forwardRef((props, ref) => {
                           {errors.DeliveringHospitalAddress}
                         </FormHelperText>
                       )}
-                    </FormControl>
+                    </FormControl> */}
                   </Grid>
                 </Grid>
                 <Grid container spacing={2} pt={3} pb={2}>

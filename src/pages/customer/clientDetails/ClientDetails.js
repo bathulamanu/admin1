@@ -212,10 +212,20 @@ const ClientDetails = () => {
               <ArrowBackIcon sx={{ marginRight: "10px" }} /> Previous
             </Button>
           </Box>
-          <Box>
-            <Typography sx={{ fontSize: "18px", fontWeight: "bold" }}>
-              <NavigateBeforeIcon sx={{ fontSize: "large" }} /> 0{currentStep} /
-              0{totalSteps} <NavigateNextIcon sx={{ fontSize: "large" }} />
+          <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            <Typography sx={{ fontSize: "1.5rem !important" }} variant="h4">
+              {"<"}
+            </Typography>
+            <Typography
+              sx={{ fontSize: "1.5rem !important", display: "flex" }}
+              variant="h4"
+            >
+              <span style={{ color: "blue" }}>0{`${currentStep} `}</span>
+              <span>/</span>
+              <span>0{`${totalSteps} `}</span>
+            </Typography>
+            <Typography sx={{ fontSize: "1.5rem !important" }} variant="h4">
+              {">"}
             </Typography>
           </Box>
           <Box>

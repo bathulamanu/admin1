@@ -63,6 +63,7 @@ const BabyDetailsForm = () => {
     babyName: "",
     babyDOB: "",
     timeOfBirth: "",
+    Meridiem: "",
     weight: "",
     DeliveryDoctorName: null,
     placeOfBirth: "",
@@ -220,13 +221,14 @@ const BabyDetailsForm = () => {
                     <InputLabel sx={inputLableStyle}>
                       Time of Birth <span style={redStarStyle}>*</span>
                     </InputLabel>
-                    <FormControl
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      error={!!errors.timeOfBirth}
-                    >
-                      <Box sx={{ display: "flex", flexDirection: "row" }}>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <FormControl
+                        variant="outlined"
+                        fullWidth
+                        size="small"
+                        error={!!errors.timeOfBirth}
+                        sx={{ flex: 1 }}
+                      >
                         <OutlinedInput
                           fullWidth
                           type="time"
@@ -238,29 +240,28 @@ const BabyDetailsForm = () => {
                             handleChange(e.target.value, "timeOfBirth")
                           }
                         />
+                        {!!errors.timeOfBirth && (
+                          <FormHelperText>{errors.timeOfBirth}</FormHelperText>
+                        )}
+                      </FormControl>
+                      <FormControl
+                        variant="outlined"
+                        size="small"
+                        error={!!errors.Meridiem}
+                        sx={{ marginLeft: 1, width: "100px" }}
+                      >
                         <Select
                           id="outlined-am-pm"
-                          value={formValues?.ampm}
-                          onChange={(e) => handleChange(e.target.value, "ampm")}
+                          value={formValues?.Meridiem}
+                          onChange={(e) =>
+                            handleChange(e.target.value, "Meridiem")
+                          }
                         >
-                          <MenuItem value="AM">AM</MenuItem>
-                          <MenuItem value="PM">PM</MenuItem>
+                          <MenuItem value="am">AM</MenuItem>
+                          <MenuItem value="pm">PM</MenuItem>
                         </Select>
-                      </Box>
-                      {/* <TimePicker
-                        disableClock={true}
-                        format="hh:mm a"
-                        hourPlaceholder="hh"
-                        minutePlaceholder="mm"
-                        onChange={(e) =>
-                          handleChange(e.target.value, "timeOfBirth")
-                        }
-                        value={formValues?.timeOfBirth}
-                      /> */}
-                      {!!errors.timeOfBirth && (
-                        <FormHelperText>{errors.timeOfBirth}</FormHelperText>
-                      )}
-                    </FormControl>
+                      </FormControl>
+                    </Box>
                   </Grid>
                   <Grid item xs={6}>
                     <InputLabel sx={inputLableStyle}>
