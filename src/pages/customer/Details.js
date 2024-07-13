@@ -82,13 +82,17 @@ const Details = () => {
       }}
     >
       <Box sx={{ marginBottom: "40px" }}>
-        <Card justifyContent={"space-between"}>
+        <Card sx={{ justifyContent: "space-between" }}>
           <CardContent
             sx={{ display: "flex", flexDirection: "column", gap: 6 }}
           >
             <Box>
-              <Box display={"flex"} justifyContent={"space-between"}>
-                <Stack direction={"row"} justifyContent={"center"} spacing={2}>
+              <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
+                <Stack
+                  direction={"row"}
+                  sx={{ justifyContent: "center" }}
+                  spacing={2}
+                >
                   <Typography
                     sx={{ fontWeight: "bold", paddingTop: "8px" }}
                     variant="h5"

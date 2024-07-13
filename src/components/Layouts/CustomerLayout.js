@@ -582,7 +582,11 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
                     <Button
                       size="small"
                       variant="contained"
@@ -648,7 +652,11 @@ export const CustomerLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end" }}
+                >
                   <Button
                     size="small"
                     variant="contained"
@@ -859,7 +867,7 @@ export const CustomerLayout = () => {
                       <Stack
                         direction={"row"}
                         spacing={2}
-                        justifyContent={"end"}
+                        sx={{ justifyContent: "end" }}
                       >
                         <Button
                           size="small"
@@ -985,7 +993,11 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
                     <Button
                       variant="contained"
                       size="small"
@@ -1094,7 +1106,11 @@ export const CustomerLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end" }}
+                >
                   <Button
                     size="small"
                     variant="contained"
@@ -1152,7 +1168,11 @@ export const CustomerLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end" }}
+                >
                   <Button
                     variant="contained"
                     size="small"
@@ -1264,7 +1284,11 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
                     <Button
                       size="small"
                       variant="contained"
@@ -1331,7 +1355,11 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
                     <Button
                       variant="contained"
                       size="small"
@@ -1412,7 +1440,11 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
                     <Button
                       size="small"
                       variant="contained"

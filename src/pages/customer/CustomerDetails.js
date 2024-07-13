@@ -57,7 +57,7 @@ const CustomerDetails = () => {
   const PaymentID = customerDetail?.PaymentID;
   const PaymentMode = customerDetail?.PaymentMode;
   const invoiceFile = customerDetail?.invoiceFile;
-  
+
   const handleDownload = () => {
     if (customerDetail && customerDetail.invoiceFile.length != 0) {
       const invoiceFileDownload = customerDetail.invoiceFile[0].invoiceFile;
@@ -84,13 +84,17 @@ const CustomerDetails = () => {
       }}
     >
       <Box>
-        <Card justifyContent={"space-between"}>
+        <Card sx={{ justifyContent: "space-between" }}>
           <CardContent
             sx={{ display: "flex", flexDirection: "column", gap: 6 }}
           >
             <Box>
-              <Box display={"flex"} justifyContent={"space-between"}>
-                <Stack direction={"row"} justifyContent={"center"} spacing={2}>
+              <Box display={"flex"} sx={{ justifyContent: "space-between" }}>
+                <Stack
+                  direction={"row"}
+                  sx={{ justifyContent: "center" }}
+                  spacing={2}
+                >
                   <Typography
                     sx={{
                       fontSize: "24px",
@@ -558,7 +562,8 @@ const CustomerDetails = () => {
                   </Stack>
                 </CardContent>
               </Card>
-            </Box> *
+            </Box>{" "}
+            *
           </CardContent>
         </Card>
       </Box>
