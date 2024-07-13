@@ -985,6 +985,33 @@ export const CustomerLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
+                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <EditIcon fontSize="small" /> Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        background: "#f0f0f0",
+                        color: "black",
+                        "&:hover": {
+                          background: "#f0f0f0",
+                        },
+                      }}
+                      size="small"
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <DeleteIcon fontSize="small" /> Delete
+                    </Button>
+                  </Stack>
                 </Stack>
               )}
             {pathname && pathname === "/customerPage/finance" && (
