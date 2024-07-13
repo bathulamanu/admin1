@@ -311,6 +311,9 @@ export const MainLayout = () => {
       toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
+      dispatch(getExperienceList(null));
+      dispatch(getGenderList(null));
+      dispatch(getEmploymentType(null));
       setOpenSpecialization(!openSpecialization);
       setFormValues({
         title: activeItem,

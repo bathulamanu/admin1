@@ -238,14 +238,14 @@ const BabyDetailsForm = () => {
                             handleChange(e.target.value, "timeOfBirth")
                           }
                         />
-                        {/* <Select
+                        <Select
                           id="outlined-am-pm"
                           value={formValues?.ampm}
                           onChange={(e) => handleChange(e.target.value, "ampm")}
                         >
                           <MenuItem value="AM">AM</MenuItem>
                           <MenuItem value="PM">PM</MenuItem>
-                        </Select> */}
+                        </Select>
                       </Box>
                       {/* <TimePicker
                         disableClock={true}
