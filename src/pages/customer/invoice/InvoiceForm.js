@@ -33,7 +33,10 @@ import whatsapp from "../../../assets/whatsapp.png";
 import apple from "../../../assets/apple.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getCustomerWhoIsNotWithInvoice } from "../../../redux/Slices/invoiceSlice";
+import {
+  createInvoice,
+  getCustomerWhoIsNotWithInvoice,
+} from "../../../redux/Slices/invoiceSlice";
 import {
   getCustomerWhoIsNotWithInvoiceListById,
   getPaymentModeListById,
@@ -105,6 +108,7 @@ const InvoiceForm = forwardRef((props, ref) => {
     offerValue: "",
     paymentDate: "",
     totalPendingAmount: "",
+    notes: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -171,6 +175,8 @@ const InvoiceForm = forwardRef((props, ref) => {
         }));
         return;
       }
+      dispatch(createInvoice(formValues));
+      navigate("/customerPage/invoices");
     },
   }));
 
@@ -586,16 +592,24 @@ const InvoiceForm = forwardRef((props, ref) => {
                 <InputLabel sx={inputLableStyle}>
                   Notes<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.notes}
+                >
                   <OutlinedInput
                     fullWidth
                     sx={{ padding: "10px" }}
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.orgName}
-                    onChange={(e) => handleChange(e, "orgName")}
+                    value={formValues?.notes}
+                    onChange={(e) => handleChange(e, "notes")}
                   />
+                  {!!errors.notes && (
+                    <FormHelperText>{errors.notes}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>

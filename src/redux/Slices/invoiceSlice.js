@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import customerapi from "../../utils/api/customerhttpRequest";
 import adminapi from "../../utils/api/adminhttpRequest";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -38,6 +37,22 @@ export const getInvoiceDetails = createAsyncThunk(
       const response = await adminapi.get(
         `getEachInvoice/${customerPaymentSubId}`
       );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const createInvoice = createAsyncThunk(
+  "createInvoice",
+  async (data, thunkAPI) => {
+    try {
+      console.log("cehck payload", data);
+      const response = await adminapi.post(`addInvoice`, data);
+      toast.success(response.data.message);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -92,6 +107,16 @@ const invoiceSlice = createSlice({
       state.invoiceDetail = action?.payload?.data;
     });
     builder.addCase(getInvoiceDetails.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(createInvoice.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(createInvoice.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+    });
+    builder.addCase(createInvoice.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
