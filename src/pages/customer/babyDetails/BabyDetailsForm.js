@@ -116,17 +116,17 @@ const BabyDetailsForm = forwardRef((props, ref) => {
     });
   };
 
-  // useImperativeHandle(ref, () => ({
-  //   validateBabyAddForm: () => {
-  //     if (!formValues.babyName) {
-  //       setErrors((prevErrors) => ({
-  //         ...prevErrors,
-  //         babyName: "Baby Name is required",
-  //       }));
-  //       return;
-  //     }
-  //   },
-  // }));
+  useImperativeHandle(ref, () => ({
+    validateBabyAddForm: () => {
+      if (!formValues.babyName) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          babyName: "Baby Name is required",
+        }));
+        return;
+      }
+    },
+  }));
   const handleFatherImageUpload = async (e, fieldName) => {
     const headers = {
       "Content-Type": "multipart/form-data",

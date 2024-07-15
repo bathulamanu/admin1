@@ -21,6 +21,10 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import CloseIcon from "@mui/icons-material/Close";
+import google from "../../../assets/google.png";
+import facebook from "../../../assets/facebook_icon.png";
+import whatsapp from "../../../assets/whatsapp.png";
+import apple from "../../../assets/apple.png";
 
 const inputLableStyle = {
   color: "black",
@@ -832,30 +836,54 @@ const InvoiceForm = () => {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <Grid container spacing={2} pt={1} pb={1} alignItems="center">
-                  <Grid item>
-                    <InputLabel sx={inputLableStyle}>Send Via</InputLabel>
-                  </Grid>
-                  <Grid item container spacing={1} xs>
-                    {[...Array(4)].map((_, index) => (
-                      <Grid item key={index}>
-                        <TextField
-                          variant="outlined"
-                          style={{ width: "50px" }}
-                        />
-                      </Grid>
-                    ))}
-                  </Grid>
+
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <Stack sx={{ display: "flex", flexDirection: "column" }}>
+                    <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                      Send Via
+                    </Typography>
+                    <Stack
+                      sx={{
+                        marginTop: "10px",
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 3,
+                      }}
+                    >
+                      <img src={google} alt="google" height="50" width="50" />
+                      <img
+                        src={facebook}
+                        alt="facebook"
+                        height="50"
+                        width="50"
+                      />
+                      <img
+                        src={whatsapp}
+                        alt="whatsapp"
+                        height="50"
+                        width="50"
+                      />
+                      <img src={apple} alt="apple" height="50" width="50" />
+                    </Stack>
+                  </Stack>
                   <Grid item>
                     <Button
                       size="small"
                       variant="contained"
+                      sx={{ marginTop: "50px" }}
                       startIcon={<SaveAltIcon />}
                     >
                       Download
                     </Button>
                   </Grid>
-                </Grid>
+                </Stack>
               </CardContent>
             </Card>
           </Box>

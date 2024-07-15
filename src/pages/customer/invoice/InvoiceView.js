@@ -19,6 +19,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { getInvoiceDetails } from "../../../redux/Slices/invoiceSlice";
 import { formatDate } from "../../../service/globalFunctions";
+import google from "../../../assets/google.png";
+import facebook from "../../../assets/facebook_icon.png";
+import whatsapp from "../../../assets/whatsapp.png";
+import apple from "../../../assets/apple.png";
 
 const inputLableStyle = {
   color: "black",
@@ -598,13 +602,19 @@ const InvoiceView = () => {
                 <Grid item>
                   <InputLabel sx={inputLableStyle}>Send Via</InputLabel>
                 </Grid>
-                <Grid item container spacing={1} xs>
-                  {[...Array(4)].map((_, index) => (
-                    <Grid item key={index}>
-                      <TextField variant="outlined" style={{ width: "50px" }} />
-                    </Grid>
-                  ))}
-                </Grid>
+                <Stack
+                  sx={{
+                    marginTop: "10px",
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: 3,
+                  }}
+                >
+                  <img src={google} alt="google" height="50" width="50" />
+                  <img src={facebook} alt="facebook" height="50" width="50" />
+                  <img src={whatsapp} alt="whatsapp" height="50" width="50" />
+                  <img src={apple} alt="apple" height="50" width="50" />
+                </Stack>
               </Grid>
               <Stack
                 direction={"row"}
