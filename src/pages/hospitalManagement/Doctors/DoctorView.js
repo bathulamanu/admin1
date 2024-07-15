@@ -38,19 +38,6 @@ const DoctorView = () => {
   const doctorBio = doctorDetail?.doctorBio;
   const previousExperience = doctorDetail?.previousExperience;
 
-  // const {
-  //   doctorFirstName = "",
-  //   doctorLastName = "",
-  //   doctorID = "",
-  //   specilizationInfo = [],
-  //   DOB = "",
-  //   IMRregisterID = "",
-  //   qualificationInfo = [],
-  //   experienceInfo = {},
-  //   doctorBio = "",
-  //   previousExperience = [],
-  // } = doctorDetail;
-
   return (
     <Container
       disableGutters
@@ -386,18 +373,19 @@ const DoctorView = () => {
                         </Typography>
                         <Stack direction={"row"}>
                           <Typography variant="subtitle2">
-                            {" "}
-                            {item?.hospitalDetails?.HospitalAddress
-                              ?.nearLandMark || ""}
+                            {item?.hospitalDetails?.HospitalAddressInfo
+                              ?.addressLine1 || ""}
                             ,{" "}
                           </Typography>
                           <Typography variant="subtitle2">
-                            {item?.hospitalDetails?.HospitalAddress
-                              ?.addressLine1 || ""}
+                            {item?.hospitalDetails?.HospitalAddressInfo
+                              ?.addressLine2 || ""}
+                            ,{" "}
                           </Typography>
                           <Typography variant="subtitle2">
-                            {item?.hospitalDetails?.HospitalAddress
-                              ?.addressLine2 || ""}
+                            {" "}
+                            {item?.hospitalDetails?.HospitalAddressInfo
+                              ?.nearLandMark || ""}
                           </Typography>
                         </Stack>
 
@@ -427,20 +415,27 @@ const DoctorView = () => {
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={1}>
-                          <Typography variant="subtitle2">
-                            {" "}
-                            Phone No.{" "}
-                            {item?.hospitalDetails?.contact?.phoneNumber || ""}
-                          </Typography>
-                          <Typography variant="subtitle2">
-                            Landline{" "}
-                            {item?.hospitalDetails?.contact?.landLine || ""}
-                          </Typography>
+                          {item?.hospitalDetails?.contact?.phoneNumber && (
+                            <Typography variant="subtitle2">
+                              {" "}
+                              Phone No.{" "}
+                              {item?.hospitalDetails?.contact?.phoneNumber ||
+                                ""}
+                            </Typography>
+                          )}
+                          {item?.hospitalDetails?.contact?.landLine && (
+                            <Typography variant="subtitle2">
+                              Landline{" "}
+                              {item?.hospitalDetails?.contact?.landLine || ""}
+                            </Typography>
+                          )}
                         </Stack>
                         <Stack>
-                          <Typography variant="subtitle2">
-                            Fax No. {item?.hospitalDetails?.faxNumber || ""}
-                          </Typography>
+                          {item?.hospitalDetails?.faxNumber && (
+                            <Typography variant="subtitle2">
+                              Fax No. {item?.hospitalDetails?.faxNumber || ""}
+                            </Typography>
+                          )}
                         </Stack>
                       </Box>
                     </Box>

@@ -105,7 +105,7 @@ const BabyDetailsTableColumn = () => {
       valueGetter: (_, row) =>
         capitalizeFirstLetter(row?.HospitalName) +
         " & " +
-        capitalizeFirstLetter(row?.LocationInfo?.cityName),
+        capitalizeFirstLetter(row?.HospitalCity),
     },
     {
       field: "action",

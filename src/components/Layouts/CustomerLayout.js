@@ -42,6 +42,7 @@ import {
 import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
 import CustomerForm from "../../pages/customer/CustomerForm";
+import InvoiceForm from "../../pages/customer/invoice/InvoiceForm";
 
 export const CustomerLayout = () => {
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ export const CustomerLayout = () => {
   const formEditRef = useRef();
   const addCustomerForm = useRef();
   const addBabyRef = useRef();
+  const addInvoiceRef = useRef();
   const handleCustomerAddForm = () => {
     if (addCustomerForm.current) {
       addCustomerForm.current.validateCustomerAddForm();
@@ -75,6 +77,11 @@ export const CustomerLayout = () => {
   const handleBabyAddForm = () => {
     if (addBabyRef.current) {
       addBabyRef.current.validateBabyAddForm();
+    }
+  };
+  const handleInvoiceAddForm = () => {
+    if (addInvoiceRef.current) {
+      addInvoiceRef.current.validateInvoiceAddForm();
     }
   };
   const handlePlanAddForm = () => {
@@ -1057,56 +1064,73 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  //  flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
               >
-                <Stack sx={{ display: "flex", flexDirection: "row" }}>
-                  <Button
-                    // variant="contained"
-                    size="small"
-                    sx={{
-                      background: "inherit",
-                      color: "black",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/customerPage/invoices");
-                    }}
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/invoices");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
                   >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={handleInvoiceAddForm}
+                      startIcon={<SaveAltIcon />}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/invoices");
+                      }}
+                      startIcon={<CloseIcon />}
+                    >
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  sx={{ justifyContent: "end" }}
-                >
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<SaveAltIcon />}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<CloseIcon />}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <InvoiceForm ref={addInvoiceRef} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/customerPage/invoices/invoiceView" && (

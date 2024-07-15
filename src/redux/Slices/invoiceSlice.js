@@ -17,6 +17,20 @@ export const getAllInvoiceList = createAsyncThunk(
   }
 );
 
+export const getCustomerWhoIsNotWithInvoice = createAsyncThunk(
+  "getCustomerWhoIsNotWithInvoice",
+  async (thunkAPI) => {
+    try {
+      const response = await adminapi.get(`getCustomerWhoIsNotWithInvoice`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 export const getInvoiceDetails = createAsyncThunk(
   "getInvoiceDetails",
   async (customerPaymentSubId, thunkAPI) => {
@@ -35,6 +49,7 @@ export const getInvoiceDetails = createAsyncThunk(
 
 const initialState = {
   invoiceList: [],
+  customerWhoIsNotWithInvoiceList: [],
   invoiceDetail: {},
   loading: "",
 };
@@ -52,6 +67,20 @@ const invoiceSlice = createSlice({
       state.invoiceList = action.payload.data;
     });
     builder.addCase(getAllInvoiceList.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getCustomerWhoIsNotWithInvoice.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(
+      getCustomerWhoIsNotWithInvoice.fulfilled,
+      (state, action) => {
+        state.loading = "complete_success";
+        state.customerWhoIsNotWithInvoiceList = action.payload.data;
+      }
+    );
+    builder.addCase(getCustomerWhoIsNotWithInvoice.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
 

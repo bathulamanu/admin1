@@ -206,11 +206,31 @@ export function getPaymentModeListById(arr) {
   }
 }
 
+export function getPaymentStatusListById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.masterConfigurationID,
+      name: item?.value,
+    }));
+    return result;
+  }
+}
+
 export function getDoctorListById(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
       id: item?.doctorDetailsID,
       name: item?.doctorFirstName,
+    }));
+    return result;
+  }
+}
+
+export function getCustomerWhoIsNotWithInvoiceListById(arr) {
+  if (arr && arr?.length > 0) {
+    let result = arr?.map((item) => ({
+      id: item?.customerPaymentId,
+      name: item?.value,
     }));
     return result;
   }

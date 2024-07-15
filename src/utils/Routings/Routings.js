@@ -153,7 +153,7 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "invoices/invoiceForm",
-        element: <InvoiceForm />,
+        // element: <InvoiceForm />,
       },
       {
         path: "invoices/invoiceView",

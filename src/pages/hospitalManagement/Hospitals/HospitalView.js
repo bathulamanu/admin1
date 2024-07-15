@@ -37,7 +37,7 @@ const HospitalView = () => {
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
-  console.log(hospitalDetails);
+  // console.log("hospitalDetails", hospitalDetails);
   const hospitalName = hospitalDetails?.hospitalName;
   const hospitalLogo = hospitalDetails?.hospitalLogo;
   const about = hospitalDetails?.about;
@@ -53,22 +53,6 @@ const HospitalView = () => {
   const doctorAssignmentsDetails = hospitalDetails?.doctorAssignmentsDetails;
   const sociallink = hospitalDetails?.sociallink;
 
-  // const {
-  //   hospitalName
-  //   hospitalLogo,
-  //   about,
-  //   HospitalAddress,
-  //   faxNumber,
-  //   LocationInfo,
-  //   contact,
-  //   validity,
-  //   specialist,
-  //   status,
-  //   email,
-  //   website,
-  //   doctorAssignmentsDetails,
-  //   sociallink,
-  // } = hospitalDetails
   return (
     <Container
       disableGutters
@@ -454,7 +438,12 @@ const HospitalView = () => {
                         pr: 2,
                       }}
                     >
-                      <img src={doctorImg} height={100} width={100} />
+                      <img
+                        src={doctorImg}
+                        alt="doctor profile"
+                        height={100}
+                        width={100}
+                      />
                     </Stack>
                     <Stack sx={{ p: 1 }} direction={"row"} spacing={4}>
                       <Stack>

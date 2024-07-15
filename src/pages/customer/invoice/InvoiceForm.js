@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import {
   Card,
   CardContent,
@@ -14,6 +19,7 @@ import {
   FormControl,
   TextField,
   IconButton,
+  FormHelperText,
 } from "@mui/material";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import AddIcon from "@mui/icons-material/Add";
@@ -25,6 +31,19 @@ import google from "../../../assets/google.png";
 import facebook from "../../../assets/facebook_icon.png";
 import whatsapp from "../../../assets/whatsapp.png";
 import apple from "../../../assets/apple.png";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getCustomerWhoIsNotWithInvoice } from "../../../redux/Slices/invoiceSlice";
+import {
+  getCustomerWhoIsNotWithInvoiceListById,
+  getPaymentModeListById,
+  getPlanListById,
+} from "../../../service/globalFunctions";
+import { getSubscriptionPlan } from "../../../redux/Slices/planSlice";
+import {
+  getPaymentModeList,
+  getPaymentStatusList,
+} from "../../../redux/Slices/globalSlice";
 
 const inputLableStyle = {
   color: "black",
@@ -39,21 +58,121 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const InvoiceForm = () => {
+const InvoiceForm = forwardRef((props, ref) => {
+  const [openView, setOpenView] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const customerWhoIsNotWithInvoiceList = useSelector(
+    (state) => state.invoice.customerWhoIsNotWithInvoiceList
+  );
+  const notInvoiceList = getCustomerWhoIsNotWithInvoiceListById(
+    customerWhoIsNotWithInvoiceList
+  );
+  const getAllPlansList = useSelector((state) => state.plan.planList);
+  const plansList = getPlanListById(getAllPlansList);
+  const getAllPaymentModeList = useSelector(
+    (state) => state.global.paymentModeList
+  );
+  const paymentModeList = getPaymentModeListById(getAllPaymentModeList);
+  const getAllPaymentStatusList = useSelector(
+    (state) => state.global.paymentStatusList
+  );
+  const paymentStatusList = getPaymentModeListById(getAllPaymentStatusList);
+
+  useEffect(() => {
+    dispatch(getCustomerWhoIsNotWithInvoice());
+    dispatch(getSubscriptionPlan());
+    dispatch(getPaymentModeList(null));
+    dispatch(getPaymentStatusList(null));
+  }, []);
+
   const [formValues, setFormValues] = useState({
-    fatherName: "",
-    dob: "",
-    email: "",
-    phoneNumber: "",
-    occupation: "",
-    designation: "",
-    orgName: "",
-    idProof: "",
-    idProofNo: "",
-    otherId: "",
-    desc: "",
-    additionalInfo: "",
+    customerPaymentId: null,
+    CRNno: "",
+    InvoiceID: "",
+    DateOfIssue: "",
+    subscriptionPlanId: null,
+    totalAmount: "",
+    paidAmount: "",
+    totalPaidAmount: "",
+    pendingAmount: "",
+    Currency: "INR",
+    PaymentGatewayID: "",
+    paymentStatus: "",
+    notes: "",
+    paymentType: "",
+    offerValue: "",
+    paymentDate: "",
+    totalPendingAmount: "",
   });
+
+  const [errors, setErrors] = useState({});
+  useImperativeHandle(ref, () => ({
+    validateInvoiceAddForm: () => {
+      if (!formValues.CRNno) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          CRNno: "CRN Number is required",
+        }));
+        return;
+      } else if (!formValues.customerPaymentId) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          customerPaymentId: "Customer name is required",
+        }));
+        return;
+      } else if (!formValues.InvoiceID) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          InvoiceID: "Invoice ID is required",
+        }));
+        return;
+      } else if (!formValues.DateOfIssue) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          DateOfIssue: "Date Of Issue is required",
+        }));
+        return;
+      } else if (!formValues.subscriptionPlanId) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          subscriptionPlanId: "Customer Plane is required",
+        }));
+        return;
+      } else if (!formValues.totalAmount) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          totalAmount: "Amount is required",
+        }));
+        return;
+      } else if (!formValues.paymentStatus) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          paymentStatus: "Payment Status is required",
+        }));
+        return;
+      } else if (!formValues.PaymentGatewayID) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          PaymentGatewayID: "Trasaction ID is required",
+        }));
+        return;
+      } else if (!formValues.paymentType) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          paymentType: "Payment Mode is required",
+        }));
+        return;
+      } else if (!formValues.paymentDate) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          paymentDate: "Payment Date is required",
+        }));
+        return;
+      }
+    },
+  }));
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -61,14 +180,20 @@ const InvoiceForm = () => {
       ...prev,
       [name]: value,
     }));
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
-  const [openView, setOpenView] = useState(false);
+
+  console.log("formValues", formValues);
+
   return (
     <Container
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "85%",
+        maxHeight: "55%",
         overflow: "auto",
       }}
     >
@@ -110,15 +235,23 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   CRN<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.CRNno}
+                >
                   <OutlinedInput
                     fullWidth
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.orgName}
-                    onChange={(e) => handleChange(e, "orgName")}
+                    value={formValues?.CRNno}
+                    onChange={(e) => handleChange(e, "CRNno")}
                   />
+                  {!!errors.CRNno && (
+                    <FormHelperText>{errors.CRNno}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -127,15 +260,22 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   Customer Name<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
-                  <OutlinedInput
-                    fullWidth
-                    id="outlined-adornment-password"
-                    placeholder="Input Text"
-                    size="small"
-                    value={formValues?.orgName}
-                    onChange={(e) => handleChange(e, "orgName")}
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.customerPaymentId}
+                >
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={notInvoiceList}
+                    value={formValues?.customerPaymentId}
+                    onChange={(e) => handleChange(e, "customerPaymentId")}
                   />
+                  {!!errors.customerPaymentId && (
+                    <FormHelperText>{errors.customerPaymentId}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -144,15 +284,23 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   Invoice ID<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.InvoiceID}
+                >
                   <OutlinedInput
                     fullWidth
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.orgName}
-                    onChange={(e) => handleChange(e, "orgName")}
+                    value={formValues?.InvoiceID}
+                    onChange={(e) => handleChange(e, "InvoiceID")}
                   />
+                  {!!errors.InvoiceID && (
+                    <FormHelperText>{errors.InvoiceID}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -161,15 +309,24 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   Date of Issue<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" fullWidth size="small">
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.DateOfIssue}
+                >
                   <OutlinedInput
                     fullWidth
+                    type="date"
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.orgName}
-                    onChange={(e) => handleChange(e, "orgName")}
+                    value={formValues?.DateOfIssue}
+                    onChange={(e) => handleChange(e, "DateOfIssue")}
                   />
+                  {!!errors.DateOfIssue && (
+                    <FormHelperText>{errors.DateOfIssue}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -188,12 +345,23 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   Customer Plan<span style={redStarStyle}>*</span>
                 </InputLabel>
-                <SingleSelect
-                  Placeholder={"Select"}
-                  width={"100%"}
-                  value={formValues?.idProof}
-                  onChange={(e) => handleChange(e, "idProof")}
-                />
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.subscriptionPlanId}
+                >
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={plansList}
+                    value={formValues?.subscriptionPlanId}
+                    onChange={(e) => handleChange(e, "subscriptionPlanId")}
+                  />
+                  {!!errors.subscriptionPlanId && (
+                    <FormHelperText>{errors.subscriptionPlanId}</FormHelperText>
+                  )}
+                </FormControl>
               </Grid>
             </Grid>
             <Typography
@@ -211,78 +379,126 @@ const InvoiceForm = () => {
                 <InputLabel sx={inputLableStyle}>
                   Amount <span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" size="small" fullWidth>
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.totalAmount}
+                >
                   <OutlinedInput
                     fullWidth
                     type="number"
                     id="pincode"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.HospitalAddress?.pincode}
-                    onChange={(e) => handleChange(e.target.value, "pincode")}
+                    value={formValues?.totalAmount}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "totalAmount")
+                    }
                   />
+                  {!!errors.totalAmount && (
+                    <FormHelperText>{errors.totalAmount}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <InputLabel sx={inputLableStyle}>
                   Payment Status <span style={redStarStyle}>*</span>
                 </InputLabel>
-                <SingleSelect
-                  Placeholder={"Select"}
-                  width={"100%"}
-                  // data={stateList}
-                  value={formValues?.HospitalAddress?.state}
-                  onChange={(e) => {
-                    // dispatch(getCityList(e))
-                    handleChange(e, "state");
-                  }}
-                />
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.paymentStatus}
+                >
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={paymentStatusList}
+                    value={formValues?.paymentStatus}
+                    onChange={(e) => {
+                      handleChange(e, "paymentStatus");
+                    }}
+                  />
+                  {!!errors.paymentStatus && (
+                    <FormHelperText>{errors.paymentStatus}</FormHelperText>
+                  )}
+                </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <InputLabel sx={inputLableStyle}>
                   Trasaction ID <span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" size="small" fullWidth>
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.PaymentGatewayID}
+                >
                   <OutlinedInput
                     fullWidth
                     type="number"
                     id="pincode"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.HospitalAddress?.pincode}
-                    onChange={(e) => handleChange(e.target.value, "pincode")}
+                    value={formValues?.PaymentGatewayID}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "PaymentGatewayID")
+                    }
                   />
+                  {!!errors.PaymentGatewayID && (
+                    <FormHelperText>{errors.PaymentGatewayID}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <InputLabel sx={inputLableStyle}>
                   Payment Mode <span style={redStarStyle}>*</span>
                 </InputLabel>
-                <SingleSelect
-                  Placeholder={"Select"}
-                  width={"100%"}
-                  // data={stateList}
-                  value={formValues?.HospitalAddress?.state}
-                  onChange={(e) => {
-                    // dispatch(getCityList(e))
-                    handleChange(e, "state");
-                  }}
-                />
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.paymentType}
+                >
+                  <SingleSelect
+                    Placeholder={"Select"}
+                    width={"100%"}
+                    data={paymentModeList}
+                    value={formValues?.paymentType}
+                    onChange={(e) => {
+                      handleChange(e, "paymentType");
+                    }}
+                  />
+                  {!!errors.paymentType && (
+                    <FormHelperText>{errors.paymentType}</FormHelperText>
+                  )}
+                </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <InputLabel sx={inputLableStyle}>
                   Trasaction Date <span style={redStarStyle}>*</span>
                 </InputLabel>
-                <FormControl variant="outlined" size="small" fullWidth>
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.paymentDate}
+                >
                   <OutlinedInput
                     fullWidth
-                    type="number"
+                    type="date"
                     id="pincode"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.HospitalAddress?.pincode}
-                    onChange={(e) => handleChange(e.target.value, "pincode")}
+                    value={formValues?.paymentDate}
+                    onChange={(e) =>
+                      handleChange(e.target.value, "paymentDate")
+                    }
                   />
+                  {!!errors.paymentDate && (
+                    <FormHelperText>{errors.paymentDate}</FormHelperText>
+                  )}
                 </FormControl>
               </Grid>
             </Grid>
@@ -746,21 +962,33 @@ const InvoiceForm = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
-                    marginLeft: "350px",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    // marginLeft: "350px",
                   }}
                 >
-                  <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
-                    Total
-                  </Typography>
-                  <Typography
+                  <Stack></Stack>
+                  <Stack
                     sx={{
-                      fontSize: "14px",
-                      fontWeight: 500,
-                      marginLeft: "85px",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "30%",
                     }}
                   >
-                    2456
-                  </Typography>
+                    <Typography sx={{ fontSize: "14px", fontWeight: 500 }}>
+                      Total
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        fontWeight: 500,
+                        marginRight: "15px",
+                      }}
+                    >
+                      1234
+                    </Typography>
+                  </Stack>
                 </Stack>
               </Stack>
               <Divider />
@@ -891,6 +1119,6 @@ const InvoiceForm = () => {
       </Stack>
     </Container>
   );
-};
+});
 
 export default InvoiceForm;

@@ -47,6 +47,7 @@ const InvoiceView = () => {
   const Plan = invoiceDetail?.Plan;
   const totalAmount = invoiceDetail?.totalAmount;
   const paymentStatus = invoiceDetail?.paymentStatus;
+  const paymentType = invoiceDetail?.paymentType;
   const PaymentGatewayID = invoiceDetail?.PaymentGatewayID;
   const createdTime = formatDate(invoiceDetail?.createdTime);
 
@@ -373,7 +374,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            Card{" "}
+                            {paymentType}
                           </Typography>
                         </Stack>
                       </Box>

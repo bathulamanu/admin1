@@ -24,6 +24,7 @@ const initialState = {
   typeOfPreganacyData: [],
   buttonTextData: [],
   paymentModeList: [],
+  paymentStatusList: [],
   loading: "",
 };
 
@@ -267,6 +268,22 @@ export const getPaymentModeList = createAsyncThunk(
   }
 );
 
+export const getPaymentStatusList = createAsyncThunk(
+  "getPaymentStatusList",
+  async (search, thunkAPI) => {
+    try {
+      const response = await api.get(
+        `getMasterConfiguration/PaymentStatus/${search}`
+      );
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const globalSlice = createSlice({
   name: "global",
   initialState,
@@ -447,6 +464,17 @@ const globalSlice = createSlice({
       state.paymentModeList = action.payload.data;
     });
     builder.addCase(getPaymentModeList.rejected, (state, action) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getPaymentStatusList.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(getPaymentStatusList.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.paymentStatusList = action.payload.data;
+    });
+    builder.addCase(getPaymentStatusList.rejected, (state, action) => {
       state.authLoading = "complete_failure";
     });
   },
