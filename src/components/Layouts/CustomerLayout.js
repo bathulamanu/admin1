@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Avatar,
   Box,
@@ -42,15 +42,6 @@ import {
 import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
 import CustomerForm from "../../pages/customer/CustomerForm";
-import BabyDetailsForm from "../../pages/customer/babyDetails/BabyDetailsForm";
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
 
 export const CustomerLayout = () => {
   const navigate = useNavigate();
@@ -63,7 +54,6 @@ export const CustomerLayout = () => {
   const [activeItem, setActiveItem] = useState("Customers");
   const [pathname, setPathname] = useState(location.pathname);
   const [formOpen, setFormOpen] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
@@ -114,15 +104,6 @@ export const CustomerLayout = () => {
   const { firstName, lastName } = data;
 
   const open = Boolean(anchorEl);
-
-  // useEffect(() => {
-  //   dispatch(getCountryList());
-  //   dispatch(getGenderList(searchQuery));
-  //   dispatch(getSpecialization(searchQuery));
-  //   dispatch(getExperienceList(searchQuery));
-  //   dispatch(getEmploymentType(searchQuery));
-  //   dispatch(getStateList(352));
-  // }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -1384,7 +1365,7 @@ export const CustomerLayout = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(deleteSubscriptionPlan({ subscriptionID }));
-                        dispatch(getSubscriptionPlan(searchQuery));
+                        dispatch(getSubscriptionPlan(null));
                         navigate(`/customerPage/plans`);
                       }}
                     >
