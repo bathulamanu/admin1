@@ -17,7 +17,6 @@ import { getAllInvoiceList } from "../../../redux/Slices/invoiceSlice";
 const InvoiceTable = () => {
   const dispatch = useDispatch();
   const invoiceList = useSelector((state) => state.invoice.invoiceList);
-  // console.log("listData", invoiceList);
   useEffect(() => {
     dispatch(getAllInvoiceList());
   }, []);

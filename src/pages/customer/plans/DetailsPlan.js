@@ -222,7 +222,6 @@ const DetailsPlan = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
   const allPlansList = useSelector((state) => state.plan.planList);
-  console.log("cehck allPlansList allPlansList ", allPlansList);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
   }, []);

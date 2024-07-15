@@ -12,10 +12,8 @@ import {
   OutlinedInput,
   InputLabel,
   FormControl,
-  TextField,
 } from "@mui/material";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import { getInvoiceDetails } from "../../../redux/Slices/invoiceSlice";
 import { formatDate } from "../../../service/globalFunctions";

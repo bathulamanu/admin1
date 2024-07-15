@@ -18,18 +18,13 @@ import {
   FormControl,
   FormHelperText,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
-import {
-  handleCreatePlan,
-  UpdateSubscriptionPlan,
-} from "../../../redux/Slices/planSlice";
+import { UpdateSubscriptionPlan } from "../../../redux/Slices/planSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppContext } from "../../../context/ContextProvider";
-import { createSubscriptionPlan } from "../../../redux/Slices/planSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { GetButtonText, getStatus } from "../../../redux/Slices/globalSlice";
 import {
@@ -215,18 +210,6 @@ const PlansEdit = forwardRef((props, ref) => {
           status: "Status is required",
         }));
         return;
-        // } else if (!formValues.offerTimingFrom) {
-        //   setErrors((prevErrors) => ({
-        //     ...prevErrors,
-        //     offerTimingFrom: "Offer Timing From is required",
-        //   }));
-        //   return;
-        // } else if (!formValues.offerTimingTo) {
-        //   setErrors((prevErrors) => ({
-        //     ...prevErrors,
-        //     offerTimingTo: "Offer Timing To is required",
-        //   }));
-        //   return;
       }
       dispatch(UpdateSubscriptionPlan({ subscriptionID, formValues }));
       navigate("/customerPage/plans");
@@ -239,7 +222,6 @@ const PlansEdit = forwardRef((props, ref) => {
       ...prev,
       [name]: value,
     }));
-    // Clear the error message when the user starts typing
     setErrors({
       ...errors,
       [name]: "",
@@ -368,25 +350,6 @@ const PlansEdit = forwardRef((props, ref) => {
                   </FormControl>
                 </Grid>
               </Grid>
-              {/* <Grid container spacing={2} pt={1} pb={1}>
-                  <Grid item style={{ width: "100%" }}>
-                    <InputLabel sx={inputLableStyle}>
-                      Organization Name<span style={redStarStyle}>*</span>
-                    </InputLabel>
-                    <FormControl variant="outlined" fullWidth size="small">
-                      <OutlinedInput
-                        fullWidth
-                        id="outlined-adornment-password"
-                        placeholder="Input Text"
-                        size="small"
-                        value={formValues?.subTitle}
-                        onChange={(e) => handleChange(e, "subTitle")}
-                      />
-                      {ErrorformValues?.subTitle ? <FormHelperText>{ErrorformValues?.subTitle}</Typography> : null}
-  
-                    </FormControl>
-                  </Grid>
-                </Grid> */}
               <Grid container spacing={2} pt={1} pb={1}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
@@ -493,8 +456,6 @@ const PlansEdit = forwardRef((props, ref) => {
               </Grid>
             </CardContent>
           </Card>
-          {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-              <CardContent> */}
           <Grid container spacing={2} pt={1} pb={1}>
             <Grid item style={{ width: "100%" }}>
               <ReactQuill
@@ -506,8 +467,6 @@ const PlansEdit = forwardRef((props, ref) => {
               />
             </Grid>
           </Grid>
-          {/* </CardContent>
-            </Card> */}
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardContent>
               <Grid container spacing={2} pt={1} pb={1}>
@@ -705,9 +664,6 @@ const PlansEdit = forwardRef((props, ref) => {
               </Grid>
             </CardContent>
           </Card>
-          {/* Additional info */}
-          {/* <Card variant="outlined" sx={{ borderRadius: "15px" }}>
-              <CardContent> */}
           <Grid container spacing={2} pt={1} pb={1}>
             <Grid item style={{ width: "100%" }}>
               <ReactQuill
@@ -719,8 +675,6 @@ const PlansEdit = forwardRef((props, ref) => {
               />
             </Grid>
           </Grid>
-          {/* </CardContent>
-            </Card> */}
           <Card variant="outlined" sx={{ borderRadius: "15px" }}>
             <CardContent>
               <Grid container spacing={2} pt={1} pb={1}>
