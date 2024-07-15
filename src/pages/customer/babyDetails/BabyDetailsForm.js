@@ -1,4 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -46,7 +51,7 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const BabyDetailsForm = () => {
+const BabyDetailsForm = forwardRef((props, ref) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
@@ -110,6 +115,18 @@ const BabyDetailsForm = () => {
       [name]: "",
     });
   };
+
+  // useImperativeHandle(ref, () => ({
+  //   validateBabyAddForm: () => {
+  //     if (!formValues.babyName) {
+  //       setErrors((prevErrors) => ({
+  //         ...prevErrors,
+  //         babyName: "Baby Name is required",
+  //       }));
+  //       return;
+  //     }
+  //   },
+  // }));
   const handleFatherImageUpload = async (e, fieldName) => {
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -751,6 +768,6 @@ const BabyDetailsForm = () => {
       </CardContent>
     </Card>
   );
-};
+});
 
 export default BabyDetailsForm;

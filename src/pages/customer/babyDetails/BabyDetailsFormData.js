@@ -295,7 +295,7 @@ const BabyDetailsFormData = () => {
             </Card>
           </Box>
         </Stack>
-        <Card variant="outlined" sx={{ marginTop: "20px" }}>
+        {/* <Card variant="outlined" sx={{ marginTop: "20px" }}>
           <CardContent
             sx={{
               display: "flex",
@@ -329,7 +329,7 @@ const BabyDetailsFormData = () => {
               </Button>
             </Box>
           </CardContent>
-        </Card>
+        </Card> */}
       </Stack>
     </Container>
   );

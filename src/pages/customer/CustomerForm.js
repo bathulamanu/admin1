@@ -243,10 +243,36 @@ const CustomerForm = forwardRef((props, ref) => {
   }));
 
   const handleChange = (e, name) => {
-    setFormValues((data) => ({
-      ...data,
-      [name]: e,
-    }));
+    // setFormValues((data) => ({
+    //   ...data,
+    //   [name]: e,
+    // }));
+    const value = e.target ? e.target.value : e;
+
+    setFormValues((prev) => {
+      let updatedValues = { ...prev, [name]: value };
+
+      if (name === "subscriptionPlanId") {
+        const selectedPlane = getAllPlansList.find(
+          (plan) => plan.subscriptionID === value
+        );
+
+        if (selectedPlane) {
+          updatedValues = {
+            ...updatedValues,
+            totalAmount: selectedPlane.price,
+          };
+        } else {
+          updatedValues = {
+            ...updatedValues,
+            totalAmount: "",
+          };
+        }
+      }
+
+      return updatedValues;
+    });
+
     setErrors({
       ...errors,
       [name]: "",
@@ -723,6 +749,7 @@ const CustomerForm = forwardRef((props, ref) => {
                       id="outlined-adornment-password"
                       placeholder="Input Text"
                       size="small"
+                      disabled
                       value={formValues?.totalAmount}
                       onChange={(e) =>
                         handleChange(e.target.value, "totalAmount")
