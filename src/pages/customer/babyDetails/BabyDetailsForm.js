@@ -32,7 +32,10 @@ import { getDoctorListById } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { toast } from "react-toastify";
 import TimePicker from "react-time-picker";
-import { addBabyDetails } from "../../../redux/Slices/babySlice";
+import {
+  addBabyDetails,
+  getAllBabyList,
+} from "../../../redux/Slices/babySlice";
 
 const headingStyle = {
   fontSize: "24px",
@@ -204,6 +207,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
           return;
         }
         dispatch(addBabyDetails(formValues));
+        dispatch(getAllBabyList());
         navigate("/customerPage/baby_details");
       }
     }
