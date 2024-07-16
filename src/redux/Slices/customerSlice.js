@@ -9,6 +9,8 @@ const initialState = {
   customerID: null,
   loading: "",
   CustomerPostData: {},
+  trigger: false,
+  triggerCounter: 0
 };
 
 export const getCustomersList = createAsyncThunk(
@@ -62,11 +64,38 @@ export const customerCreateByAdmin = createAsyncThunk(
   }
 );
 
+export const saveBabyDetails = createAsyncThunk(
+  "saveBabyDetails",
+  async (data, thunkAPI) => {
+    try {
+      let obj = {
+        type: 'SET_TRIGGER',
+        payload: data
+      }
+      thunkAPI.fulfillWithValue(obj)
+    } catch (error) {
+
+    }
+  }
+);
+
 const customerSlice = createSlice({
   name: "customers",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(saveBabyDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(saveBabyDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.trigger = true //'action.payload;
+      state.triggerCounter += 1
+    });
+    builder.addCase(saveBabyDetails.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
     builder.addCase(getCustomersList.pending, (state) => {
       state.loading = "pending";
     });

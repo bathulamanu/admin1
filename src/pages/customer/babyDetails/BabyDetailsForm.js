@@ -57,6 +57,15 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
   const doctorsList = useSelector((state) => state.doctor.doctorsList);
   const allDoctor = getDoctorListById(doctorsList);
+  const trigger = useSelector((state) => state.customers.trigger);
+  const triggerCounter = useSelector((state) => state.customers.triggerCounter);
+  useEffect(() => {
+    // if (triggerCounter && trigger) {
+    alert("ok")
+    console.log('Triggered from Page 1');
+    // Perform any actions you need when the trigger is set
+    // }
+  }, [triggerCounter]);
 
   useEffect(() => {
     dispatch(getHospitalsList(null));
