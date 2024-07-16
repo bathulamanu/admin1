@@ -38,6 +38,7 @@ import {
   getCustomerWhoIsNotWithInvoice,
 } from "../../../redux/Slices/invoiceSlice";
 import {
+  formatDate,
   getCustomerWhoIsNotWithInvoiceListById,
   getPaymentModeListById,
   getPlanListById,
@@ -72,6 +73,7 @@ const InvoiceForm = forwardRef((props, ref) => {
   const notInvoiceList = getCustomerWhoIsNotWithInvoiceListById(
     customerWhoIsNotWithInvoiceList
   );
+  console.log("notInvoiceList", notInvoiceList);
   const getAllPlansList = useSelector((state) => state.plan.planList);
   const plansList = getPlanListById(getAllPlansList);
   const getAllPaymentModeList = useSelector(
@@ -108,7 +110,6 @@ const InvoiceForm = forwardRef((props, ref) => {
     offerValue: "",
     paymentDate: "",
     totalPendingAmount: "",
-    notes: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -150,6 +151,12 @@ const InvoiceForm = forwardRef((props, ref) => {
           totalAmount: "Amount is required",
         }));
         return;
+      } else if (!formValues.offerValue) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          offerValue: "Offer Value is required",
+        }));
+        return;
       } else if (!formValues.paymentStatus) {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -181,11 +188,35 @@ const InvoiceForm = forwardRef((props, ref) => {
   }));
 
   const handleChange = (e, name) => {
+    // setFormValues((data) => ({
+    //   ...data,
+    //   [name]: e,
+    // }));
     const value = e.target ? e.target.value : e;
-    setFormValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+
+    setFormValues((prev) => {
+      let updatedValues = { ...prev, [name]: value };
+
+      if (name === "subscriptionPlanId") {
+        const selectedPlane = getAllPlansList.find(
+          (plan) => plan.subscriptionID === value
+        );
+
+        if (selectedPlane) {
+          updatedValues = {
+            ...updatedValues,
+            totalAmount: selectedPlane.price,
+          };
+        } else {
+          updatedValues = {
+            ...updatedValues,
+            totalAmount: "",
+          };
+        }
+      }
+
+      return updatedValues;
+    });
     setErrors({
       ...errors,
       [name]: "",
@@ -193,6 +224,18 @@ const InvoiceForm = forwardRef((props, ref) => {
   };
 
   console.log("formValues", formValues);
+
+  //customer name
+  const getCustomerNameById = (id) => {
+    const customer = notInvoiceList.find((customer) => customer.id === id);
+    return customer ? customer.name : "";
+  };
+
+  //subscribe plane
+  const getPlanById = (id) => {
+    const plan = plansList.find((plan) => plan.id === id);
+    return plan ? plan.name : "";
+  };
 
   return (
     <Container
@@ -393,17 +436,41 @@ const InvoiceForm = forwardRef((props, ref) => {
                 >
                   <OutlinedInput
                     fullWidth
-                    type="number"
-                    id="pincode"
+                    id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
+                    disabled
                     value={formValues?.totalAmount}
                     onChange={(e) =>
                       handleChange(e.target.value, "totalAmount")
                     }
                   />
-                  {!!errors.totalAmount && (
-                    <FormHelperText>{errors.totalAmount}</FormHelperText>
+                  {errors?.totalAmount && (
+                    <FormHelperText>{errors?.totalAmount}</FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel sx={inputLableStyle}>
+                  offer Value <span style={redStarStyle}>*</span>
+                </InputLabel>
+                <FormControl
+                  variant="outlined"
+                  fullWidth
+                  size="small"
+                  error={!!errors.offerValue}
+                >
+                  <OutlinedInput
+                    fullWidth
+                    type="number"
+                    id="outlined-adornment-password"
+                    placeholder="Input Text"
+                    size="small"
+                    value={formValues?.offerValue}
+                    onChange={(e) => handleChange(e.target.value, "offerValue")}
+                  />
+                  {errors?.offerValue && (
+                    <FormHelperText>{errors?.offerValue}</FormHelperText>
                   )}
                 </FormControl>
               </Grid>
@@ -690,7 +757,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                       Invoice ID :
                     </Typography>{" "}
                     <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                      2024-56
+                      {formValues?.InvoiceID}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -711,7 +778,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                       CRN :
                     </Typography>{" "}
                     <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                      02021
+                      {formValues?.CRNno}
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
@@ -724,9 +791,11 @@ const InvoiceForm = forwardRef((props, ref) => {
                     >
                       Customer Name :
                     </Typography>{" "}
-                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                      Raju
-                    </Typography>
+                    {formValues?.customerPaymentId && (
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {getCustomerNameById(formValues?.customerPaymentId)}
+                      </Typography>
+                    )}
                   </Stack>
                   <Stack direction={"row"} spacing={2}>
                     <Typography
@@ -738,9 +807,11 @@ const InvoiceForm = forwardRef((props, ref) => {
                     >
                       Date of Issue :
                     </Typography>{" "}
-                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                      22/06/24
-                    </Typography>
+                    {formValues?.DateOfIssue && (
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {formatDate(formValues?.DateOfIssue)}
+                      </Typography>
+                    )}
                   </Stack>
                 </Stack>
               </Stack>
@@ -764,12 +835,14 @@ const InvoiceForm = forwardRef((props, ref) => {
                   >
                     Bill From
                   </Typography>{" "}
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontSize: "14px", fontWeight: 500 }}
-                  >
-                    Cryovault
-                  </Typography>
+                  {formValues?.customerPaymentId && (
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ fontSize: "14px", fontWeight: 500 }}
+                    >
+                      {getCustomerNameById(formValues?.customerPaymentId)}
+                    </Typography>
+                  )}
                 </Box>
                 <Divider orientation="vertical" flexItem />
                 <Box direction={"column"} sx={{ flex: 1, marginLeft: "6px" }}>
@@ -786,7 +859,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                     variant="subtitle2"
                     sx={{ fontSize: "14px", fontWeight: 500 }}
                   >
-                    suraj
+                    Cryovault
                   </Typography>
                 </Box>
               </Stack>
@@ -810,9 +883,11 @@ const InvoiceForm = forwardRef((props, ref) => {
                   >
                     Customer Plan :
                   </Typography>{" "}
-                  <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                    Premium Plan{" "}
-                  </Typography>
+                  {formValues?.subscriptionPlanId && (
+                    <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                      {getPlanById(formValues?.subscriptionPlanId)}
+                    </Typography>
+                  )}
                 </Stack>
               </Stack>
               <Divider />
@@ -846,7 +921,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                         Amount :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        2456{" "}
+                        {formValues?.totalAmount}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -860,7 +935,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                         Payment Status :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Paid{" "}
+                        {formValues?.paymentStatus}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -874,7 +949,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                         Payment Mode :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        Card{" "}
+                        {formValues?.paymentType}
                       </Typography>
                     </Stack>
                   </Box>
@@ -890,7 +965,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                         Transaction ID :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        256124889745{" "}
+                        {formValues?.PaymentGatewayID}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
@@ -903,9 +978,14 @@ const InvoiceForm = forwardRef((props, ref) => {
                       >
                         Transaction Date :
                       </Typography>{" "}
-                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        25/05/2024{" "}
-                      </Typography>
+                      {formValues?.paymentDate && (
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          {formatDate(formValues?.paymentDate)}
+                        </Typography>
+                      )}
                     </Stack>
                     <Stack direction={"row"} spacing={2}>
                       <Typography
@@ -965,11 +1045,17 @@ const InvoiceForm = forwardRef((props, ref) => {
                     }}
                   >
                     <Typography sx={{}}>Item Description 1</Typography>
-                    <Typography sx={{ fontSize: "14px", marginRight: "30px" }}>
-                      22/05/24 - 11:00Am
+                    {formValues?.paymentDate && (
+                      <Typography
+                        sx={{ fontSize: "14px", marginRight: "30px" }}
+                      >
+                        {formatDate(formValues?.paymentDate)}
+                      </Typography>
+                    )}
+                    <Typography sx={{ marginRight: "30px" }}>
+                      {formValues?.paymentStatus}
                     </Typography>
-                    <Typography sx={{ marginRight: "30px" }}>Paid</Typography>
-                    <Typography sx={{}}>2456</Typography>
+                    <Typography sx={{}}>{formValues?.totalAmount}</Typography>
                   </Stack>
                 </Box>
                 <Stack
@@ -1000,7 +1086,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                         marginRight: "15px",
                       }}
                     >
-                      1234
+                      {formValues?.totalAmount}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -1023,7 +1109,10 @@ const InvoiceForm = forwardRef((props, ref) => {
                       padding: "20px",
                     }}
                   >
-                    <Typography sx={{ fontSize: "14px" }}>Notes</Typography>
+                    <Typography sx={{ fontSize: "14px" }}>Notes :</Typography>
+                    <Typography sx={{ fontSize: "14px" }}>
+                      {formValues?.notes}
+                    </Typography>
                   </Stack>
                 </Box>
               </Stack>

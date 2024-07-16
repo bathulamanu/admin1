@@ -199,7 +199,7 @@ export function getPlanListById(arr) {
 export function getPaymentModeListById(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
-      id: item?.masterConfigurationID,
+      id: item?.value,
       name: item?.value,
     }));
     return result;
@@ -209,7 +209,7 @@ export function getPaymentModeListById(arr) {
 export function getPaymentStatusListById(arr) {
   if (arr && arr?.length > 0) {
     let result = arr?.map((item) => ({
-      id: item?.masterConfigurationID,
+      id: item?.value,
       name: item?.value,
     }));
     return result;
