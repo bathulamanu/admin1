@@ -61,8 +61,8 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const triggerCounter = useSelector((state) => state.customers.triggerCounter);
   useEffect(() => {
     // if (triggerCounter && trigger) {
-    alert("ok")
-    console.log('Triggered from Page 1');
+    alert("ok");
+    console.log("Triggered from Page 1");
     // Perform any actions you need when the trigger is set
     // }
   }, [triggerCounter]);
