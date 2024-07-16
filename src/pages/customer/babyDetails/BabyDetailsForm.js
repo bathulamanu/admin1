@@ -65,7 +65,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
       if (localStorage.getItem("check")) {
         localStorage.removeItem("check")
         alert("ok")
-        console.log('Triggered from Page 1');
+        // console.log('Triggered from Page 1');
         // Perform any actions you need when the trigger is set
       }
     }
