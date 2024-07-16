@@ -43,6 +43,8 @@ import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
 import CustomerForm from "../../pages/customer/CustomerForm";
 import InvoiceForm from "../../pages/customer/invoice/InvoiceForm";
+import { saveBabyDetails } from "../../redux/Slices/customerSlice"
+
 
 export const CustomerLayout = () => {
   const navigate = useNavigate();
@@ -125,6 +127,11 @@ export const CustomerLayout = () => {
     setActiveItem(value);
     setFormOpen(null);
   };
+
+  const handleBabyClick = () => {
+    dispatch(saveBabyDetails(true))
+  };
+
 
   return (
     <Container
@@ -861,6 +868,7 @@ export const CustomerLayout = () => {
                           size="small"
                           variant="contained"
                           startIcon={<SaveAltIcon />}
+                          onClick={handleBabyClick}
                         >
                           Save
                         </Button>
