@@ -52,6 +52,7 @@ export const createInvoice = createAsyncThunk(
     try {
       console.log("cehck payload", data);
       const response = await adminapi.post(`addInvoice`, data);
+      console.log("add invoice", response.data);
       toast.success(response.data.message);
       return response.data;
     } catch (error) {
