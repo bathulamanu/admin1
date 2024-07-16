@@ -17,18 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBabyDetails } from "../../../redux/Slices/babySlice";
 import { formatDate } from "../../../service/globalFunctions";
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const BabyDetailsFormData = () => {
   const dispatch = useDispatch();
   const babyDetail = useSelector((state) => state.baby.babyDetail);

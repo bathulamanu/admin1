@@ -47,10 +47,26 @@ export const addBabyDetails = createAsyncThunk(
   }
 );
 
+export const getBabyInfo = createAsyncThunk(
+  "getBabyInfo",
+  async (customerID, thunkAPI) => {
+    // console.log("customerID baby Details ", customerID);
+    try {
+      const response = await adminapi.get(`/getBabyDetails/${customerID}`);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const initialState = {
   babyList: [],
   babyDetail: {},
   babyID: null,
+  babyInfo: [],
   loading: "",
 };
 
@@ -88,6 +104,19 @@ const babySlice = createSlice({
     });
     builder.addCase(addBabyDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(getBabyInfo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getBabyInfo.fulfilled, (state, action) => {
+      state.loading = false;
+      state.babyInfo = action.payload.data;
+    });
+    builder.addCase(getBabyInfo.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
     });
   },
 });

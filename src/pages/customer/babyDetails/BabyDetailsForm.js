@@ -28,13 +28,17 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
 import { getDoctorList } from "../../../redux/Slices/doctorSlice";
-import { getDoctorListById } from "../../../service/globalFunctions";
+import {
+  formatDateYYYYMMDD,
+  getDoctorListById,
+} from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { toast } from "react-toastify";
 import TimePicker from "react-time-picker";
 import {
   addBabyDetails,
   getAllBabyList,
+  getBabyInfo,
 } from "../../../redux/Slices/babySlice";
 
 const headingStyle = {
@@ -64,13 +68,19 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const trigger = useSelector((state) => state.customers.trigger);
   const triggerCounter = useSelector((state) => state.customers.triggerCounter);
 
+  const babyInfo = useSelector((state) => state.baby.babyInfo);
+  const customerID = localStorage.getItem("selectedCustomerId");
+  console.log("babyInfo", babyInfo);
+
   useEffect(() => {
     dispatch(getHospitalsList(null));
     dispatch(getDoctorList(null));
+    dispatch(getBabyInfo(customerID));
   }, []);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
+    customerID: Number(customerID),
     babyName: "",
     babyDOB: "",
     timeOfBirth: "",
@@ -213,7 +223,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
     }
   }, [triggerCounter]);
 
-  const handleFatherImageUpload = async (e, fieldName) => {
+  const handleBabyImageUpload = async (e, fieldName) => {
     const headers = {
       "Content-Type": "multipart/form-data",
     };
@@ -236,6 +246,23 @@ const BabyDetailsForm = forwardRef((props, ref) => {
     }
   };
   console.log("formValues", formValues);
+
+  useEffect(() => {
+    if (babyInfo && babyInfo.length > 0) {
+      const updatedFormValues = { ...formValues };
+
+      Object.keys(updatedFormValues).forEach((key) => {
+        if (babyInfo[0].hasOwnProperty(key)) {
+          updatedFormValues[key] =
+            key === "babyDOB"
+              ? formatDateYYYYMMDD(babyInfo[0][key])
+              : babyInfo[0][key];
+        }
+      });
+
+      setFormValues(updatedFormValues);
+    }
+  }, [babyInfo]);
 
   return (
     <Card variant="outlined">
@@ -572,7 +599,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
                               accept="image/jpeg, image/png, image/svg+xml"
                               hidden
                               onChange={(e) =>
-                                handleFatherImageUpload(e, "babyProfile")
+                                handleBabyImageUpload(e, "babyProfile")
                               }
                             />
                           </Button>
@@ -818,7 +845,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
                               accept="image/jpeg, image/png, image/svg+xml"
                               hidden
                               onChange={(e) =>
-                                handleFatherImageUpload(e, "DoctorProfile")
+                                handleBabyImageUpload(e, "DoctorProfile")
                               }
                             />
                           </Button>
