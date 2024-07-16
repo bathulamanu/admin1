@@ -59,6 +59,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const allDoctor = getDoctorListById(doctorsList);
   const trigger = useSelector((state) => state.customers.trigger);
   const triggerCounter = useSelector((state) => state.customers.triggerCounter);
+
   useEffect(() => {
     // if (triggerCounter && trigger) {
     alert("ok");
