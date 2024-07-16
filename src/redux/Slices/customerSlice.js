@@ -91,6 +91,7 @@ const customerSlice = createSlice({
       state.loading = "complete_success";
       state.trigger = true //'action.payload;
       state.triggerCounter += 1
+      localStorage.setItem("check", true)
     });
     builder.addCase(saveBabyDetails.rejected, (state) => {
       state.authLoading = "complete_failure";

@@ -59,12 +59,16 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const allDoctor = getDoctorListById(doctorsList);
   const trigger = useSelector((state) => state.customers.trigger);
   const triggerCounter = useSelector((state) => state.customers.triggerCounter);
+
   useEffect(() => {
-    // if (triggerCounter && trigger) {
-    alert("ok")
-    console.log('Triggered from Page 1');
-    // Perform any actions you need when the trigger is set
-    // }
+    if (triggerCounter && trigger) {
+      if (localStorage.getItem("check")) {
+        localStorage.removeItem("check")
+        alert("ok")
+        console.log('Triggered from Page 1');
+        // Perform any actions you need when the trigger is set
+      }
+    }
   }, [triggerCounter]);
 
   useEffect(() => {
