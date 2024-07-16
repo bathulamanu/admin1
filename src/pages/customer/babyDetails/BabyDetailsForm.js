@@ -32,6 +32,7 @@ import { getDoctorListById } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { toast } from "react-toastify";
 import TimePicker from "react-time-picker";
+import { addBabyDetails } from "../../../redux/Slices/babySlice";
 
 const headingStyle = {
   fontSize: "24px",
@@ -61,17 +62,6 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   const triggerCounter = useSelector((state) => state.customers.triggerCounter);
 
   useEffect(() => {
-    if (triggerCounter && trigger) {
-      if (localStorage.getItem("check")) {
-        localStorage.removeItem("check")
-        alert("ok")
-        // console.log('Triggered from Page 1');
-        // Perform any actions you need when the trigger is set
-      }
-    }
-  }, [triggerCounter]);
-
-  useEffect(() => {
     dispatch(getHospitalsList(null));
     dispatch(getDoctorList(null));
   }, []);
@@ -93,6 +83,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
     HospitalName: null,
     HospitalAddressLine1: "",
     HospitalAddressLine2: "",
+    Frames: "",
   });
 
   const handleChange = (e, name) => {
@@ -129,17 +120,95 @@ const BabyDetailsForm = forwardRef((props, ref) => {
     });
   };
 
-  useImperativeHandle(ref, () => ({
-    validateBabyAddForm: () => {
-      if (!formValues.babyName) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          babyName: "Baby Name is required",
-        }));
-        return;
+  useEffect(() => {
+    if (triggerCounter && trigger) {
+      if (localStorage.getItem("check")) {
+        localStorage.removeItem("check");
+        if (!formValues.babyName) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            babyName: "Baby Name is required",
+          }));
+          return;
+        } else if (!formValues.babyDOB) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            babyDOB: "Baby DOB is required",
+          }));
+          return;
+        } else if (!formValues.timeOfBirth) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            timeOfBirth: "Time Of Birth is required",
+          }));
+          return;
+        } else if (!formValues.Meridiem) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            Meridiem: "Meridiem is required",
+          }));
+          return;
+        } else if (!formValues.weight) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            weight: "Weight is required",
+          }));
+          return;
+        } else if (!formValues.DeliveryDoctorName) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            DeliveryDoctorName: "Delivery Doctor Name is required",
+          }));
+          return;
+        } else if (!formValues.placeOfBirth) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            placeOfBirth: "Place Of Birth is required",
+          }));
+          return;
+        } else if (!formValues.NomineeName) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            NomineeName: "Nominee Name is required",
+          }));
+          return;
+        } else if (!formValues.NomineeRelationship) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            NomineeRelationship: "Nominee Relationship is required",
+          }));
+          return;
+        } else if (!formValues.DoctorName) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            DoctorName: "Doctor Name is required",
+          }));
+          return;
+        } else if (!formValues.HospitalName) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            HospitalName: "Hospital Name is required",
+          }));
+          return;
+        } else if (!formValues.HospitalAddressLine1) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            HospitalAddressLine1: "Hospital Address 1 is required",
+          }));
+          return;
+        } else if (!formValues.HospitalAddressLine2) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            HospitalAddressLine2: "Hospital Address 2 is required",
+          }));
+          return;
+        }
+        dispatch(addBabyDetails(formValues));
+        navigate("/customerPage/baby_details");
       }
-    },
-  }));
+    }
+  }, [triggerCounter]);
+
   const handleFatherImageUpload = async (e, fieldName) => {
     const headers = {
       "Content-Type": "multipart/form-data",

@@ -30,6 +30,23 @@ export const getBabyDetails = createAsyncThunk(
   }
 );
 
+export const addBabyDetails = createAsyncThunk(
+  "createSubscriptionPlan",
+  async (data, thunkAPI) => {
+    try {
+      console.log("cehck payload", data);
+      const response = await adminapi.post(`addBabyDetails`, data);
+      console.log("add baby", response);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const initialState = {
   babyList: [],
   babyDetail: {},
@@ -61,6 +78,15 @@ const babySlice = createSlice({
       state.babyDetail = action?.payload?.data;
     });
     builder.addCase(getBabyDetails.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+    builder.addCase(addBabyDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(addBabyDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+    });
+    builder.addCase(addBabyDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
