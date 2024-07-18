@@ -241,7 +241,7 @@ export const GetButtonText = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/ButtonText/${search}`
+        `getMasterConfiguration/Button Text/${search}`
       );
       return response.data;
     } catch (error) {
@@ -257,7 +257,7 @@ export const getPaymentModeList = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/PaymentMode/${search}`
+        `getMasterConfiguration/Payment Mode/${search}`
       );
       return response.data;
     } catch (error) {
@@ -273,7 +273,7 @@ export const getPaymentStatusList = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/PaymentStatus/${search}`
+        `getMasterConfiguration/Payment Status/${search}`
       );
       return response.data;
     } catch (error) {

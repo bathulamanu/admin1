@@ -42,7 +42,6 @@ const SettingsPage = () => {
   const experienceList = useSelector((state) => state.global.experienceList);
   const genderList = useSelector((state) => state.global.genderList);
   const employeeTypeList = useSelector((state) => state.global.employementList);
-  console.log("employeeTypeList", employeeTypeList);
 
   useEffect(() => {
     dispatch(getSpecialization(null));

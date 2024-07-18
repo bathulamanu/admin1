@@ -31,6 +31,7 @@ import CustomerDashboard from "../../pages/customer/dashboard/Dashboard";
 import HospitalEditForm from "../../pages/hospitalManagement/Hospitals/HospitalEditForm";
 import DoctorEditForm from "../../pages/hospitalManagement/Doctors/DoctorEditForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
+import InvoiceEdit from "../../pages/customer/invoice/InvoiceEdit";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -154,6 +155,10 @@ export const baseRoutes = createBrowserRouter([
       {
         path: "invoices/invoiceForm",
         // element: <InvoiceForm />,
+      },
+      {
+        path: "invoices/invoiceEdit",
+        // element: <InvoiceEdit />,
       },
       {
         path: "invoices/invoiceView",

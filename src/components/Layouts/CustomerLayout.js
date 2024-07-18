@@ -4,9 +4,13 @@ import {
   Box,
   Button,
   Container,
+  FormControl,
+  Grid,
+  InputLabel,
   Menu,
   MenuItem,
   MenuList,
+  OutlinedInput,
   Stack,
   Typography,
   styled,
@@ -30,6 +34,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   capitalizeFirstLetter,
+  getStatusIdList,
   stringAvatar,
 } from "../../service/globalFunctions";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +57,31 @@ import {
 import {
   deleteInvoice,
   getAllInvoiceList,
+  getInvoiceDetails,
 } from "../../redux/Slices/invoiceSlice";
+import {
+  GetButtonText,
+  getPaymentModeList,
+  getPaymentStatusList,
+  getStatus,
+} from "../../redux/Slices/globalSlice";
+import SingleSelect from "../GlobalComponents/SingleSelect";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import api from "../../utils/api/httpRequest";
+import InvoiceEdit from "../../pages/customer/invoice/InvoiceEdit";
+
+const inputLableStyle = {
+  fontSize: "14px",
+  fontWeight: "bold",
+  display: "flex",
+  alignItems: "center",
+};
+
+const redStarStyle = {
+  color: "red",
+  marginLeft: "4px",
+};
 
 export const CustomerLayout = () => {
   const navigate = useNavigate();
@@ -79,14 +108,23 @@ export const CustomerLayout = () => {
   const formEditRef = useRef();
   const addCustomerForm = useRef();
   const addInvoiceRef = useRef();
+  const editInvoiceRef = useRef();
   const handleCustomerAddForm = () => {
     if (addCustomerForm.current) {
       addCustomerForm.current.validateCustomerAddForm();
     }
   };
+  const handleBabyClick = () => {
+    dispatch(saveBabyDetails(true));
+  };
   const handleInvoiceAddForm = () => {
     if (addInvoiceRef.current) {
       addInvoiceRef.current.validateInvoiceAddForm();
+    }
+  };
+  const handleInvoiceEditForm = () => {
+    if (editInvoiceRef.current) {
+      editInvoiceRef.current.validateInvoiceEditForm();
     }
   };
   const handlePlanAddForm = () => {
@@ -103,6 +141,59 @@ export const CustomerLayout = () => {
   useEffect(() => {
     setPathname(location.pathname);
   }, [location]);
+
+  const { activeTitle, activeButton } = useSelector(
+    (state) => state.settingCutomerLayout
+  );
+
+  const getStatusList = useSelector((state) => state.global.statusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
+  const statuses = getStatusIdList(getStatusList);
+  // console.log("getStatusList", statuses);
+
+  const [openAdd, setOpenAdd] = useState(false);
+
+  const [formValues, setFormValues] = useState({
+    title: activeTitle,
+    value: "",
+    IsActive: "",
+  });
+
+  useEffect(() => {
+    setFormValues((prev) => ({
+      ...prev,
+      title: activeTitle,
+    }));
+  }, [activeTitle]);
+
+  const handleOnChange = (e, name) => {
+    const value = e.target ? e.target.value : e;
+    setFormValues((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+  const handleSave = async () => {
+    console.log("formvalues", formValues);
+    try {
+      const response = await api.post("/addMasterConfiguration", formValues);
+      // console.log("Posted successfully", response.data);
+      toast.success(response.data.message);
+      dispatch(getPaymentModeList(null));
+      dispatch(getPaymentStatusList(null));
+      dispatch(GetButtonText(null));
+      setOpenAdd(!openAdd);
+      setFormValues({
+        title: activeItem,
+        value: "",
+        IsActive: "",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     if (!data) {
@@ -129,10 +220,6 @@ export const CustomerLayout = () => {
   const handleMenuSideBar = (value) => {
     setActiveItem(value);
     setFormOpen(null);
-  };
-
-  const handleBabyClick = () => {
-    dispatch(saveBabyDetails(true));
   };
 
   return (
@@ -1195,6 +1282,8 @@ export const CustomerLayout = () => {
                     size="small"
                     onClick={(e) => {
                       e.preventDefault();
+                      dispatch(getInvoiceDetails(customerPaymentSubId));
+                      navigate("/customerPage/invoices/invoiceEdit");
                     }}
                   >
                     <EditIcon fontSize="small" /> Edit
@@ -1219,6 +1308,79 @@ export const CustomerLayout = () => {
                     <DeleteIcon fontSize="small" /> Delete
                   </Button>
                 </Stack>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/invoices/invoiceEdit" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  //  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                  }}
+                >
+                  <Stack sx={{ display: "flex", flexDirection: "row" }}>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/invoices");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end" }}
+                  >
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={handleInvoiceEditForm}
+                      startIcon={<SaveAltIcon />}
+                    >
+                      update
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/invoices");
+                      }}
+                      startIcon={<CloseIcon />}
+                    >
+                      Cancel
+                    </Button>
+                  </Stack>
+                </Stack>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <InvoiceEdit ref={editInvoiceRef} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/customerPage/plans" && (
@@ -1489,6 +1651,104 @@ export const CustomerLayout = () => {
                 <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
                   <PlansEdit ref={formEditRef} />
                 </Box>
+              </Stack>
+            )}
+            {pathname && pathname === "/customerPage/settings" && (
+              <Stack
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                    <Typography variant="h2">Customer Management</Typography>{" "}
+                    <Typography variant="subtitle1">/</Typography>
+                    <Typography variant="subtitle1">{activeItem}</Typography>
+                  </Stack>
+                </Stack>
+                <Button
+                  variant="contained"
+                  size="small"
+                  sx={{
+                    padding: 1,
+                  }}
+                  onClick={() => setOpenAdd(true)}
+                >
+                  <AddIcon fontSize="small" /> Add {activeTitle}
+                </Button>
+                <Dialog open={openAdd}>
+                  <DialogContent sx={{ width: "500px" }}>
+                    <CloseIcon
+                      sx={{
+                        marginLeft: "400px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setOpenAdd(!openAdd)}
+                    />
+                    <Box sx={{}}>
+                      <Typography sx={{ fontWeight: "bold" }}>
+                        Add {activeTitle}
+                      </Typography>
+                      <Box>
+                        <Grid container spacing={2} pt={3} pb={2}>
+                          <Grid item style={{ width: "100%" }}>
+                            <InputLabel sx={inputLableStyle}>
+                              Title <span style={redStarStyle}>*</span>
+                            </InputLabel>
+                            <FormControl
+                              variant="outlined"
+                              fullWidth
+                              size="small"
+                            >
+                              <OutlinedInput
+                                fullWidth
+                                id="outlined-adornment-password"
+                                placeholder="Input Text"
+                                size="small"
+                                value={formValues?.value}
+                                onChange={(e) =>
+                                  handleOnChange(e.target.value, "value")
+                                }
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                        <Grid container spacing={2} pt={3} pb={2}>
+                          <Grid item style={{ width: "100%" }}>
+                            <InputLabel sx={inputLableStyle}>
+                              Status <span style={redStarStyle}>*</span>
+                            </InputLabel>
+                            <SingleSelect
+                              placeholder={"Select"}
+                              width={"100%"}
+                              value={formValues?.IsActive}
+                              data={statuses}
+                              onChange={(e) => handleOnChange(e, "IsActive")}
+                            />
+                          </Grid>
+                        </Grid>
+                        <Box sx={{ display: "flex", marginLeft: "115px" }}>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            sx={{ width: "200px" }}
+                            onClick={handleSave}
+                          >
+                            Save
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Box>
+                  </DialogContent>
+                </Dialog>
               </Stack>
             )}
           </Stack>

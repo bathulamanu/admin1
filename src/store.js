@@ -11,6 +11,7 @@ import customerClientSlice from "./redux/Slices/customerClientSlice";
 import planSlice from "./redux/Slices/planSlice";
 import invoiceSlice from "./redux/Slices/invoiceSlice";
 import babySlice from "./redux/Slices/babySlice";
+import settingCutomerLayoutSlice from "./redux/Slices/settingCustomerLayout";
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ export const store = configureStore({
     plan: planSlice,
     invoice: invoiceSlice,
     baby: babySlice,
+    settingCutomerLayout: settingCutomerLayoutSlice,
   },
 });
 
