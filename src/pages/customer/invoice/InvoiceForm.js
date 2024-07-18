@@ -35,6 +35,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   createInvoice,
+  getAllInvoiceList,
   getCustomerWhoIsNotWithInvoice,
 } from "../../../redux/Slices/invoiceSlice";
 import {
@@ -73,7 +74,7 @@ const InvoiceForm = forwardRef((props, ref) => {
   const notInvoiceList = getCustomerWhoIsNotWithInvoiceListById(
     customerWhoIsNotWithInvoiceList
   );
-  console.log("notInvoiceList", customerWhoIsNotWithInvoiceList);
+  // console.log("notInvoiceList", notInvoiceList);
   const getAllPlansList = useSelector((state) => state.plan.planList);
   const plansList = getPlanListById(getAllPlansList);
   const getAllPaymentModeList = useSelector(
@@ -184,6 +185,7 @@ const InvoiceForm = forwardRef((props, ref) => {
         return;
       }
       dispatch(createInvoice(formValues));
+      dispatch(getAllInvoiceList());
       navigate("/customerPage/invoices");
     },
   }));
@@ -194,15 +196,15 @@ const InvoiceForm = forwardRef((props, ref) => {
     //   [name]: e,
     // }));
     const value = e.target ? e.target.value : e;
-    if (name === 'customerPaymentId') {
-      customerWhoIsNotWithInvoiceList.map(x => {
+    if (name === "customerPaymentId") {
+      customerWhoIsNotWithInvoiceList.map((x) => {
         if (e === x.customerPaymentId) {
           setFormValues((prev) => {
-            let updatedValues = { ...prev, ['customerID']: x.id }; //customerID
+            let updatedValues = { ...prev, ["customerID"]: x.customerID }; //customerID
             return updatedValues;
-          })
+          });
         }
-      })
+      });
     }
     setFormValues((prev) => {
       let updatedValues = { ...prev, [name]: value };
