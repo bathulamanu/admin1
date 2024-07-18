@@ -24,7 +24,7 @@ const BabyDetailsFormData = () => {
     const babyId = localStorage.getItem("selectedbabyId");
     dispatch(getBabyDetails(babyId));
   }, []);
-  console.log("babyDetail", babyDetail);
+  // console.log("babyDetail", babyDetail);
   const babyName = babyDetail?.babyName;
   const babyDOB = formatDate(babyDetail?.babyDOB);
   const timeOfBirth = babyDetail?.timeOfBirth;

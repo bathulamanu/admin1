@@ -73,7 +73,7 @@ const InvoiceForm = forwardRef((props, ref) => {
   const notInvoiceList = getCustomerWhoIsNotWithInvoiceListById(
     customerWhoIsNotWithInvoiceList
   );
-  console.log("notInvoiceList", notInvoiceList);
+  console.log("notInvoiceList", customerWhoIsNotWithInvoiceList);
   const getAllPlansList = useSelector((state) => state.plan.planList);
   const plansList = getPlanListById(getAllPlansList);
   const getAllPaymentModeList = useSelector(
@@ -193,7 +193,7 @@ const InvoiceForm = forwardRef((props, ref) => {
     //   [name]: e,
     // }));
     const value = e.target ? e.target.value : e;
-
+    // if(name === 'customerPaymentId'){customerWhoIsNotWithInvoiceList.map()}
     setFormValues((prev) => {
       let updatedValues = { ...prev, [name]: value };
 
@@ -558,6 +558,14 @@ const InvoiceForm = forwardRef((props, ref) => {
                   size="small"
                   error={!!errors.paymentDate}
                 >
+                  {/* <LocalizationProvider>
+                    <DateTimePicker
+                      value={formValues?.paymentDate}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "paymentDate")
+                      }
+                    />
+                  </LocalizationProvider> */}
                   <OutlinedInput
                     fullWidth
                     type="date"

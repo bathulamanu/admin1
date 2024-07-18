@@ -43,8 +43,16 @@ import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlansEdit from "../../pages/customer/plans/plansEdit";
 import CustomerForm from "../../pages/customer/CustomerForm";
 import InvoiceForm from "../../pages/customer/invoice/InvoiceForm";
-import { saveBabyDetails } from "../../redux/Slices/customerSlice"
-
+import { saveBabyDetails } from "../../redux/Slices/customerSlice";
+import {
+  deleteBabyDetails,
+  getAllBabyList,
+  getBabyDetails,
+} from "../../redux/Slices/babySlice";
+import {
+  deleteInvoice,
+  getAllInvoiceList,
+} from "../../redux/Slices/invoiceSlice";
 
 export const CustomerLayout = () => {
   const navigate = useNavigate();
@@ -64,21 +72,16 @@ export const CustomerLayout = () => {
     (state) => state.plan.subscriptionPanDetails
   );
   const subscriptionID = subscriptionPanDetails?.subscriptionID;
-  console.log("subscriptionID", subscriptionID);
+  const babyId = localStorage.getItem("selectedbabyId");
+  const customerPaymentSubId = localStorage.getItem("customerPaymentSubId");
 
   const formRef = useRef();
   const formEditRef = useRef();
   const addCustomerForm = useRef();
-  const addBabyRef = useRef();
   const addInvoiceRef = useRef();
   const handleCustomerAddForm = () => {
     if (addCustomerForm.current) {
       addCustomerForm.current.validateCustomerAddForm();
-    }
-  };
-  const handleBabyAddForm = () => {
-    if (addBabyRef.current) {
-      addBabyRef.current.validateBabyAddForm();
     }
   };
   const handleInvoiceAddForm = () => {
@@ -129,9 +132,8 @@ export const CustomerLayout = () => {
   };
 
   const handleBabyClick = () => {
-    dispatch(saveBabyDetails(true))
+    dispatch(saveBabyDetails(true));
   };
-
 
   return (
     <Container
@@ -881,9 +883,6 @@ export const CustomerLayout = () => {
                         </Button>
                       </Stack>
                     </Stack>
-                    {/* <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
-                      <BabyDetailsForm ref={addBabyRef} />
-                    </Box> */}
                   </Stack>
                 ) : selectedTab === 3 ? (
                   <Stack
@@ -999,6 +998,8 @@ export const CustomerLayout = () => {
                       size="small"
                       onClick={(e) => {
                         e.preventDefault();
+                        dispatch(getBabyDetails(babyId));
+                        navigate("/customerPage/customers/allDetails");
                       }}
                     >
                       <EditIcon fontSize="small" /> Edit
@@ -1015,6 +1016,9 @@ export const CustomerLayout = () => {
                       size="small"
                       onClick={(e) => {
                         e.preventDefault();
+                        dispatch(deleteBabyDetails(babyId));
+                        dispatch(getAllBabyList());
+                        navigate("/customerPage/baby_details");
                       }}
                     >
                       <DeleteIcon fontSize="small" /> Delete
@@ -1207,6 +1211,9 @@ export const CustomerLayout = () => {
                     size="small"
                     onClick={(e) => {
                       e.preventDefault();
+                      dispatch(deleteInvoice(customerPaymentSubId));
+                      dispatch(getAllInvoiceList());
+                      navigate("/customerPage/invoices");
                     }}
                   >
                     <DeleteIcon fontSize="small" /> Delete

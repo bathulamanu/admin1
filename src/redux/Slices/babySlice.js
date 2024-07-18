@@ -62,6 +62,40 @@ export const getBabyInfo = createAsyncThunk(
   }
 );
 
+export const updateBabyDetails = createAsyncThunk(
+  "updateBabyDetails",
+  async ({ babyID, data }, thunkAPI) => {
+    try {
+      console.log("cehck payload", data);
+      const response = await adminapi.post(`updateBabyDetails/${babyID}`, data);
+      console.log("update baby", response);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
+export const deleteBabyDetails = createAsyncThunk(
+  "deleteBabyDetails",
+  async (babyID, thunkAPI) => {
+    console.log("data when we are posting", babyID);
+    try {
+      const response = await adminapi.delete(`/deleteBabyDetails/${babyID}`);
+      console.log("delete baby", response.data);
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const initialState = {
   babyList: [],
   babyDetail: {},
@@ -101,6 +135,9 @@ const babySlice = createSlice({
     });
     builder.addCase(addBabyDetails.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      state.babyList = state.babyList.filter(
+        (baby) => baby.id !== action.meta.arg
+      );
     });
     builder.addCase(addBabyDetails.rejected, (state) => {
       state.authLoading = "complete_failure";
@@ -117,6 +154,19 @@ const babySlice = createSlice({
     builder.addCase(getBabyInfo.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
+    });
+
+    builder.addCase(deleteBabyDetails.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(deleteBabyDetails.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.babyList = state.babyList.filter(
+        (baby) => baby.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteBabyDetails.rejected, (state) => {
+      state.authLoading = "complete_failure";
     });
   },
 });

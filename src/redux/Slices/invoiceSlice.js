@@ -63,6 +63,24 @@ export const createInvoice = createAsyncThunk(
   }
 );
 
+export const deleteInvoice = createAsyncThunk(
+  "deleteInvoice",
+  async (customerPaymentSubId, thunkAPI) => {
+    console.log("data when we are posting", customerPaymentSubId);
+    try {
+      const response = await adminapi.delete(
+        `/deleteInvoice/${customerPaymentSubId}`
+      );
+      toast.success(response.data.message);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response ? error.response.data : error.message
+      );
+    }
+  }
+);
+
 const initialState = {
   invoiceList: [],
   customerWhoIsNotWithInvoiceList: [],
@@ -116,8 +134,24 @@ const invoiceSlice = createSlice({
     });
     builder.addCase(createInvoice.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      state.invoiceList = state.invoiceList.filter(
+        (invoice) => invoice.id !== action.meta.arg
+      );
     });
     builder.addCase(createInvoice.rejected, (state) => {
+      state.authLoading = "complete_failure";
+    });
+
+    builder.addCase(deleteInvoice.pending, (state) => {
+      state.loading = "pending";
+    });
+    builder.addCase(deleteInvoice.fulfilled, (state, action) => {
+      state.loading = "complete_success";
+      state.invoiceList = state.invoiceList.filter(
+        (invoice) => invoice.id !== action.meta.arg
+      );
+    });
+    builder.addCase(deleteInvoice.rejected, (state) => {
       state.authLoading = "complete_failure";
     });
   },
