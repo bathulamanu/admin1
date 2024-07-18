@@ -93,6 +93,7 @@ const InvoiceForm = forwardRef((props, ref) => {
   }, []);
 
   const [formValues, setFormValues] = useState({
+    customerID: null,
     customerPaymentId: null,
     CRNno: "",
     InvoiceID: "",
@@ -193,7 +194,16 @@ const InvoiceForm = forwardRef((props, ref) => {
     //   [name]: e,
     // }));
     const value = e.target ? e.target.value : e;
-    // if(name === 'customerPaymentId'){customerWhoIsNotWithInvoiceList.map()}
+    if (name === 'customerPaymentId') {
+      customerWhoIsNotWithInvoiceList.map(x => {
+        if (e === x.customerPaymentId) {
+          setFormValues((prev) => {
+            let updatedValues = { ...prev, ['customerID']: x.id }; //customerID
+            return updatedValues;
+          })
+        }
+      })
+    }
     setFormValues((prev) => {
       let updatedValues = { ...prev, [name]: value };
 
