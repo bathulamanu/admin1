@@ -235,3 +235,8 @@ export function getCustomerWhoIsNotWithInvoiceListById(arr) {
     return result;
   }
 }
+
+export function removeSpecificTags(html, tagName) {
+  const regex = new RegExp(`<${tagName}[^>]*>|</${tagName}>`, 'gi');
+  return html.replace(regex, '');
+}

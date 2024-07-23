@@ -117,6 +117,10 @@ const CustomerTableColumn = () => {
                 "selectedCustomerId",
                 params?.row?.customerID
               );
+              localStorage.setItem(
+                "selectedCustomerName",
+                params?.row?.firstName+" "+params?.row?.lastName
+              );
               dispatch(getCustomerDetails(params?.row?.customerID));
               navigate("/customerPage/customers/allDetails");
             }}

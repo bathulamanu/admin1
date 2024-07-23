@@ -4,6 +4,7 @@ import {
   // Dialog,
   // DialogContent,
   FormControl,
+  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -71,6 +72,7 @@ const CustomerSettingsTableColumn = () => {
     value: "",
     IsActive: "",
   });
+  const [errors, setErrors] = useState({});
   useEffect(() => {
     setFormValues((prev) => ({
       ...prev,
@@ -83,8 +85,18 @@ const CustomerSettingsTableColumn = () => {
       ...prev,
       [name]: value,
     }));
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
   };
-
+  const validateForm = () => {
+    let tempErrors = {};
+    if (!formValues.value) tempErrors.value = "Value is required";
+    if (!formValues.IsActive) tempErrors.IsActive = "Status is required";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
   const handleOnClick = (params) => {
     setFormValues({
       title: activeTitle,
@@ -94,6 +106,9 @@ const CustomerSettingsTableColumn = () => {
     setOpenEdit(true);
   };
   const handleSave = async (params) => {
+    if (!validateForm()) {
+      return;
+    }
     console.log("formvalues", formValues);
     try {
       const response = await api.put(
@@ -226,8 +241,14 @@ const CustomerSettingsTableColumn = () => {
                     <Grid container spacing={2} pt={3} pb={2}>
                       <Grid item style={{ width: "100%" }}>
                         <InputLabel sx={inputLableStyle}>Title</InputLabel>
-                        <FormControl variant="outlined" fullWidth size="small">
+                        <FormControl
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          error={!!errors.value}
+                        >
                           <OutlinedInput
+                            error={!!errors.value}
                             fullWidth
                             id="outlined-adornment-password"
                             placeholder="Input Text"
@@ -237,20 +258,37 @@ const CustomerSettingsTableColumn = () => {
                               handleOnChange(e.target.value, "value")
                             }
                           />
+                          {errors.value && (
+                            <FormHelperText error>
+                              {errors.value}
+                            </FormHelperText>
+                          )}
                         </FormControl>
                       </Grid>
                     </Grid>
-
                     <Grid container spacing={2} pt={3} pb={2}>
                       <Grid item style={{ width: "100%" }}>
                         <InputLabel sx={inputLableStyle}>Status</InputLabel>
-                        <SingleSelect
-                          placeholder={"Select"}
-                          width={"100%"}
-                          value={formValues?.IsActive}
-                          data={statuses}
-                          onChange={(e) => handleOnChange(e, "IsActive")}
-                        />
+                        <FormControl
+                          variant="outlined"
+                          fullWidth
+                          size="small"
+                          error={!!errors.IsActive}
+                        >
+                          <SingleSelect
+                            error={!!errors.IsActive}
+                            placeholder={"Select"}
+                            width={"100%"}
+                            value={formValues?.IsActive}
+                            data={statuses}
+                            onChange={(e) => handleOnChange(e, "IsActive")}
+                          />
+                          {errors.IsActive && (
+                            <FormHelperText error>
+                              {errors.IsActive}
+                            </FormHelperText>
+                          )}
+                        </FormControl>
                       </Grid>
                     </Grid>
                     <Box sx={{ display: "flex", marginLeft: "115px" }}>

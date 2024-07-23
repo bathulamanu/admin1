@@ -14,40 +14,58 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
+import { getSpecialization } from "../../../redux/Slices/globalSlice";
 import column from "../Doctors/DoctorsTableColumn";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getByIdList } from "../../../service/globalFunctions";
 
 const DoctorsPage = () => {
   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState(null);
   const doctorsList = useSelector((state) => state.doctor.doctorsList);
-
+  const getSpecializationList = useSelector(
+    (state) => state.global.specializationList
+  );
+  const allSpecializations = getByIdList(getSpecializationList);
   console.log("doctorsList", doctorsList);
 
   useEffect(() => {
-    dispatch(getDoctorList(searchQuery));
+    dispatch(getDoctorList(null));
+    dispatch(getSpecialization(null));
   }, []);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectValue, setSelectValue] = useState("");
   const filteredList = doctorsList?.filter((item) => {
-    const matchesSearch =
-      item?.doctorFirstName &&
-      item.doctorFirstName.toLowerCase().includes(searchValue.toLowerCase());
+    // const matchesSearch =
+    //   item?.doctorFirstName &&
+    //   item.doctorFirstName.toLowerCase().includes(searchValue.toLowerCase());
 
-    const matchesStatus =
-      statusFilter === "" ||
-      (statusFilter === "Active" && item.IsActive === 47) ||
-      (statusFilter === "Inactive" && item.IsActive === 46);
+    // const matchesStatus =
+    //   statusFilter === "" ||
+    //   (statusFilter === "Active" && item.IsActive === 47) ||
+    //   (statusFilter === "InActive" && item.IsActive === 46);
 
-    const matchesSpecialization =
-      selectValue === "" ||
-      item.specilizationInfo.some(
-        (specialization) => specialization.specilizationID === selectValue
-      );
-    return matchesSearch && matchesStatus && matchesSpecialization;
+    // const matchesSpecialization =
+    //   selectValue === "" ||
+    //   item.specilizationInfo.some(
+    //     (specialization) => specialization.specilizationID === parseInt(selectValue)
+    //   );
+    // return matchesSearch && matchesStatus && matchesSpecialization;
+
+    return (
+      (searchValue === "" ||
+        item?.doctorFirstName
+          .toLowerCase()
+          .includes(searchValue?.toLowerCase())) &&
+      (statusFilter === "" ||
+        statusFilter === item?.IsActiveInfo?.IsActiveValue) &&
+      (selectValue === "" ||
+        item.specilizationInfo.some(
+          (spec) => spec.specializationID === parseInt(selectValue)
+        ))
+    );
   });
 
   const uniqueSpecializationsMap = new Map();
@@ -60,10 +78,6 @@ const DoctorsPage = () => {
     });
   });
 
-  const uniqueSpecializations = Array.from(
-    uniqueSpecializationsMap,
-    ([id, value]) => ({ id, value })
-  );
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <ToastContainer />
@@ -105,11 +119,11 @@ const DoctorsPage = () => {
               }}
             >
               <MenuItem value="">
-                <em>specialization</em>
+                <em>Select</em>
               </MenuItem>
-              {[...uniqueSpecializations].map((specialization, index) => (
+              {allSpecializations?.map((specialization, index) => (
                 <MenuItem key={index} value={specialization.id}>
-                  {specialization.value}
+                  {specialization.name}
                 </MenuItem>
               ))}
             </Select>
@@ -122,9 +136,11 @@ const DoctorsPage = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               displayEmpty
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="">
+                <em>All</em>
+              </MenuItem>
               <MenuItem value="Active">Active</MenuItem>
-              <MenuItem value="Inactive">Inactive</MenuItem>
+              <MenuItem value="InActive">InActive</MenuItem>
             </Select>
           </FormControl>
           <MoreVertIcon />

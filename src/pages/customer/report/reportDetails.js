@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -17,7 +17,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-
+import { getCustomerReportsNames } from "../../../redux/Slices/customerSlice";
+import { useDispatch, useSelector } from "react-redux";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -29,21 +30,26 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-const reportTypes = [
-  "Preservation certificate",
-  "CFU & sterility report",
-  "CD34 report",
-  "Maternity sample report",
-  "NBS reports",
-  "HLA reports",
-  "Others",
-];
+// const reportTypes = [
+//   "Preservation certificate",
+//   "CFU & sterility report",
+//   "CD34 report",
+//   "Maternity sample report",
+//   "NBS reports",
+//   "HLA reports",
+//   "Others",
+// ];
 
 const ReportDetails = () => {
   const [openView, setOpenView] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const dispatch = useDispatch();
+  const reportTypes = useSelector((state) => state.customers.typeOfCustomerReports);
 
+  useEffect(() => {
+    dispatch(getCustomerReportsNames());
+  }, []);
   return (
     <Container
       maxWidth="xl"
@@ -72,7 +78,7 @@ const ReportDetails = () => {
               variant="h5"
               sx={{ marginTop: "10px", fontWeight: "bold" }}
             >
-              {report}
+              {report.value}
             </Typography>
             <Stack
               sx={{

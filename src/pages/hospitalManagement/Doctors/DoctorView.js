@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardContent,
   Container,
@@ -25,7 +26,7 @@ import chat from "../../../assets/chat.png";
 
 const DoctorView = () => {
   const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  // console.log("doctorDetails", doctorDetail);
+  console.log("doctorDetails", doctorDetail);
   const doctorFirstName = doctorDetail?.doctorFirstName;
   const doctorProfile = doctorDetail?.doctorProfile;
   const doctorLastName = doctorDetail?.doctorLastName;
@@ -45,12 +46,11 @@ const DoctorView = () => {
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        padding: "8px",
         display: "flex",
         flexDirection: "column",
-        gap: 4,
       }}
     >
+      <ToastContainer />
       <Box>
         <Card justifyContent={"space-between"}>
           <CardContent
@@ -83,7 +83,7 @@ const DoctorView = () => {
               >
                 <Box
                   sx={{
-                    width: "20%",
+                    width: "25%",
                     display: "flex",
                     flexDirection: "column",
                     gap: 4,
@@ -106,7 +106,7 @@ const DoctorView = () => {
                 </Box>
                 <Box
                   sx={{
-                    width: "80%",
+                    width: "75%",
                     display: "flex",
                     flexDirection: "column",
                     gap: 4,
@@ -162,14 +162,14 @@ const DoctorView = () => {
                             >
                               :
                             </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              {specialistInfo?.[0]?.value || ""}
-                              {/* ,{" "}
-                              {specialist?.[1]?.value || ""}{" "} */}
-                            </Typography>
+                            {specialistInfo?.map((s) => (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                {s.value || ""}
+                              </Typography>
+                            ))}
                           </Stack>
                           <Stack direction={"row"} spacing={1}>
                             <Typography
@@ -188,14 +188,14 @@ const DoctorView = () => {
                             >
                               :
                             </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              {qualification?.[0]?.value || ""}
-                              {/* {", "}
-                              {qualification?.[1]?.value || ""}{" "} */}
-                            </Typography>
+                            {qualification?.map((q) => (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                {q?.value || ""}
+                              </Typography>
+                            ))}
                           </Stack>
                           <Stack direction={"row"} spacing={1}>
                             <Typography
@@ -245,6 +245,20 @@ const DoctorView = () => {
                               {IMRregisterID}
                             </Typography>
                           </Stack>
+                          <Stack
+                            sx={{
+                              display: "flex",
+                              flexDirection: "row",
+                              gap: 4,
+                            }}
+                          >
+                            <Button size="small" variant="contained">
+                              Contact
+                            </Button>
+                            <Button size="small" variant="contained">
+                              Contact
+                            </Button>
+                          </Stack>
                         </Stack>
                       </Box>
                       <Divider orientation="vertical" flexItem />
@@ -291,7 +305,9 @@ const DoctorView = () => {
                               {experienceInfo?.value} of Experience
                             </Typography>
                             <Typography variant="subtitle2">
-                              {doctorBio}
+                              {/* {doctorBio} */}
+                              specializes in a wide array of surgical procedures
+                              aimed at restoring health and well-being.
                             </Typography>
                           </Stack>
                         </Stack>
@@ -305,10 +321,13 @@ const DoctorView = () => {
                           </Stack>
                           <Stack spacing={1}>
                             <Typography>
-                              {experienceInfo?.value} of Experience
+                              {/* {experienceInfo?.value} of Experience */}
+                              95% Recommend
                             </Typography>
                             <Typography variant="subtitle2">
-                              {doctorBio}
+                              {/* {doctorBio} */}
+                              250 Patients would Recommended this doctor to
+                              their friends and family
                             </Typography>
                           </Stack>
                         </Stack>
@@ -346,7 +365,6 @@ const DoctorView = () => {
             <Divider sx={{ mt: 2, mb: 2 }} />
             <Box>
               {previousExperience?.map((item, index) => {
-                // console.log("doctorsNamehgdfjsg", item);
                 return (
                   <Box
                     key={index}
@@ -371,6 +389,12 @@ const DoctorView = () => {
                         <Typography variant="h6">
                           {item?.hospitalDetails?.hospitalName}
                         </Typography>
+                        <Stack direction={"row"}>
+                          <Typography variant="subtitle2">
+                            {item?.specialist[0]?.value || ""} -{" "}
+                            {item?.employmentTypeInfo?.value}
+                          </Typography>
+                        </Stack>
                         <Stack direction={"row"}>
                           <Typography variant="subtitle2">
                             {item?.hospitalDetails?.HospitalAddressInfo
@@ -448,7 +472,6 @@ const DoctorView = () => {
                         <Typography variant="subtitle2">
                           {formatToMMMYYYY(item?.endDate) || ""},
                         </Typography>
-
                         <Typography variant="subtitle2">
                           {item?.experienceInfo?.value || ""}
                         </Typography>

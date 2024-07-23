@@ -11,7 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
@@ -42,6 +42,7 @@ const SettingsPage = () => {
   const experienceList = useSelector((state) => state.global.experienceList);
   const genderList = useSelector((state) => state.global.genderList);
   const employeeTypeList = useSelector((state) => state.global.employementList);
+  console.log("employeeTypeList", employeeTypeList);
 
   useEffect(() => {
     dispatch(getSpecialization(null));
@@ -62,7 +63,7 @@ const SettingsPage = () => {
       dispatch(getExperienceList(null));
     } else if (activeTitle === "Gender") {
       dispatch(getGenderList(null));
-    } else if (activeTitle === "Employee Type") {
+    } else if (activeTitle === "Employment Type") {
       dispatch(getEmploymentType(null));
     }
   }, [dispatch, activeTitle]);
@@ -75,7 +76,7 @@ const SettingsPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const [selectValue, setSelectValue] = useState("");
 
-  const filteredList = specializationList.filter((item) => {
+  const filteredList = specializationList?.filter((item) => {
     const matchesSearch =
       item?.value &&
       item.value.toLowerCase().includes(searchValue.toLowerCase());
@@ -93,9 +94,9 @@ const SettingsPage = () => {
 
   // Create a unique list of specializations
   const uniqueSpecializations = Array.from(
-    new Set(specializationList.map((item) => item.value))
+    new Set(specializationList?.map((item) => item.value))
   ).map((value) => {
-    return specializationList.find((item) => item.value === value);
+    return specializationList?.find((item) => item.value === value);
   });
 
   //qualification
@@ -103,7 +104,7 @@ const SettingsPage = () => {
   const [searchValueQ, setSearchValueQ] = useState("");
   const [selectValueQ, setSelectValueQ] = useState("");
 
-  const filteredListQ = qualificationList.filter((item) => {
+  const filteredListQ = qualificationList?.filter((item) => {
     const matchesSearchQ =
       item?.value &&
       item.value.toLowerCase().includes(searchValueQ.toLowerCase());
@@ -120,9 +121,9 @@ const SettingsPage = () => {
 
   // Create a unique list of Qulaification
   const uniqueQulaification = Array.from(
-    new Set(qualificationList.map((item) => item.value))
+    new Set(qualificationList?.map((item) => item.value))
   ).map((value) => {
-    return qualificationList.find((item) => item.value === value);
+    return qualificationList?.find((item) => item.value === value);
   });
 
   //experience
@@ -130,7 +131,7 @@ const SettingsPage = () => {
   const [searchValueE, setSearchValueE] = useState("");
   const [selectValueE, setSelectValueE] = useState("");
 
-  const filteredListE = experienceList.filter((item) => {
+  const filteredListE = experienceList?.filter((item) => {
     const matchesSearchE =
       item?.value &&
       item.value.toLowerCase().includes(searchValueE.toLowerCase());
@@ -147,9 +148,9 @@ const SettingsPage = () => {
 
   // Create a unique list of Experience
   const uniqueExperienceList = Array.from(
-    new Set(experienceList.map((item) => item.value))
+    new Set(experienceList?.map((item) => item.value))
   ).map((value) => {
-    return experienceList.find((item) => item.value === value);
+    return experienceList?.find((item) => item.value === value);
   });
 
   //Gender
@@ -157,7 +158,7 @@ const SettingsPage = () => {
   const [searchValueG, setSearchValueG] = useState("");
   const [selectValueG, setSelectValueG] = useState("");
 
-  const filteredListG = genderList.filter((item) => {
+  const filteredListG = genderList?.filter((item) => {
     const matchesSearchG =
       item?.value &&
       item.value.toLowerCase().includes(searchValueG.toLowerCase());
@@ -173,16 +174,16 @@ const SettingsPage = () => {
 
   // Create a unique list of Gender
   const uniqueGender = Array.from(
-    new Set(genderList.map((item) => item.value))
+    new Set(genderList?.map((item) => item.value))
   ).map((value) => {
-    return genderList.find((item) => item.value === value);
+    return genderList?.find((item) => item.value === value);
   });
 
   // Employee Type
   const [statusFilterET, setStatusFilterET] = useState("");
   const [searchValueET, setSearchValueET] = useState("");
   const [selectValueET, setSelectValueET] = useState("");
-  const filteredListET = employeeTypeList.filter((item) => {
+  const filteredListET = employeeTypeList?.filter((item) => {
     const matchesSearchET =
       item?.value &&
       item.value.toLowerCase().includes(searchValueET.toLowerCase());
@@ -196,11 +197,11 @@ const SettingsPage = () => {
       selectValueET === "" || item.value === selectValueET;
     return matchesSearchET && matchesStatusET && matchesEmployeeType;
   });
-  // Create a unique list of Employee Type
+  // Create a unique list of Employment Type
   const uniqueEmployeeType = Array.from(
-    new Set(employeeTypeList.map((item) => item.value))
+    new Set(employeeTypeList?.map((item) => item.value))
   ).map((value) => {
-    return employeeTypeList.find((item) => item.value === value);
+    return employeeTypeList?.find((item) => item.value === value);
   });
 
   const getRows = () => {
@@ -214,7 +215,7 @@ const SettingsPage = () => {
       return filteredListE || [];
     } else if (activeTitle === "Gender") {
       return filteredListG || [];
-    } else if (activeTitle === "Employee Type") {
+    } else if (activeTitle === "Employment Type") {
       return filteredListET || [];
     }
     return [];
@@ -263,9 +264,9 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Specialization</em>
+                  <em>Select</em>
                 </MenuItem>
-                {uniqueSpecializations.map((specialization, index) => (
+                {uniqueSpecializations?.map((specialization, index) => (
                   <MenuItem key={index} value={specialization.value}>
                     {specialization.value}
                   </MenuItem>
@@ -282,7 +283,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -319,9 +320,9 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Qulaification</em>
+                  <em>Select</em>
                 </MenuItem>
-                {uniqueQulaification.map((qulaification, index) => (
+                {uniqueQulaification?.map((qulaification, index) => (
                   <MenuItem key={index} value={qulaification.value}>
                     {qulaification.value}
                   </MenuItem>
@@ -338,7 +339,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -375,13 +376,8 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Brands</em>
+                  <em>Select</em>
                 </MenuItem>
-                {/* {uniqueQulaification.map((qulaification, index) => (
-                  <MenuItem key={index} value={qulaification.value}>
-                    {qulaification.value}
-                  </MenuItem>
-                ))} */}
               </Select>
             </FormControl>
             <FormControl sx={{ width: "30%" }}>
@@ -394,7 +390,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -421,7 +417,7 @@ const SettingsPage = () => {
                 value={selectValueE}
                 onChange={(e) => setSelectValueE(e.target.value)}
                 displayEmpty
-                placeholder="Brands"
+                placeholder="Experience"
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -431,9 +427,9 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Experience</em>
+                  <em>Select</em>
                 </MenuItem>
-                {uniqueExperienceList.map((experience, index) => (
+                {uniqueExperienceList?.map((experience, index) => (
                   <MenuItem key={index} value={experience.value}>
                     {experience.value}
                   </MenuItem>
@@ -450,7 +446,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -477,7 +473,7 @@ const SettingsPage = () => {
                 value={selectValueG}
                 onChange={(e) => setSelectValueG(e.target.value)}
                 displayEmpty
-                placeholder="Brands"
+                placeholder="Gender"
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -487,9 +483,9 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Gender</em>
+                  <em>Select</em>
                 </MenuItem>
-                {uniqueGender.map((gender, index) => (
+                {uniqueGender?.map((gender, index) => (
                   <MenuItem key={index} value={gender.value}>
                     {gender.value}
                   </MenuItem>
@@ -506,12 +502,12 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
           </Stack>
-        ) : activeTitle === "Employee Type" ? (
+        ) : activeTitle === "Employment Type" ? (
           <Stack direction={"row"} alignItems={"center"} spacing={1}>
             <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
               <OutlinedInput
@@ -533,7 +529,7 @@ const SettingsPage = () => {
                 value={selectValueET}
                 onChange={(e) => setSelectValueET(e.target.value)}
                 displayEmpty
-                placeholder="Brands"
+                placeholder="Select"
                 MenuProps={{
                   PaperProps: {
                     style: {
@@ -543,9 +539,9 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Employee Type</em>
+                  <em>Select</em>
                 </MenuItem>
-                {uniqueEmployeeType.map((employeeType, index) => (
+                {uniqueEmployeeType?.map((employeeType, index) => (
                   <MenuItem key={index} value={employeeType.value}>
                     {employeeType.value}
                   </MenuItem>
@@ -562,7 +558,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -643,9 +639,9 @@ const SettingsPage = () => {
               backgroundColor: activeButton === 5 ? "#1976d2" : "#e0e0e0",
               color: activeButton === 5 ? "#fff" : "#000",
             }}
-            onClick={() => handleButtonClick("Employee Type", 5)}
+            onClick={() => handleButtonClick("Employment Type", 5)}
           >
-            Employee Type
+            Employment Type
           </Button>
         </Stack>
       </Box>

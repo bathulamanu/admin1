@@ -5,7 +5,7 @@ const data = JSON.parse(loginUserDetails);
 // console.log("dkjgksgdk", token);
 
 const adminapi = axios.create({
-  baseURL: "http://18.61.70.225:4000/flyingbyts/api/admin",
+  baseURL: "http://18.61.158.245:4000/flyingbyts/api/admin",
   //   withCredentials: true,
   headers: {
     "Content-type": "application/json",
