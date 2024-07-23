@@ -11,6 +11,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
+import { removeSpecificTags, formatDate } from "../../../service/globalFunctions"
 
 const PlanDataPreview = () => {
   const subscriptionPanDetails = useSelector(
@@ -27,14 +28,15 @@ const PlanDataPreview = () => {
   const EMI = subscriptionPanDetails?.EMI;
   const EMItext = subscriptionPanDetails?.EMItext;
   const ribben = subscriptionPanDetails?.ribben;
-  const ribbenStatus = subscriptionPanDetails?.ribbenStatus;
+  const ribbenStatusValue = subscriptionPanDetails?.ribbenStatusValue;
   const description = subscriptionPanDetails?.description;
   const additionalInfo = subscriptionPanDetails?.additionalInfo;
   const durationYear = subscriptionPanDetails?.durationYear;
   const durationYearText = subscriptionPanDetails?.durationYearText;
   const customText = subscriptionPanDetails?.customText;
-  const offerTiming = subscriptionPanDetails?.offerTiming;
-  const status = subscriptionPanDetails?.status;
+  const offerTimingFrom = formatDate(subscriptionPanDetails?.offerTimingFrom);
+  const offerTimingTo = formatDate(subscriptionPanDetails?.offerTimingTo);
+  const IsActiveValue = subscriptionPanDetails?.IsActiveValue;
 
   return (
     <Container
@@ -294,22 +296,10 @@ const PlanDataPreview = () => {
                         }}
                       >
                         Ribbon Status :
-                      </Typography>{" "}
-                      {ribbenStatus === 46 ? (
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "14px" }}
-                        >
-                          true
-                        </Typography>
-                      ) : (
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "14px" }}
-                        >
-                          false
-                        </Typography>
-                      )}
+                      </Typography>{"  "}
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {ribbenStatusValue}
+                      </Typography>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -348,7 +338,7 @@ const PlanDataPreview = () => {
                         fontSize: "14px",
                       }}
                     >
-                      {description}
+                      {removeSpecificTags(description, 'p')}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -375,7 +365,7 @@ const PlanDataPreview = () => {
                         Additional Info :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        {additionalInfo}
+                        {removeSpecificTags(additionalInfo, 'p')}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -477,7 +467,7 @@ const PlanDataPreview = () => {
                         Offer Timing (Date & Time) :
                       </Typography>{" "}
                       <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
-                        {offerTiming}
+                        Start Date :  {offerTimingFrom} , End Date : {offerTimingTo}
                       </Typography>
                     </Stack>
                   </Stack>
@@ -501,8 +491,11 @@ const PlanDataPreview = () => {
                         }}
                       >
                         Status :
-                      </Typography>{" "}
-                      {status === 47 ? (
+                      </Typography>{""}
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {IsActiveValue}
+                      </Typography>
+                      {/* {status === 47 ? (
                         <Typography
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
@@ -516,7 +509,7 @@ const PlanDataPreview = () => {
                         >
                           InActive
                         </Typography>
-                      )}
+                      )} */}
                     </Stack>
                   </Stack>
                 </Stack>

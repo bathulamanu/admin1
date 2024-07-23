@@ -44,7 +44,7 @@ export const createSubscriptionPlan = createAsyncThunk(
         `createSubscriptionPlan`,
         addSubscriptionPlan
       );
-      toast.success(response.data.message);
+      // toast.success(response.data.message);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -63,7 +63,7 @@ export const UpdateSubscriptionPlan = createAsyncThunk(
         `UpdateSubscriptionPlan/${subscriptionID}`,
         formValues
       );
-      toast.success(response.data.message);
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -82,7 +82,7 @@ export const deleteSubscriptionPlan = createAsyncThunk(
         `/deleteSubscriptionPlan/${subscriptionID}`
       );
       console.log("Deleted successfully", response.data);
-      toast.success(response.data.message);
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -136,6 +136,7 @@ const planSlice = createSlice({
     });
     builder.addCase(UpdateSubscriptionPlan.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      toast.success(action.payload.message);
     });
     builder.addCase(UpdateSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";
@@ -145,6 +146,7 @@ const planSlice = createSlice({
     });
     builder.addCase(createSubscriptionPlan.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      toast.success(action.payload.message);
     });
     builder.addCase(createSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";
@@ -155,6 +157,7 @@ const planSlice = createSlice({
     });
     builder.addCase(deleteSubscriptionPlan.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      toast.success(action.payload.message);
       state.planList = state.planList.filter(
         (plan) => plan.id !== action.meta.arg
       );
