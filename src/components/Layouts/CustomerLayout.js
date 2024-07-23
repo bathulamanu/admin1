@@ -14,10 +14,9 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  styled,
   useMediaQuery,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -96,7 +95,7 @@ export const CustomerLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeItem, setActiveItem] = useState("Customers");
   const [pathname, setPathname] = useState(location.pathname);
-  const [formOpen, setFormOpen] = useState(null);
+  // const [formOpen, setFormOpen] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
@@ -151,9 +150,7 @@ export const CustomerLayout = () => {
     setPathname(location.pathname);
   }, [location]);
 
-  const { activeTitle, activeButton } = useSelector(
-    (state) => state.settingCutomerLayout
-  );
+  const { activeTitle } = useSelector((state) => state.settingCutomerLayout);
 
   const getStatusList = useSelector((state) => state.global.statusList);
   useEffect(() => {
@@ -242,7 +239,7 @@ export const CustomerLayout = () => {
 
   const handleMenuSideBar = (value) => {
     setActiveItem(value);
-    setFormOpen(null);
+    // setFormOpen(null);
   };
 
   return (

@@ -20,16 +20,16 @@ const InvoiceTable = () => {
   console.log("lllllllllllllllllll ", invoiceList);
   useEffect(() => {
     dispatch(getAllInvoiceList());
-  }, []);
+  }, [dispatch]);
 
   const [searchValue, setSearchValue] = useState("");
-  const filteredList = invoiceList?.filter((item) => {
-    const matchesSearch =
-      item?.CRNno &&
-      item.CRNno.toLowerCase().includes(searchValue.toLowerCase());
+  // const filteredList = invoiceList?.filter((item) => {
+  //   const matchesSearch =
+  //     item?.CRNno &&
+  //     item.CRNno.toLowerCase().includes(searchValue.toLowerCase());
 
-    return matchesSearch;
-  });
+  //   return matchesSearch;
+  // });
 
   return (
     <Container

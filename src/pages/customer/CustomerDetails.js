@@ -4,18 +4,14 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
   Container,
   Divider,
   Stack,
-  Switch,
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import InvoiceColumns from "./invoice/InvoiceTableColumn";
 import CommonDataTable from "../../components/GlobalComponents/CommonDataTable";
-import { useNavigate } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
 import { useDispatch, useSelector } from "react-redux";
 import { getCustomerDetails } from "../../redux/Slices/customerSlice";
 import { formatDate } from "../../service/globalFunctions";
@@ -27,13 +23,12 @@ const headingStyle = {
 
 const CustomerDetails = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const customerDetail = useSelector((state) => state.customers.customerDetail);
 
   useEffect(() => {
     const customerID = localStorage.getItem("selectedCustomerId");
     dispatch(getCustomerDetails(customerID));
-  }, []);
+  }, [dispatch]);
   console.log("customerDetail", customerDetail);
 
   const customerID = localStorage.getItem("selectedCustomerId"); //customerDetail?.customerID;

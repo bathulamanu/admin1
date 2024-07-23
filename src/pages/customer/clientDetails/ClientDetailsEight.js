@@ -26,7 +26,6 @@ const headingStyle = {
 
 const ClientDetailsEight = forwardRef((props, ref) => {
   var {
-    handleNext,
     handlePrev,
     currentStep,
     setCurrentStep,

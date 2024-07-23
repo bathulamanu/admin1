@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -18,20 +17,15 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CloseIcon from "@mui/icons-material/Close";
 import { useDispatch, useSelector } from "react-redux";
 import SingleSelect from "../../components/GlobalComponents/SingleSelect";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-  formatDate,
   formatDateYYYYMMDD,
   getCityIdList,
   getNamesIdList,
@@ -39,11 +33,9 @@ import {
   getPaymentStatusListById,
   getPlanListById,
   getStateIdList,
-  getStatusIdList,
 } from "../../service/globalFunctions";
 import { useNavigate } from "react-router-dom";
 import {
-  customerCreateByAdmin,
   customerUpdateByAdmin,
   getCustomerDetails,
   getCustomersList,
@@ -54,7 +46,6 @@ import {
   getPaymentModeList,
   getPaymentStatusList,
   getStateList,
-  getStatus,
 } from "../../redux/Slices/globalSlice";
 import { getSubscriptionPlan } from "../../redux/Slices/planSlice";
 import api from "../../utils/api/httpRequest";
@@ -105,8 +96,6 @@ const CustomerEdit = forwardRef((props, ref) => {
   const cityList = getCityIdList(getCitiesList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
-  const getStatusList = useSelector((state) => state.global.statusList);
-  const statuses = getStatusIdList(getStatusList);
   const getAllPlansList = useSelector((state) => state.plan.planList);
   const plansList = getPlanListById(getAllPlansList);
   const getAllPaymentModeList = useSelector(
@@ -121,11 +110,10 @@ const CustomerEdit = forwardRef((props, ref) => {
   useEffect(() => {
     dispatch(getCountryList());
     dispatch(getStateList(352));
-    dispatch(getStatus(null));
     dispatch(getSubscriptionPlan());
     dispatch(getPaymentModeList(null));
     dispatch(getPaymentStatusList(null));
-  }, []);
+  }, [dispatch]);
   const customerDetail = useSelector((state) => state.customers.customerDetail);
 
   useEffect(() => {

@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import React, { useEffect } from "react";
 
 import {
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Container,
-  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -23,7 +19,7 @@ const BabyDetailsFormData = () => {
   useEffect(() => {
     const babyId = localStorage.getItem("selectedbabyId");
     dispatch(getBabyDetails(babyId));
-  }, []);
+  }, [dispatch]);
   // console.log("babyDetail", babyDetail);
   const babyName = babyDetail?.babyName;
   const babyDOB = formatDate(babyDetail?.babyDOB);

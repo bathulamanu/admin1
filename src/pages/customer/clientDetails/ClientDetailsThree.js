@@ -4,12 +4,8 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
-  Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Checkbox,
@@ -19,7 +15,6 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Stack,
   Typography,
 } from "@mui/material";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
@@ -58,13 +53,7 @@ const redStarStyle = {
 };
 
 const ClientDetailsThree = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,

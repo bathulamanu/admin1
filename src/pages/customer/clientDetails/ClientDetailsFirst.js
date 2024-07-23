@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -20,13 +19,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import api from "../../../utils/api/httpRequest";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  formatDate,
   formatDateYYYYMMDD,
   getTypeOfProofList,
 } from "../../../service/globalFunctions";
@@ -56,13 +54,7 @@ const redStarStyle = {
 };
 
 const ClientDetailsFirst = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,
@@ -250,7 +242,6 @@ const ClientDetailsFirst = forwardRef((props, ref) => {
   }, []);
 
   return (
-   
     <Card variant="outlined">
       <ToastContainer />
       <CardContent

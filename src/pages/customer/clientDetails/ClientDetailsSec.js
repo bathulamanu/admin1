@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { styled } from "@mui/material/styles";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -23,7 +22,6 @@ import {
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  formatDate,
   formatDateYYYYMMDD,
   getTypeOfProofList,
 } from "../../../service/globalFunctions";
@@ -52,26 +50,8 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const VisuallyHiddenInput = styled("input")({
-  clip: "rect(0 0 0 0)",
-  clipPath: "inset(50%)",
-  height: 1,
-  overflow: "hidden",
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  whiteSpace: "nowrap",
-  width: 1,
-});
-
 const ClientDetailsSec = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,

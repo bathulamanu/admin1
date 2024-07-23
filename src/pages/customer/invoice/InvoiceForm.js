@@ -17,7 +17,6 @@ import {
   OutlinedInput,
   InputLabel,
   FormControl,
-  TextField,
   IconButton,
   FormHelperText,
 } from "@mui/material";
@@ -66,7 +65,6 @@ const redStarStyle = {
 
 const InvoiceForm = forwardRef((props, ref) => {
   const [openView, setOpenView] = useState(false);
-  const [items, setItems] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -93,7 +91,7 @@ const InvoiceForm = forwardRef((props, ref) => {
     dispatch(getSubscriptionPlan());
     dispatch(getPaymentModeList(null));
     dispatch(getPaymentStatusList(null));
-  }, []);
+  }, [dispatch]);
 
   const [formValues, setFormValues] = useState({
     customerID: null,
@@ -117,12 +115,6 @@ const InvoiceForm = forwardRef((props, ref) => {
     DescriptionItem: "",
     PriceItem: "",
   });
-
-  const addItem = () => {
-    setItems((prevItems) => [...prevItems, formValues]);
-    setFormValues({ DescriptionItem: "", PriceItem: "" });
-    setOpenView(false);
-  };
 
   const [errors, setErrors] = useState({});
   useImperativeHandle(ref, () => ({
@@ -207,10 +199,10 @@ const InvoiceForm = forwardRef((props, ref) => {
     // }));
     const value = e.target ? e.target.value : e;
     if (name === "customerPaymentId") {
-      customerWhoIsNotWithInvoiceList.map((x) => {
+      customerWhoIsNotWithInvoiceList.forEach((x) => {
         if (e === x.customerPaymentId) {
           setFormValues((prev) => {
-            let updatedValues = { ...prev, ["customerID"]: x.customerID };
+            let updatedValues = { ...prev, customerID: x.customerID };
             return updatedValues;
           });
         }

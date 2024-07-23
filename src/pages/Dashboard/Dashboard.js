@@ -26,15 +26,12 @@ import customerManagement from "../../assets/customer_management.png";
 import dashboardIcon from "../../assets/dashboard.png";
 import products from "../../assets/products.png";
 import { useTheme } from "@emotion/react";
-import dashboardBackGround from "../../assets/dasboard_background.png";
 import logo from "../../assets/logo.png";
-import logoNew from "../../assets/logoNew.jpg";
 import { useNavigate } from "react-router-dom";
 import {
   capitalizeFirstLetter,
   stringAvatar,
 } from "../../service/globalFunctions";
-import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -258,9 +255,9 @@ const Dashboard = () => {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  if (item.value == "hospital_management") {
+                  if (item.value === "hospital_management") {
                     navigate("/mainPage/hospitals");
-                  } else if (item.value == "customer_management") {
+                  } else if (item.value === "customer_management") {
                     navigate("/customerPage/customers");
                   }
                 }}

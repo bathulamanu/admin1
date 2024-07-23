@@ -5,17 +5,12 @@ import React, {
   useState,
 } from "react";
 import {
-  Box,
-  Button,
   Card,
   CardContent,
-  Checkbox,
   FormControl,
-  FormControlLabel,
   Grid,
   InputLabel,
   OutlinedInput,
-  Stack,
   TextareaAutosize,
   Typography,
 } from "@mui/material";
@@ -39,13 +34,7 @@ const inputLableStyle = {
 };
 
 const ClientDetailsSix = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,

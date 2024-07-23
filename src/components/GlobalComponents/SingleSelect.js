@@ -1,11 +1,10 @@
-import * as React from 'react'
-import InputLabel from '@mui/material/InputLabel'
-import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
-import Select from '@mui/material/Select'
+import * as React from "react";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
@@ -13,7 +12,7 @@ const MenuProps = {
       width: 150,
     },
   },
-}
+};
 
 export default function SingleSelect({
   data,
@@ -25,8 +24,8 @@ export default function SingleSelect({
 }) {
   // console.log("sVDHGSDJASFHGSJ", data);
   const handleChange = (event) => {
-    onChange(event.target.value)
-  }
+    onChange(event.target.value);
+  };
 
   return (
     <FormControl sx={{ width: width || 200 }} size="small">
@@ -38,15 +37,15 @@ export default function SingleSelect({
         onChange={handleChange}
         placeholder={Placeholder}
         MenuProps={MenuProps}
-        inputProps={{ 'aria-label': 'Without label' }}
+        inputProps={{ "aria-label": "Without label" }}
       >
         <MenuItem disabled value="">
           <em>{Placeholder}</em>
         </MenuItem>
         {data?.map((item) => {
-          return <MenuItem value={item?.id}>{item?.name}</MenuItem>
+          return <MenuItem value={item?.id}>{item?.name}</MenuItem>;
         })}
       </Select>
     </FormControl>
-  )
+  );
 }

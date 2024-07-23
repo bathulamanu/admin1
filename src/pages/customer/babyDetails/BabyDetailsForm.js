@@ -1,9 +1,4 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Avatar,
@@ -61,7 +56,7 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const BabyDetailsForm = forwardRef((props, ref) => {
+const BabyDetailsForm = () => {
   const [showImageBox, setShowImageBox] = useState(true);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -78,8 +73,9 @@ const BabyDetailsForm = forwardRef((props, ref) => {
   useEffect(() => {
     dispatch(getHospitalsList(null));
     dispatch(getDoctorList(null));
+    const customerID = localStorage.getItem("selectedCustomerId");
     dispatch(getBabyInfo(customerID));
-  }, []);
+  }, [dispatch]);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -224,7 +220,7 @@ const BabyDetailsForm = forwardRef((props, ref) => {
         navigate("/customerPage/baby_details");
       }
     }
-  }, [triggerCounter]);
+  }, [triggerCounter, trigger, dispatch, formValues, navigate]);
 
   const handleBabyImageUpload = async (e, fieldName) => {
     const headers = {
@@ -956,6 +952,6 @@ const BabyDetailsForm = forwardRef((props, ref) => {
       </CardContent>
     </Card>
   );
-});
+};
 
 export default BabyDetailsForm;

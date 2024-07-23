@@ -4,12 +4,8 @@ import React, {
   useImperativeHandle,
   useState,
 } from "react";
-import { styled } from "@mui/material/styles";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
-  Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   Checkbox,
@@ -28,7 +24,6 @@ import {
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  formatDate,
   formatDateYYYYMMDD,
   getCityIdList,
   getDoctorListById,
@@ -68,13 +63,7 @@ const redStarStyle = {
 };
 
 const ClientDetailsForth = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,

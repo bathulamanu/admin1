@@ -1,10 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
-import KeyboardTabIcon from "@mui/icons-material/KeyboardTab";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ClientDetailsSec from "./ClientDetailsSec";
 import ClientDetailsFirst from "./ClientDetailsFirst";
@@ -15,7 +11,6 @@ import ClientDetailsSix from "./ClientDetailsSix";
 import ClientDetailsSeven from "./ClientDetailsSeven";
 import ClientDetailsEight from "./ClientDetailsEight";
 import ClientDetailsPreview from "./ClientDetailsPreview";
-import { useDispatch } from "react-redux";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -23,7 +18,6 @@ const ClientDetails = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [showPreview, setShowPreview] = useState(false);
   const totalSteps = 8;
-  const dispatch = useDispatch();
   const childFatherDetailsRef = useRef();
   const childMotherDetailsRef = useRef();
   const childCommunicationDetailsRef = useRef();

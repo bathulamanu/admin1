@@ -17,7 +17,6 @@ import {
   OutlinedInput,
   InputLabel,
   FormControl,
-  TextField,
   IconButton,
   FormHelperText,
 } from "@mui/material";
@@ -34,10 +33,8 @@ import apple from "../../../assets/apple.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
-  createInvoice,
   getAllInvoiceList,
   getCustomerWhoIsNotWithInvoice,
-  getInvoiceDetails,
   UpdateInvoice,
 } from "../../../redux/Slices/invoiceSlice";
 import {
@@ -120,7 +117,7 @@ const InvoiceEdit = forwardRef((props, ref) => {
     dispatch(getPaymentModeList(null));
     dispatch(getPaymentStatusList(null));
     // dispatch(getInvoiceDetails(customerPaymentSubId));
-  }, []);
+  }, [dispatch]);
 
   const [formValues, setFormValues] = useState({
     customerID: null,
@@ -230,10 +227,10 @@ const InvoiceEdit = forwardRef((props, ref) => {
     // }));
     const value = e.target ? e.target.value : e;
     if (name === "customerPaymentId") {
-      customerWhoIsNotWithInvoiceList.map((x) => {
+      customerWhoIsNotWithInvoiceList.forEach((x) => {
         if (e === x.customerPaymentId) {
           setFormValues((prev) => {
-            let updatedValues = { ...prev, ["customerID"]: x.customerID }; //customerID
+            let updatedValues = { ...prev, customerID: x.customerID };
             return updatedValues;
           });
         }

@@ -16,10 +16,13 @@ import loginBackground from "../../assets/login_background.png";
 import logo from "../../assets/logo.png";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { useDispatch, useSelector } from "react-redux";
-import { getUserLogin, employeeOrAdminForgotPwd } from "../../redux/Slices/adminSlice";
+import { useDispatch } from "react-redux";
+import {
+  getUserLogin,
+  employeeOrAdminForgotPwd,
+} from "../../redux/Slices/adminSlice";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -32,9 +35,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const loginDetail = useSelector((state) => state.admin.adminLogin);
-  // console.log('loginDetail is', loginDetail)
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -68,7 +68,6 @@ const Login = () => {
       console.error("Login failed", error);
     }
   };
-
 
   const handleForgotPwd = async () => {
     try {
@@ -107,7 +106,7 @@ const Login = () => {
           flexDirection={"column"}
           gap={"5%"}
         >
-          <img src={logo} height={"auto"} width={"60%"} />
+          <img src={logo} alt="logo" height={"auto"} width={"60%"} />
           <form
             // onSubmit={handleSubmit}
             style={{ display: "flex", flexDirection: "column", gap: "18px" }}
@@ -163,7 +162,13 @@ const Login = () => {
                 </Typography>
               </Stack>
             </Stack>
-            <Button type="submit" fullWidth variant="contained" color="primary" onClick={handleSubmit}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={handleSubmit}
+            >
               Log in
             </Button>
           </form>

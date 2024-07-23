@@ -1,14 +1,11 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
   CardContent,
-  Chip,
   Container,
   Divider,
   Stack,
-  Switch,
   Tab,
   Tabs,
   Typography,
@@ -16,21 +13,16 @@ import {
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
-import { useNavigate } from "react-router-dom";
 import ClientDetails from "./clientDetails/ClientDetails";
 import CustomerDetails from "./CustomerDetails";
 import { setSelectedTab } from "../../redux/Slices/tabSlice";
 import BabyDetailsForm from "./babyDetails/BabyDetailsForm";
 import Lists from "./report/lists";
 import { getAnnexureInfo } from "../../redux/Slices/globalSlice";
-import { getCustomerDetails } from "../../redux/Slices/customerSlice";
 
 const Details = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const selectedTab = useSelector((state) => state.tab.selectedTab);
-  // const [selectedTab, setSelectedTab] = useState(0);
-  const [showUserDetails, setShowUserDetails] = useState(false);
   const [showClientDetails, setShowClientDetails] = useState(false);
   const [showBabyDetailsForm, setShowBabyDetailsForm] = useState(false);
 
@@ -46,7 +38,7 @@ const Details = () => {
   useEffect(() => {
     const customerID = localStorage.getItem("selectedCustomerId");
     dispatch(getAnnexureInfo(customerID));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     SubscribedInnerPageData?.customerAnnexureInformationId
@@ -54,19 +46,19 @@ const Details = () => {
       : setShowClientDetails(false);
   }, [SubscribedInnerPageData]);
 
-  const getHeaderText = () => {
-    switch (selectedTab) {
-      case 0:
-      case 2:
-        return "Details";
-      case 1:
-        return "View/Edit Customer";
-      case 3:
-        return "001 - Customer Name";
-      default:
-        return "Details";
-    }
-  };
+  // const getHeaderText = () => {
+  //   switch (selectedTab) {
+  //     case 0:
+  //     case 2:
+  //       return "Details";
+  //     case 1:
+  //       return "View/Edit Customer";
+  //     case 3:
+  //       return "001 - Customer Name";
+  //     default:
+  //       return "Details";
+  //   }
+  // };
 
   return (
     <Container

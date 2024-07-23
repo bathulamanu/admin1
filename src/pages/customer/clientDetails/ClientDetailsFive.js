@@ -6,7 +6,6 @@ import React, {
 } from "react";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Checkbox,
@@ -45,13 +44,7 @@ const redStarStyle = {
 };
 
 const ClientDetailsFive = forwardRef((props, ref) => {
-  var {
-    handleNext,
-    handlePrev,
-    currentStep,
-    setCurrentStep,
-    totalSteps,
-  } = props;
+  var { handlePrev, currentStep, setCurrentStep, totalSteps } = props;
 
   const [
     customerAnnexureInformationId,

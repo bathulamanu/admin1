@@ -265,6 +265,7 @@ const ClientDetailsPreview = (props) => {
 
   return (
     <Card variant="outlined">
+      <ToastContainer />
       <CardContent>
         <Typography variant="h5" sx={headingStyle}>
           CLIENT INFORMATION

@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
-import CommonSelect from "../../components/GlobalComponents/CommonSelect";
 import CommonDataTable from "../../components/GlobalComponents/CommonDataTable";
 import customerColumns from "./Customertablecolumn";
 import { getCustomersList } from "../../redux/Slices/customerSlice";

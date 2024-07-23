@@ -14,13 +14,11 @@ import {
   MenuItem,
   MenuList,
   OutlinedInput,
-  Paper,
   Stack,
   Typography,
-  styled,
   useMediaQuery,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -34,14 +32,13 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   capitalizeFirstLetter,
   getStatusIdList,
   stringAvatar,
 } from "../../service/globalFunctions";
 import {
-  getCityList,
   getCountryList,
   getEmploymentType,
   getExperienceList,
@@ -53,7 +50,6 @@ import {
 } from "../../redux/Slices/globalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addHospitals,
   getHospitalDetails,
   getHospitalsList,
   editHospitals,
@@ -62,7 +58,6 @@ import {
 import {
   getDoctorList,
   getDoctorDetail,
-  addDoctors,
   editDoctors,
   deleteDoctors,
 } from "../../redux/Slices/doctorSlice";
@@ -70,14 +65,6 @@ import SingleSelect from "../../components/GlobalComponents/SingleSelect";
 import api from "../../utils/api/httpRequest";
 import HospitalAddForm from "../../pages/hospitalManagement/Hospitals/HospitalAddForm";
 import DoctorAddForm from "../../pages/hospitalManagement/Doctors/DoctorAddForm";
-const StyledLink = styled(Link)`
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  &:hover {
-    background-color: #f0f0f0;
-  }
-`;
 
 const inputLableStyle = {
   fontSize: "14px",
@@ -100,8 +87,7 @@ export const MainLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [activeItem, setActiveItem] = useState("Hospitals");
   const [pathname, setPathname] = useState(location.pathname);
-  const [formOpen, setFormOpen] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(null);
+  // const [formOpen, setFormOpen] = useState(null);
   const loginUserDetails = localStorage.getItem("loginUser");
   const data = loginUserDetails ? JSON.parse(loginUserDetails) : null;
 
@@ -121,12 +107,12 @@ export const MainLayout = () => {
 
   useEffect(() => {
     dispatch(getCountryList());
-    dispatch(getGenderList(searchQuery));
-    dispatch(getSpecialization(searchQuery));
-    dispatch(getExperienceList(searchQuery));
-    dispatch(getEmploymentType(searchQuery));
+    dispatch(getGenderList(null));
+    dispatch(getSpecialization(null));
+    dispatch(getExperienceList(null));
+    dispatch(getEmploymentType(null));
     dispatch(getStateList(352));
-  }, []);
+  }, [dispatch]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -139,12 +125,10 @@ export const MainLayout = () => {
 
   const handleMenuSideBar = (value) => {
     setActiveItem(value);
-    setFormOpen(null);
+    // setFormOpen(null);
   };
   const hospitalAddFormRef = useRef();
-  const hospitalEditFormRef = useRef();
   const doctorAddFormRef = useRef();
-  const doctorEditFormRef = useRef();
   const handleAddHospitalFormSubmit = () => {
     if (hospitalAddFormRef.current) {
       hospitalAddFormRef.current.hospitalAddFormData();
@@ -275,9 +259,7 @@ export const MainLayout = () => {
     setPathname(location.pathname);
   }, [location]);
   // console.log('pathname', pathname)
-  const { activeTitle, activeButton } = useSelector(
-    (state) => state.settinglayout
-  );
+  const { activeTitle } = useSelector((state) => state.settinglayout);
 
   const getStatusList = useSelector((state) => state.global.statusList);
   useEffect(() => {
@@ -326,8 +308,8 @@ export const MainLayout = () => {
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
       toast.success(response.data.message);
-      dispatch(getSpecialization(searchQuery));
-      dispatch(getQualification(searchQuery));
+      dispatch(getSpecialization(null));
+      dispatch(getQualification(null));
       dispatch(getExperienceList(null));
       dispatch(getGenderList(null));
       dispatch(getEmploymentType(null));
@@ -729,8 +711,8 @@ export const MainLayout = () => {
                       startIcon={<CloseIcon />}
                       onClick={(e) => {
                         e.preventDefault();
-                        setFormOpen(null);
-                        dispatch(getHospitalsList(searchQuery));
+                        // setFormOpen(null);
+                        dispatch(getHospitalsList(null));
                         setActiveItem("Hospitals");
                         navigate("/mainPage/hospitals");
                       }}
@@ -795,7 +777,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       // setFormOpen("Hospitals");
-                      dispatch(getHospitalDetails(searchQuery));
+                      dispatch(getHospitalDetails(null));
                       navigate("/mainPage/hospitals/Edit");
                     }}
                   >
@@ -815,10 +797,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleDeleteHospitalFormSubmit();
-                      // setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getHospitalsList(searchQuery));
-                      // navigate("/mainPage/hospitals");
+                      dispatch(getHospitalsList(null));
                     }}
                   >
                     Delete
@@ -887,8 +866,8 @@ export const MainLayout = () => {
                     startIcon={<CloseIcon />}
                     onClick={(e) => {
                       e.preventDefault();
-                      setFormOpen(null);
-                      dispatch(getHospitalsList(searchQuery));
+                      // setFormOpen(null);
+                      dispatch(getHospitalsList(null));
                       setActiveItem("Hospitals");
                       navigate("/mainPage/hospitals");
                     }}
@@ -948,7 +927,7 @@ export const MainLayout = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("doctorForm");
-                    setFormOpen("Doctors");
+                    // setFormOpen("Doctors");
                   }}
                 >
                   Add Doctors
@@ -1024,9 +1003,8 @@ export const MainLayout = () => {
                       startIcon={<CloseIcon />}
                       onClick={(e) => {
                         e.preventDefault();
-                        setFormOpen(null);
-                        // setActiveItem("Hospitals");
-                        dispatch(getDoctorList(searchQuery));
+                        // setFormOpen(null);
+                        dispatch(getDoctorList(null));
                         navigate("/mainPage/doctors");
                       }}
                     >
@@ -1090,7 +1068,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       // setFormOpen("Hospitals");
-                      dispatch(getDoctorDetail(searchQuery));
+                      dispatch(getDoctorDetail(null));
                       navigate("/mainPage/doctors/edit");
                     }}
                   >
@@ -1169,7 +1147,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditDoctorFormSubmit();
-                      dispatch(getDoctorList(searchQuery));
+                      dispatch(getDoctorList(null));
                     }}
                   >
                     Update
@@ -1180,9 +1158,8 @@ export const MainLayout = () => {
                     startIcon={<CloseIcon />}
                     onClick={(e) => {
                       e.preventDefault();
-                      setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getDoctorList(searchQuery));
+                      // setFormOpen(null);
+                      dispatch(getDoctorList(null));
                       navigate("/mainPage/doctors");
                     }}
                   >

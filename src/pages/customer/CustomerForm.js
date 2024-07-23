@@ -32,7 +32,6 @@ import {
   getPaymentStatusListById,
   getPlanListById,
   getStateIdList,
-  getStatusIdList,
 } from "../../service/globalFunctions";
 import api from "../../utils/api/httpRequest";
 import {
@@ -46,7 +45,6 @@ import {
   getPaymentModeList,
   getPaymentStatusList,
   getStateList,
-  getStatus,
 } from "../../redux/Slices/globalSlice";
 import { getSubscriptionPlan } from "../../redux/Slices/planSlice";
 const headingStyle = {
@@ -76,8 +74,6 @@ const CustomerForm = forwardRef((props, ref) => {
   const cityList = getCityIdList(getCitiesList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
-  const getStatusList = useSelector((state) => state.global.statusList);
-  const statuses = getStatusIdList(getStatusList);
   const getAllPlansList = useSelector((state) => state.plan.planList);
   const plansList = getPlanListById(getAllPlansList);
   const getAllPaymentModeList = useSelector(
@@ -92,11 +88,10 @@ const CustomerForm = forwardRef((props, ref) => {
   useEffect(() => {
     dispatch(getCountryList());
     dispatch(getStateList(352));
-    dispatch(getStatus(null));
     dispatch(getSubscriptionPlan());
     dispatch(getPaymentModeList(null));
     dispatch(getPaymentStatusList(null));
-  }, []);
+  }, [dispatch]);
 
   const [formValues, setFormValues] = useState({
     firstName: "",

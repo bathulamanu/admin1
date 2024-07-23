@@ -36,7 +36,7 @@ const InvoiceView = () => {
   useEffect(() => {
     const customerPaymentSubId = localStorage.getItem("customerPaymentSubId");
     dispatch(getInvoiceDetails(customerPaymentSubId));
-  }, []);
+  }, [dispatch]);
   console.log("invoiceDetail", invoiceDetail);
   const InvoiceID = invoiceDetail?.InvoiceID;
   const CRNno = invoiceDetail?.CRNno;
