@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   Stack,
-  IconButton,
   Box,
   styled,
 } from "@mui/material";
@@ -45,11 +44,14 @@ const ReportDetails = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const dispatch = useDispatch();
-  const reportTypes = useSelector((state) => state.customers.typeOfCustomerReports);
+  const reportTypes = useSelector(
+    (state) => state.customers.typeOfCustomerReports
+  );
 
   useEffect(() => {
     dispatch(getCustomerReportsNames());
-  }, []);
+  }, [dispatch]);
+
   return (
     <Container
       maxWidth="xl"

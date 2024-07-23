@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useState,
-  useContext,
   useImperativeHandle,
   forwardRef,
 } from "react";
@@ -264,7 +263,6 @@ const PlansEdit = forwardRef((props, ref) => {
         maxHeight: "43%",
         overflow: "auto",
         background: "#fff",
-        // padding: "8px",
         marginBottom: "30px",
       }}
     >

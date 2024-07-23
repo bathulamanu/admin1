@@ -1,16 +1,11 @@
 import {
   Box,
   Button,
-  // Dialog,
-  // DialogContent,
   FormControl,
   FormHelperText,
   Grid,
-  IconButton,
   InputLabel,
-  MenuItem,
   OutlinedInput,
-  Select,
   Stack,
   styled,
   Switch,
@@ -18,7 +13,7 @@ import {
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import {
@@ -50,15 +45,9 @@ const inputLableStyle = {
   alignItems: "center",
 };
 
-const redStarStyle = {
-  color: "red",
-  marginLeft: "4px",
-};
 const CustomerSettingsTableColumn = () => {
   const dispatch = useDispatch();
-  const { activeTitle, activeButton } = useSelector(
-    (state) => state.settingCutomerLayout
-  );
+  const { activeTitle } = useSelector((state) => state.settingCutomerLayout);
 
   const getStatusList = useSelector((state) => state.global.statusList);
   useEffect(() => {

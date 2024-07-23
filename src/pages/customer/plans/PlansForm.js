@@ -52,7 +52,6 @@ const PlansForm = forwardRef((props, ref) => {
 
   const getButtonTextList = useSelector((state) => state.global.buttonTextData);
   const ButtonTexts = getButtonTexListById(getButtonTextList);
-  const createPlanData = useSelector((state) => state.plan.createPlan);
   useEffect(() => {
     dispatch(GetButtonText(null));
     dispatch(getStatus(null));

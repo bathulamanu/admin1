@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { styled } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -120,10 +120,10 @@ const PlanCard = ({
 
   return (
     <StyledCard highlight={highlight}>
-      {ribbenStatus == 47 && highlight === "Best value" && (
+      {ribbenStatus === 47 && highlight === "Best value" && (
         <HighlightLabel type="bestValue">BEST VALUE</HighlightLabel>
       )}
-      {ribbenStatus == 47 && highlight === "MOST POPULAR" && (
+      {ribbenStatus === 47 && highlight === "MOST POPULAR" && (
         <HighlightLabel type="mostPopular">MOST POPULAR</HighlightLabel>
       )}
       <CardHeader>
@@ -224,7 +224,7 @@ const DetailsPlan = () => {
   const allPlansList = useSelector((state) => state.plan.planList);
   useEffect(() => {
     dispatch(getSubscriptionPlan());
-  }, []);
+  }, [dispatch]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % allPlansList.length);
