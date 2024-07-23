@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
 import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -24,7 +23,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CommonSelect from "../../../components/GlobalComponents/CommonSelect";
 import facebook from "../../../assets/facebook.png";
@@ -44,7 +43,6 @@ import {
   getCityNameByCountryIdList,
   getStatusIdList,
   getEmpTypeIdList,
-  getHospitalNameById,
   formatDateYYYYMMDD,
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";

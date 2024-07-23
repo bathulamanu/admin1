@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import customerapi from "../../utils/api/customerhttpRequest";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export const getSubscriptionPlan = createAsyncThunk(
   "getSubscriptionPlan",

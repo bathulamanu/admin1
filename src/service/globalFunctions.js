@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import moment from "moment";
-function stringToColor(string) {
+export function stringToColor(string) {
   let hash = 0;
   for (let i = 0; i < string.length; i += 1) {
     hash = string.charCodeAt(i) + ((hash << 5) - hash);
@@ -237,6 +237,6 @@ export function getCustomerWhoIsNotWithInvoiceListById(arr) {
 }
 
 export function removeSpecificTags(html, tagName) {
-  const regex = new RegExp(`<${tagName}[^>]*>|</${tagName}>`, 'gi');
-  return html.replace(regex, '');
+  const regex = new RegExp(`<${tagName}[^>]*>|</${tagName}>`, "gi");
+  return html.replace(regex, "");
 }

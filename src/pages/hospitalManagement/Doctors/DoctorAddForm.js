@@ -5,10 +5,8 @@ import React, {
   useState,
 } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
 import AddIcon from "@mui/icons-material/Add";
-import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
@@ -30,7 +28,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CommonSelect from "../../../components/GlobalComponents/CommonSelect";
 import facebook from "../../../assets/facebook.png";
@@ -40,10 +38,6 @@ import twitter from "../../../assets/twitter.png";
 import linkedin from "../../../assets/linkedin.png";
 import pinterest from "../../../assets/pinterest.png";
 import link from "../../../assets/link.png";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getByIdList,
@@ -173,9 +167,9 @@ const DoctorAddForm = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => ({
     getDoctorAddFormData: () => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-      const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+      // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      // const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+      // const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
       if (!formValues.doctorFirstName) {
         setErrors((prevErrors) => ({

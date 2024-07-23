@@ -10,8 +10,13 @@ import {
   Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import ReportDetails from "./reportDetails"; // Make sure this component starts with a capital letter
-import { getCustomerReportsNames, createReport, getReport, UpdateReport, deleteReport } from "../../../redux/Slices/customerSlice";
+import {
+  getCustomerReportsNames,
+  createReport,
+  getReport,
+  UpdateReport,
+  deleteReport,
+} from "../../../redux/Slices/customerSlice";
 
 import { useDispatch, useSelector } from "react-redux";
 import Dialog from "@mui/material/Dialog";
@@ -20,10 +25,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CloseIcon from "@mui/icons-material/Close";
-import { Upload } from "@mui/icons-material";
 import api from "../../../utils/api/httpRequest";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -43,14 +47,15 @@ const Lists = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [recordId, setrecordId] = useState(null);
-  const [customerName, setCustomername] = useState(localStorage.getItem("selectedCustomerName"))
+  const [customerName, setCustomername] = useState(
+    localStorage.getItem("selectedCustomerName")
+  );
   const dispatch = useDispatch();
   const reportTypes = useSelector(
     (state) => state.customers.typeOfCustomerReports
   );
   const AllReports = useSelector((state) => state.customers.AllReports);
   console.log("kkkkkkkkkkkk AllReports AllReports", AllReports);
-
 
   const initialValue = {
     customerID: localStorage.getItem("selectedCustomerId"),
@@ -63,7 +68,7 @@ const Lists = () => {
     dispatch(getReport(initialValue.customerID));
   }, []);
   useEffect(() => {
-    if (reportTypes.length != 0 && AllReports.length != 0) {
+    if (reportTypes.length !== 0 && AllReports.length !== 0) {
       // reportTypes.sort((x, y) => { return x.value - y.value })
       // reportTypes.map(x => {
       //   const found = AllReports.find(yy => x.value == yy.FileTitle);
@@ -96,11 +101,10 @@ const Lists = () => {
   };
 
   const addFile = (value, e) => {
-
     console.log("kkkkkkkkkkkkkkkkkk ", formValues);
     dispatch(createReport(formValues));
-    setFormValue(initialValue)
-    setSelectedReport(false)
+    setFormValue(initialValue);
+    setSelectedReport(false);
     dispatch(getReport(initialValue.customerID));
   };
 
@@ -108,24 +112,24 @@ const Lists = () => {
     console.log("fromvalues and record id", recordId, formValues);
     // dispatch(UpdateReport({ recordId, formValues }));
     dispatch(UpdateReport({ recordId, formValues }));
-    setFormValue(initialValue)
+    setFormValue(initialValue);
     dispatch(getReport(initialValue.customerID));
-    setOpenEdit(false)
+    setOpenEdit(false);
   };
 
   const deleteReportFile = () => {
-    dispatch(deleteReport(recordId))
-    setFormValue(initialValue)
+    dispatch(deleteReport(recordId));
+    setFormValue(initialValue);
     dispatch(getReport(initialValue.customerID));
-    setOpenDelete(false)
-  }
+    setOpenDelete(false);
+  };
 
   const clickedOnAdd = (item) => {
     setFormValue((prev) => ({
       ...prev,
       FileTitle: item,
     }));
-  }
+  };
 
   const handleImageUpload = async (e, fileName) => {
     const headers = {
@@ -170,7 +174,7 @@ const Lists = () => {
     >
       <ToastContainer />
       {reportTypes.map((report, index) => {
-        const found = AllReports.find(yy => report.value === yy.FileTitle)
+        const found = AllReports.find((yy) => report.value === yy.FileTitle);
         return (
           <Card
             variant="outlined"
@@ -191,7 +195,7 @@ const Lists = () => {
                 {report.value}
               </Typography>
 
-              {found ?
+              {found ? (
                 <>
                   <Button
                     variant="contained"
@@ -245,21 +249,20 @@ const Lists = () => {
                     Delete
                   </Button>
                 </>
-                :
+              ) : (
                 <Button
                   variant="contained"
                   color="primary"
                   sx={{ borderRadius: "30px" }}
                   onClick={() => {
-                    setSelectedReport(true)
-                    clickedOnAdd(report.value)
+                    setSelectedReport(true);
+                    clickedOnAdd(report.value);
                   }}
                 >
                   <AddIcon />
                   Add Files
                 </Button>
-              }
-
+              )}
 
               <Dialog open={selectedReport}>
                 <DialogContent sx={{ width: "500px" }}>
@@ -363,8 +366,8 @@ const Lists = () => {
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      setOpenView(!openView)
-                      setFormValue(initialValue)
+                      setOpenView(!openView);
+                      setFormValue(initialValue);
                     }}
                   />
                   <Box sx={{ textAlign: "center" }}>
@@ -428,8 +431,8 @@ const Lists = () => {
                         borderRadius: "30px",
                       }}
                       onClick={() => {
-                        setOpenView(!openView)
-                        setFormValue(initialValue)
+                        setOpenView(!openView);
+                        setFormValue(initialValue);
                       }}
                     >
                       Done
@@ -604,9 +607,8 @@ const Lists = () => {
               </Dialog>
             </CardContent>
           </Card>
-        )
-      }
-      )}
+        );
+      })}
     </Container>
   );
 };

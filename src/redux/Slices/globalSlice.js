@@ -1,8 +1,4 @@
-import {
-  asyncThunkCreator,
-  createAsyncThunk,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../utils/api/httpRequest";
 import customerapi from "../../utils/api/customerhttpRequest";
 

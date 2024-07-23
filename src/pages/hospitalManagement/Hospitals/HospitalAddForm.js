@@ -5,10 +5,7 @@ import React, {
   useState,
 } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
-import { styled } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
@@ -21,7 +18,6 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Paper,
   Stack,
   TextField,
   Typography,
@@ -241,35 +237,35 @@ const HospitalAddForm = forwardRef((props, ref) => {
       }, 2000);
     },
   }));
-  const validateField = (name, value, updatedValues) => {
-    let tempErrors = { ...errors };
+  // const validateField = (name, value, updatedValues) => {
+  //   let tempErrors = { ...errors };
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
 
-    switch (name) {
-      case "email":
-        tempErrors.email = emailRegex.test(value)
-          ? ""
-          : "Invalid email address.";
-        break;
-      case "website":
-        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-        break;
-      case "phoneNumber":
-        tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number must be 10 digits.";
-        break;
-      case "pincode":
-        tempErrors.pincode =
-          value.length === 6 ? "" : "Pincode must be 6 digits.";
-        break;
-      default:
-        break;
-    }
+  //   switch (name) {
+  //     case "email":
+  //       tempErrors.email = emailRegex.test(value)
+  //         ? ""
+  //         : "Invalid email address.";
+  //       break;
+  //     case "website":
+  //       tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+  //       break;
+  //     case "phoneNumber":
+  //       tempErrors.phoneNumber =
+  //         value.length === 10 ? "" : "Phone number must be 10 digits.";
+  //       break;
+  //     case "pincode":
+  //       tempErrors.pincode =
+  //         value.length === 6 ? "" : "Pincode must be 6 digits.";
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    setErrors(tempErrors);
-  };
+  //   setErrors(tempErrors);
+  // };
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;

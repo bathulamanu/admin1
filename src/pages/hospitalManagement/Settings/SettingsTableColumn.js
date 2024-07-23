@@ -1,15 +1,11 @@
 import {
   Box,
   Button,
-  // Dialog,
-  // DialogContent,
   FormControl,
   FormHelperText,
   Grid,
   InputLabel,
-  MenuItem,
   OutlinedInput,
-  Select,
   Stack,
   styled,
   Switch,
@@ -17,7 +13,7 @@ import {
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import React, { useEffect, useState } from "react";
 import {
@@ -51,16 +47,9 @@ const inputLableStyle = {
   alignItems: "center",
 };
 
-const redStarStyle = {
-  color: "red",
-  marginLeft: "4px",
-};
 const SettingsTableColumn = () => {
   const dispatch = useDispatch();
-  const [searchQuery, setSearchQuery] = useState(null);
-  const { activeTitle, activeButton } = useSelector(
-    (state) => state.settinglayout
-  );
+  const { activeTitle } = useSelector((state) => state.settinglayout);
 
   const getStatusList = useSelector((state) => state.global.statusList);
   useEffect(() => {
@@ -119,11 +108,11 @@ const SettingsTableColumn = () => {
         formValues
       );
       toast.success(response.data.message);
-      dispatch(getSpecialization(searchQuery));
-      dispatch(getQualification(searchQuery));
-      dispatch(getExperienceList(searchQuery));
-      dispatch(getGenderList(searchQuery));
-      dispatch(getEmploymentType(searchQuery));
+      dispatch(getSpecialization(null));
+      dispatch(getQualification(null));
+      dispatch(getExperienceList(null));
+      dispatch(getGenderList(null));
+      dispatch(getEmploymentType(null));
       setOpenEdit(!openEdit);
     } catch (error) {
       console.log(error);
@@ -138,11 +127,11 @@ const SettingsTableColumn = () => {
         formValues
       );
       toast.success(response.data.message);
-      dispatch(getSpecialization(searchQuery));
-      dispatch(getQualification(searchQuery));
-      dispatch(getExperienceList(searchQuery));
-      dispatch(getGenderList(searchQuery));
-      dispatch(getEmploymentType(searchQuery));
+      dispatch(getSpecialization(null));
+      dispatch(getQualification(null));
+      dispatch(getExperienceList(null));
+      dispatch(getGenderList(null));
+      dispatch(getEmploymentType(null));
     } catch (error) {
       console.log(error);
     }

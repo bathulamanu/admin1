@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// import api from "../../httpRequest";
+
 import adminapi from "../../utils/api/adminhttpRequest";
 import userapi from "../../utils/api/httpRequest";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const initialState = {
   customersList: [],
@@ -13,7 +13,7 @@ const initialState = {
   trigger: false,
   triggerCounter: 0,
   typeOfCustomerReports: [],
-  AllReports: []
+  AllReports: [],
 };
 
 export const getCustomersList = createAsyncThunk(
@@ -93,7 +93,7 @@ export const saveBabyDetails = createAsyncThunk(
         payload: data,
       };
       thunkAPI.fulfillWithValue(obj);
-    } catch (error) { }
+    } catch (error) {}
   }
 );
 
@@ -101,7 +101,9 @@ export const getCustomerReportsNames = createAsyncThunk(
   "getCustomerReportsNames",
   async (thunkAPI) => {
     try {
-      const response = await userapi.get(`getMasterConfiguration/Customer Reports/null`);
+      const response = await userapi.get(
+        `getMasterConfiguration/Customer Reports/null`
+      );
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -151,13 +153,15 @@ export const UpdateReport = createAsyncThunk(
   }
 );
 
-
-
 export const deleteReport = createAsyncThunk(
   "deleteReport",
   async (reportID, thunkAPI) => {
     try {
-      console.log("ccccccccccccccc slice slice aslie cslice  ", "/deleteReport/" + reportID, {});
+      console.log(
+        "ccccccccccccccc slice slice aslie cslice  ",
+        "/deleteReport/" + reportID,
+        {}
+      );
       const response = await adminapi.delete("/deleteReport/" + reportID, {});
       const { problem, data } = response;
       if (data?.status == 200) {
@@ -259,6 +263,6 @@ const customerSlice = createSlice({
   },
 });
 
-export const { } = customerSlice.actions;
+export const {} = customerSlice.actions;
 
 export default customerSlice.reducer;

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
@@ -155,41 +154,41 @@ const HospitalEditForm = () => {
     },
   });
 
-  const validateField = (name, value, updatedValues) => {
-    let tempErrors = { ...errors };
+  // const validateField = (name, value, updatedValues) => {
+  //   let tempErrors = { ...errors };
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
 
-    switch (name) {
-      case "hospitalName":
-        tempErrors.hospitalName =
-          value.length >= 3
-            ? ""
-            : "Hospital name must be at least 3 characters .";
-        break;
-      case "email":
-        tempErrors.email = emailRegex.test(value)
-          ? ""
-          : "Invalid email address.";
-        break;
-      case "website":
-        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-        break;
-      case "phoneNumber":
-        tempErrors.phoneNumber =
-          value.length === 10 ? "" : "Phone number must be 10 digits.";
-        break;
-      case "pincode":
-        tempErrors.pincode =
-          value.length === 6 ? "" : "Pincode must be 6 digits.";
-        break;
-      default:
-        break;
-    }
+  //   switch (name) {
+  //     case "hospitalName":
+  //       tempErrors.hospitalName =
+  //         value.length >= 3
+  //           ? ""
+  //           : "Hospital name must be at least 3 characters .";
+  //       break;
+  //     case "email":
+  //       tempErrors.email = emailRegex.test(value)
+  //         ? ""
+  //         : "Invalid email address.";
+  //       break;
+  //     case "website":
+  //       tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+  //       break;
+  //     case "phoneNumber":
+  //       tempErrors.phoneNumber =
+  //         value.length === 10 ? "" : "Phone number must be 10 digits.";
+  //       break;
+  //     case "pincode":
+  //       tempErrors.pincode =
+  //         value.length === 6 ? "" : "Pincode must be 6 digits.";
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    setErrors(tempErrors);
-  };
+  //   setErrors(tempErrors);
+  // };
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;

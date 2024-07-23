@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../utils/api/httpRequest";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const initialState = {
   adminLogin: {},
@@ -28,14 +28,13 @@ export const getUserLogin = createAsyncThunk(
   }
 );
 
-
 export const employeeOrAdminForgotPwd = createAsyncThunk(
   "employeeOrAdminForgotPwd",
   async (payload, thunkAPI) => {
     try {
       const response = await api.post("/employeeOrAdminForgotPwd", payload);
       const { problem, data } = response;
-      if (data?.status == 200) {
+      if (data?.status === 200) {
         if (payload?.callback) payload.callback();
         return data;
       } else {
@@ -60,7 +59,6 @@ const adminSlice = createSlice({
     builder.addCase(getUserLogin.fulfilled, (state, action) => {
       state.loading = "complete_success";
       state.adminLogin = action?.payload?.data;
-      const user = action?.payload?.data;
     });
     builder.addCase(getUserLogin.rejected, (state) => {
       state.authLoading = "complete_failure";
@@ -72,13 +70,12 @@ const adminSlice = createSlice({
       state.loading = "complete_success";
       toast.success(action.payload.message);
     });
-    builder.addCase(employeeOrAdminForgotPwd.rejected, (state,action) => {
+    builder.addCase(employeeOrAdminForgotPwd.rejected, (state, action) => {
       state.authLoading = "complete_failure";
       toast.error(action.payload.message);
     });
-
   },
 });
 
-export const { } = adminSlice.actions;
+// export const {} = adminSlice.actions;
 export default adminSlice.reducer;
