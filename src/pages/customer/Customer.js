@@ -5,7 +5,9 @@ import {
   Container,
   FormControl,
   InputAdornment,
+  MenuItem,
   OutlinedInput,
+  Select,
   Stack,
   Typography,
 } from "@mui/material";
@@ -27,6 +29,7 @@ const Customers = () => {
   }, []);
 
   const [searchValue, setSearchValue] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
   const filteredList = customersList?.filter((item) => {
     const matchesSearch =
       item?.firstName &&
@@ -34,18 +37,7 @@ const Customers = () => {
 
     return matchesSearch;
   });
-  const names = [
-    "Oliver Hansen",
-    "Van Henry",
-    "April Tucker",
-    "Ralph Hubbard",
-    "Omar Alexander",
-    "Carlos Abbott",
-    "Miriam Wagner",
-    "Bradley Wilkerson",
-    "Virginia Andrews",
-    "Kelly Snyder",
-  ];
+
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <Box
@@ -70,7 +62,7 @@ const Customers = () => {
           </Typography>
         </Stack>
         <Stack direction={"row"} alignItems={"center"} spacing={1}>
-          <FormControl variant="outlined" size="small" sx={{ width: 200 }}>
+          <FormControl variant="outlined" size="small" sx={{ width: 230 }}>
             <OutlinedInput
               type={"text"}
               placeholder="Search Customer"
@@ -84,7 +76,19 @@ const Customers = () => {
               }
             />
           </FormControl>
-          <CommonSelect data={names} Placeholder={"Status"} />
+          <FormControl sx={{ width: "30%" }}>
+            <Select
+              width={"100%"}
+              sx={{ height: "40px" }}
+              displayEmpty
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="Active">Active</MenuItem>
+              <MenuItem value="Inactive">Inactive</MenuItem>
+            </Select>
+          </FormControl>
           <MoreVertIcon />
         </Stack>
       </Box>

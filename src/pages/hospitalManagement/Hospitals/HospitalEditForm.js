@@ -392,6 +392,7 @@ const HospitalEditForm = () => {
       sx={{
         maxHeight: "85%",
         overflow: "auto",
+        background: "#fff",
         marginBottom: "30px",
       }}
     >

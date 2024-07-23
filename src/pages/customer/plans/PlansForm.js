@@ -219,7 +219,7 @@ const PlansForm = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "47%",
+        maxHeight: "43%",
         overflow: "auto",
         background: "#fff",
         // padding: "8px",

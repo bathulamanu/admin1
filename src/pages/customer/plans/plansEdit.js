@@ -106,7 +106,7 @@ const PlansEdit = forwardRef((props, ref) => {
     customText: "",
     offerTimingFrom: null,
     offerTimingTo: null,
-    IsActive: null
+    IsActive: null,
   });
 
   const location = useLocation();
@@ -215,7 +215,6 @@ const PlansEdit = forwardRef((props, ref) => {
       setTimeout(() => {
         navigate("/customerPage/plans");
       }, 2000);
-      
     },
   }));
 
@@ -262,7 +261,7 @@ const PlansEdit = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "47%",
+        maxHeight: "43%",
         overflow: "auto",
         background: "#fff",
         // padding: "8px",
