@@ -135,7 +135,7 @@ export const getEmploymentType = createAsyncThunk(
   async (search, thunkAPI) => {
     try {
       const response = await api.get(
-        `getMasterConfiguration/EmploymentType/${search}`
+        `getMasterConfiguration/Employment Type/${search}`
       );
       return response.data;
     } catch (error) {

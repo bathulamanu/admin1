@@ -54,16 +54,19 @@ const CustomerDetails = () => {
   const createdTime = formatDate(customerDetail?.createdTime);
   const totalAmount = customerDetail?.totalAmount;
   const paymentStatus = customerDetail?.paymentStatus;
-  const PaymentID = customerDetail?.PaymentID;
+  const PaymentGatewayID = customerDetail?.PaymentGatewayID;
   const PaymentMode = customerDetail?.PaymentMode;
-  const invoiceFile = customerDetail?.invoiceFile;
+  const paymentDate = formatDate(customerDetail?.paymentDate);
+  const invoiceFileDetails = customerDetail?.invoiceFileDetails;
 
   const handleDownload = () => {
-    if (customerDetail && customerDetail.invoiceFile.length != 0) {
-      const invoiceFileDownload = customerDetail.invoiceFile[0].invoiceFile;
+    if (customerDetail && customerDetail.invoiceFileDetails.length !== 0) {
+      const invoiceFileDownload =
+        customerDetail.invoiceFileDetails[0].invoiceFile;
+      const downloadUrl = `https://flyingbyts.s3.ap-south-2.amazonaws.com/${invoiceFileDownload}`;
       const link = document.createElement("a");
-      link.href = invoiceFileDownload;
-      link.download = invoiceFileDownload;
+      link.href = downloadUrl;
+      link.target = "_blank";
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -478,7 +481,7 @@ const CustomerDetails = () => {
                               fontSize: "14px",
                             }}
                           >
-                            {PaymentID}
+                            {PaymentGatewayID}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -521,7 +524,7 @@ const CustomerDetails = () => {
                             }}
                           >
                             {" "}
-                            {createdTime}
+                            {paymentDate}
                           </Typography>
                         </Stack>
                       </Stack>
@@ -537,7 +540,7 @@ const CustomerDetails = () => {
                     INVOICE
                   </Typography>
                   <CommonDataTable
-                    rows={invoiceFile || []}
+                    rows={invoiceFileDetails || []}
                     columns={InvoiceColumns()}
                   />
                   <Stack

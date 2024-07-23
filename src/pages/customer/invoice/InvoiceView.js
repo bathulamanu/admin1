@@ -49,7 +49,10 @@ const InvoiceView = () => {
   const paymentStatus = invoiceDetail?.paymentStatus;
   const paymentType = invoiceDetail?.paymentType;
   const PaymentGatewayID = invoiceDetail?.PaymentGatewayID;
-  const createdTime = formatDate(invoiceDetail?.createdTime);
+  const paymentDate = formatDate(invoiceDetail?.paymentDate);
+  const DescriptionItem = invoiceDetail?.DescriptionItem;
+  const PriceItem = invoiceDetail?.PriceItem;
+  const notes = invoiceDetail?.notes;
 
   const [formValues, setFormValues] = useState({
     fatherName: "",
@@ -410,7 +413,7 @@ const InvoiceView = () => {
                             variant="subtitle2"
                             sx={{ fontSize: "14px" }}
                           >
-                            {createdTime}
+                            {paymentDate}
                           </Typography>
                         </Stack>
                         <Stack direction={"row"} spacing={2}>
@@ -473,16 +476,16 @@ const InvoiceView = () => {
                           padding: "10px",
                         }}
                       >
-                        <Typography sx={{}}>Item Description 1</Typography>
+                        <Typography sx={{}}>{DescriptionItem}</Typography>
                         <Typography
                           sx={{ fontSize: "14px", marginRight: "75px" }}
                         >
-                          {createdTime}
+                          {paymentDate}
                         </Typography>
                         <Typography sx={{ marginRight: "30px" }}>
                           {paymentStatus}
                         </Typography>
-                        <Typography sx={{}}>{totalAmount}</Typography>
+                        <Typography sx={{}}>{PriceItem}</Typography>
                       </Stack>
                     </Box>
                     <Stack
@@ -537,6 +540,12 @@ const InvoiceView = () => {
                         }}
                       >
                         <Typography sx={{ fontSize: "14px" }}>Notes</Typography>
+                        <Typography
+                          variant="subtitle2"
+                          sx={{ fontSize: "14px" }}
+                        >
+                          {notes}
+                        </Typography>
                       </Stack>
                     </Box>
                   </Stack>

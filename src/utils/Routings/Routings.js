@@ -3,26 +3,19 @@ import Dashboard from "../../pages/Dashboard/Dashboard";
 import Login from "../../pages/Login/Login";
 import { MainLayout } from "../../components/Layouts/MainLayout";
 import DoctorsPage from "../../pages/hospitalManagement/Doctors/DoctorsPage";
-import DoctorAddForm from "../../pages/hospitalManagement/Doctors/DoctorAddForm";
 import HospitalPage from "../../pages/hospitalManagement/Hospitals/HospitalPage";
-import HospitalAddForm from "../../pages/hospitalManagement/Hospitals/HospitalAddForm";
 import DoctorView from "../../pages/hospitalManagement/Doctors/DoctorView";
 import HospitalView from "../../pages/hospitalManagement/Hospitals/HospitalView";
 import SettingsPage from "../../pages/hospitalManagement/Settings/SettingsPage";
-import SettingsAddForm from "../../pages/hospitalManagement/Settings/SettingsAddForm";
 import Customers from "../../pages/customer/Customer";
 import { CustomerLayout } from "../../components/Layouts/CustomerLayout";
 import Finance from "../../pages/customer/Finance";
-import CustomerForm from "../../pages/customer/CustomerForm";
 import CustomerDetails from "../../pages/customer/CustomerDetails";
 import Details from "../../pages/customer/Details";
 import ClientDetails from "../../pages/customer/clientDetails/ClientDetails";
-import CustomerEdit from "../../pages/customer/CustomerEdit";
 import DetailsPlan from "../../pages/customer/plans/DetailsPlan";
-import PlansForm from "../../pages/customer/plans/PlansForm";
 import PlanDataPreview from "../../pages/customer/plans/PlanDataPreview";
 import InvoiceTable from "../../pages/customer/invoice/InvoiceTable";
-import InvoiceForm from "../../pages/customer/invoice/InvoiceForm";
 import InvoiceView from "../../pages/customer/invoice/InvoiceView";
 import BabyDetails from "../../pages/customer/babyDetails/BabyDetails";
 import CustomerSettingsPage from "../../pages/customer/settings/SettingsPage";
@@ -30,8 +23,6 @@ import BabyDetailsFormData from "../../pages/customer/babyDetails/BabyDetailsFor
 import CustomerDashboard from "../../pages/customer/dashboard/Dashboard";
 import HospitalEditForm from "../../pages/hospitalManagement/Hospitals/HospitalEditForm";
 import DoctorEditForm from "../../pages/hospitalManagement/Doctors/DoctorEditForm";
-import PlansEdit from "../../pages/customer/plans/plansEdit";
-import InvoiceEdit from "../../pages/customer/invoice/InvoiceEdit";
 
 export const baseRoutes = createBrowserRouter([
   {
@@ -82,10 +73,6 @@ export const baseRoutes = createBrowserRouter([
         path: "settings",
         element: <SettingsPage />,
       },
-      {
-        path: "settingForm",
-        element: <SettingsAddForm />,
-      },
     ],
   },
   {
@@ -110,7 +97,7 @@ export const baseRoutes = createBrowserRouter([
       },
       {
         path: "customers/customerEdit",
-        element: <CustomerEdit />,
+        // element: <CustomerEdit />,
       },
       {
         path: "customers/allDetails",

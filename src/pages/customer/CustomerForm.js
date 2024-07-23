@@ -22,13 +22,14 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import SingleSelect from "../../components/GlobalComponents/SingleSelect";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
   getCityIdList,
   getNamesIdList,
   getPaymentModeListById,
+  getPaymentStatusListById,
   getPlanListById,
   getStateIdList,
   getStatusIdList,
@@ -43,6 +44,7 @@ import {
   getCityList,
   getCountryList,
   getPaymentModeList,
+  getPaymentStatusList,
   getStateList,
   getStatus,
 } from "../../redux/Slices/globalSlice";
@@ -82,6 +84,10 @@ const CustomerForm = forwardRef((props, ref) => {
     (state) => state.global.paymentModeList
   );
   const paymentModeList = getPaymentModeListById(getAllPaymentModeList);
+  const getAllPaymentStatusList = useSelector(
+    (state) => state.global.paymentStatusList
+  );
+  const paymentStatusList = getPaymentStatusListById(getAllPaymentStatusList);
 
   useEffect(() => {
     dispatch(getCountryList());
@@ -89,12 +95,12 @@ const CustomerForm = forwardRef((props, ref) => {
     dispatch(getStatus(null));
     dispatch(getSubscriptionPlan());
     dispatch(getPaymentModeList(null));
+    dispatch(getPaymentStatusList(null));
   }, []);
 
   const [formValues, setFormValues] = useState({
     firstName: "",
     lastName: "",
-    doctorProfile: "",
     email: "",
     countryCode: "+91",
     phoneNumber: "",
@@ -110,7 +116,7 @@ const CustomerForm = forwardRef((props, ref) => {
     subscriptionPlanId: null,
     totalAmount: "",
     offerValue: "",
-    isActive: "",
+    paymentStatus: "",
     PaymentGatewayID: "",
     paymentType: "",
     paymentDate: "",
@@ -195,7 +201,7 @@ const CustomerForm = forwardRef((props, ref) => {
       } else if (!formValues.subscriptionPlanId) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          subscriptionPlanId: "Subscription Plan ID is required.",
+          subscriptionPlanId: "Customer Plan  is required.",
         }));
         return;
       } else if (!formValues.totalAmount) {
@@ -210,10 +216,10 @@ const CustomerForm = forwardRef((props, ref) => {
           offerValue: "Offer Value is required.",
         }));
         return;
-      } else if (!formValues.isActive) {
+      } else if (!formValues.paymentStatus) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          isActive: "Status is required.",
+          paymentStatus: "Status is required.",
         }));
         return;
       } else if (!formValues.PaymentGatewayID) {
@@ -237,8 +243,10 @@ const CustomerForm = forwardRef((props, ref) => {
       }
       // console.log("total payloadv ", formValues);
       dispatch(customerCreateByAdmin(formValues));
-      navigate("/customerPage/customers");
-      dispatch(getCustomersList(null));
+      dispatch(getCustomersList());
+      setTimeout(() => {
+        navigate("/customerPage/customers");
+      }, 2000);
     },
   }));
 
@@ -292,7 +300,7 @@ const CustomerForm = forwardRef((props, ref) => {
         // console.log(response?.data?.message).
         setFormValues((prev) => ({
           ...prev,
-          doctorProfile: response?.data?.data?.key,
+          profilePhoto: response?.data?.data?.key,
         }));
         console.log(formValues?.doctorProfile);
       } else {
@@ -692,7 +700,7 @@ const CustomerForm = forwardRef((props, ref) => {
                 justifyContent={"space-between"}
                 sx={{ mt: 1 }}
               >
-                <Typography sx={headingStyle}>CUSTOMER Plan</Typography>
+                <Typography sx={headingStyle}>CUSTOMER PLAN</Typography>
               </Box>
               <Grid container spacing={2} pt={3} pb={2}>
                 <Grid item style={{ width: "100%" }}>
@@ -795,16 +803,15 @@ const CustomerForm = forwardRef((props, ref) => {
                     variant="outlined"
                     fullWidth
                     size="small"
-                    error={!!errors.isActive}
+                    error={!!errors.paymentStatus}
                   >
                     <SingleSelect
                       Placeholder={"Select"}
                       width={"100%"}
-                      data={statuses}
-                      value={formValues?.isActive}
+                      data={paymentStatusList}
+                      value={formValues?.paymentStatus}
                       onChange={(e) => {
-                        // dispatch(getCityList(e))
-                        handleChange(e, "isActive");
+                        handleChange(e, "paymentStatus");
                       }}
                     />
                     {errors?.isActive && (
@@ -922,7 +929,7 @@ const CustomerForm = forwardRef((props, ref) => {
                     }}
                   >
                     <Avatar
-                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.doctorProfile}`}
+                      src={`https://flyingbyts.s3.ap-south-2.amazonaws.com/${formValues.profilePhoto}`}
                       sx={{ width: 200, height: 200, marginRight: 2 }}
                     />
                     <Stack sx={{ display: "flex", flexDirection: "column" }}>

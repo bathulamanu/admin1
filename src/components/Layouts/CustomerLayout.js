@@ -5,6 +5,7 @@ import {
   Button,
   Container,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   Menu,
@@ -70,6 +71,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import api from "../../utils/api/httpRequest";
 import InvoiceEdit from "../../pages/customer/invoice/InvoiceEdit";
+import CustomerEdit from "../../pages/customer/CustomerEdit";
 
 const inputLableStyle = {
   fontSize: "14px",
@@ -88,6 +90,7 @@ export const CustomerLayout = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const theme = useTheme();
+  const [isEditing, setIsEditing] = useState(false);
   const selectedTab = useSelector((state) => state.tab.selectedTab);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [anchorEl, setAnchorEl] = useState(null);
@@ -107,11 +110,17 @@ export const CustomerLayout = () => {
   const formRef = useRef();
   const formEditRef = useRef();
   const addCustomerForm = useRef();
+  const editCustomerForm = useRef();
   const addInvoiceRef = useRef();
   const editInvoiceRef = useRef();
   const handleCustomerAddForm = () => {
     if (addCustomerForm.current) {
       addCustomerForm.current.validateCustomerAddForm();
+    }
+  };
+  const handleCustomerEditForm = () => {
+    if (editCustomerForm.current) {
+      editCustomerForm.current.validateCustomerEditForm();
     }
   };
   const handleBabyClick = () => {
@@ -160,6 +169,7 @@ export const CustomerLayout = () => {
     value: "",
     IsActive: "",
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setFormValues((prev) => ({
@@ -174,9 +184,22 @@ export const CustomerLayout = () => {
       ...prev,
       [name]: value,
     }));
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
+  };
+  const validateForm = () => {
+    let tempErrors = {};
+    if (!formValues.value) tempErrors.value = "Value is required";
+    if (!formValues.IsActive) tempErrors.IsActive = "Status is required";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
   };
   const handleSave = async () => {
-    console.log("formvalues", formValues);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
       // console.log("Posted successfully", response.data);
@@ -609,13 +632,15 @@ export const CustomerLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
+                    marginRight: "50px",
                   }}
+                  startIcon={<AddIcon />}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("/customerPage/customerForm");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Add Customer
+                  Add Customer
                 </Button>
               </Box>
             )}
@@ -669,7 +694,7 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       size="small"
@@ -701,7 +726,7 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
+                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -710,52 +735,69 @@ export const CustomerLayout = () => {
                   sx={{
                     display: "flex",
                     flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
                   }}
                 >
-                  <Button
-                    // variant="contained"
-                    size="small"
+                  <Stack
                     sx={{
-                      background: "inherit",
-                      color: "black",
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/customerPage/customers");
+                      display: "flex",
+                      flexDirection: "row",
                     }}
                   >
-                    <ArrowBackIosIcon
-                      sx={{ height: 16, width: 16 }}
-                      fontSize="small"
-                    />{" "}
-                    Back
-                  </Button>
-                  <Stack direction={"row"} alignItems={"center"} spacing={1}>
-                    <Typography variant="h2">Customer Management</Typography>{" "}
-                    <Typography variant="subtitle1">/</Typography>
-                    <Typography variant="subtitle1">{activeItem}</Typography>
+                    <Button
+                      // variant="contained"
+                      size="small"
+                      sx={{
+                        background: "inherit",
+                        color: "black",
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      <ArrowBackIosIcon
+                        sx={{ height: 16, width: 16 }}
+                        fontSize="small"
+                      />{" "}
+                      Back
+                    </Button>
+                    <Stack direction={"row"} alignItems={"center"} spacing={1}>
+                      <Typography variant="h2">Customer Management</Typography>{" "}
+                      <Typography variant="subtitle1">/</Typography>
+                      <Typography variant="subtitle1">{activeItem}</Typography>
+                    </Stack>
+                  </Stack>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
+                  >
+                    <Button
+                      size="small"
+                      variant="contained"
+                      startIcon={<SaveAltIcon />}
+                      onClick={handleCustomerEditForm}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      startIcon={<CloseIcon />}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        navigate("/customerPage/customers");
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   </Stack>
                 </Stack>
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  sx={{ justifyContent: "end" }}
-                >
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<SaveAltIcon />}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    startIcon={<CloseIcon />}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
+                <Box sx={{ marginTop: "32px", marginBottom: "30px" }}>
+                  <CustomerEdit ref={editCustomerForm} />
+                </Box>
               </Stack>
             )}
             {pathname && pathname === "/customerPage/customers/allDetails" && (
@@ -818,13 +860,15 @@ export const CustomerLayout = () => {
                       size="small"
                       sx={{
                         padding: 1,
+                        marginRight: "50px",
                       }}
+                      startIcon={<EditIcon />}
                       onClick={(e) => {
                         e.preventDefault();
                         navigate("/customerPage/customers/customerEdit");
                       }}
                     >
-                      <EditIcon fontSize="small" /> Edit
+                      Edit
                     </Button>
                   </Stack>
                 ) : selectedTab === 1 ? (
@@ -875,7 +919,11 @@ export const CustomerLayout = () => {
                         </Typography>
                       </Stack>
                     </Stack>
-                    <Stack direction={"row"} spacing={2}>
+                    <Stack
+                      direction={"row"}
+                      spacing={2}
+                      sx={{ justifyContent: "end", marginRight: "50px" }}
+                    >
                       <Button
                         size="small"
                         variant="contained"
@@ -951,7 +999,7 @@ export const CustomerLayout = () => {
                       <Stack
                         direction={"row"}
                         spacing={2}
-                        sx={{ justifyContent: "end" }}
+                        sx={{ justifyContent: "end", marginRight: "50px" }}
                       >
                         <Button
                           size="small"
@@ -959,7 +1007,7 @@ export const CustomerLayout = () => {
                           startIcon={<SaveAltIcon />}
                           onClick={handleBabyClick}
                         >
-                          Save
+                          {isEditing ? "Update" : "Save"}
                         </Button>
                         <Button
                           size="small"
@@ -1047,7 +1095,6 @@ export const CustomerLayout = () => {
                 >
                   <Stack sx={{ display: "flex", flexDirection: "row" }}>
                     <Button
-                      // variant="contained"
                       size="small"
                       sx={{
                         background: "inherit",
@@ -1078,18 +1125,20 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       variant="contained"
                       size="small"
+                      startIcon={<EditIcon />}
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(getBabyDetails(babyId));
+                        setIsEditing(true);
                         navigate("/customerPage/customers/allDetails");
                       }}
                     >
-                      <EditIcon fontSize="small" /> Edit
+                      Edit
                     </Button>
                     <Button
                       variant="contained"
@@ -1101,6 +1150,7 @@ export const CustomerLayout = () => {
                         },
                       }}
                       size="small"
+                      startIcon={<DeleteIcon />}
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(deleteBabyDetails(babyId));
@@ -1108,7 +1158,7 @@ export const CustomerLayout = () => {
                         navigate("/customerPage/baby_details");
                       }}
                     >
-                      <DeleteIcon fontSize="small" /> Delete
+                      Delete
                     </Button>
                   </Stack>
                 </Stack>
@@ -1149,13 +1199,15 @@ export const CustomerLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
+                    marginRight: "50px",
                   }}
+                  startIcon={<AddIcon />}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("/customerPage/invoices/invoiceForm");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Create Invoice
+                  Create Invoice
                 </Button>
               </Stack>
             )}
@@ -1163,7 +1215,6 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  //  flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -1178,7 +1229,6 @@ export const CustomerLayout = () => {
                 >
                   <Stack sx={{ display: "flex", flexDirection: "row" }}>
                     <Button
-                      // variant="contained"
                       size="small"
                       sx={{
                         background: "inherit",
@@ -1204,7 +1254,7 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       size="small"
@@ -1275,18 +1325,19 @@ export const CustomerLayout = () => {
                 <Stack
                   direction={"row"}
                   spacing={2}
-                  sx={{ justifyContent: "end" }}
+                  sx={{ justifyContent: "end", marginRight: "50px" }}
                 >
                   <Button
                     variant="contained"
                     size="small"
+                    startIcon={<EditIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       dispatch(getInvoiceDetails(customerPaymentSubId));
                       navigate("/customerPage/invoices/invoiceEdit");
                     }}
                   >
-                    <EditIcon fontSize="small" /> Edit
+                    Edit
                   </Button>
                   <Button
                     variant="contained"
@@ -1298,6 +1349,7 @@ export const CustomerLayout = () => {
                       },
                     }}
                     size="small"
+                    startIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       dispatch(deleteInvoice(customerPaymentSubId));
@@ -1305,7 +1357,7 @@ export const CustomerLayout = () => {
                       navigate("/customerPage/invoices");
                     }}
                   >
-                    <DeleteIcon fontSize="small" /> Delete
+                    Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -1355,7 +1407,7 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       size="small"
@@ -1409,13 +1461,15 @@ export const CustomerLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
+                    marginRight: "50px",
                   }}
+                  startIcon={<AddIcon />}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("/customerPage/plans/plansForm");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Create Plan
+                  Create Plan
                 </Button>
               </Stack>
             )}
@@ -1423,7 +1477,6 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -1469,7 +1522,7 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       size="small"
@@ -1540,18 +1593,19 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       variant="contained"
                       size="small"
+                      startIcon={<EditIcon />}
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(getSubscriptionPlanDetails(subscriptionID));
                         navigate(`/customerPage/plans/Edit`);
                       }}
                     >
-                      <EditIcon fontSize="small" /> Edit
+                      Edit
                     </Button>
                     <Button
                       variant="contained"
@@ -1563,6 +1617,7 @@ export const CustomerLayout = () => {
                         },
                       }}
                       size="small"
+                      startIcon={<DeleteIcon />}
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(deleteSubscriptionPlan({ subscriptionID }));
@@ -1570,7 +1625,7 @@ export const CustomerLayout = () => {
                         navigate(`/customerPage/plans`);
                       }}
                     >
-                      <DeleteIcon fontSize="small" /> Delete
+                      Delete
                     </Button>
                   </Stack>
                 </Stack>
@@ -1579,7 +1634,6 @@ export const CustomerLayout = () => {
               <Stack
                 sx={{
                   display: "flex",
-                  // flexDirection: "row",
                   justifyContent: "space-between",
                   width: "100%",
                 }}
@@ -1594,7 +1648,6 @@ export const CustomerLayout = () => {
                 >
                   <Stack sx={{ display: "flex", flexDirection: "row" }}>
                     <Button
-                      // variant="contained"
                       size="small"
                       sx={{
                         background: "inherit",
@@ -1625,7 +1678,7 @@ export const CustomerLayout = () => {
                   <Stack
                     direction={"row"}
                     spacing={2}
-                    sx={{ justifyContent: "end" }}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
                   >
                     <Button
                       size="small"
@@ -1677,12 +1730,14 @@ export const CustomerLayout = () => {
                 <Button
                   variant="contained"
                   size="small"
+                  startIcon={<AddIcon />}
                   sx={{
                     padding: 1,
+                    marginRight: "50px",
                   }}
                   onClick={() => setOpenAdd(true)}
                 >
-                  <AddIcon fontSize="small" /> Add {activeTitle}
+                  Add {activeTitle}
                 </Button>
                 <Dialog open={openAdd}>
                   <DialogContent sx={{ width: "500px" }}>
@@ -1707,8 +1762,10 @@ export const CustomerLayout = () => {
                               variant="outlined"
                               fullWidth
                               size="small"
+                              error={!!errors.value}
                             >
                               <OutlinedInput
+                                error={!!errors.value}
                                 fullWidth
                                 id="outlined-adornment-password"
                                 placeholder="Input Text"
@@ -1718,6 +1775,11 @@ export const CustomerLayout = () => {
                                   handleOnChange(e.target.value, "value")
                                 }
                               />
+                              {errors.value && (
+                                <FormHelperText error>
+                                  {errors.value}
+                                </FormHelperText>
+                              )}
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -1726,13 +1788,26 @@ export const CustomerLayout = () => {
                             <InputLabel sx={inputLableStyle}>
                               Status <span style={redStarStyle}>*</span>
                             </InputLabel>
-                            <SingleSelect
-                              placeholder={"Select"}
-                              width={"100%"}
-                              value={formValues?.IsActive}
-                              data={statuses}
-                              onChange={(e) => handleOnChange(e, "IsActive")}
-                            />
+                            <FormControl
+                              variant="outlined"
+                              fullWidth
+                              size="small"
+                              error={!!errors.IsActive}
+                            >
+                              <SingleSelect
+                                error={!!errors.IsActive}
+                                placeholder={"Select"}
+                                width={"100%"}
+                                value={formValues?.IsActive}
+                                data={statuses}
+                                onChange={(e) => handleOnChange(e, "IsActive")}
+                              />
+                              {errors.IsActive && (
+                                <FormHelperText error>
+                                  {errors.IsActive}
+                                </FormHelperText>
+                              )}
+                            </FormControl>
                           </Grid>
                         </Grid>
                         <Box sx={{ display: "flex", marginLeft: "115px" }}>

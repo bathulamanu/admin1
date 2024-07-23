@@ -136,6 +136,7 @@ const planSlice = createSlice({
     });
     builder.addCase(UpdateSubscriptionPlan.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      toast.success(action.payload.message);
     });
     builder.addCase(UpdateSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";
@@ -145,6 +146,7 @@ const planSlice = createSlice({
     });
     builder.addCase(createSubscriptionPlan.fulfilled, (state, action) => {
       state.loading = "complete_success";
+      toast.success(action.payload.message);
     });
     builder.addCase(createSubscriptionPlan.rejected, (state) => {
       state.authLoading = "complete_failure";

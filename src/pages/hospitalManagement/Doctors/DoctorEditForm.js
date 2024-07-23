@@ -1,14 +1,8 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
 import AddIcon from "@mui/icons-material/Add";
-import dayjs from "dayjs";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
@@ -40,10 +34,6 @@ import twitter from "../../../assets/twitter.png";
 import linkedin from "../../../assets/linkedin.png";
 import pinterest from "../../../assets/pinterest.png";
 import link from "../../../assets/link.png";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getByIdList,
@@ -59,10 +49,7 @@ import {
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import api from "../../../utils/api/httpRequest";
-import {
-  handleEditPostDoctor,
-  handlePostDoctor,
-} from "../../../redux/Slices/doctorSlice";
+import { handleEditPostDoctor } from "../../../redux/Slices/doctorSlice";
 import {
   getCityList,
   getCityNameByCountry,
@@ -73,11 +60,6 @@ import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
 import { getQualification } from "../../../redux/Slices/globalSlice";
 
 const socialMediaLogoSize = 24;
-
-const headingStyle = {
-  fontSize: "14px",
-  fontWeight: "bold",
-};
 const inputLableStyle = {
   fontSize: "14px",
   fontWeight: "bold",
@@ -111,61 +93,40 @@ function deepCopyFormValues(doctorDetail, formValues) {
 }
 
 const DoctorEditForm = () => {
-  const theme = useTheme();
   const dispatch = useDispatch();
   const getSpecializationList = useSelector(
     (state) => state.global.specializationList
   );
   const getExperienceList = useSelector((state) => state.global.experienceList);
   const getGenderList = useSelector((state) => state.global.genderList);
-  const getEmployementList = useSelector((state) => state.global.genderList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
   const specializationList = getByIdList(getSpecializationList);
   const experienceList = getByIdList(getExperienceList);
   const genderList = getByIdList(getGenderList);
-  const employementTypeList = getByIdList(getEmployementList);
   const getStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
-  // console.log('All city for a state', getCitiesList)
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
-  useEffect(() => {
-    dispatch(getHospitalsList(null));
-  }, []);
-  const getHospitalnames = getHospitalNameById(hospitalsList);
-  // console.log("HospitalsList name", getHospitalnames);
-
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
   );
-  useEffect(() => {
-    dispatch(getQualification(null));
-  }, [dispatch]);
   const getQualif = getQualificationIdList(getQualificationList);
-  // console.log("getQualification", getQualif);
-
   const getLoactionList = useSelector((state) => state.global.locationList);
-  useEffect(() => {
-    dispatch(getCityNameByCountry(null));
-  }, [dispatch]);
-  // console.log("getLoactionList", getLoactionList);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
-
   const getStatusList = useSelector((state) => state.global.statusList);
-  useEffect(() => {
-    dispatch(getStatus(null));
-  }, [dispatch]);
   const statuses = getStatusIdList(getStatusList);
-  // console.log("getStatusList", statuses);
-
   const getEmpTypeList = useSelector((state) => state.global.employementList);
+  const EmpType = getEmpTypeIdList(getEmpTypeList);
+
   useEffect(() => {
+    dispatch(getHospitalsList(null));
+    dispatch(getQualification(null));
+    dispatch(getCityNameByCountry(null));
+    dispatch(getStatus(null));
     dispatch(getEmploymentType(null));
   }, [dispatch]);
-  const EmpType = getEmpTypeIdList(getEmpTypeList);
-  // console.log("getEmpTypeList", EmpType);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -193,10 +154,6 @@ const DoctorEditForm = () => {
         employmentType: "",
         startDate: "",
         endDate: "",
-        // currentlyWorking: {
-        //   type: "",
-        //   default: false,
-        // },
         currentlyWorking: false,
         description: "",
       },
@@ -271,11 +228,6 @@ const DoctorEditForm = () => {
           let qul = value?.map((ele) => ({ qualificationId: ele }));
           temp.qualification = qul;
           break;
-
-        // case "DOB":
-        //   let dob = value ? dayjs(value).toISOString() : null;
-        //   temp.DOB = dob;
-        //   break;
 
         case "country":
           temp.previousExperience[0] = {
@@ -454,8 +406,6 @@ const DoctorEditForm = () => {
     });
   };
 
-  // console.log("dhkjshdgjshcjs", formValues);
-
   const handleImageUpload = async (e) => {
     const headers = {
       "Content-Type": "multipart/form-data",
@@ -466,7 +416,6 @@ const DoctorEditForm = () => {
     try {
       const response = await api.post("/upload", formData, { headers });
       if (response?.data?.status === 200) {
-        // console.log(response?.data?.message).
         setFormValues((prev) => ({
           ...prev,
           doctorProfile: response?.data?.data?.key,
@@ -483,12 +432,8 @@ const DoctorEditForm = () => {
   useEffect(() => {
     dispatch(handleEditPostDoctor(formValues));
   }, [formValues]);
-  console.log("formvalues", formValues);
-
   const doctorDetail = useSelector((state) => state.doctor.doctorDetail);
-  // console.log("doctorDetails", doctorDetail);
   const updatedFormValues = deepCopyFormValues(doctorDetail, formValues);
-
   useEffect(() => {
     setFormValues((prevValue) => ({
       ...prevValue,
@@ -496,7 +441,7 @@ const DoctorEditForm = () => {
     }));
   }, [doctorDetail]);
 
-  // console.log("doctorDetail", doctorDetail);
+  console.log("formvalues", formValues);
 
   return (
     <Container
@@ -684,10 +629,6 @@ const DoctorEditForm = () => {
                     width={"100%"}
                     value={formValues?.IsActive}
                     data={statuses}
-                    // data={[
-                    //   { id: 47, name: "Active" },
-                    //   { id: 48, name: "InActive" },
-                    // ]}
                     onChange={(e) => handleOnChange(e, "IsActive")}
                   />
                 </Grid>
@@ -733,16 +674,6 @@ const DoctorEditForm = () => {
                       onChange={(e) => handleOnChange(e, "DOB")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={formValues.DOB ? dayjs(formValues.DOB) : null}
-                        onChange={(e) => {
-                          handleOnChange(e, "DOB");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Gender</InputLabel>
@@ -861,7 +792,6 @@ const DoctorEditForm = () => {
                     placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
-                    // value={formValues?.previousExperience[0]?.specialist}
                     value={formValues?.previousExperience[0]?.specialist?.map(
                       (item) => item?.specilizationID
                     )}
@@ -915,15 +845,6 @@ const DoctorEditForm = () => {
                     ))}
                   </Select>
                 </FormControl>
-                {/* <SingleSelect
-                  placeholder={"Select"}
-                  data={getHospitalnames}
-                  width={"100%"}
-                  value={formValues?.previousExperience[0]?.hospitalAddress}
-                  onChange={(e) => {
-                    handleOnChange(e, "hospitalAddress");
-                  }}
-                /> */}
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
@@ -966,22 +887,6 @@ const DoctorEditForm = () => {
                       onChange={(e) => handleOnChange(e, "startDate")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues?.previousExperience[0]?.startDate
-                            ? dayjs(
-                                formValues?.previousExperience[0]?.startDate
-                              )
-                            : null
-                        }
-                        onChange={(e) => {
-                          handleOnChange(e, "startDate");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>End Date</InputLabel>
@@ -999,20 +904,6 @@ const DoctorEditForm = () => {
                       onChange={(e) => handleOnChange(e, "endDate")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues?.previousExperience[0]?.endDate
-                            ? dayjs(formValues?.previousExperience[0]?.endDate)
-                            : null
-                        }
-                        onChange={(e) => {
-                          handleOnChange(e, "endDate");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mb: 1 }}>
@@ -1046,27 +937,6 @@ const DoctorEditForm = () => {
                         handleOnChange(e.target.value, "description")
                       }
                     />
-                    {/* <Typography variant="subtitle2">
-                      Description (optional)
-                    </Typography>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      disableWatchdog
-                      data=""
-                      onReady={(editor) => {
-                        // You can store the "editor" and use when it is needed.
-                        // console.log("Editor is ready to use!", editor);
-                      }}
-                      onChange={(event) => {
-                        // console.log(event);
-                      }}
-                      onBlur={(event, editor) => {
-                        // console.log("Blur.", editor);
-                      }}
-                      onFocus={(event, editor) => {
-                        // console.log("Focus.", editor);
-                      }}
-                    /> */}
                   </Stack>
                 </Grid>
               </Grid>
@@ -1142,25 +1012,6 @@ const DoctorEditForm = () => {
                       handleOnChange(e.target.value, "doctorBio")
                     }
                   />
-                  {/* <Typography>Bio</Typography>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    disableWatchdog
-                    data=""
-                    onReady={(editor) => {
-                      // You can store the "editor" and use when it is needed.
-                      // console.log("Editor is ready to use!", editor);
-                    }}
-                    onChange={(event) => {
-                      // console.log(event);
-                    }}
-                    onBlur={(event, editor) => {
-                      // console.log("Blur.", editor);
-                    }}
-                    onFocus={(event, editor) => {
-                      // console.log("Focus.", editor);
-                    }}
-                  /> */}
                 </Stack>
               </Stack>
             </CardContent>
@@ -1174,6 +1025,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={facebook}
+                    alt="facebook"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1194,6 +1046,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={instagram}
+                    alt="instagram"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1213,6 +1066,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={linkedin}
+                    alt="linkedin"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1232,6 +1086,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={youtube}
+                    alt="youtube"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1251,6 +1106,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={twitter}
+                    alt="twitter"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1270,6 +1126,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={pinterest}
+                    alt="pinterest"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1299,6 +1156,7 @@ const DoctorEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
+                    alt="weblink"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1323,21 +1181,6 @@ const DoctorEditForm = () => {
                     )}
                   </FormControl>
                 </Stack>
-                {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={link}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder=""
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack> */}
               </Stack>
             </CardContent>
           </Card>

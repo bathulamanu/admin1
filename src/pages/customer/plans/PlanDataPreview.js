@@ -27,14 +27,14 @@ const PlanDataPreview = () => {
   const EMI = subscriptionPanDetails?.EMI;
   const EMItext = subscriptionPanDetails?.EMItext;
   const ribben = subscriptionPanDetails?.ribben;
-  const ribbenStatus = subscriptionPanDetails?.ribbenStatus;
+  const ribbenStatusValue = subscriptionPanDetails?.ribbenStatusValue;
   const description = subscriptionPanDetails?.description;
   const additionalInfo = subscriptionPanDetails?.additionalInfo;
   const durationYear = subscriptionPanDetails?.durationYear;
   const durationYearText = subscriptionPanDetails?.durationYearText;
   const customText = subscriptionPanDetails?.customText;
   const offerTiming = subscriptionPanDetails?.offerTiming;
-  const status = subscriptionPanDetails?.status;
+  const IsActiveValue = subscriptionPanDetails?.IsActiveValue;
 
   return (
     <Container
@@ -294,22 +294,10 @@ const PlanDataPreview = () => {
                         }}
                       >
                         Ribbon Status :
-                      </Typography>{" "}
-                      {ribbenStatus === 46 ? (
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "14px" }}
-                        >
-                          true
-                        </Typography>
-                      ) : (
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ fontSize: "14px" }}
-                        >
-                          false
-                        </Typography>
-                      )}
+                      </Typography>{"  "}
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {ribbenStatusValue}
+                      </Typography>
                     </Stack>
                   </Stack>
                 </Stack>
@@ -501,8 +489,11 @@ const PlanDataPreview = () => {
                         }}
                       >
                         Status :
-                      </Typography>{" "}
-                      {status === 47 ? (
+                      </Typography>{""}
+                      <Typography variant="subtitle2" sx={{ fontSize: "14px" }}>
+                        {IsActiveValue}
+                      </Typography>
+                      {/* {status === 47 ? (
                         <Typography
                           variant="subtitle2"
                           sx={{ fontSize: "14px" }}
@@ -516,7 +507,7 @@ const PlanDataPreview = () => {
                         >
                           InActive
                         </Typography>
-                      )}
+                      )} */}
                     </Stack>
                   </Stack>
                 </Stack>

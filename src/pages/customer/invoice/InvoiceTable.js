@@ -17,6 +17,7 @@ import { getAllInvoiceList } from "../../../redux/Slices/invoiceSlice";
 const InvoiceTable = () => {
   const dispatch = useDispatch();
   const invoiceList = useSelector((state) => state.invoice.invoiceList);
+  console.log("lllllllllllllllllll ", invoiceList);
   useEffect(() => {
     dispatch(getAllInvoiceList());
   }, []);
@@ -24,8 +25,8 @@ const InvoiceTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const filteredList = invoiceList?.filter((item) => {
     const matchesSearch =
-      item?.CustomerName &&
-      item.CustomerName.toLowerCase().includes(searchValue.toLowerCase());
+      item?.CRNno &&
+      item.CRNno.toLowerCase().includes(searchValue.toLowerCase());
 
     return matchesSearch;
   });
@@ -91,7 +92,7 @@ const InvoiceTable = () => {
           </FormControl>
         </Stack>
       </Box>
-      <CommonDataTable rows={filteredList || []} columns={InvoiceColumns()} />
+      <CommonDataTable rows={invoiceList || []} columns={InvoiceColumns()} />
     </Container>
   );
 };

@@ -54,15 +54,10 @@ import {
   getCityNameByCountryIdList,
   getStatusIdList,
   getEmpTypeIdList,
-  getHospitalNameById,
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
 import api from "../../../utils/api/httpRequest";
-import {
-  addDoctors,
-  getDoctorList,
-  handlePostDoctor,
-} from "../../../redux/Slices/doctorSlice";
+import { addDoctors, getDoctorList } from "../../../redux/Slices/doctorSlice";
 import {
   getCityList,
   getCityNameByCountry,
@@ -74,11 +69,6 @@ import { getQualification } from "../../../redux/Slices/globalSlice";
 import { useNavigate } from "react-router-dom";
 
 const socialMediaLogoSize = 24;
-
-const headingStyle = {
-  fontSize: "14px",
-  fontWeight: "bold",
-};
 const inputLableStyle = {
   fontSize: "14px",
   fontWeight: "bold",
@@ -92,7 +82,6 @@ const redStarStyle = {
 };
 
 const DoctorAddForm = forwardRef((props, ref) => {
-  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getSpecializationList = useSelector(
@@ -100,55 +89,34 @@ const DoctorAddForm = forwardRef((props, ref) => {
   );
   const getExperienceList = useSelector((state) => state.global.experienceList);
   const getGenderList = useSelector((state) => state.global.genderList);
-  const getEmployementList = useSelector((state) => state.global.genderList);
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
   const specializationList = getByIdList(getSpecializationList);
   const experienceList = getByIdList(getExperienceList);
   const genderList = getByIdList(getGenderList);
-  const employementTypeList = getByIdList(getEmployementList);
   const getStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
-  // console.log('All city for a state', getCitiesList)
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
-  useEffect(() => {
-    dispatch(getHospitalsList(null));
-  }, []);
-
-  // const getHospitalnames = getHospitalNameById(hospitalsList);
-  // console.log("HospitalsList name", hospitalsList);
-
   const getQualificationList = useSelector(
     (state) => state.global.qualificationList
   );
-  useEffect(() => {
-    dispatch(getQualification(null));
-  }, [dispatch]);
   const getQualif = getQualificationIdList(getQualificationList);
-  // console.log("getQualification", getQualif);
-
   const getLoactionList = useSelector((state) => state.global.locationList);
-  useEffect(() => {
-    dispatch(getCityNameByCountry(null));
-  }, [dispatch]);
   const getLoaction = getCityNameByCountryIdList(getLoactionList);
-  // console.log("getLoactionList", getLoaction);
-
   const getStatusList = useSelector((state) => state.global.statusList);
-  useEffect(() => {
-    dispatch(getStatus(null));
-  }, [dispatch]);
   const statuses = getStatusIdList(getStatusList);
-  // console.log("getStatusList", statuses);
-
   const getEmpTypeList = useSelector((state) => state.global.employementList);
+  const EmpType = getEmpTypeIdList(getEmpTypeList);
+
   useEffect(() => {
+    dispatch(getHospitalsList(null));
+    dispatch(getQualification(null));
+    dispatch(getCityNameByCountry(null));
+    dispatch(getStatus(null));
     dispatch(getEmploymentType(null));
   }, [dispatch]);
-  const EmpType = getEmpTypeIdList(getEmpTypeList);
-  // console.log("getEmpTypeList", EmpType);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -207,7 +175,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
     getDoctorAddFormData: () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
-      // const phoneRegex = /^\d{10}$/;
+      const phoneRegex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
 
       if (!formValues.doctorFirstName) {
         setErrors((prevErrors) => ({
@@ -244,62 +212,32 @@ const DoctorAddForm = forwardRef((props, ref) => {
         return;
       }
       dispatch(addDoctors(formValues));
-      navigate("/mainPage/doctors");
       dispatch(getDoctorList(null));
+      setTimeout(() => {
+        navigate("/mainPage/doctors");
+      }, 2000);
     },
   }));
-  // const validateField = (name, value, updatedValues) => {
-  //   let tempErrors = { ...errors };
+  const validateField = (name, value, updatedValues) => {
+    let tempErrors = { ...errors };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+    switch (name) {
+      case "phoneNumber":
+        tempErrors.phoneNumber =
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
+        break;
+      case "email":
+        tempErrors.email = emailRegex.test(value)
+          ? ""
+          : "Invalid email address.";
+        break;
+      default:
+        break;
+    }
 
-  //   switch (name) {
-  //     case "doctorFirstName":
-  //       tempErrors.doctorFirstName =
-  //         value.length >= 3
-  //           ? ""
-  //           : "Doctor's name must be at least 3 characters .";
-  //       break;
-  //     case "doctorID":
-  //       tempErrors.doctorID =
-  //         value.length >= 5 ? "" : "Doctor ID must be at least 5 characters.";
-  //       break;
-  //     case "qualification":
-  //       tempErrors.qualification = updatedValues.qualification.length
-  //         ? ""
-  //         : "Qualification is required.";
-  //       break;
-  //     case "specialist":
-  //       tempErrors.specialist = updatedValues.specialist.length
-  //         ? ""
-  //         : "Specialist is required.";
-  //       break;
-  //     case "experience":
-  //       tempErrors.experience = value ? "" : "Experience is required.";
-  //       break;
-  //     case "email":
-  //       tempErrors.email = emailRegex.test(value)
-  //         ? ""
-  //         : "Invalid email address.";
-  //       break;
-  //     case "website":
-  //       tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
-  //       break;
-  //     case "phoneNumber":
-  //       tempErrors.phoneNumber =
-  //         value.length === 10 ? "" : "Phone number must be 10 digits.";
-  //       break;
-  //     case "pincode":
-  //       tempErrors.pincode =
-  //         value.length === 6 ? "" : "Pincode must be 6 digits.";
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   setErrors(tempErrors);
-  // };
+    setErrors(tempErrors);
+  };
 
   const handleOnChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -316,11 +254,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
           let qul = value?.map((ele) => ({ qualificationId: ele }));
           temp.qualification = qul;
           break;
-
-        // case "DOB":
-        //   // let dob = value ? dayjs(value).toISOString() : null;
-        //   temp.DOB = dob;
-        //   break;
 
         case "country":
           temp.previousExperience[0] = {
@@ -494,7 +427,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
           temp[name] = value;
           break;
       }
-
+      validateField(name, value, temp);
       return temp;
     });
     setErrors({
@@ -513,7 +446,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
     try {
       const response = await api.post("/upload", formData, { headers });
       if (response?.data?.status === 200) {
-        // console.log(response?.data?.message).
         setFormValues((prev) => ({
           ...prev,
           doctorProfile: response?.data?.data?.key,
@@ -534,24 +466,13 @@ const DoctorAddForm = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "45%",
+        maxHeight: "40%",
         overflow: "auto",
         background: "#fff",
         padding: "15px",
       }}
     >
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer />
       <Box
         display={"flex"}
         alignItems={"center"}
@@ -560,7 +481,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
         pt={3}
         pb={3}
         pl={1}
-        // gap={6}
       >
         <Stack>
           <Typography sx={{ fontSize: "24px", fontWeight: "bold" }}>
@@ -715,10 +635,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                     width={"100%"}
                     value={formValues?.IsActive}
                     data={statuses}
-                    // data={[
-                    //   { id: 47, name: "Active" },
-                    //   { id: 48, name: "InActive" },
-                    // ]}
                     onChange={(e) => handleOnChange(e, "IsActive")}
                   />
                 </Grid>
@@ -764,16 +680,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                       onChange={(e) => handleOnChange(e, "DOB")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={formValues.DOB ? dayjs(formValues.DOB) : null}
-                        onChange={(e) => {
-                          handleOnChange(e, "DOB");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Gender</InputLabel>
@@ -797,6 +703,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                   >
                     <OutlinedInput
                       name="phoneNumber"
+                      type="number"
                       fullWidth
                       id="outlined-adornment-password"
                       placeholder="input text"
@@ -821,6 +728,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                   >
                     <OutlinedInput
                       fullWidth
+                      type="email"
                       name="email"
                       value={formValues?.email}
                       onChange={(e) => handleOnChange(e.target.value, "email")}
@@ -848,7 +756,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                   Add Experience
                 </Button>
               </Box>
-              <Grid container spacing={2}>
+              <Grid container spacing={4}>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>Country</InputLabel>
                   <SingleSelect
@@ -892,7 +800,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                     placeholder={"Select"}
                     data={specializationList}
                     width={"100%"}
-                    // value={formValues?.previousExperience[0]?.specialist}
                     value={formValues?.previousExperience[0]?.specialist?.map(
                       (item) => item?.specilizationID
                     )}
@@ -946,15 +853,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                     ))}
                   </Select>
                 </FormControl>
-                {/* <SingleSelect
-                  placeholder={"Select"}
-                  data={getHospitalnames}
-                  width={"100%"}
-                  value={formValues?.previousExperience[0]?.hospitalAddress}
-                  onChange={(e) => {
-                    handleOnChange(e, "hospitalAddress");
-                  }}
-                /> */}
               </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
@@ -995,22 +893,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                       onChange={(e) => handleOnChange(e, "startDate")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues?.previousExperience[0]?.startDate
-                            ? dayjs(
-                                formValues?.previousExperience[0]?.startDate
-                              )
-                            : null
-                        }
-                        onChange={(e) => {
-                          handleOnChange(e, "startDate");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>End Date</InputLabel>
@@ -1026,20 +908,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                       onChange={(e) => handleOnChange(e, "endDate")}
                     />
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues?.previousExperience[0]?.endDate
-                            ? dayjs(formValues?.previousExperience[0]?.endDate)
-                            : null
-                        }
-                        onChange={(e) => {
-                          handleOnChange(e, "endDate");
-                        }}
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
               <Grid width={"100%"} sx={{ mb: 1 }}>
@@ -1073,27 +941,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                         handleOnChange(e.target.value, "description")
                       }
                     />
-                    {/* <Typography variant="subtitle2">
-                      Description (optional)
-                    </Typography>
-                    <CKEditor
-                      editor={ClassicEditor}
-                      disableWatchdog
-                      data=""
-                      onReady={(editor) => {
-                        // You can store the "editor" and use when it is needed.
-                        // console.log("Editor is ready to use!", editor);
-                      }}
-                      onChange={(event) => {
-                        // console.log(event);
-                      }}
-                      onBlur={(event, editor) => {
-                        // console.log("Blur.", editor);
-                      }}
-                      onFocus={(event, editor) => {
-                        // console.log("Focus.", editor);
-                      }}
-                    /> */}
                   </Stack>
                 </Grid>
               </Grid>
@@ -1169,25 +1016,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                       handleOnChange(e.target.value, "doctorBio")
                     }
                   />
-                  {/* <Typography>Bio</Typography>
-                  <CKEditor
-                    editor={ClassicEditor}
-                    disableWatchdog
-                    data=""
-                    onReady={(editor) => {
-                      // You can store the "editor" and use when it is needed.
-                      // console.log("Editor is ready to use!", editor);
-                    }}
-                    onChange={(event) => {
-                      // console.log(event);
-                    }}
-                    onBlur={(event, editor) => {
-                      // console.log("Blur.", editor);
-                    }}
-                    onFocus={(event, editor) => {
-                      // console.log("Focus.", editor);
-                    }}
-                  /> */}
                 </Stack>
               </Stack>
             </CardContent>
@@ -1201,6 +1029,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={facebook}
+                    alt="facebook"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1221,6 +1050,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={instagram}
+                    alt="instagram"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1240,6 +1070,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={linkedin}
+                    alt="linkedin"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1259,6 +1090,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={youtube}
+                    alt="youtube"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1278,6 +1110,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={twitter}
+                    alt="twitter"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1297,6 +1130,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={pinterest}
+                    alt="pinterest"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1326,6 +1160,7 @@ const DoctorAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
+                    alt="wenlink"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1350,21 +1185,6 @@ const DoctorAddForm = forwardRef((props, ref) => {
                     )}
                   </FormControl>
                 </Stack>
-                {/* <Stack direction={"row"} spacing={2} alignItems={"center"}>
-                  <img
-                    src={link}
-                    height={socialMediaLogoSize}
-                    width={socialMediaLogoSize}
-                  />{" "}
-                  <FormControl variant="outlined" size="small" fullWidth>
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder=""
-                      size="small"
-                    />
-                  </FormControl>
-                </Stack> */}
               </Stack>
             </CardContent>
           </Card>

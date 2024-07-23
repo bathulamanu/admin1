@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/material/styles";
 import doctorImg from "../../../assets/doctor_img.png";
-import { styled } from "@mui/material/styles";
-import AddIcon from "@mui/icons-material/Add";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import {
   Box,
@@ -16,15 +14,12 @@ import {
   Grid,
   InputLabel,
   OutlinedInput,
-  Paper,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ReactQuill from "react-quill";
 import facebook from "../../../assets/facebook.png";
 import instagram from "../../../assets/instagram.png";
 import youtube from "../../../assets/youtube.png";
@@ -32,11 +27,6 @@ import twitter from "../../../assets/twitter.png";
 import linkedin from "../../../assets/linkedin.png";
 import pinterest from "../../../assets/pinterest.png";
 import link from "../../../assets/link.png";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CommonSelect from "../../../components/GlobalComponents/CommonSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -45,13 +35,13 @@ import {
   getCityIdList,
   getNamesIdList,
   getStateIdList,
+  getStatusIdList,
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
-import { getCityList } from "../../../redux/Slices/globalSlice";
+import { getCityList, getStatus } from "../../../redux/Slices/globalSlice";
 import {
-  addHospitals,
+  getHospitalDetails,
   handleEditPostHospital,
-  handlePostHospital,
 } from "../../../redux/Slices/hospitalSlice";
 import mapIcon from "../../../assets/map.png";
 import api from "../../../utils/api/httpRequest";
@@ -95,7 +85,6 @@ function deepCopyFormValues(hospitalDetails, formValues) {
 }
 
 const HospitalEditForm = () => {
-  const theme = useTheme();
   const dispatch = useDispatch();
   const countryList = useSelector((state) => state.global.countryList);
   const upDatedCountryList = getNamesIdList(countryList);
@@ -105,16 +94,23 @@ const HospitalEditForm = () => {
 
   const getStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
-  // console.log('All city for a state', getCitiesList)
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const specializationList = getByIdList(getSpecializationList);
+  const getStatusList = useSelector((state) => state.global.statusList);
+  const statuses = getStatusIdList(getStatusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
 
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
+  useEffect(() => {
+    const HospitalID = localStorage.getItem("HospitalID");
+    dispatch(getHospitalDetails(HospitalID));
+  }, [dispatch]);
 
-  // console.log('hospitalDetail', hospitalDetails)
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
     hospitalName: "",
@@ -126,6 +122,7 @@ const HospitalEditForm = () => {
       to: null,
     },
     email: "",
+    IsActive: "",
     website: "",
     about: "",
     sociallink: {
@@ -305,7 +302,6 @@ const HospitalEditForm = () => {
       // validateField(name, value, temp);
       return temp;
     });
-    // Clear the error message when the user starts typing
     setErrors({
       ...errors,
       [name]: "",
@@ -332,7 +328,6 @@ const HospitalEditForm = () => {
     try {
       const response = await api.post("/upload", formData, { headers });
       if (response?.data?.status === 200) {
-        // console.log(response?.data?.message).
         setFormValues((prev) => ({
           ...prev,
           hospitalLogo: response?.data?.data?.key,
@@ -349,8 +344,6 @@ const HospitalEditForm = () => {
   useEffect(() => {
     dispatch(handleEditPostHospital(formValues));
   }, [formValues]);
-
-  // console.log('formvalues', formValues)
 
   const fetchingLocation = (formValues, getCitiesList) => {
     const cityId = formValues.HospitalAddress.city;
@@ -390,8 +383,6 @@ const HospitalEditForm = () => {
     }));
   }, [hospitalDetails]);
 
-  console.log("hospitalDetails", hospitalDetails);
-  console.log("specializationList", specializationList);
   console.log("formvalues", formValues);
 
   return (
@@ -401,8 +392,6 @@ const HospitalEditForm = () => {
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        background: "#fff",
-        // padding: "8px",
         marginBottom: "30px",
       }}
     >
@@ -469,7 +458,7 @@ const HospitalEditForm = () => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="XYZ Hospital"
+                      placeholder="Hospital Name"
                       size="small"
                       value={formValues?.hospitalName}
                       onChange={(e) =>
@@ -557,20 +546,6 @@ const HospitalEditForm = () => {
                       <FormHelperText>{errors.validityfrom}</FormHelperText>
                     )}
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues.validity.from
-                            ? dayjs(formValues.validity.from)
-                            : null
-                        }
-                        onChange={(newValue) =>
-                          handleChange(newValue, "validity_from")
-                        }
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -596,24 +571,10 @@ const HospitalEditForm = () => {
                       <FormHelperText>{errors.validityTo}</FormHelperText>
                     )}
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues.validity.to
-                            ? dayjs(formValues.validity.to)
-                            : null
-                        }
-                        onChange={(newValue) =>
-                          handleChange(newValue, "validity_to")
-                        }
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
-              <Grid container spacing={2} pt={3}>
-                <Grid item style={{ width: "100%" }}>
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Email Address<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -635,6 +596,16 @@ const HospitalEditForm = () => {
                       <FormHelperText>{errors.email}</FormHelperText>
                     )}
                   </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>Status</InputLabel>
+                  <SingleSelect
+                    placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.IsActive}
+                    data={statuses}
+                    onChange={(e) => handleChange(e, "IsActive")}
+                  />
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
@@ -701,7 +672,7 @@ const HospitalEditForm = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Grid container spacing={2} pt={3} pb={3}>
+              <Grid container spacing={2} pt={3}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Address 2<span style={redStarStyle}>*</span>
@@ -724,6 +695,33 @@ const HospitalEditForm = () => {
                     />
                     {!!errors.addressLine2 && (
                       <FormHelperText>{errors.addressLine2}</FormHelperText>
+                    )}
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={3} pb={3}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Near LandMark <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.nearLandMark}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="input text"
+                      size="small"
+                      value={formValues?.HospitalAddress?.nearLandMark}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "nearLandMark")
+                      }
+                    />
+                    {!!errors.nearLandMark && (
+                      <FormHelperText>{errors.nearLandMark}</FormHelperText>
                     )}
                   </FormControl>
                 </Grid>
@@ -805,7 +803,7 @@ const HospitalEditForm = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Near LandMark <span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -829,7 +827,7 @@ const HospitalEditForm = () => {
                       <FormHelperText>{errors.nearLandMark}</FormHelperText>
                     )}
                   </FormControl>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Pincode <span style={redStarStyle}>*</span>
@@ -876,7 +874,6 @@ const HospitalEditForm = () => {
                       value={formValues?.contact?.phoneNumber}
                       onChange={(e) => {
                         const { value } = e.target;
-                        // Remove non-numeric characters
                         const numericValue = value.replace(/\D/g, "");
                         handleChange(numericValue, "phoneNumber");
                       }}
@@ -928,6 +925,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={facebook}
+                    alt="facebook"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -948,6 +946,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={instagram}
+                    alt="instagram"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -967,6 +966,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={linkedin}
+                    alt="linkedin"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -986,6 +986,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={youtube}
+                    alt="youtube"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1005,6 +1006,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={twitter}
+                    alt="twitter"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1024,6 +1026,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={pinterest}
+                    alt="pinterest"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1044,6 +1047,7 @@ const HospitalEditForm = () => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
+                    alt="weblink"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1154,10 +1158,6 @@ const HospitalEditForm = () => {
                       placeholder="logitude"
                       size="small"
                       value={formValues?.HospitalAddress?.longitude}
-                      // data={cityList}
-                      // onChange={(e) => {
-                      //   handleChange(e, 'longitude')
-                      // }}
                     />
                   </FormControl>
                 </Grid>

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -11,24 +10,21 @@ import {
   Switch,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
-import hospitamImg from "../../../assets/hospitalImg.png";
-import {
-  formatToMMMYYYY,
-  joinStringsWithSpace,
-  stringAvatar,
-} from "../../../service/globalFunctions";
+import { joinStringsWithSpace } from "../../../service/globalFunctions";
 import RoomSharpIcon from "@mui/icons-material/RoomSharp";
 import doctorImg from "../../../assets/doctor_img.png";
 import instagramLogo from "../../../assets/instagram.png";
 import linkedinLogo from "../../../assets/linkedin.png";
 import twitterLogo from "../../../assets/twitter.png";
 import facebookLogo from "../../../assets/facebook.png";
-import youtubeLogo from "../../../assets/youtube.png";
 import { getDoctorDetail } from "../../../redux/Slices/doctorSlice";
 import { useNavigate } from "react-router-dom";
+import { getHospitalDetails } from "../../../redux/Slices/hospitalSlice";
 const socialMediaSize = 24;
 
 const HospitalView = () => {
@@ -37,6 +33,10 @@ const HospitalView = () => {
   const hospitalDetails = useSelector(
     (state) => state.hospitals.hospitalDetail
   );
+  useEffect(() => {
+    const HospitalID = localStorage.getItem("HospitalID");
+    dispatch(getHospitalDetails(HospitalID));
+  }, [dispatch]);
   // console.log("hospitalDetails", hospitalDetails);
   const hospitalName = hospitalDetails?.hospitalName;
   const hospitalLogo = hospitalDetails?.hospitalLogo;
@@ -45,9 +45,8 @@ const HospitalView = () => {
   const faxNumber = hospitalDetails?.faxNumber;
   const LocationInfo = hospitalDetails?.LocationInfo;
   const contact = hospitalDetails?.contact;
-  const validity = hospitalDetails?.validity;
   const specialist = hospitalDetails?.specialist;
-  const status = hospitalDetails?.status;
+  const IsActiveDetails = hospitalDetails?.IsActiveDetails;
   const email = hospitalDetails?.email;
   const website = hospitalDetails?.website;
   const doctorAssignmentsDetails = hospitalDetails?.doctorAssignmentsDetails;
@@ -60,12 +59,11 @@ const HospitalView = () => {
       sx={{
         maxHeight: "85%",
         overflow: "auto",
-        padding: "8px",
         display: "flex",
         flexDirection: "column",
-        gap: 4,
       }}
     >
+      <ToastContainer />
       <Box>
         <Card justifyContent={"space-between"}>
           <CardContent
@@ -75,7 +73,6 @@ const HospitalView = () => {
               <Box display={"flex"} justifyContent={"space-between"}>
                 <Stack>
                   <Typography
-                    // variant="h5"
                     sx={{
                       fontSize: "24px",
                       fontWeight: "bold",
@@ -99,7 +96,6 @@ const HospitalView = () => {
                   gap: 4,
                 }}
               >
-                {/* <img src={hospitalLogo} height={200} width={200} /> */}
                 <Box
                   sx={{
                     width: "20%",
@@ -117,7 +113,7 @@ const HospitalView = () => {
                             : doctorImg
                         }
                         alt="Hospital Logo"
-                        height={"auto"}
+                        height={"250px"}
                         width={"210px"}
                       />
                     </CardContent>
@@ -152,7 +148,6 @@ const HospitalView = () => {
                               ? joinStringsWithSpace(hospitalName, " ")
                               : ""}
                           </Typography>
-                          {/* <Typography>({doctorID})</Typography> */}
                         </Stack>
                         <Stack spacing={1}>
                           <Stack direction={"row"} spacing={2}>
@@ -172,15 +167,14 @@ const HospitalView = () => {
                             >
                               :
                             </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              {specialist?.[0]?.value}
-                              {/* ,{" "}
-                              {specialist?.[1]?.value}, {specialist?.[2]?.value}
-                              ,{" "} */}
-                            </Typography>
+                            {specialist?.map((s) => (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                {s.value}
+                              </Typography>
+                            ))}
                           </Stack>
                           <Stack direction={"row"} spacing={2}>
                             <Typography
@@ -203,7 +197,7 @@ const HospitalView = () => {
                               variant="subtitle2"
                               sx={{ fontSize: "16px" }}
                             >
-                              {status ? "Active" : "Inactive"}
+                              {IsActiveDetails}
                             </Typography>
                           </Stack>
                           <Stack direction={"row"} spacing={2}>
@@ -303,24 +297,30 @@ const HospitalView = () => {
                               {LocationInfo?.stateName} state ,
                               {LocationInfo?.countryName}
                             </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              Phone No. : {contact?.phoneNumber},
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              LandLine : {contact?.landLine}
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ fontSize: "16px" }}
-                            >
-                              Fax: {faxNumber}
-                            </Typography>
+                            {contact?.phoneNumber && (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                Phone No. : {contact?.phoneNumber},
+                              </Typography>
+                            )}
+                            {contact?.landLine && (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                LandLine : {contact?.landLine}
+                              </Typography>
+                            )}
+                            {faxNumber && (
+                              <Typography
+                                variant="subtitle2"
+                                sx={{ fontSize: "16px" }}
+                              >
+                                Fax: {faxNumber}
+                              </Typography>
+                            )}
                           </Stack>
                         </Stack>
                         <Stack

@@ -26,10 +26,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ReactQuill from "react-quill";
 import facebook from "../../../assets/facebook.png";
 import instagram from "../../../assets/instagram.png";
 import youtube from "../../../assets/youtube.png";
@@ -37,11 +35,6 @@ import twitter from "../../../assets/twitter.png";
 import linkedin from "../../../assets/linkedin.png";
 import pinterest from "../../../assets/pinterest.png";
 import link from "../../../assets/link.png";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import CommonSelect from "../../../components/GlobalComponents/CommonSelect";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -49,13 +42,13 @@ import {
   getCityIdList,
   getNamesIdList,
   getStateIdList,
+  getStatusIdList,
 } from "../../../service/globalFunctions";
 import SingleSelect from "../../../components/GlobalComponents/SingleSelect";
-import { getCityList } from "../../../redux/Slices/globalSlice";
+import { getCityList, getStatus } from "../../../redux/Slices/globalSlice";
 import {
   addHospitals,
   getHospitalsList,
-  handlePostHospital,
 } from "../../../redux/Slices/hospitalSlice";
 import mapIcon from "../../../assets/map.png";
 import api from "../../../utils/api/httpRequest";
@@ -80,7 +73,6 @@ const redStarStyle = {
 };
 
 const HospitalAddForm = forwardRef((props, ref) => {
-  const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const countryList = useSelector((state) => state.global.countryList);
@@ -88,13 +80,16 @@ const HospitalAddForm = forwardRef((props, ref) => {
   const getSpecializationList = useSelector(
     (state) => state.global.specializationList
   );
-
   const getStateList = useSelector((state) => state.global.stateList);
   const getCitiesList = useSelector((state) => state.global.cityList);
-  // console.log('All city for a state', getCitiesList)
   const cityList = getCityIdList(getCitiesList);
   const stateList = getStateIdList(getStateList);
   const specializationList = getByIdList(getSpecializationList);
+  const getStatusList = useSelector((state) => state.global.statusList);
+  const statuses = getStatusIdList(getStatusList);
+  useEffect(() => {
+    dispatch(getStatus(null));
+  }, [dispatch]);
 
   const [errors, setErrors] = useState({});
   const [formValues, setFormValues] = useState({
@@ -107,6 +102,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
       to: null,
     },
     email: "",
+    IsActive: "",
     website: "",
     about: "",
     sociallink: {
@@ -198,6 +194,12 @@ const HospitalAddForm = forwardRef((props, ref) => {
           addressLine2: "Address 2 is required",
         }));
         return;
+      } else if (!formValues.HospitalAddress.nearLandMark) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          nearLandMark: "Near LandMark is required",
+        }));
+        return;
       } else if (
         !formValues.HospitalAddress.state ||
         formValues.HospitalAddress.state.length === 0
@@ -216,20 +218,16 @@ const HospitalAddForm = forwardRef((props, ref) => {
           city: "City is required",
         }));
         return;
-      } else if (!formValues.HospitalAddress.nearLandMark) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          nearLandMark: "Near LandMark is required",
-        }));
-        return;
-      } else if (!formValues.HospitalAddress.pincode) {
+      } else if (
+        !formValues.HospitalAddress.pincode &&
+        formValues.HospitalAddress.pincode.length !== 6
+      ) {
         setErrors((prevErrors) => ({
           ...prevErrors,
           pincode: "Pincode is required",
         }));
         return;
       } else if (!formValues.contact.phoneNumber) {
-        // } else if (!phoneRegex.test(!formValues.contact.phoneNumber)) {
         setErrors((prevErrors) => ({
           ...prevErrors,
           phoneNumber: "Phone Number is Invalid",
@@ -237,10 +235,41 @@ const HospitalAddForm = forwardRef((props, ref) => {
         return;
       }
       dispatch(addHospitals(formValues));
-      navigate("/mainPage/hospitals");
       dispatch(getHospitalsList(null));
+      setTimeout(() => {
+        navigate("/mainPage/hospitals");
+      }, 2000);
     },
   }));
+  const validateField = (name, value, updatedValues) => {
+    let tempErrors = { ...errors };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+
+    switch (name) {
+      case "email":
+        tempErrors.email = emailRegex.test(value)
+          ? ""
+          : "Invalid email address.";
+        break;
+      case "website":
+        tempErrors.website = urlRegex.test(value) ? "" : "Invalid website URL.";
+        break;
+      case "phoneNumber":
+        tempErrors.phoneNumber =
+          value.length === 10 ? "" : "Phone number must be 10 digits.";
+        break;
+      case "pincode":
+        tempErrors.pincode =
+          value.length === 6 ? "" : "Pincode must be 6 digits.";
+        break;
+      default:
+        break;
+    }
+
+    setErrors(tempErrors);
+  };
 
   const handleChange = (e, name) => {
     const value = e.target ? e.target.value : e;
@@ -393,11 +422,6 @@ const HospitalAddForm = forwardRef((props, ref) => {
       console.log(error);
     }
   };
-
-  // useEffect(() => {
-  //   dispatch(handlePostHospital(formValues));
-  // }, [formValues]);
-
   const fetchingLocation = (formValues, getCitiesList) => {
     const cityId = formValues.HospitalAddress.city;
 
@@ -434,25 +458,13 @@ const HospitalAddForm = forwardRef((props, ref) => {
       maxWidth="xxl"
       disableGutters
       sx={{
-        maxHeight: "35%",
+        maxHeight: "30%",
         overflow: "auto",
         background: "#fff",
-        // padding: "8px",
         marginBottom: "30px",
       }}
     >
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <ToastContainer />
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -504,7 +516,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="XYZ Hospital"
+                      placeholder="Hospital Name"
                       size="small"
                       value={formValues?.hospitalName}
                       onChange={(e) =>
@@ -592,20 +604,6 @@ const HospitalAddForm = forwardRef((props, ref) => {
                       <FormHelperText>{errors.validityfrom}</FormHelperText>
                     )}
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues.validity.from
-                            ? dayjs(formValues.validity.from)
-                            : null
-                        }
-                        onChange={(newValue) =>
-                          handleChange(newValue, "validity_from")
-                        }
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
@@ -631,24 +629,10 @@ const HospitalAddForm = forwardRef((props, ref) => {
                       <FormHelperText>{errors.validityTo}</FormHelperText>
                     )}
                   </FormControl>
-                  {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        value={
-                          formValues.validity.to
-                            ? dayjs(formValues.validity.to)
-                            : null
-                        }
-                        onChange={(newValue) =>
-                          handleChange(newValue, "validity_to")
-                        }
-                      />
-                    </DemoContainer>
-                  </LocalizationProvider> */}
                 </Grid>
               </Grid>
-              <Grid container spacing={2} pt={3}>
-                <Grid item style={{ width: "100%" }}>
+              <Grid container spacing={2} mt={1}>
+                <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Email Address<span style={redStarStyle}>*</span>
                   </InputLabel>
@@ -670,6 +654,16 @@ const HospitalAddForm = forwardRef((props, ref) => {
                       <FormHelperText>{errors.email}</FormHelperText>
                     )}
                   </FormControl>
+                </Grid>
+                <Grid item xs={6}>
+                  <InputLabel sx={inputLableStyle}>Status</InputLabel>
+                  <SingleSelect
+                    placeholder={"Select"}
+                    width={"100%"}
+                    value={formValues?.IsActive}
+                    data={statuses}
+                    onChange={(e) => handleChange(e, "IsActive")}
+                  />
                 </Grid>
               </Grid>
               <Grid container spacing={2} pt={3} pb={3}>
@@ -736,7 +730,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                   </FormControl>
                 </Grid>
               </Grid>
-              <Grid container spacing={2} pt={3} pb={3}>
+              <Grid container spacing={2} pt={3}>
                 <Grid item style={{ width: "100%" }}>
                   <InputLabel sx={inputLableStyle}>
                     Address 2<span style={redStarStyle}>*</span>
@@ -759,6 +753,33 @@ const HospitalAddForm = forwardRef((props, ref) => {
                     />
                     {!!errors.addressLine2 && (
                       <FormHelperText>{errors.addressLine2}</FormHelperText>
+                    )}
+                  </FormControl>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} pt={3} pb={3}>
+                <Grid item style={{ width: "100%" }}>
+                  <InputLabel sx={inputLableStyle}>
+                    Near LandMark <span style={redStarStyle}>*</span>
+                  </InputLabel>
+                  <FormControl
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    error={!!errors.nearLandMark}
+                  >
+                    <OutlinedInput
+                      fullWidth
+                      id="outlined-adornment-password"
+                      placeholder="input text"
+                      size="small"
+                      value={formValues?.HospitalAddress?.nearLandMark}
+                      onChange={(e) =>
+                        handleChange(e.target.value, "nearLandMark")
+                      }
+                    />
+                    {!!errors.nearLandMark && (
+                      <FormHelperText>{errors.nearLandMark}</FormHelperText>
                     )}
                   </FormControl>
                 </Grid>
@@ -839,32 +860,6 @@ const HospitalAddForm = forwardRef((props, ref) => {
                     )}
                   </FormControl>
                 </Grid>
-
-                <Grid item xs={6}>
-                  <InputLabel sx={inputLableStyle}>
-                    Near LandMark <span style={redStarStyle}>*</span>
-                  </InputLabel>
-                  <FormControl
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    error={!!errors.nearLandMark}
-                  >
-                    <OutlinedInput
-                      fullWidth
-                      id="outlined-adornment-password"
-                      placeholder="input text"
-                      size="small"
-                      value={formValues?.HospitalAddress?.nearLandMark}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "nearLandMark")
-                      }
-                    />
-                    {!!errors.nearLandMark && (
-                      <FormHelperText>{errors.nearLandMark}</FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Pincode <span style={redStarStyle}>*</span>
@@ -890,7 +885,6 @@ const HospitalAddForm = forwardRef((props, ref) => {
                     )}
                   </FormControl>
                 </Grid>
-
                 <Grid item xs={6}>
                   <InputLabel sx={inputLableStyle}>
                     Phone number <span style={redStarStyle}>*</span>
@@ -963,6 +957,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={facebook}
+                    alt="facebook"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -983,6 +978,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={instagram}
+                    alt="instagram"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1002,6 +998,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={linkedin}
+                    alt="linkedin"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1021,6 +1018,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={youtube}
+                    alt="youtube"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1040,6 +1038,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={twitter}
+                    alt="twitter"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1059,6 +1058,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={pinterest}
+                    alt="pinterest"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                     style={{ borderRadius: "4px" }}
@@ -1079,6 +1079,7 @@ const HospitalAddForm = forwardRef((props, ref) => {
                 <Stack direction={"row"} spacing={2} alignItems={"center"}>
                   <img
                     src={link}
+                    alt="weblinks"
                     height={socialMediaLogoSize}
                     width={socialMediaLogoSize}
                   />{" "}
@@ -1189,10 +1190,6 @@ const HospitalAddForm = forwardRef((props, ref) => {
                       placeholder="logitude"
                       size="small"
                       value={formValues?.HospitalAddress?.longitude}
-                      // data={cityList}
-                      // onChange={(e) => {
-                      //   handleChange(e, 'longitude')
-                      // }}
                     />
                   </FormControl>
                 </Grid>

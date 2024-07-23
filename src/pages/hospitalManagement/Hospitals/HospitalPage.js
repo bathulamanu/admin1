@@ -13,64 +13,47 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SearchIcon from "@mui/icons-material/Search";
 import CommonDataTable from "../../../components/GlobalComponents/CommonDataTable";
+import { getSpecialization } from "../../../redux/Slices/globalSlice";
 import { getHospitalsList } from "../../../redux/Slices/hospitalSlice";
 import hospitalColumns from "../Hospitals/HospitalTableColumn";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { getByIdList } from "../../../service/globalFunctions";
 
 const HospitalPage = () => {
-  const [searchQuery, setSearchQuery] = useState(null);
-
   const dispatch = useDispatch();
   const hospitalsList = useSelector((state) => state.hospitals.hospitalsList);
+  const getSpecializationList = useSelector(
+    (state) => state.global.specializationList
+  );
+  const allSpecializations = getByIdList(getSpecializationList);
 
-  console.log("listData", hospitalsList);
+  // console.log("listData", hospitalsList);
 
   useEffect(() => {
-    dispatch(getHospitalsList(searchQuery));
-  }, []);
+    dispatch(getHospitalsList(null));
+    dispatch(getSpecialization(null));
+  }, [dispatch]);
 
   const [statusFilter, setStatusFilter] = useState("");
   const [searchValue, setSearchValue] = useState("");
   const [selectValue, setSelectValue] = useState("");
+
   const filteredList = hospitalsList.filter((item) => {
-    const matchesSearch =
-      item?.hospitalName &&
-      item.hospitalName.toLowerCase().includes(searchValue.toLowerCase());
-
-    const matchesStatus =
-      statusFilter === "" ||
-      (statusFilter === "Active" && item.status === true) ||
-      (statusFilter === "Inactive" && item.status === false);
-
-    const matchesSpecialization =
-      selectValue === "" ||
-      item.specialist.some(
-        (specialization) => specialization.specilizationID === selectValue
-      );
-    return matchesSearch && matchesStatus && matchesSpecialization;
+    return (
+      (searchValue === "" ||
+        item?.hospitalName
+          .toLowerCase()
+          .includes(searchValue?.toLowerCase())) &&
+      (statusFilter === "" ||
+        (statusFilter === item?.IsActiveInfo?.IsActiveValue)) &&
+      (selectValue === "" ||
+        item.specialist.some(
+          (spec) => spec.specializationID === parseInt(selectValue)
+        ))
+    );
   });
 
-  // const uniqueSpecializationsMap = new Map();
-  // hospitalsList.forEach((hospital) => {
-  //   hospital.specialist.forEach((specialization) => {
-  //     uniqueSpecializationsMap.set(
-  //       specialization.specilizationID,
-  //       specialization.value
-  //     );
-  //   });
-  // });
-
-  // const uniqueSpecializations = Array.from(
-  //   uniqueSpecializationsMap,
-  //   ([id, value]) => ({ id, value })
-  // );
-  const allSpecializations = hospitalsList.flatMap((hospital) =>
-    hospital.specialist.map((specialization) => ({
-      id: specialization.specilizationID,
-      value: specialization.value,
-    }))
-  );
   return (
     <Container maxWidth="xxl" sx={{ background: "#fff" }}>
       <ToastContainer />
@@ -102,26 +85,21 @@ const HospitalPage = () => {
               value={selectValue}
               onChange={(e) => setSelectValue(e.target.value)}
               displayEmpty
-              placeholder="specialization"
+              placeholder={"Select"}
               MenuProps={{
                 PaperProps: {
                   style: {
-                    maxHeight: 200, // Adjust this value as needed
+                    maxHeight: 200,
                   },
                 },
               }}
             >
               <MenuItem value="">
-                <em>specialization</em>
+                <em>Select</em>
               </MenuItem>
-              {/* {[...uniqueSpecializations].map((specialization, index) => (
+              {allSpecializations?.map((specialization, index) => (
                 <MenuItem key={index} value={specialization.id}>
-                  {specialization.value}
-                </MenuItem>
-              ))} */}
-              {allSpecializations.map((specialization, index) => (
-                <MenuItem key={index} value={specialization.id}>
-                  {specialization.value}
+                  {specialization.name}
                 </MenuItem>
               ))}
             </Select>
@@ -134,9 +112,11 @@ const HospitalPage = () => {
               onChange={(e) => setStatusFilter(e.target.value)}
               displayEmpty
             >
-              <MenuItem value="">All</MenuItem>
+              <MenuItem value="">
+                <em>All</em>
+              </MenuItem>
               <MenuItem value="Active">Active</MenuItem>
-              <MenuItem value="Inactive">Inactive</MenuItem>
+              <MenuItem value="InActive">InActive</MenuItem>
             </Select>
           </FormControl>
           <MoreVertIcon />

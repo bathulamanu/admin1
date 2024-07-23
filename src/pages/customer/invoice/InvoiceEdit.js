@@ -37,9 +37,12 @@ import {
   createInvoice,
   getAllInvoiceList,
   getCustomerWhoIsNotWithInvoice,
+  getInvoiceDetails,
+  UpdateInvoice,
 } from "../../../redux/Slices/invoiceSlice";
 import {
   formatDate,
+  formatDateYYYYMMDD,
   getCustomerWhoIsNotWithInvoiceListById,
   getPaymentModeListById,
   getPaymentStatusListById,
@@ -64,9 +67,29 @@ const redStarStyle = {
   marginLeft: "4px",
 };
 
-const InvoiceForm = forwardRef((props, ref) => {
+function deepCopyFormValues(invoiceDetail, formValues) {
+  function deepCopy(target, source) {
+    for (let key in source) {
+      if (source[key] && typeof source[key] === "object") {
+        if (Array.isArray(source[key])) {
+          target[key] = [...source[key]];
+        } else {
+          if (!target[key]) target[key] = {};
+          deepCopy(target[key], source[key]);
+        }
+      } else {
+        target[key] = source[key];
+      }
+    }
+  }
+
+  let copiedFormValue = JSON.parse(JSON.stringify(formValues));
+  deepCopy(copiedFormValue, invoiceDetail);
+  return copiedFormValue;
+}
+
+const InvoiceEdit = forwardRef((props, ref) => {
   const [openView, setOpenView] = useState(false);
-  const [items, setItems] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -87,12 +110,16 @@ const InvoiceForm = forwardRef((props, ref) => {
     (state) => state.global.paymentStatusList
   );
   const paymentStatusList = getPaymentStatusListById(getAllPaymentStatusList);
+  const invoiceDetail = useSelector((state) => state.invoice.invoiceDetail);
+  const customerPaymentSubId = localStorage.getItem("customerPaymentSubId");
+  const customerPaymentId = invoiceDetail?.customerPaymentId;
 
   useEffect(() => {
     dispatch(getCustomerWhoIsNotWithInvoice());
     dispatch(getSubscriptionPlan());
     dispatch(getPaymentModeList(null));
     dispatch(getPaymentStatusList(null));
+    // dispatch(getInvoiceDetails(customerPaymentSubId));
   }, []);
 
   const [formValues, setFormValues] = useState({
@@ -118,15 +145,9 @@ const InvoiceForm = forwardRef((props, ref) => {
     PriceItem: "",
   });
 
-  const addItem = () => {
-    setItems((prevItems) => [...prevItems, formValues]);
-    setFormValues({ DescriptionItem: "", PriceItem: "" });
-    setOpenView(false);
-  };
-
   const [errors, setErrors] = useState({});
   useImperativeHandle(ref, () => ({
-    validateInvoiceAddForm: () => {
+    validateInvoiceEditForm: () => {
       if (!formValues.CRNno) {
         setErrors((prevErrors) => ({
           ...prevErrors,
@@ -194,7 +215,9 @@ const InvoiceForm = forwardRef((props, ref) => {
         }));
         return;
       }
-      dispatch(createInvoice(formValues));
+      dispatch(
+        UpdateInvoice({ customerPaymentSubId, customerPaymentId, formValues })
+      );
       dispatch(getAllInvoiceList());
       navigate("/customerPage/invoices");
     },
@@ -210,7 +233,7 @@ const InvoiceForm = forwardRef((props, ref) => {
       customerWhoIsNotWithInvoiceList.map((x) => {
         if (e === x.customerPaymentId) {
           setFormValues((prev) => {
-            let updatedValues = { ...prev, ["customerID"]: x.customerID };
+            let updatedValues = { ...prev, ["customerID"]: x.customerID }; //customerID
             return updatedValues;
           });
         }
@@ -247,15 +270,24 @@ const InvoiceForm = forwardRef((props, ref) => {
 
   console.log("formValues", formValues);
 
+  const updatedFormValues = deepCopyFormValues(invoiceDetail, formValues);
+
+  useEffect(() => {
+    setFormValues((prevValue) => ({
+      ...prevValue,
+      ...updatedFormValues,
+    }));
+  }, [invoiceDetail]);
+
   //customer name
   const getCustomerNameById = (id) => {
-    const customer = notInvoiceList.find((customer) => customer.id === id);
+    const customer = notInvoiceList?.find((customer) => customer.id === id);
     return customer ? customer.name : "";
   };
 
   //subscribe plane
   const getPlanById = (id) => {
-    const plan = plansList.find((plan) => plan.id === id);
+    const plan = plansList?.find((plan) => plan.id === id);
     return plan ? plan.name : "";
   };
 
@@ -392,7 +424,7 @@ const InvoiceForm = forwardRef((props, ref) => {
                     id="outlined-adornment-password"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.DateOfIssue}
+                    value={formatDateYYYYMMDD(formValues?.DateOfIssue)}
                     onChange={(e) => handleChange(e, "DateOfIssue")}
                   />
                   {!!errors.DateOfIssue && (
@@ -579,20 +611,20 @@ const InvoiceForm = forwardRef((props, ref) => {
                   error={!!errors.paymentDate}
                 >
                   {/* <LocalizationProvider>
-                    <DateTimePicker
-                      value={formValues?.paymentDate}
-                      onChange={(e) =>
-                        handleChange(e.target.value, "paymentDate")
-                      }
-                    />
-                  </LocalizationProvider> */}
+                      <DateTimePicker
+                        value={formValues?.paymentDate}
+                        onChange={(e) =>
+                          handleChange(e.target.value, "paymentDate")
+                        }
+                      />
+                    </LocalizationProvider> */}
                   <OutlinedInput
                     fullWidth
                     type="date"
                     id="pincode"
                     placeholder="Input Text"
                     size="small"
-                    value={formValues?.paymentDate}
+                    value={formatDateYYYYMMDD(formValues?.paymentDate)}
                     onChange={(e) =>
                       handleChange(e.target.value, "paymentDate")
                     }
@@ -1255,4 +1287,4 @@ const InvoiceForm = forwardRef((props, ref) => {
   );
 });
 
-export default InvoiceForm;
+export default InvoiceEdit;

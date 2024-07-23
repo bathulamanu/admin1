@@ -32,12 +32,13 @@ const DoctorsTableColumn = () => {
       sortable: false,
       disableColumnFilter: true,
       valueGetter: (_, row) =>
-        capitalizeFirstLetter(row?.specilizationInfo?.[0]?.value),
+        row?.specilizationInfo
+          ?.map((s) => capitalizeFirstLetter(s.value))
+          .join(", "),
     },
     {
       field: "experience",
       headerName: <StyledHeader>EXPERIENCE</StyledHeader>,
-      type: "number",
       flex: 1,
       sortable: false,
       disableColumnMenu: true,
@@ -122,6 +123,7 @@ const DoctorsTableColumn = () => {
             justifyContent={"center"}
             height={"100%"}
             width={"100%"}
+            spacing={1}
           >
             <Button
               variant="contained"

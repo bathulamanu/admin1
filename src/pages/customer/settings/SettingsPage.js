@@ -196,7 +196,7 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Payment Mode</em>
+                  <em>Select</em>
                 </MenuItem>
                 {uniquePaymentModeList.map((paymentMode, index) => (
                   <MenuItem key={index} value={paymentMode.value}>
@@ -252,7 +252,7 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Payment Status</em>
+                  <em>Select</em>
                 </MenuItem>
                 {uniquePaymentStatus.map((paymentStatus, index) => (
                   <MenuItem key={index} value={paymentStatus.value}>
@@ -271,7 +271,7 @@ const SettingsPage = () => {
               >
                 <MenuItem value="">All</MenuItem>
                 <MenuItem value="Active">Active</MenuItem>
-                <MenuItem value="Inactive">Inactive</MenuItem>
+                <MenuItem value="Inactive">InActive</MenuItem>
               </Select>
             </FormControl>
             <MoreVertIcon />
@@ -308,7 +308,7 @@ const SettingsPage = () => {
                 }}
               >
                 <MenuItem value="">
-                  <em>Button Text</em>
+                  <em>Select</em>
                 </MenuItem>
                 {uniqueButtonTextLiat.map((buttonText, index) => (
                   <MenuItem key={index} value={buttonText.value}>

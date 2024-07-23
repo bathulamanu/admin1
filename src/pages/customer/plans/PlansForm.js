@@ -71,7 +71,7 @@ const PlansForm = forwardRef((props, ref) => {
     ribben: "",
     ribbenStatus: null,
     btnText: null,
-    status: null,
+    IsActive: null,
     description: "",
     additionalInfo: "",
     durationYear: "",
@@ -174,10 +174,10 @@ const PlansForm = forwardRef((props, ref) => {
           customText: "Custom Text is required",
         }));
         return;
-      } else if (!formValues.status) {
+      } else if (!formValues.IsActive) {
         setErrors((prevErrors) => ({
           ...prevErrors,
-          status: "Status is required",
+          IsActive: "Status is required",
         }));
         return;
       }
@@ -272,7 +272,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Title"
                       size="small"
                       value={formValues?.title}
                       onChange={(e) => handleChange(e, "title")}
@@ -297,7 +297,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Sub - Title"
                       size="small"
                       value={formValues?.subTitle}
                       onChange={(e) => handleChange(e, "subTitle")}
@@ -322,7 +322,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Icon"
                       size="small"
                       value={formValues?.Icon}
                       onChange={(e) => handleChange(e, "Icon")}
@@ -347,7 +347,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Currency Symbol"
                       size="small"
                       value={formValues?.currencySymbol}
                       onChange={(e) => handleChange(e, "currencySymbol")}
@@ -376,7 +376,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="EMI Amount"
                       size="small"
                       value={formValues?.EMI}
                       onChange={(e) => handleChange(e, "EMI")}
@@ -401,7 +401,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="EMI Text"
                       size="small"
                       value={formValues?.EMItext}
                       onChange={(e) => handleChange(e, "EMItext")}
@@ -417,8 +417,8 @@ const PlansForm = forwardRef((props, ref) => {
           <Grid container spacing={2} pt={1} pb={1}>
             <Grid item style={{ width: "100%" }}>
               <ReactQuill
-                value={formValues?.desc}
-                onChange={(e) => handleChange(e, "desc")}
+                value={formValues?.description}
+                onChange={(e) => handleChange(e, "description")}
                 modules={modules}
                 placeholder="Description"
                 theme="snow"
@@ -465,17 +465,17 @@ const PlansForm = forwardRef((props, ref) => {
                     variant="outlined"
                     fullWidth
                     size="small"
-                    error={!!errors.status}
+                    error={!!errors.IsActive}
                   >
                     <SingleSelect
                       Placeholder={"Select"}
                       width={"100%"}
                       data={statuses}
-                      value={formValues?.status}
-                      onChange={(e) => handleChange(e, "status")}
+                      value={formValues?.IsActive}
+                      onChange={(e) => handleChange(e, "IsActive")}
                     />
-                    {!!errors?.status && (
-                      <FormHelperText>{errors?.status}</FormHelperText>
+                    {!!errors?.IsActive && (
+                      <FormHelperText>{errors?.IsActive}</FormHelperText>
                     )}
                   </FormControl>
                 </Grid>
@@ -507,7 +507,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Price"
                       size="small"
                       value={formValues?.price}
                       onChange={(e) => handleChange(e, "price")}
@@ -532,7 +532,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Offer Price"
                       size="small"
                       value={formValues?.offerPrice}
                       onChange={(e) => handleChange(e, "offerPrice")}
@@ -557,7 +557,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Event Offer Price"
                       size="small"
                       value={formValues?.eventOfferPrice}
                       onChange={(e) => handleChange(e, "eventOfferPrice")}
@@ -586,7 +586,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Ribbon"
                       size="small"
                       value={formValues?.ribben}
                       onChange={(e) => handleChange(e, "ribben")}
@@ -650,7 +650,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Duration Year"
                       size="small"
                       value={formValues?.durationYear}
                       onChange={(e) => handleChange(e, "durationYear")}
@@ -675,7 +675,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Duration Year Text"
                       size="small"
                       value={formValues?.durationYearText}
                       onChange={(e) => handleChange(e, "durationYearText")}
@@ -702,7 +702,7 @@ const PlansForm = forwardRef((props, ref) => {
                     <OutlinedInput
                       fullWidth
                       id="outlined-adornment-password"
-                      placeholder="Input Text"
+                      placeholder="Custom Text"
                       size="small"
                       value={formValues?.customText}
                       onChange={(e) => handleChange(e, "customText")}
@@ -734,7 +734,7 @@ const PlansForm = forwardRef((props, ref) => {
                     }}
                   >
                     <Grid item xs={6}>
-                      <InputLabel sx={inputLableStyle}>Start date </InputLabel>
+                      <InputLabel sx={inputLableStyle}>Start Date </InputLabel>
                       <FormControl
                         variant="outlined"
                         fullWidth
@@ -745,7 +745,7 @@ const PlansForm = forwardRef((props, ref) => {
                           fullWidth
                           type="date"
                           id="outlined-adornment-password"
-                          placeholder="Input Text"
+                          placeholder="Start Date"
                           size="small"
                           value={formValues?.offerTimingFrom}
                           onChange={(e) => handleChange(e, "offerTimingFrom")}
@@ -759,7 +759,7 @@ const PlansForm = forwardRef((props, ref) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={6}>
-                      <InputLabel sx={inputLableStyle}>End date </InputLabel>
+                      <InputLabel sx={inputLableStyle}>End Date </InputLabel>
                       <FormControl
                         variant="outlined"
                         fullWidth
@@ -770,7 +770,7 @@ const PlansForm = forwardRef((props, ref) => {
                           fullWidth
                           type="date"
                           id="outlined-adornment-password"
-                          placeholder="Input Text"
+                          placeholder="End Date"
                           size="small"
                           value={formValues?.offerTimingTo}
                           onChange={(e) => handleChange(e, "offerTimingTo")}

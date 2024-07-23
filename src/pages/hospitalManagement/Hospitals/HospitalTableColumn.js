@@ -1,4 +1,4 @@
-import { Button, Chip, Stack, styled, Typography } from "@mui/material";
+import { Button, Chip, Stack, styled } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ const HospitalTableColumn = () => {
       sortable: false,
       disableColumnFilter: true,
       valueGetter: (_, row) =>
-        capitalizeFirstLetter(row?.specialist?.[0]?.value),
+        row?.specialist?.map((s) => capitalizeFirstLetter(s.value)).join(", "),
     },
     {
       field: "contact",
@@ -69,14 +69,34 @@ const HospitalTableColumn = () => {
           height={"100%"}
           width={"100%"}
         >
-          <Chip
+          {row?.IsActive === 47 && (
+            <Chip
+              label={"Active"}
+              sx={{
+                borderRadius: "4px",
+                color: "#269254",
+                background: "#DEF7EC",
+              }}
+            />
+          )}
+          {row?.IsActive === 46 && (
+            <Chip
+              label={"In Active"}
+              sx={{
+                borderRadius: "4px",
+                color: "#EF4646",
+                background: "#FDEDED",
+              }}
+            />
+          )}
+          {/* <Chip
             label={row?.status ? "Active" : "In Active"}
             sx={{
               borderRadius: "4px",
               color: row?.status ? "#269254" : "#EF4646",
               background: row?.status ? "#DEF7EC" : "#FDEDED",
             }}
-          />
+          /> */}
         </Stack>
       ),
     },
@@ -99,7 +119,8 @@ const HospitalTableColumn = () => {
             size="small"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(getHospitalDetails(params?.row?.id));
+              localStorage.setItem("HospitalID", params?.row?.HospitalID);
+              dispatch(getHospitalDetails(params?.row?.HospitalID));
               navigate("/mainPage/hospitals/view");
             }}
           >

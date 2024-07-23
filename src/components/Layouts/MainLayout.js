@@ -7,6 +7,7 @@ import {
   Dialog,
   DialogContent,
   FormControl,
+  FormHelperText,
   Grid,
   InputLabel,
   Menu,
@@ -206,17 +207,20 @@ export const MainLayout = () => {
       //   toast.warning("Phone Number is required");
       //   return;
     }
-    navigate("/mainPage/hospitals");
     console.log("cehck edit ", editHospitalData);
     const HospitalID = editHospitalData.HospitalID;
     dispatch(editHospitals({ HospitalID, editHospitalData }));
+    setTimeout(() => {
+      navigate("/mainPage/hospitals");
+    }, 2000);
   };
 
   const handleDeleteHospitalFormSubmit = () => {
     const HospitalID = hospitalDetails?.HospitalID;
-    console.log("hospients id", HospitalID);
     dispatch(deleteHospitals({ HospitalID }));
-    navigate("/mainPage/hospitals");
+    setTimeout(() => {
+      navigate("/mainPage/hospitals");
+    }, 2000);
   };
 
   const handleAddDoctorFormSubmit = () => {
@@ -253,18 +257,19 @@ export const MainLayout = () => {
   };
 
   const handleEditDoctorFormSubmit = () => {
-    navigate("/mainPage/doctors");
-
-    console.log("cehck edit ", editDoctorData);
-    const DoctorID = editDoctorData.doctorDetailsID;
+    const DoctorID = editDoctorData?.doctorDetailsID;
     dispatch(editDoctors({ DoctorID, editDoctorData }));
+    setTimeout(() => {
+      navigate("/mainPage/doctors");
+    }, 2000);
   };
 
   const handleDeleteDoctorFormSubmit = () => {
-    const DoctorID = doctorDetail.doctorDetailsID;
-    console.log("Doctor id", DoctorID);
+    const DoctorID = doctorDetail?.doctorDetailsID;
     dispatch(deleteDoctors({ DoctorID }));
-    navigate("/mainPage/doctors");
+    setTimeout(() => {
+      navigate("/mainPage/doctors");
+    }, 2000);
   };
   useEffect(() => {
     setPathname(location.pathname);
@@ -279,7 +284,6 @@ export const MainLayout = () => {
     dispatch(getStatus(null));
   }, [dispatch]);
   const statuses = getStatusIdList(getStatusList);
-  // console.log("getStatusList", statuses);
 
   const [openSpecialization, setOpenSpecialization] = useState(false);
 
@@ -288,6 +292,7 @@ export const MainLayout = () => {
     value: "",
     IsActive: "",
   });
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setFormValues((prev) => ({
@@ -302,12 +307,24 @@ export const MainLayout = () => {
       ...prev,
       [name]: value,
     }));
+    setErrors({
+      ...errors,
+      [name]: "",
+    });
+  };
+  const validateForm = () => {
+    let tempErrors = {};
+    if (!formValues.value) tempErrors.value = "Value is required";
+    if (!formValues.IsActive) tempErrors.IsActive = "Status is required";
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
   };
   const handleSave = async () => {
-    console.log("formvalues", formValues);
+    if (!validateForm()) {
+      return;
+    }
     try {
       const response = await api.post("/addMasterConfiguration", formValues);
-      // console.log("Posted successfully", response.data);
       toast.success(response.data.message);
       dispatch(getSpecialization(searchQuery));
       dispatch(getQualification(searchQuery));
@@ -630,13 +647,16 @@ export const MainLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
+                    justifyContent: "end",
+                    marginRight: "50px",
                   }}
+                  startIcon={<AddIcon />}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("/mainPage/hospitalFrom");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Add Hospitals
+                  Add Hospitals
                 </Button>
               </Box>
             )}
@@ -687,7 +707,11 @@ export const MainLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
+                  >
                     <Button
                       size="small"
                       variant="contained"
@@ -759,10 +783,15 @@ export const MainLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end", marginRight: "50px" }}
+                >
                   <Button
                     variant="contained"
                     size="small"
+                    startIcon={<EditIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       // setFormOpen("Hospitals");
@@ -770,7 +799,7 @@ export const MainLayout = () => {
                       navigate("/mainPage/hospitals/Edit");
                     }}
                   >
-                    <EditIcon fontSize="small" /> Edit
+                    Edit
                   </Button>
                   <Button
                     variant="contained"
@@ -782,6 +811,7 @@ export const MainLayout = () => {
                       },
                     }}
                     size="small"
+                    startIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       handleDeleteHospitalFormSubmit();
@@ -791,7 +821,7 @@ export const MainLayout = () => {
                       // navigate("/mainPage/hospitals");
                     }}
                   >
-                    <DeleteIcon fontSize="small" /> Delete
+                    Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -835,7 +865,11 @@ export const MainLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end", marginRight: "50px" }}
+                >
                   <Button
                     size="small"
                     variant="contained"
@@ -843,10 +877,6 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditHospitalFormSubmit();
-                      // setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      // dispatch(getHospitalsList(searchQuery));
-                      // navigate("/mainPage/hospitals");
                     }}
                   >
                     Update
@@ -911,14 +941,17 @@ export const MainLayout = () => {
                   size="small"
                   sx={{
                     padding: 1,
+                    justifyContent: "end",
+                    marginRight: "50px",
                   }}
+                  startIcon={<AddIcon />}
                   onClick={(e) => {
                     e.preventDefault();
                     navigate("doctorForm");
                     setFormOpen("Doctors");
                   }}
                 >
-                  <AddIcon fontSize="small" /> Add Doctors
+                  Add Doctors
                 </Button>
               </Box>
             )}
@@ -969,7 +1002,11 @@ export const MainLayout = () => {
                       <Typography variant="subtitle1">{activeItem}</Typography>
                     </Stack>
                   </Stack>
-                  <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                  <Stack
+                    direction={"row"}
+                    spacing={2}
+                    sx={{ justifyContent: "end", marginRight: "50px" }}
+                  >
                     <Button
                       size="small"
                       variant="contained"
@@ -1041,10 +1078,15 @@ export const MainLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end", marginRight: "50px" }}
+                >
                   <Button
                     variant="contained"
                     size="small"
+                    startIcon={<EditIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       // setFormOpen("Hospitals");
@@ -1052,7 +1094,7 @@ export const MainLayout = () => {
                       navigate("/mainPage/doctors/edit");
                     }}
                   >
-                    <EditIcon fontSize="small" /> Edit
+                    Edit
                   </Button>
                   <Button
                     variant="contained"
@@ -1064,16 +1106,14 @@ export const MainLayout = () => {
                       },
                     }}
                     size="small"
+                    startIcon={<DeleteIcon />}
                     onClick={(e) => {
                       e.preventDefault();
                       handleDeleteDoctorFormSubmit();
-                      // setFormOpen(null);
-                      // setActiveItem("Hospitals");
-                      dispatch(getDoctorList(searchQuery));
-                      // navigate("/mainPage/doctors");
+                      dispatch(getDoctorList(null));
                     }}
                   >
-                    <DeleteIcon fontSize="small" /> Delete
+                    Delete
                   </Button>
                 </Stack>
               </Stack>
@@ -1117,7 +1157,11 @@ export const MainLayout = () => {
                     <Typography variant="subtitle1">{activeItem}</Typography>
                   </Stack>
                 </Stack>
-                <Stack direction={"row"} spacing={2} justifyContent={"end"}>
+                <Stack
+                  direction={"row"}
+                  spacing={2}
+                  sx={{ justifyContent: "end", marginRight: "50px" }}
+                >
                   <Button
                     size="small"
                     variant="contained"
@@ -1125,10 +1169,7 @@ export const MainLayout = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       handleEditDoctorFormSubmit();
-                      // setFormOpen(null);
-                      // setActiveItem("Hospitals");
                       dispatch(getDoctorList(searchQuery));
-                      // navigate("/mainPage/doctors");
                     }}
                   >
                     Update
@@ -1174,8 +1215,10 @@ export const MainLayout = () => {
                 <Button
                   variant="contained"
                   size="small"
+                  startIcon={<AddIcon />}
                   sx={{
                     padding: 1,
+                    marginRight: "50px",
                   }}
                   // onClick={(e) => {
                   //   e.preventDefault();
@@ -1184,7 +1227,7 @@ export const MainLayout = () => {
                   // }}
                   onClick={() => setOpenSpecialization(true)}
                 >
-                  <AddIcon fontSize="small" /> Add {activeTitle}
+                  Add {activeTitle}
                 </Button>
                 <Dialog open={openSpecialization}>
                   <DialogContent sx={{ width: "500px" }}>
@@ -1209,8 +1252,10 @@ export const MainLayout = () => {
                               variant="outlined"
                               fullWidth
                               size="small"
+                              error={!!errors.value}
                             >
                               <OutlinedInput
+                                error={!!errors.value}
                                 fullWidth
                                 id="outlined-adornment-password"
                                 placeholder="Input Text"
@@ -1220,6 +1265,11 @@ export const MainLayout = () => {
                                   handleOnChange(e.target.value, "value")
                                 }
                               />
+                              {errors.value && (
+                                <FormHelperText error>
+                                  {errors.value}
+                                </FormHelperText>
+                              )}
                             </FormControl>
                           </Grid>
                         </Grid>
@@ -1228,13 +1278,26 @@ export const MainLayout = () => {
                             <InputLabel sx={inputLableStyle}>
                               Status <span style={redStarStyle}>*</span>
                             </InputLabel>
-                            <SingleSelect
-                              placeholder={"Select"}
-                              width={"100%"}
-                              value={formValues?.IsActive}
-                              data={statuses}
-                              onChange={(e) => handleOnChange(e, "IsActive")}
-                            />
+                            <FormControl
+                              variant="outlined"
+                              fullWidth
+                              size="small"
+                              error={!!errors.IsActive}
+                            >
+                              <SingleSelect
+                                error={!!errors.IsActive}
+                                placeholder={"Select"}
+                                width={"100%"}
+                                value={formValues?.IsActive}
+                                data={statuses}
+                                onChange={(e) => handleOnChange(e, "IsActive")}
+                              />
+                              {errors.IsActive && (
+                                <FormHelperText error>
+                                  {errors.IsActive}
+                                </FormHelperText>
+                              )}
+                            </FormControl>
                           </Grid>
                         </Grid>
                         <Box sx={{ display: "flex", marginLeft: "115px" }}>
@@ -1254,114 +1317,7 @@ export const MainLayout = () => {
               </Stack>
             )}
           </Stack>
-          {/* <Box
-            height={"60px"}
-            width={"100%"}
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            {formOpen != null ? (
-              <Stack
-                direction={"row"}
-                alignItems={"center"}
-                sx={{ cursor: "pointer" }}
-              >
-                <ArrowBackIosIcon sx={{ height: 16, width: 16 }} />
-                <Typography variant="subtitle2">Back</Typography>
-              </Stack>
-            ) : (
-              <Stack></Stack>
-            )}
-            {formOpen == null ? (
-              <Stack>
-                {pathname && pathname === "/mainPage/hospitals/view" ? (
-                  <Stack
-                    gap={2}
-                    marginRight={"60px"}
-                    display={"flex"}
-                    flexDirection={"row"}
-                    alignItems={"start"}
-                    justifyContent={"start"}
-                  >
-                    <Button
-                      variant="contained"
-                      size="small"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setFormOpen("Hospitals");
-                        dispatch(getHospitalDetails(searchQuery));
-                        navigate("hospitalFrom");
-                      }}
-                    >
-                      <EditIcon fontSize="small" /> Edit
-                    </Button>
-                    <Button variant="outlined" size="small" disabled>
-                      <DeleteIcon fontSize="small" /> Delete
-                    </Button>
-                  </Stack>
-                ) : (
-                  <Button
-                    size="small"
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => {
-                      if (activeItem === "Hospitals") {
-                        setFormOpen("Hospitals");
-                        navigate("hospitalFrom");
-                      } else if (activeItem === "Doctors") {
-                        navigate("doctorForm");
-                        setFormOpen("Doctors");
-                      }
-                    }}
-                  >
-                    Add {activeItem}
-                  </Button>
-                )}
-              </Stack>
-            ) : (
-              <Stack direction={"row"} spacing={2}>
-                <Button
-                  size="small"
-                  variant="contained"
-                  startIcon={<SaveAltIcon />}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddHospitalFormSubmit();
-                    setFormOpen(null);
-                    setActiveItem("Hospitals");
-                    dispatch(getHospitalsList(searchQuery));
-                    navigate("/mainPage/hospitals");
-                  }}
-                >
-                  Save
-                </Button>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  startIcon={<CloseIcon />}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFormOpen(null);
-                    dispatch(getHospitalsList(searchQuery));
-                    setActiveItem("Hospitals");
-                    navigate("/mainPage/hospitals");
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Stack>
-            )}
-          </Box> */}
-          {/* <Stack direction={"row"} alignItems={"center"} spacing={1}>
-            <Typography variant="h5">Hospital Management</Typography>{" "}
-            <Typography variant="h4">/</Typography>
-            <Typography variant="subtitle1">{activeItem}</Typography>
-          </Stack> */}
-
-          {/* {doctorFormOpen ? <DoctorAddForm /> : <DoctorsPage />} */}
           <Outlet />
-          {/* <DoctorView/> */}
         </Box>
       </Container>
     </Container>
