@@ -4,17 +4,20 @@ FROM node:20
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy package.json and package-lock.json first to leverage Docker caching
 COPY package*.json ./
 
-# Install dependencies
+# Update npm to the latest version (optional, if needed)
+RUN npm install -g npm@latest
+
+# Install production dependencies
 RUN npm install --only=production
 
-# Copy application source code
+# Copy the rest of the application source code
 COPY . .
 
-# Expose the application port
-EXPOSE 3000
+# Expose the application port (Change from 3000 to 5000)
+EXPOSE 5000
 
-# Start the application
+# Start the application (ensure your app listens on port 5000)
 CMD ["node", "server.js"]
