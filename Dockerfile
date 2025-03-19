@@ -21,3 +21,4 @@ EXPOSE 5000
 
 # Start the application (ensure your app listens on port 5000)
 CMD ["node", "server.js"]
+
