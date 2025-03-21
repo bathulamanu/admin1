@@ -1,24 +1,31 @@
-# Use official Node.js 20 image as base
-FROM node:20
+# Step 1: Build the app using a Node.js image
+FROM node:20 AS build
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage Docker caching
+# Copy package.json and package-lock.json to install dependencies
 COPY package*.json ./
 
-# Update npm to the latest version (optional, if needed)
-RUN npm install -g npm@latest
+# Install dependencies
+RUN npm install
 
-# Install production dependencies
-RUN npm install --only=production
-
-# Copy the rest of the application source code
+# Copy the rest of the application code
 COPY . .
 
-# Expose the application port (Change from 3000 to 5000)
-EXPOSE 5000
+# Build the React app for production
+RUN npm run build
 
-# Start the application (ensure your app listens on port 5000)
-CMD ["node", "server.js"]
+# Step 2: Serve the app using Nginx
+FROM nginx:alpine
 
+# Copy the build files from the previous image into the Nginx server's public folder
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expose the default HTTP port
+EXPOSE 80
+
+# Optionally: Copy a custom nginx.conf if you need to change the default config
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# Start the Nginx server
