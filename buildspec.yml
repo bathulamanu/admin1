@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 495599757751.dkr.ecr.us-east-1.amazonaws.com
+      - IMAGE_TAG=$(date +%s)
+      - echo $IMAGE_TAG > image_tag.txt
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t 495599757751.dkr.ecr.us-east-1.amazonaws.com/cry:$IMAGE_TAG .
+      - docker push 495599757751.dkr.ecr.us-east-1.amazonaws.com/cry:$IMAGE_TAG
+  post_build:
+    commands:
+      - echo Creating deployment script...
+      - echo "#!/bin/bash" > deploy.sh
+      - echo "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 495599757751.dkr.ecr.us-east-1.amazonaws.com" >> deploy.sh
+      - echo "docker stop cry-container || true" >> deploy.sh
+      - echo "docker rm cry-container || true" >> deploy.sh
+      - echo "docker pull 495599757751.dkr.ecr.us-east-1.amazonaws.com/cry:$IMAGE_TAG" >> deploy.sh
+      - echo "docker run -d -p 5000:5000 --name cry-container 495599757751.dkr.ecr.us-east-1.amazonaws.com/cry:$IMAGE_TAG" >> deploy.sh
+      - chmod +x deploy.sh
+artifacts:
+  files:
+    - deploy.sh
+    - image_tag.txt
