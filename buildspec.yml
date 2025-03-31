@@ -2,22 +2,23 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 18  # Ensure Node.js version is specified
     commands:
-      - echo Installing Node.js...
-      - curl -fsSL https://deb.nodesource.com/setup_18.x | bash -   # Use Node.js 18
-      - apt-get install -y nodejs
+      - npm install  # Install dependencies
+  
   pre_build:
     commands:
-      - echo Installing dependencies...
-      - npm install
+      - echo "Pre-build phase completed."
+
   build:
     commands:
-      - echo Building React app...
-      - npm run build
+      - npm run build  # Now this should work correctly
+
   post_build:
     commands:
-      - echo Build completed successfully.
+      - echo "Build completed successfully."
+
 artifacts:
   files:
-    - '**/*'
-
+    - "**/*"
