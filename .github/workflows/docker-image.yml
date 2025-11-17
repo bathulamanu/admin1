@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
 
-  workflow_dispatch:   # <-- enables manual run
+  workflow_dispatch:
 
 jobs:
   build:
@@ -27,8 +27,7 @@ jobs:
         | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
 
     - name: Build Docker image
-      run: |
-        docker build -t ${{ secrets.ECR_REPOSITORY }} .
+      run: docker build -t ${{ secrets.ECR_REPOSITORY }} .
 
     - name: Tag image
       run: |
@@ -36,8 +35,7 @@ jobs:
         ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
 
     - name: Push image to ECR
-      run: |
-        docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+      run: docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
 
     #########################################
     #   DEPLOY TO EC2
@@ -54,9 +52,7 @@ jobs:
         ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i ec2.pem \
-        ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
-
+        ssh -o StrictHostKeyChecking=no -i ec2.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
           echo "Login to ECR..."
           aws ecr get-login-password --region $AWS_REGION \
             | docker login --username AWS --password-stdin $ECR_REGISTRY
@@ -71,5 +67,4 @@ jobs:
           echo "Start new container..."
           docker run -d --name myapp -p 80:80 \
               $ECR_REGISTRY/$ECR_REPOSITORY:latest
-
 EOF
