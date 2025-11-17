@@ -1,0 +1,69 @@
+name: Build and Deploy to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
+        | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.ECR_REPOSITORY }} .
+
+    - name: Tag image
+      run: |
+        docker tag ${{ secrets.ECR_REPOSITORY }}:latest \
+        ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+
+    - name: Push image to ECR
+      run: |
+        docker push ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+
+    #########################################
+    #   DEPLOY TO EC2
+    #########################################
+
+    - name: Copy SSH Key
+      run: |
+        echo "${{ secrets.EC2_SSH_KEY }}" > ec2.pem
+        chmod 600 ec2.pem
+
+    - name: Deploy on EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ec2.pem \
+        ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+
+        echo "Login to ECR..."
+        aws ecr get-login-password --region $AWS_REGION \
+          | docker login --username AWS --password-stdin $ECR_REGISTRY
+
+        echo "Pull latest image..."
+        docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+        echo "Stop old container..."
+        docker stop myapp || true
+        docker rm myapp || true
+
+        echo "Start new container..."
+        docker run -d --name myapp -p 80:80 \
+            $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+        EOF
