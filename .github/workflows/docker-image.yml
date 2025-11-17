@@ -4,6 +4,8 @@ on:
   push:
     branches: [ "main" ]
 
+  workflow_dispatch:   # <-- enables manual run
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,23 +49,27 @@ jobs:
         chmod 600 ec2.pem
 
     - name: Deploy on EC2
+      env:
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        ECR_REGISTRY: ${{ secrets.ECR_REGISTRY }}
+        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       run: |
         ssh -o StrictHostKeyChecking=no -i ec2.pem \
-        ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << EOF
 
-        echo "Login to ECR..."
-        aws ecr get-login-password --region $AWS_REGION \
-          | docker login --username AWS --password-stdin $ECR_REGISTRY
+          echo "Login to ECR..."
+          aws ecr get-login-password --region $AWS_REGION \
+            | docker login --username AWS --password-stdin $ECR_REGISTRY
 
-        echo "Pull latest image..."
-        docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "Pull latest image..."
+          docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-        echo "Stop old container..."
-        docker stop myapp || true
-        docker rm myapp || true
+          echo "Stop old container..."
+          docker stop myapp || true
+          docker rm myapp || true
 
-        echo "Start new container..."
-        docker run -d --name myapp -p 80:80 \
-            $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "Start new container..."
+          docker run -d --name myapp -p 80:80 \
+              $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-        EOF
+EOF
