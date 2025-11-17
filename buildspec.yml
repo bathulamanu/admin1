@@ -11,7 +11,7 @@ phases:
     commands:
       - echo "Pre-build phase completed."
 
-  build:
+  build: 
     commands:
       - npm run build  # Now this should work correctly
 
